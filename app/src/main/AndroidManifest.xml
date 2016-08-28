@@ -20,4 +20,19 @@
         </activity>
     </application>
 
+    <service
+        android:name=".SMSReceiverService"
+        android:enabled="true"
+        android:exported="true"/>
+    <!-- android:process=":receiverService" TODO change process of service -->
+
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+
 </manifest>
