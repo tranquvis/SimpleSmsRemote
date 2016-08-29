@@ -5,14 +5,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="tranquvis.simplesmsremote.MainActivity"
+    tools:context=".Activities.MainActivity"
     tools:showIn="@layout/activity_main">
+
+    <FrameLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:id="@+id/frameLayout_receiver_status_indicator"
+        android:layout_alignBottom="@+id/layout_receiver"
+        android:background="@android:color/holo_red_dark"
+        android:layout_alignTop="@+id/layout_receiver">
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_receiver"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:layout_toRightOf="@+id/frameLayout_receiver_status_indicator"
+        android:layout_toEndOf="@+id/frameLayout_receiver_status_indicator"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/receiver_service_title"
+            android:id="@+id/textView_receiver_title"
+            android:layout_alignTop="@+id/imageView_receiver_icon"
+            android:layout_toRightOf="@+id/imageView_receiver_icon"
+            android:layout_toEndOf="@+id/imageView_receiver_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="life info"
+            android:id="@+id/textView_receiver_life_info"
+            android:layout_below="@+id/textView_receiver_title"
+            android:layout_toRightOf="@+id/imageView_receiver_icon"
+            android:layout_toEndOf="@+id/imageView_receiver_icon"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView_receiver_icon"
+            android:src="@drawable/ic_sms"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/layout_receiver"/>
 </RelativeLayout>

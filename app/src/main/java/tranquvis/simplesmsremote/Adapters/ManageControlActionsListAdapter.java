@@ -5,23 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import tranquvis.simplesmsremote.Data.ControlAction;
-import tranquvis.simplesmsremote.Data.ControlActionUserData;
+import tranquvis.simplesmsremote.ControlModule;
+import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.R;
 
 /**
  * Created by Andi on 28.08.2016.
  */
-public class ManageControlActionsListAdapter extends ArrayAdapter<ControlAction> {
-    public static final int LAYOUT_RES = R.layout.listview_item_manage_control_actions;
+public class ManageControlActionsListAdapter extends ArrayAdapter<ControlModule> {
+    public static final int LAYOUT_RES = R.layout.listview_item_manage_control_modules;
 
-    public ManageControlActionsListAdapter(Context context, List<ControlAction> objects) {
-        super(context, LAYOUT_RES, objects);
+    public ManageControlActionsListAdapter(Context context, ControlModule[] data) {
+        super(context, LAYOUT_RES, data);
     }
 
     @Override
@@ -34,30 +32,28 @@ public class ManageControlActionsListAdapter extends ArrayAdapter<ControlAction>
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
             /*
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.listview_item_manage_control_actions, parent);
+                    R.layout.listview_item_manage_control_modules, parent);
                     */
         }
 
-        ControlAction controlAction = getItem(position);
-        ControlActionUserData userData = controlAction.getUserData();
+        ControlModule controlModule = getItem(position);
+        ControlModuleUserData userData = controlModule.getUserData();
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_title);
-        ImageButton changeStateButton = (ImageButton) convertView.
-                findViewById(R.id.button_change_state);
+        ImageView stateImageView = (ImageView) convertView.
+                findViewById(R.id.imageView_state);
 
-        titleTextView.setText(controlAction.getCommand());
+        titleTextView.setText(controlModule.getTitleRes());
         //changeStateButton.setImageDrawable();
-        if(userData == null)
-        {
-
+        if(!controlModule.isCompatible()) {
+            stateImageView.setImageResource(R.drawable.ic_unavailable_circle);
         }
-        changeStateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                //TODO start configuration activity
-            }
-        });
+        else if(userData == null) {
+            stateImageView.setImageResource(R.drawable.ic_add_circle);
+        }
+        else {
+            stateImageView.setImageResource(R.drawable.ic_check_circle);
+        }
 
         return convertView;
     }

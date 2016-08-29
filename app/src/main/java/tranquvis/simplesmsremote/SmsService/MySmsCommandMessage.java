@@ -5,6 +5,8 @@ import android.telephony.SmsMessage;
 import java.util.ArrayList;
 import java.util.List;
 
+import tranquvis.simplesmsremote.ControlModule;
+
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
@@ -12,16 +14,16 @@ public class MySmsCommandMessage implements MySms
 {
     private static final String KEY = "smsremote";
     private String phoneNumber;
-    private List<ControlAction> controlActions = new ArrayList<>();
+    private List<ControlModule> controlModules = new ArrayList<>();
 
     public MySmsCommandMessage(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
     }
 
-    public void addControlAction(ControlAction controlAction)
+    public void addControlAction(ControlModule controlModule)
     {
-        controlActions.add(controlAction);
+        controlModules.add(controlModule);
     }
 
     @Override
@@ -34,16 +36,16 @@ public class MySmsCommandMessage implements MySms
     public String getMessage()
     {
         String message = KEY;
-        for (ControlAction action : controlActions)
+        for (ControlModule action : controlModules)
         {
             message += " " + action.getId();
         }
         return message;
     }
 
-    public List<ControlAction> getControlActions()
+    public List<ControlModule> getControlModules()
     {
-        return controlActions;
+        return controlModules;
     }
 
     /**
@@ -70,12 +72,12 @@ public class MySmsCommandMessage implements MySms
         {
             if(actionId.length() != 0)
             {
-                ControlAction controlAction = ControlAction.getFromId(actionId);
-                if(controlAction != null)
-                    commandMessage.addControlAction(controlAction);
+                ControlModule controlModule = ControlModule.getFromId(actionId);
+                if(controlModule != null)
+                    commandMessage.addControlAction(controlModule);
             }
         }
-        if(commandMessage.controlActions.size() == 0)
+        if(commandMessage.controlModules.size() == 0)
             return null;
 
         return commandMessage;

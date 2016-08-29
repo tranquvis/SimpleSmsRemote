@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">SimpleSmsRemote</string>
     <string name="action_settings">Settings</string>
+
+    <string name="alert_load_data_failed">The App failed to load user data.</string>
+    <string name="ok">okay</string>
+    <string name="receiver_service_title">receiver</string>
+    <string name="title_activity_configure_control_action">Configure Control Action</string>
+    <string name="commands_title">commands</string>
+    <string name="granted_phones_title">granted phones</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="enable_module">enable module</string>
+    <string name="save">save</string>
+    <string name="compatible">compatible</string>
+    <string name="incompatible">not compatible</string>
+    <string name="permissions_denied">you need to grant the required permissions in order to enable this control module</string>
+    <string name="control_module_enabled_successful">The control module has been successfully created.</string>
 </resources>

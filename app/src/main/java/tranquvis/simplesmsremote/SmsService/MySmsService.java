@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.telephony.*;
 import android.widget.Toast;
 
-import tranquvis.smsremote.smsremotetestreceiver.Listener.SmsServiceListener;
-
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */

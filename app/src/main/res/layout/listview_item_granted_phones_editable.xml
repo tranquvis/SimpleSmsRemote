@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent" android:layout_height="match_parent"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp">
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView_title"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/editText"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        />
+        android:textSize="14sp"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_change_state"
-        android:layout_alignTop="@+id/textView_title"
+        android:id="@+id/imageButton"
+        android:src="@drawable/ic_delete"
+        android:background="@null"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
-
 </RelativeLayout>
