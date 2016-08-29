@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote;
+package tranquvis.simplesmsremote.Data;
 
 import android.Manifest;
 import android.content.Context;
@@ -103,6 +103,11 @@ public class ControlAction
 
     public int getSdkMax() {
         return sdkMax;
+    }
+
+    public ControlActionUserData getUserData()
+    {
+        return DataManager.getUserDataForControlAction(this);
     }
 
     /**
