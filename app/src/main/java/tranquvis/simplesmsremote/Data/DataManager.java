@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import tranquvis.simplesmsremote.ControlModule;
@@ -39,8 +40,8 @@ public class DataManager {
         try
         {
             fis = context.openFileInput(FILENAME);
-            userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
         } catch (FileNotFoundException e) {
+            userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
             return;
         }
 

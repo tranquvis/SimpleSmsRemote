@@ -11,13 +11,20 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/bg_round_white"
-        android:elevation="2dp"
+        android:elevation="1dp"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView_icon"
+            android:src="@drawable/ic_local_phone_grey_700_24dp"
+            android:layout_centerVertical="true" />
 
         <EditText
             android:layout_width="match_parent"
@@ -26,21 +33,21 @@
             android:ems="10"
             android:id="@+id/editText"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:textSize="14sp"
             android:layout_toLeftOf="@+id/imageButton_delete"
-            android:layout_toStartOf="@+id/imageButton_delete"
-            android:layout_marginRight="15dp"/>
+            android:layout_toRightOf="@+id/imageView_icon"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton_delete"
-            android:src="@drawable/ic_delete"
+            android:src="@drawable/ic_remove_circle_red_400_24dp"
             android:background="@null"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
+
 </RelativeLayout>

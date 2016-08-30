@@ -33,8 +33,9 @@ public class ControlModule
                     Manifest.permission.WRITE_SETTINGS
                 },
                 R.string.control_module_title_wifi_hotspot,
-                R.string.control_module_desc_wifi_hotspot
-        );
+                R.string.control_module_desc_wifi_hotspot,
+                R.drawable.ic_wifi_tethering_grey_700_36dp
+                );
 
         MOBILE_DATA = new ControlModule("mobile_data",
                 new ControlCommand[]{
@@ -46,7 +47,8 @@ public class ControlModule
                     Manifest.permission.CHANGE_NETWORK_STATE
                 },
                 R.string.control_module_title_mobile_data,
-                R.string.control_module_desc_mobile_data);
+                R.string.control_module_desc_mobile_data,
+                R.drawable.ic_network_cell_grey_700_36dp);
 
         All_ACTIONS = new ControlModule[]{
                 WIFI_HOTSPOT, MOBILE_DATA
@@ -81,8 +83,9 @@ public class ControlModule
 
     private int titleRes;
     private int descriptionRes;
+    private int iconRes;
 
-    public ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax, String[] requiredPermissions, int titleRes, int descriptionRes) {
+    public ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax, String[] requiredPermissions, int titleRes, int descriptionRes, int iconRes) {
         this.id = id;
         this.commands = commands;
         this.sdkMin = sdkMin;
@@ -90,6 +93,7 @@ public class ControlModule
         this.requiredPermissions = requiredPermissions;
         this.titleRes = titleRes;
         this.descriptionRes = descriptionRes;
+        this.iconRes = iconRes;
     }
 
     public String getId() {
@@ -126,6 +130,10 @@ public class ControlModule
     public int getDescriptionRes()
     {
         return descriptionRes;
+    }
+
+    public int getIconRes() {
+        return iconRes;
     }
 
     /**

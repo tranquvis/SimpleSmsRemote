@@ -39,18 +39,21 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule>
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_title);
         ImageView stateImageView = (ImageView) convertView.
                 findViewById(R.id.imageView_state);
+        ImageView moduleIconImageView = (ImageView) convertView.findViewById(R.id.imageView_icon);
 
         titleTextView.setText(controlModule.getTitleRes());
         //changeStateButton.setImageDrawable();
         if(!controlModule.isCompatible()) {
-            stateImageView.setImageResource(R.drawable.ic_unavailable_circle);
+            stateImageView.setImageResource(R.drawable.ic_remove_circle_red_400_24dp);
         }
         else if(userData == null) {
-            stateImageView.setImageResource(R.drawable.ic_add_circle);
+            stateImageView.setImageResource(R.drawable.ic_add_circle_indigo_400_24dp);
         }
         else {
-            stateImageView.setImageResource(R.drawable.ic_check_circle);
+            stateImageView.setImageResource(R.drawable.ic_check_circle_green_400_24dp);
         }
+
+        moduleIconImageView.setImageResource(controlModule.getIconRes());
 
         return convertView;
     }

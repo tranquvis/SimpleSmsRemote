@@ -7,12 +7,15 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.SMSReceiver;
 
 public class SMSReceiverService extends Service
 {
     private static ReceiverStatus status = ReceiverStatus.NOT_STARTED;
+    private static Date startTime;
 
     private SMSReceiver smsReceiver = new SMSReceiver(this);
 
@@ -23,7 +26,7 @@ public class SMSReceiverService extends Service
     @Override
     public IBinder onBind(Intent intent)
     {
-        throw new UnsupportedOperationException("Not yet implemented");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
@@ -52,6 +55,7 @@ public class SMSReceiverService extends Service
 
     private void registerSMSReceiver()
     {
+        startTime = Calendar.getInstance().getTime();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.setPriority(2147483647);
         intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
@@ -70,11 +74,17 @@ public class SMSReceiverService extends Service
 
     public static void stop(Context context)
     {
+        status = ReceiverStatus.Stopped;
         context.stopService(new Intent(context, SMSReceiverService.class));
     }
 
     public static boolean isRunning()
     {
         return status == ReceiverStatus.RUNNING;
+    }
+
+    public static Date getStartTime()
+    {
+        return startTime;
     }
 }

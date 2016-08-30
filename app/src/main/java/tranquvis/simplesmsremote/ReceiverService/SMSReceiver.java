@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote;
+package tranquvis.simplesmsremote.ReceiverService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import tranquvis.simplesmsremote.ControlCommand;
+import tranquvis.simplesmsremote.MyNotificationManager;
 import tranquvis.simplesmsremote.ReceiverService.SMSReceiverService;
 import tranquvis.simplesmsremote.SmsService.MySmsCommandMessage;
 

@@ -6,6 +6,12 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView_icon"
+        android:layout_centerVertical="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,17 +19,16 @@
         android:text="Medium Text"
         android:id="@+id/textView_title"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/imageView_state"
-        android:layout_toStartOf="@+id/imageView_state"/>
+        android:layout_toRightOf="@+id/imageView_icon"
+        android:layout_toEndOf="@+id/imageView_icon"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView_state"
-        android:src="@drawable/ic_unavailable_circle"
-        android:layout_alignBottom="@+id/textView_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"/>

@@ -17,7 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
@@ -38,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Thread receiverStatusUpdateThread;
 
     FloatingActionButton receiverChangeStateFab;
-    FrameLayout receiverStatusIndicatorLayout;
     TextView receiverLifeInfoTextView;
 
     @Override
@@ -64,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         receiverChangeStateFab = (FloatingActionButton) findViewById(R.id.fab_receiver_change_state);
         receiverChangeStateFab.setOnClickListener(this);
-        receiverStatusIndicatorLayout = (FrameLayout)
-                findViewById(R.id.frameLayout_receiver_status_indicator);
         receiverLifeInfoTextView = (TextView) findViewById(R.id.textView_receiver_life_info);
 
         startUpdatingReceiverStatusAsync();
@@ -103,13 +106,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     {
         if (SMSReceiverService.isRunning())
         {
-            receiverStatusIndicatorLayout.setBackgroundColor(getResources().getColor(R.color.colorSuccess));
             receiverChangeStateFab.setImageResource(R.drawable.ic_stop_white_24dp);
+
+            //region get time string
+            long elapsedTime = Calendar.getInstance(). getTime().getTime() -
+                    SMSReceiverService.getStartTime().getTime();
+            elapsedTime += 100000;
+            long days = TimeUnit.MILLISECONDS.toDays(elapsedTime);
+            long hours = TimeUnit.MILLISECONDS.toHours(elapsedTime) - TimeUnit.DAYS.toHours(days);
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedTime) -
+                    TimeUnit.DAYS.toMinutes(days) - TimeUnit.HOURS.toMinutes(hours);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTime) -
+                    TimeUnit.DAYS.toSeconds(days) - TimeUnit.HOURS.toSeconds(hours) -
+                    TimeUnit.MINUTES.toSeconds(minutes);
+            String elaspedTimeStr = (days > 0 ? String.valueOf(days) + "d " : "")
+                    + (days > 0 || hours > 0 ? String.valueOf(hours) + "h " : "")
+                    + (days > 0 || hours > 0 || minutes > 0 ? String.valueOf(minutes) + "min " : "")
+                    + String.valueOf(seconds) + "s";
+            //endregion
+            receiverLifeInfoTextView.setTextColor(getResources().getColor(R.color.colorSuccess));
+            receiverLifeInfoTextView.setText(getResources().getString(
+                    R.string.receiver_life_info_running, elaspedTimeStr));
         }
         else
         {
-            receiverStatusIndicatorLayout.setBackgroundColor(getResources().getColor(R.color.colorError));
             receiverChangeStateFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+
+            receiverLifeInfoTextView.setTextColor(getResources().getColor(R.color.colorError));
+            receiverLifeInfoTextView.setText(R.string.receiver_life_info_not_running);
         }
     }
 
