@@ -2,17 +2,13 @@ package tranquvis.simplesmsremote.Data;
 
 import android.content.Context;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import tranquvis.simplesmsremote.ControlModule;
 
@@ -22,55 +18,53 @@ import tranquvis.simplesmsremote.ControlModule;
 public class DataManager {
     private static final String FILENAME = "user.data";
 
-    private static List<ControlModuleUserData> ControlModulesUserData;
+    private static UserData userData;
 
     public static ControlModuleUserData getUserDataForControlModule(ControlModule controlModule)
     {
-        for (ControlModuleUserData userData : ControlModulesUserData) {
-            if(userData.getControlModuleId().equals(controlModule.getId()))
-                return userData;
+        for (ControlModuleUserData moduleUserData : userData.getControlModules()) {
+            if(moduleUserData.getControlModuleId().equals(controlModule.getId()))
+                return moduleUserData;
         }
         return null;
     }
 
+    public static UserData getUserData()
+    {
+        return userData;
+    }
+
     public static void LoadData(Context context) throws IOException {
-        ControlModulesUserData = new ArrayList<>();
         FileInputStream fis;
         try
         {
             fis = context.openFileInput(FILENAME);
+            userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
         } catch (FileNotFoundException e) {
             return;
         }
-        InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
-        BufferedReader br = new BufferedReader(isr);
 
-        String line;
-        while ((line = br.readLine()) != null) {
-            if((line = line.trim()).equals(""))
-                continue;
-            try {
-                ControlModuleUserData controlModuleUserData = ControlModuleUserData.Parse(line);
-                ControlModulesUserData.add(controlModuleUserData);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+        ObjectInputStream os = new ObjectInputStream(fis);
+        try
+        {
+            userData = (UserData) os.readObject();
+        } catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
         }
-
+        catch (ClassCastException cce)
+        {
+            userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
+        }
+        os.close();
         fis.close();
     }
 
     public static void SaveData(Context context) throws IOException {
         FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-        OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
-        BufferedWriter bw = new BufferedWriter(osw);
-
-        for (ControlModuleUserData action : ControlModulesUserData) {
-            bw.write(action.toTextLine());
-            bw.newLine();
-        }
-
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+        os.writeObject(userData);
+        os.close();
         fos.close();
     }
 }

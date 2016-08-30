@@ -18,8 +18,9 @@ public class ControlCommand
     public static final ControlCommand[] ALL = {WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE,
             MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE};
 
-    public static ControlCommand GetFromCommand(String command)
+    public static ControlCommand getFromCommand(String command)
     {
+        command = command.trim();
         for (ControlCommand com : ALL)
         {
             if(com.command.equals(command))

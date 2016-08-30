@@ -59,6 +59,17 @@
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"/>
 
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/fab_receiver_change_state"
+            android:src="@drawable/ic_play_arrow_white_24dp"/>
+
     </RelativeLayout>
 
     <ListView

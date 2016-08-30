@@ -2,13 +2,15 @@ package tranquvis.simplesmsremote.Data;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Andreas Kaltenleitner on 29.08.2016.
  */
-public class ControlModuleUserData
+public class ControlModuleUserData implements Serializable
 {
     private String controlModuleId;
     private List<String> grantedPhones;

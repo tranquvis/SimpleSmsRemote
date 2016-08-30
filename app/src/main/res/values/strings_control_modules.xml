@@ -2,11 +2,11 @@
 <resources>
     <string name="control_module_title_wifi_hotspot">Wifi Hotspot</string>
     <string name="control_module_desc_wifi_hotspot">
-        Start or Stop wifi hotspot. The hotspot must be preconfigured in the system settings.
+        Start and stop wifi hotspot. The hotspot must be preconfigured in the system settings.
     </string>
 
     <string name="control_module_title_mobile_data">Mobile Data</string>
     <string name="control_module_desc_mobile_data">
-        Enable and Disable mobile data (internet connection).
+        Enable and disable mobile data (internet connection).
     </string>
 </resources>

@@ -15,10 +15,10 @@ import tranquvis.simplesmsremote.R;
 /**
  * Created by Andi on 28.08.2016.
  */
-public class ManageControlActionsListAdapter extends ArrayAdapter<ControlModule> {
+public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule> {
     public static final int LAYOUT_RES = R.layout.listview_item_manage_control_modules;
 
-    public ManageControlActionsListAdapter(Context context, ControlModule[] data) {
+    public ManageControlModulesListAdapter(Context context, ControlModule[] data) {
         super(context, LAYOUT_RES, data);
     }
 
@@ -30,10 +30,7 @@ public class ManageControlActionsListAdapter extends ArrayAdapter<ControlModule>
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
-            /*
-            convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.listview_item_manage_control_modules, parent);
-                    */
+
         }
 
         ControlModule controlModule = getItem(position);
