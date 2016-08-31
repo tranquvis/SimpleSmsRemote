@@ -8,8 +8,31 @@ import java.io.Serializable;
 public class UserSettings implements Serializable
 {
     private boolean startReceiverOnSystemStart;
+    private boolean notifyCommandsExecuted;
 
     public UserSettings()
     {
     }
+
+    public boolean isStartReceiverOnSystemStart()
+    {
+        return startReceiverOnSystemStart;
+    }
+
+    public void setStartReceiverOnSystemStart(boolean startReceiverOnSystemStart)
+    {
+        this.startReceiverOnSystemStart = startReceiverOnSystemStart;
+    }
+
+    public boolean isNotifyCommandsExecuted()
+    {
+        return notifyCommandsExecuted;
+    }
+
+    public void setNotifyCommandsExecuted(boolean notifyCommandsExecuted)
+    {
+        this.notifyCommandsExecuted = notifyCommandsExecuted;
+    }
+
+
 }

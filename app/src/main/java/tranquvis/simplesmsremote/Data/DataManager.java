@@ -1,15 +1,21 @@
 package tranquvis.simplesmsremote.Data;
 
 import android.content.Context;
+import android.nfc.FormatException;
+import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import tranquvis.simplesmsremote.ControlModule;
 
@@ -17,9 +23,11 @@ import tranquvis.simplesmsremote.ControlModule;
  * Created by Andi on 28.08.2016.
  */
 public class DataManager {
-    private static final String FILENAME = "user.data";
+    private static final String FILENAME_LOG = "log";
+    private static final String FILENAME_USER_DATA = "user.data";
 
     private static UserData userData;
+    private static List<LogEntry> log;
 
     public static ControlModuleUserData getUserDataForControlModule(ControlModule controlModule)
     {
@@ -35,11 +43,42 @@ public class DataManager {
         return userData;
     }
 
-    public static void LoadData(Context context) throws IOException {
+    public static List<LogEntry> getLog()
+    {
+        return log;
+    }
+
+    public static void LoadLog(Context context) throws IOException
+    {
         FileInputStream fis;
         try
         {
-            fis = context.openFileInput(FILENAME);
+            fis = context.openFileInput(FILENAME_LOG);
+        } catch (FileNotFoundException e) {
+            log = new ArrayList<>();
+            return;
+        }
+
+        InputStreamReader isr = new InputStreamReader(fis);
+        BufferedReader br = new BufferedReader(isr);
+
+        String line;
+        while((line = br.readLine()) != null)
+        {
+            LogEntry logEntry = LogEntry.parseFromTextLine(line);
+            if(logEntry != null) log.add(logEntry);
+        }
+
+        br.close();
+        isr.close();
+        fis.close();
+    }
+
+    public static void LoadUserData(Context context) throws IOException {
+        FileInputStream fis;
+        try
+        {
+            fis = context.openFileInput(FILENAME_USER_DATA);
         } catch (FileNotFoundException e) {
             userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
             return;
@@ -53,7 +92,7 @@ public class DataManager {
         {
             e.printStackTrace();
         }
-        catch (ClassCastException cce)
+        catch (ClassCastException|InvalidClassException cce)
         {
             userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
         }
@@ -61,11 +100,31 @@ public class DataManager {
         fis.close();
     }
 
-    public static void SaveData(Context context) throws IOException {
-        FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+    public static void SaveUserData(Context context) throws IOException {
+        FileOutputStream fos = context.openFileOutput(FILENAME_USER_DATA, Context.MODE_PRIVATE);
         ObjectOutputStream os = new ObjectOutputStream(fos);
         os.writeObject(userData);
         os.close();
         fos.close();
+    }
+
+    /**
+     * add log entry and save to file
+     * @param logEntry
+     * @param context file context
+     */
+    public static void addLogEntry(LogEntry logEntry, Context context)
+    {
+        try
+        {
+            FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_APPEND);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            osw.write(logEntry.toTextLine());
+            osw.close();
+            fos.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

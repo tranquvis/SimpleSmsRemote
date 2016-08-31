@@ -65,7 +65,7 @@ public class ControlModule
         return null;
     }
 
-    public static ControlModule getFromCommand(String command)
+    public static ControlModule getFromCommand(ControlCommand command)
     {
         for (ControlModule controlModule : All_ACTIONS)
         {

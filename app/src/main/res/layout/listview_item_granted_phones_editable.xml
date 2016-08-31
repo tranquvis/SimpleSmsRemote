@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView_icon"
+            android:id="@+id/imageView_type"
             android:src="@drawable/ic_local_phone_grey_700_24dp"
             android:layout_centerVertical="true" />
 
@@ -35,7 +35,7 @@
             android:layout_alignParentTop="true"
             android:textSize="14sp"
             android:layout_toLeftOf="@+id/imageButton_delete"
-            android:layout_toRightOf="@+id/imageView_icon"
+            android:layout_toRightOf="@+id/imageView_type"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 

@@ -149,7 +149,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                 DataManager.getUserData().addControlModule(userData);
                 try
                 {
-                    DataManager.SaveData(this);
+                    DataManager.SaveUserData(this);
                     saveOnStop = false;
                     Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
                             .show();
@@ -181,7 +181,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                                             controlModule.getId());
                                     try
                                     {
-                                        DataManager.SaveData(ConfigureControlModuleActivity.this);
+                                        DataManager.SaveUserData(ConfigureControlModuleActivity.this);
                                         saveOnStop = false;
                                         Toast.makeText(ConfigureControlModuleActivity.this,
                                                 R.string.control_module_disabled_successful,
@@ -251,7 +251,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         {
             try
             {
-                DataManager.SaveData(this);
+                DataManager.SaveUserData(this);
             } catch (IOException e)
             {
                 Toast.makeText(ConfigureControlModuleActivity.this,

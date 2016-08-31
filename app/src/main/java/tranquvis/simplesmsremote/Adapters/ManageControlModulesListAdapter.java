@@ -39,7 +39,7 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule>
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_title);
         ImageView stateImageView = (ImageView) convertView.
                 findViewById(R.id.imageView_state);
-        ImageView moduleIconImageView = (ImageView) convertView.findViewById(R.id.imageView_icon);
+        ImageView moduleIconImageView = (ImageView) convertView.findViewById(R.id.imageView_type);
 
         titleTextView.setText(controlModule.getTitleRes());
         //changeStateButton.setImageDrawable();

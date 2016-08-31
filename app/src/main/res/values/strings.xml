@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Simple sms remote</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_log">History</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_log">Log</string>
 
     <string name="simple_yes">yes</string>
     <string name="simple_no">no</string>
@@ -9,8 +14,10 @@
     <string name="control_modules_title">Modules</string>
     <string name="user_data_title">User data</string>
     <string name="alert_load_data_failed">The App failed to load user data.</string>
+    <string name="alert_load_log_failed">The App failed to load log from file.</string>
     <string name="alert_save_data_failed">The App failed to save your data.</string>
     <string name="alert_sure_to_disable_module">Do you really want to disable this module?</string>
+    <string name="alert_sure_to_clear_log">Clear whole log?</string>
     <string name="ok">okay</string>
     <string name="receiver_service_title">Sms Receiver</string>
     <string name="title_activity_configure_control_action">Configure Control Action</string>
@@ -35,4 +42,5 @@
     <string name="permission_receive_sms_not_granted">The app cannot process remote commands without having the permission to receive sms.</string>
     <string name="receiver_life_info_running">running for %1$s</string>
     <string name="receiver_life_info_not_running">not running</string>
+
 </resources>

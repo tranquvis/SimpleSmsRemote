@@ -50,7 +50,7 @@ public class SMSReceiver extends BroadcastReceiver
                     List<ControlCommand> failedCommands = new ArrayList<>();
                     for(ControlCommand command : comMsg.getControlCommands())
                     {
-                        if(!command.execute(context))
+                        if(!command.execute(context, comMsg))
                             failedCommands.add(command);
                     }
 
@@ -60,7 +60,7 @@ public class SMSReceiver extends BroadcastReceiver
                 catch(Exception e)
                 {
                     Log.e("sms receive error", "Error occurred while receiving SMS");
-                    //TODO show Notification
+                    //TODO show Notification?
                 }
             }
         }

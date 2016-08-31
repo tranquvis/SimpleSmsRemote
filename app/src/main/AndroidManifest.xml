@@ -46,6 +46,24 @@
             android:enabled="true"
             android:exported="true"/>
         <!-- android:process=":receiverService" TODO change process of service -->
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".Activities.LogActivity"
+            android:label="@string/title_activity_log"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

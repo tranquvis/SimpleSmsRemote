@@ -69,7 +69,8 @@ public class MyNotificationManager
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setDefaults(Notification.DEFAULT_ALL)
-                //.setSmallIcon(R.drawable.ic_stat_smscommands_received)
+                //TODO set custom icon
+                .setSmallIcon(R.drawable.ic_textsms_grey_700_36dp)
                 .setContentTitle(title)
                 .setContentText(text)
                 //optional

@@ -2,8 +2,12 @@ package tranquvis.simplesmsremote;
 
 import android.content.Context;
 
+import tranquvis.simplesmsremote.Data.ControlModuleUserData;
+import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.HotspotHelper;
 import tranquvis.simplesmsremote.Helper.MobileDataHelper;
+import tranquvis.simplesmsremote.SmsService.MySms;
 
 /**
  * Created by Andreas Kaltenleitner on 29.08.2016.
@@ -37,8 +41,11 @@ public class ControlCommand
     }
 
 
-    public boolean execute(Context context)
+    public boolean execute(Context context, MySms controlSms)
     {
+        if(!isExecutionGranted(controlSms, context))
+            return false;
+
         if (this.equals(ControlCommand.WIFI_HOTSPOT_ENABLE))
         {
             return HotspotHelper.setHotspotState(context, true);
@@ -55,6 +62,8 @@ public class ControlCommand
         {
             return MobileDataHelper.setMobileDataState(context, false);
         }
+
+        DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
         return false;
     }
 
@@ -62,5 +71,27 @@ public class ControlCommand
     public String toString()
     {
         return command;
+    }
+
+    public ControlModule getModule()
+    {
+        return ControlModule.getFromCommand(this);
+    }
+
+    public boolean isExecutionGranted(MySms controlSms, Context context)
+    {
+        ControlModule module = getModule();
+        ControlModuleUserData moduleUserData = module.getUserData();
+        if(!module.isCompatible())
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
+            return false;
+        }
+        if(!moduleUserData.getGrantedPhones().contains(controlSms.getPhoneNumber()))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

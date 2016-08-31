@@ -12,17 +12,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
@@ -30,7 +25,6 @@ import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.ReceiverService.ReceiverStatus;
 import tranquvis.simplesmsremote.ReceiverService.SMSReceiverService;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener
@@ -54,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setSupportActionBar(toolbar);
 
         try {
-            DataManager.LoadData(this);
+            DataManager.LoadUserData(this);
         } catch (IOException e) {
             Toast.makeText(this, R.string.alert_load_data_failed, Toast.LENGTH_LONG).show();
             finish();
@@ -165,14 +159,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId())
+        {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_log:
+                startActivity(new Intent(this, LogActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

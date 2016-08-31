@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="log_title_com_exec_failed">Failed to execute command (%1$s)</string>
+    <string name="log_summary_com_exec_failed_perm_denied">
+        android permissions denied
+    </string>
+    <string name="log_summary_com_exec_failed_phone_not_granted">
+        phone (%2$s) is not allowed to use the module (%3$s)
+    </string>
+    <string name="log_summary_com_exec_failed_phone_incompatible">
+        module (%2$s) is not compatible
+    </string>
+    <string name="lo_summaryg_com_exec_failed_unexpected">
+        an unexpected error occurred
+    </string>
+    <string name="log_title_com_exec_success">
+        Successfully executed command (%1$s)
+    </string>
+
+    <string name="log_title_sms_processing_failed">
+        Failed to process incoming sms
+    </string>
+
+</resources>

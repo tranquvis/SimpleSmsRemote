@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_switch_receiver_autostart"
+        android:summary="@string/pref_summary_receiver_autostart"
+        android:title="@string/pref_title_receiver_autostart"/>
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_switch_notify_sms_commands_executed"
+        android:summary="@string/pref_summary_notification_sms_commands_executed"
+        android:title="@string/pref_title_notification_sms_commands_executed"/>
+
+</PreferenceScreen>
