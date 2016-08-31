@@ -98,14 +98,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void updateReceiverStatus()
     {
-        if (SMSReceiverService.isRunning())
+        if (SMSReceiverService.isRunning(this))
         {
             receiverChangeStateFab.setImageResource(R.drawable.ic_stop_white_24dp);
 
             //region get time string
-            long elapsedTime = Calendar.getInstance(). getTime().getTime() -
-                    SMSReceiverService.getStartTime().getTime();
-            elapsedTime += 100000;
+            long elapsedTime = System.currentTimeMillis() -
+                    SMSReceiverService.getStartTime(this).getTime();
             long days = TimeUnit.MILLISECONDS.toDays(elapsedTime);
             long hours = TimeUnit.MILLISECONDS.toHours(elapsedTime) - TimeUnit.DAYS.toHours(days);
             long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedTime) -
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (view.getId())
         {
             case R.id.fab_receiver_change_state:
-                if(SMSReceiverService.isRunning())
+                if(SMSReceiverService.isRunning(this))
                     stopSMSReceiverService();
                 else
                     startSMSReceiverService();

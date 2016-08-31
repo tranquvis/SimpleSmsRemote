@@ -36,8 +36,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     boolean processPermissionRequestOnResume = false;
     int CODE_PERMISSION_REQUEST = 1;
 
-    boolean saveOnStop = false;
-
     ListView grantedPhonesListView;
     GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
@@ -53,8 +51,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
         Resources res = getResources();
 
-        String controlActionId = getIntent().getStringExtra("controlActionId");
-        controlModule = ControlModule.getFromId(controlActionId);
+        String controlModuleId = getIntent().getStringExtra("controlActionId");
+        controlModule = ControlModule.getFromId(controlModuleId);
         if(controlModule == null)
         {
             finish();
@@ -62,10 +60,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         }
         ControlModuleUserData userData = controlModule.getUserData();
         isModuleEnabled = userData != null;
-        grantedPhones = userData == null || userData.getGrantedPhones() == null
-                ? new ArrayList<String>() : userData.getGrantedPhones();
-        if(grantedPhones.isEmpty())
-            grantedPhones.add("");
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
         toolbar.setSubtitle(controlModule.getTitleRes());
@@ -87,15 +81,17 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         }
 
         Button buttonChangeEnabled = (Button)findViewById(R.id.button_change_enabled);
-        buttonChangeEnabled.setText(userData == null ? R.string.enable_module
+        buttonChangeEnabled.setText(!isModuleEnabled ? R.string.enable_module
                 : R.string.disable_module);
         buttonChangeEnabled.setOnClickListener(this);
         if(!controlModule.isCompatible())
             buttonChangeEnabled.setEnabled(false);
 
-        if(controlModule.isCompatible())
+        if(isModuleEnabled)
         {
-            saveOnStop = true;
+            grantedPhones = userData.getGrantedPhones();
+            if (grantedPhones.isEmpty())
+                grantedPhones.add("");
 
             grantedPhonesListView = (ListView) findViewById(R.id.listView_granted_phones);
             grantedPhonesListAdapter = new GrantedPhonesEditableListAdapter(this, grantedPhones,
@@ -109,6 +105,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         else
         {
             findViewById(R.id.layout_user_data).setVisibility(View.GONE);
+            findViewById(R.id.textView_user_data_title).setVisibility(View.GONE);
         }
     }
 
@@ -118,7 +115,10 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         switch (view.getId())
         {
             case R.id.button_change_enabled:
-                finishAndSave(!isModuleEnabled);
+                if(isModuleEnabled)
+                    disableModule();
+                else
+                    enableModule();
                 break;
             case R.id.fab_add_phone:
                 grantedPhonesListAdapter.addPhone("");
@@ -126,76 +126,52 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         }
     }
 
-    private void finishAndSave(boolean enableModule)
+    private void enableModule()
     {
-        if (enableModule)
-        {
-            //enable module
-            if (!PermissionHelper.AppHasPermissions(this,
-                    controlModule.getRequiredPermissions(this)))
-                requestPermissions(controlModule.getRequiredPermissions(this));
-            else
-            {
-                List<String> filteredPhones = new ArrayList<>();
-                for(String phone : grantedPhones)
-                {
-                    phone = phone.trim();
-                    if(!phone.isEmpty() && !filteredPhones.contains(phone))
-                        filteredPhones.add(phone);
-                }
-
-                ControlModuleUserData userData = new ControlModuleUserData(
-                        controlModule.getId(), grantedPhones);
-                DataManager.getUserData().addControlModule(userData);
-                try
-                {
-                    DataManager.SaveUserData(this);
-                    saveOnStop = false;
-                    Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
-                            .show();
-                } catch (IOException e)
-                {
-                    Toast.makeText(this, R.string.alert_save_data_failed,
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                finish();
-            }
-        }
+        if (!PermissionHelper.AppHasPermissions(this,
+                controlModule.getRequiredPermissions(this)))
+            requestPermissions(controlModule.getRequiredPermissions(this));
         else
         {
-            //disable module
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
-                    .setMessage(R.string.alert_sure_to_disable_module)
-                    .setNegativeButton(R.string.simple_no,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i){}
-                            })
-                    .setPositiveButton(R.string.simple_yes,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i)
-                                {
-                                    DataManager.getUserData().removeControlModule(
-                                            controlModule.getId());
-                                    try
-                                    {
-                                        DataManager.SaveUserData(ConfigureControlModuleActivity.this);
-                                        saveOnStop = false;
-                                        Toast.makeText(ConfigureControlModuleActivity.this,
-                                                R.string.control_module_disabled_successful,
-                                                Toast.LENGTH_SHORT).show();
-                                    } catch (IOException e){
-                                        Toast.makeText(ConfigureControlModuleActivity.this,
-                                                R.string.alert_save_data_failed,
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                    finish();
-                                }
-                            })
-                    .show();
+            saveUserData();
+            recreate();
         }
+    }
+
+    private void disableModule()
+    {
+        //disable module
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.alert_sure_to_disable_module)
+                .setNegativeButton(R.string.simple_no,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i){}
+                        })
+                .setPositiveButton(R.string.simple_yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                DataManager.getUserData().removeControlModule(
+                                        controlModule.getId());
+                                isModuleEnabled = false;
+                                try
+                                {
+                                    DataManager.SaveUserData(ConfigureControlModuleActivity.this);
+                                    Toast.makeText(ConfigureControlModuleActivity.this,
+                                            R.string.control_module_disabled_successful,
+                                            Toast.LENGTH_SHORT).show();
+                                } catch (IOException e){
+                                    Toast.makeText(ConfigureControlModuleActivity.this,
+                                            R.string.alert_save_data_failed,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                                recreate();
+                            }
+                        })
+                .show();
     }
 
     private void requestPermissions(String[] permissions)
@@ -235,7 +211,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             else
             {
                 //all permissions granted
-                finishAndSave(!isModuleEnabled);
+                enableModule();
             }
         }
         else
@@ -247,18 +223,39 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     @Override
     protected void onStop()
     {
-        if(saveOnStop)
-        {
-            try
-            {
-                DataManager.SaveUserData(this);
-            } catch (IOException e)
-            {
-                Toast.makeText(ConfigureControlModuleActivity.this,
-                        R.string.alert_save_data_failed,
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
+        if(isModuleEnabled)
+            saveUserData();
         super.onStop();
+    }
+
+    private void saveUserData()
+    {
+        if(isModuleEnabled) {
+            grantedPhonesListAdapter.updateData();
+            List<String> filteredPhones = new ArrayList<>();
+            for(String phone : grantedPhones)
+            {
+                phone = phone.trim();
+                if(!phone.isEmpty() && !filteredPhones.contains(phone))
+                    filteredPhones.add(phone);
+            }
+            DataManager.getUserData().setControlModule(new ControlModuleUserData(
+                    controlModule.getId(), grantedPhones));
+        }
+        else
+            DataManager.getUserData().addControlModule(new ControlModuleUserData(
+                    controlModule.getId(), new ArrayList<String>()));
+
+        try
+        {
+            DataManager.SaveUserData(this);
+            if(!isModuleEnabled)
+                Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
+                    .show();
+        } catch (IOException e)
+        {
+            Toast.makeText(this, R.string.alert_save_data_failed,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

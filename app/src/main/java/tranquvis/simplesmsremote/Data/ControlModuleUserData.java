@@ -18,7 +18,7 @@ public class ControlModuleUserData implements Serializable
     public ControlModuleUserData(String controlModuleId, List<String> grantedPhones)
     {
         this.controlModuleId = controlModuleId;
-        this.grantedPhones = grantedPhones;
+        this.grantedPhones = grantedPhones != null ? grantedPhones : new ArrayList<String>();
     }
 
     /**

@@ -73,37 +73,55 @@ public class LogEntry
     {
         public static LogEntry ComExecFailedPermissionDenied(Context context, ControlCommand command)
         {
-            return new LogEntry(context.getString(R.string.log_title_com_exec_failed),
+            return new LogEntry(
+                    String.format(context.getString(R.string.log_title_com_exec_failed),
+                            command.toString()),
                     context.getString(R.string.log_summary_com_exec_failed_perm_denied),
-                    Calendar.getInstance().getTime(), Type.Error);
+                    Calendar.getInstance().getTime(), Type.Error
+            );
         }
 
         public static LogEntry ComExecFailedPhoneNotGranted(Context context, ControlCommand command,
                                                             String phone)
         {
-            return new LogEntry(context.getString(R.string.log_title_com_exec_failed),
-                    context.getString(R.string.log_summary_com_exec_failed_perm_denied),
-                    Calendar.getInstance().getTime(), Type.Error);
+            return new LogEntry(
+                    String.format(context.getString(R.string.log_title_com_exec_failed),
+                            command.toString()),
+                    String.format(context.getString(R.string.log_summary_com_exec_failed_phone_not_granted),
+                            phone, command.getModule().getTitleRes()),
+                    Calendar.getInstance().getTime(), Type.Error
+            );
         }
 
         public static LogEntry ComExecFailedPhoneIncompatible(Context context, ControlCommand command)
         {
-            return new LogEntry(context.getString(R.string.log_title_com_exec_failed),
-                    context.getString(R.string.log_summary_com_exec_failed_perm_denied),
-                    Calendar.getInstance().getTime(), Type.Error);
+            return new LogEntry(
+                    String.format(context.getString(R.string.log_title_com_exec_failed),
+                            command.toString()),
+                    String.format(context.getString(
+                            R.string.log_summary_com_exec_failed_phone_incompatible),
+                            context.getString(command.getModule().getTitleRes())),
+                    Calendar.getInstance().getTime(), Type.Error
+            );
         }
 
         public static LogEntry ComExecFailedUnexpected(Context context, ControlCommand command)
         {
-            return new LogEntry(context.getString(R.string.log_title_com_exec_failed),
-                    context.getString(R.string.log_summary_com_exec_failed_perm_denied),
-                    Calendar.getInstance().getTime(), Type.Error);
+            return new LogEntry(
+                    String.format(context.getString(R.string.log_title_com_exec_failed),
+                            command.toString()),
+                    context.getString(R.string.log_summary_com_exec_failed_unexpected),
+                    Calendar.getInstance().getTime(), Type.Error
+            );
         }
 
         public static LogEntry ComExecSuccess(Context context, ControlCommand command)
         {
-            return new LogEntry(context.getString(R.string.log_title_com_exec_success), null,
-                    Calendar.getInstance().getTime(), Type.Success);
+            return new LogEntry(
+                    String.format(context.getString(R.string.log_title_com_exec_success),
+                            command.toString()), null,
+                    Calendar.getInstance().getTime(), Type.Success
+            );
         }
 
         public static LogEntry SmsProcessingFailed(Context context)

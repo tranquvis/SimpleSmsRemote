@@ -183,7 +183,7 @@ public class ControlModule
      * @param context app context
      * @return true if granted
      */
-    public boolean CheckPermissions(Context context)
+    public boolean checkPermissions(Context context)
     {
         return  PermissionHelper.AppHasPermissions(context, requiredPermissions);
     }

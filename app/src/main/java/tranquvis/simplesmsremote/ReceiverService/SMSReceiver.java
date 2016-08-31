@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.ControlCommand;
+import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.MyNotificationManager;
 import tranquvis.simplesmsremote.ReceiverService.SMSReceiverService;
 import tranquvis.simplesmsremote.SmsService.MySmsCommandMessage;
@@ -59,8 +61,8 @@ public class SMSReceiver extends BroadcastReceiver
                 }
                 catch(Exception e)
                 {
-                    Log.e("sms receive error", "Error occurred while receiving SMS");
-                    //TODO show Notification?
+                    DataManager.addLogEntry(LogEntry.Predefined.SmsProcessingFailed(context),
+                            context);
                 }
             }
         }

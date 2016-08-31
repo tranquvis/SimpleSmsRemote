@@ -46,25 +46,30 @@ public class ControlCommand
         if(!isExecutionGranted(controlSms, context))
             return false;
 
-        if (this.equals(ControlCommand.WIFI_HOTSPOT_ENABLE))
+        try
         {
-            return HotspotHelper.setHotspotState(context, true);
-        }
-        if (this.equals(ControlCommand.WIFI_HOTSPOT_DISABLE))
-        {
-            return HotspotHelper.setHotspotState(context, false);
-        }
-        if (this.equals(ControlCommand.MOBILE_DATA_ENABLE))
-        {
-            return MobileDataHelper.setMobileDataState(context, true);
-        }
-        if (this.equals(ControlCommand.MOBILE_DATA_DISABLE))
-        {
-            return MobileDataHelper.setMobileDataState(context, false);
-        }
+            if (this.equals(ControlCommand.WIFI_HOTSPOT_ENABLE)) {
+                HotspotHelper.setHotspotState(context, true);
+            }
+            else if (this.equals(ControlCommand.WIFI_HOTSPOT_DISABLE)) {
+                HotspotHelper.setHotspotState(context, false);
+            }
+            else if (this.equals(ControlCommand.MOBILE_DATA_ENABLE)) {
+                MobileDataHelper.setMobileDataState(context, true);
+            }
+            else if (this.equals(ControlCommand.MOBILE_DATA_DISABLE)) {
+                MobileDataHelper.setMobileDataState(context, false);
+            }
 
-        DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
-        return false;
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
+            return true;
+        }
+        catch (Exception e)
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, this),
+                    context);
+            return false;
+        }
     }
 
     @Override
@@ -82,13 +87,22 @@ public class ControlCommand
     {
         ControlModule module = getModule();
         ControlModuleUserData moduleUserData = module.getUserData();
+        if(!module.checkPermissions(context))
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
+                    this), context);
+            return false;
+        }
         if(!module.isCompatible())
         {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
+                    this), context);
             return false;
         }
         if(!moduleUserData.getGrantedPhones().contains(controlSms.getPhoneNumber()))
         {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(context, this,
+                    controlSms.getPhoneNumber()), context);
             return false;
         }
 

@@ -14,6 +14,7 @@ import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +51,12 @@ public class DataManager {
 
     public static void LoadLog(Context context) throws IOException
     {
+        log = new ArrayList<>();
         FileInputStream fis;
         try
         {
             fis = context.openFileInput(FILENAME_LOG);
         } catch (FileNotFoundException e) {
-            log = new ArrayList<>();
             return;
         }
 
@@ -115,12 +116,33 @@ public class DataManager {
      */
     public static void addLogEntry(LogEntry logEntry, Context context)
     {
+        log.add(0, logEntry);
         try
         {
             FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_APPEND);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            osw.write(logEntry.toTextLine());
-            osw.close();
+            PrintWriter writer = new PrintWriter(fos);
+            writer.println(logEntry.toTextLine());
+            writer.close();
+            fos.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * clear log and save to file
+     * @param context file context
+     */
+    public static void clearLog(Context context)
+    {
+        log.clear();
+        try
+        {
+            FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_PRIVATE);
+            PrintWriter writer = new PrintWriter(fos);
+            writer.print("");
+            writer.close();
             fos.close();
         } catch (IOException e)
         {

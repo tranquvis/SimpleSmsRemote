@@ -2,12 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="tranquvis.simplesmsremote">
 
-    <service
-        android:name=".SMSReceiverService"
-        android:enabled="true"
-        android:exported="true"/>
-    <!-- android:process=":receiverService" TODO change process of service -->
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
@@ -44,8 +39,13 @@
         <service
             android:name=".ReceiverService.SMSReceiverService"
             android:enabled="true"
-            android:exported="true"/>
-        <!-- android:process=":receiverService" TODO change process of service -->
+            android:exported="true"
+            android:process=":receiverService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"

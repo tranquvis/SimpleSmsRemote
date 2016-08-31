@@ -6,41 +6,32 @@ import android.net.wifi.WifiManager;
 
 import java.lang.reflect.Method;
 
+import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.LogEntry;
+
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
 public class HotspotHelper
 {
-    public static boolean isHotspotEnabled(Context context) {
+    public static boolean isHotspotEnabled(Context context) throws Exception
+    {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        try {
-            Method method = wifimanager.getClass().getDeclaredMethod("isWifiApEnabled");
-            method.setAccessible(true);
-            return (Boolean) method.invoke(wifimanager);
-        }
-        catch (Throwable ignored) {}
-        return false;
+        Method method = wifimanager.getClass().getDeclaredMethod("isWifiApEnabled");
+        method.setAccessible(true);
+        return (Boolean) method.invoke(wifimanager);
     }
 
     /**
      * set state of hotspot to enabled to disabled
      * @param context
      * @param state true if hotspot should be enabled, false if disabled
-     * @return success
      */
-    public static boolean setHotspotState(Context context, boolean state) {
+    public static void setHotspotState(Context context, boolean state) throws Exception {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiConfiguration wificonfiguration = null;
-        try {
-            wifimanager.setWifiEnabled(state);
+        wifimanager.setWifiEnabled(state);
 
-            Method method = wifimanager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
-            method.invoke(wifimanager, wificonfiguration, state);
-            return true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        Method method = wifimanager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
+        method.invoke(wifimanager, null, state);
     }
 }

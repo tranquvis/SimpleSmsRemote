@@ -56,33 +56,27 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
         ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.imageButton_delete);
 
         phoneEditText.setText(phone);
-        phoneEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
-            @Override
-            public void afterTextChanged(Editable editable)
-            {
-                phones.set(position, editable.toString());
-            }
-        });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                phones.remove(position);
-                notifyDataSetChanged();
+                removePhone(position);
             }
         });
 
         return convertView;
     }
 
+    public void removePhone(int position)
+    {
+        updateData();
+        phones.remove(position);
+        notifyDataSetChanged();
+    }
+
     public void addPhone(String phone)
     {
+        updateData();
         phones.add(phone);
         notifyDataSetChanged();
     }
@@ -93,5 +87,14 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
         super.notifyDataSetChanged();
         ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
         layoutParams.height = (itemHeight + listView.getDividerHeight()) * phones.size();
+    }
+
+    public void updateData()
+    {
+        for(int i = 0; i < listView.getChildCount(); i++) {
+            View view = listView.getChildAt(i);
+            EditText editText = (EditText) view.findViewById(R.id.editText);
+            phones.set(i, editText.getText().toString());
+        }
     }
 }

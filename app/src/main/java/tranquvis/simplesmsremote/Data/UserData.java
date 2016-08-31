@@ -3,6 +3,8 @@ package tranquvis.simplesmsremote.Data;
 import java.io.Serializable;
 import java.util.List;
 
+import tranquvis.simplesmsremote.ControlModule;
+
 /**
  * Created by Andreas Kaltenleitner on 30.08.2016.
  */
@@ -30,6 +32,20 @@ public class UserData implements Serializable
     public void addControlModule(ControlModuleUserData userData)
     {
         controlModules.add(userData);
+    }
+
+    public void setControlModule(ControlModuleUserData moduleUserData)
+    {
+        int i = 0;
+        for (ControlModuleUserData userData : controlModules)
+        {
+            if(userData.getControlModuleId().equals(moduleUserData.getControlModuleId()))
+            {
+                controlModules.set(i, moduleUserData);
+                break;
+            }
+            i++;
+        }
     }
 
     public void removeControlModule(String moduleId)

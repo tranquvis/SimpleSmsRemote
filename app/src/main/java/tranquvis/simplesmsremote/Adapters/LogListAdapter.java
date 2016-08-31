@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -45,29 +46,29 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
         viewHolder.vTitle.setText(logEntry.getTitle());
         viewHolder.vTitle.setTextColor(context.getResources().getColor(logEntry.getType().
                 getColorRes()));
-        viewHolder.vSummary.setText(logEntry.getSummary());
         viewHolder.vTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm").format(logEntry.getTime()));
         viewHolder.vType.setImageResource(logEntry.getType().getIconRes());
 
-        View.OnClickListener onToggleClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if(viewHolder.vSummary.getVisibility() == View.GONE)
-                {
-                    //expand
-                    viewHolder.vSummary.setVisibility(View.VISIBLE);
-                    viewHolder.vToggle.setImageResource(R.drawable.ic_arrow_drop_up_grey_700_18dp);
+        String test = logEntry.getSummary();
+        if(logEntry.getSummary() != null) {
+            viewHolder.vSummary.setText(logEntry.getSummary());
+            View.OnClickListener onToggleClick = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (viewHolder.vSummary.getVisibility() == View.GONE) {
+                        //expand
+                        viewHolder.vSummary.setVisibility(View.VISIBLE);
+                    } else {
+                        //fold
+                        viewHolder.vSummary.setVisibility(View.GONE);
+                    }
                 }
-                else
-                {
-                    //fold
-                    viewHolder.vSummary.setVisibility(View.GONE);
-                    viewHolder.vToggle.setImageResource(R.drawable.ic_arrow_drop_down_grey_700_18dp);
-                }
-            }
-        };
-        viewHolder.vToggle.setOnClickListener(onToggleClick);
+            };
+            viewHolder.vToggleOverlay.setOnClickListener(onToggleClick);
+        }
+        else {
+            viewHolder.vToggle.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -84,6 +85,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
         TextView vTime;
         ImageButton vToggle;
         ImageView vType;
+        RelativeLayout vToggleOverlay;
 
         public LogEntryViewHolder(View itemView)
         {
@@ -93,6 +95,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
             vTime = (TextView) itemView.findViewById(R.id.textView_time);
             vToggle = (ImageButton) itemView.findViewById(R.id.imageButton_toggle);
             vType = (ImageView) itemView.findViewById(R.id.imageView_type);
+            vToggleOverlay = (RelativeLayout) itemView.findViewById(R.id.layout_toggle_overlay);
         }
     }
 }

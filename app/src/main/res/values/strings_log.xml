@@ -5,12 +5,12 @@
         android permissions denied
     </string>
     <string name="log_summary_com_exec_failed_phone_not_granted">
-        phone (%2$s) is not allowed to use the module (%3$s)
+        phone (%1$s) is not allowed to use the module (%2$s)
     </string>
     <string name="log_summary_com_exec_failed_phone_incompatible">
-        module (%2$s) is not compatible
+        module (%1$s) is not compatible
     </string>
-    <string name="lo_summaryg_com_exec_failed_unexpected">
+    <string name="log_summary_com_exec_failed_unexpected">
         an unexpected error occurred
     </string>
     <string name="log_title_com_exec_success">
