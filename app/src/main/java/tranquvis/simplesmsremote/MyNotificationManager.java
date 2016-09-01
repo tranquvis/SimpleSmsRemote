@@ -41,6 +41,7 @@ public class MyNotificationManager
     NotificationManager nm;
 
     public static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
+    public static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
 
     public void notifySmsCommandsReceived(MySmsCommandMessage commandMessage,
                                           List<ControlCommand> failedCommands)
@@ -69,8 +70,7 @@ public class MyNotificationManager
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setDefaults(Notification.DEFAULT_ALL)
-                //TODO set custom icon
-                .setSmallIcon(R.drawable.ic_textsms_grey_700_36dp)
+                .setSmallIcon(R.drawable.ic_app)
                 .setContentTitle(title)
                 .setContentText(text)
                 //optional
@@ -78,6 +78,33 @@ public class MyNotificationManager
                 .setTicker(ticker)
                 .setContentIntent(PendingIntent.getActivity(context,
                         CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED,
+                        new Intent(context, MainActivity.class), 0))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text)
+                        .setBigContentTitle(title));
+
+        notify(builder.build(), tag);
+    }
+
+    public void notifyStartReceiverAfterBootFailed()
+    {
+        final Resources res = context.getResources();
+
+        final String tag = "StartSmsReceiverAfterBootFailed";
+        final String ticker = res.getString(R.string.notification_title_start_receiver_after_boot_failed);
+        final String title = res.getString(R.string.notification_title_start_receiver_after_boot_failed);
+
+        String text = res.getString(R.string.notification_content_start_receiver_after_boot_failed);
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ic_app)
+                .setContentTitle(title)
+                .setContentText(text)
+                //optional
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setTicker(ticker)
+                .setContentIntent(PendingIntent.getActivity(context,
+                        CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT,
                         new Intent(context, MainActivity.class), 0))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text)
                         .setBigContentTitle(title));

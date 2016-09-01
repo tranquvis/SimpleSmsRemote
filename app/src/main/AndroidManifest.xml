@@ -35,17 +35,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
         </activity>
-
-        <service
-            android:name=".ReceiverService.SMSReceiverService"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":receiverService">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </service>
-
         <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -64,6 +53,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
         </activity>
+
+        <service
+            android:name=".ReceiverService.SMSReceiverService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":receiverService">
+        </service>
+
+        <receiver
+            android:name=".BootCompletedReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
