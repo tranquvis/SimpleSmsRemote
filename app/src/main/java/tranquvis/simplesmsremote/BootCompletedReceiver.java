@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import tranquvis.simplesmsremote.Data.DataManager;
@@ -15,8 +16,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            Toast.makeText(context, "boot completed", Toast.LENGTH_LONG).show();
-            MyNotificationManager.getInstance(context).notifyStartReceiverAfterBootFailed();
+            Log.i("simplesmsremote", "boot completed");
             DataManager.LoadUserData(context);
             if(DataManager.getUserData().getUserSettings().isStartReceiverOnSystemStart())
                 SMSReceiverService.start(context);
