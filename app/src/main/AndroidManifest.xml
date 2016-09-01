@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tranquvis.simplesmsremote"
-    android:permission="android.permission.RECEIVE_BOOT_COMPLETED">>
+    package="tranquvis.simplesmsremote">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -62,9 +61,10 @@
             android:process=":receiverService"></service>
 
         <receiver
-            android:name=".BootCompletedReceiver"
+            android:name="tranquvis.simplesmsremote.BootCompletedReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
