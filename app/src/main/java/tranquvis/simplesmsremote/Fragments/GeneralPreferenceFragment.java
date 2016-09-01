@@ -9,28 +9,33 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 
+import java.io.IOException;
+
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.UserSettings;
 import tranquvis.simplesmsremote.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class GeneralPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-
+    private static final String KEY_RECEIVER_AUTOSTART = "pref_switch_receiver_autostart";
+    private static final String KEY_NOTIFY_COMMANDS_EXECUTED =
+            "pref_switch_notify_sms_commands_executed";
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
 
-        SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
-        preferences.edit()
-                .putString("pref_switch_receiver_autostart", String.valueOf(
-                        DataManager.getUserData().getUserSettings().isStartReceiverOnSystemStart()))
-                .putString("pref_switch_notify_sms_commands_executed", String.valueOf(
-                        DataManager.getUserData().getUserSettings().isNotifyCommandsExecuted()
-                ))
-                .apply();
+        UserSettings userSettings = DataManager.getUserData().getUserSettings();
+
+        ((SwitchPreference)findPreference(KEY_RECEIVER_AUTOSTART)).setChecked(
+                userSettings.isStartReceiverOnSystemStart());
+        ((SwitchPreference)findPreference(KEY_NOTIFY_COMMANDS_EXECUTED)).setChecked(
+                userSettings.isNotifyCommandsExecuted());
     }
+
+
 
     @Override
     public void onResume()
@@ -59,11 +64,11 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
         Preference pref = findPreference(key);
         switch (key)
         {
-            case "pref_switch_receiver_autostart":
+            case KEY_RECEIVER_AUTOSTART:
                 DataManager.getUserData().getUserSettings().setStartReceiverOnSystemStart(
                         ((SwitchPreference)pref).isChecked());
                 break;
-            case "pref_switch_notify_sms_commands_executed":
+            case KEY_NOTIFY_COMMANDS_EXECUTED:
                 DataManager.getUserData().getUserSettings().setNotifyCommandsExecuted(
                         ((SwitchPreference)pref).isChecked());
                 break;

@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     ControlModule controlModule;
     List<String> grantedPhones;
     boolean isModuleEnabled;
+    boolean saveOnStop = true;
 
     String[] remainingPermissionRequests;
     String[] lastPermissionRequests;
@@ -110,6 +112,17 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                saveUserData();
+                saveOnStop = false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onClick(View view)
     {
         switch (view.getId())
@@ -140,8 +153,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
     private void disableModule()
     {
-        //disable module
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setMessage(R.string.alert_sure_to_disable_module)
                 .setNegativeButton(R.string.simple_no,
                         new DialogInterface.OnClickListener() {
@@ -223,8 +235,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     @Override
     protected void onStop()
     {
-        if(isModuleEnabled)
-            saveUserData();
+        if(isModuleEnabled && saveOnStop) saveUserData();
         super.onStop();
     }
 
