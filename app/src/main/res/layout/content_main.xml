@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView_receiver_icon"
-            android:src="@drawable/ic_textsms_grey_700_36dp"
+            android:src="@drawable/ic_app_light"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"/>
