@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 
 import tranquvis.simplesmsremote.Data.DataManager;
@@ -14,11 +15,21 @@ import tranquvis.simplesmsremote.R;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class GeneralPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
+
+        SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+        preferences.edit()
+                .putString("pref_switch_receiver_autostart", String.valueOf(
+                        DataManager.getUserData().getUserSettings().isStartReceiverOnSystemStart()))
+                .putString("pref_switch_notify_sms_commands_executed", String.valueOf(
+                        DataManager.getUserData().getUserSettings().isNotifyCommandsExecuted()
+                ))
+                .apply();
     }
 
     @Override
