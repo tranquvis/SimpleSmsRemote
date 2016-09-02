@@ -10,6 +10,7 @@
     <string name="simple_yes">yes</string>
     <string name="simple_no">no</string>
     <string name="simple_empty">empty</string>
+    <string name="simple_request_again">request again</string>
 
     <string name="module_info_title">Module info</string>
     <string name="control_modules_title">Modules</string>

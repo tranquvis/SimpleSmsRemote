@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.test.suitebuilder.TestMethod;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 {
     private static final int CODE_PERM_REQUEST_RECEIVE_SMS = 1;
 
+    CoordinatorLayout coordinatorLayout;
     ListView listView;
     ManageControlModulesListAdapter listAdapter;
 
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -214,8 +218,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 else
                 {
-                    Toast.makeText(this, R.string.permission_receive_sms_not_granted,
-                            Toast.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, R.string.permission_receive_sms_not_granted,
+                            Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.simple_request_again, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    PermissionHelper.RequestCommonPermissions(MainActivity.this,
+                                            new String[]{ Manifest.permission.RECEIVE_SMS},
+                                            CODE_PERM_REQUEST_RECEIVE_SMS);
+                                }
+                            })
+                            .show();
                 }
                 break;
         }

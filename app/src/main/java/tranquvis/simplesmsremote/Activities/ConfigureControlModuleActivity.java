@@ -4,7 +4,9 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,12 +43,14 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     ListView grantedPhonesListView;
     GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure_control_module);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -228,7 +232,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         }
         else
         {
-            Toast.makeText(this, R.string.permissions_denied, Toast.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, R.string.permissions_denied, Snackbar.LENGTH_SHORT).show();
         }
     }
 

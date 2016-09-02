@@ -39,7 +39,7 @@ public class MyNotificationManagerTest
         smsCommandMessage.addControlCommand(ControlCommand.MOBILE_DATA_ENABLE);
         List<ControlCommand> failedCommands = new ArrayList<>();
         failedCommands.add(ControlCommand.MOBILE_DATA_ENABLE);
-        notificationManager.notifySmsCommandsReceived(smsCommandMessage, failedCommands);
+        notificationManager.notifySmsCommandsReceived(smsCommandMessage);
     }
 
     @Test
