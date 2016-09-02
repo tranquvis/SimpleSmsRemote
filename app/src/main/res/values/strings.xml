@@ -40,10 +40,14 @@
     <string name="notification_sms_command_received">sms command received</string>
     <string name="notification_title_start_receiver_after_boot_failed">Failed to start sms command receiver</string>
     <string name="notification_content_start_receiver_after_boot_failed">No sms commands can be received at the moment.</string>
-    <string name="successful_commands_head">Executed commands:</string>
-    <string name="failed_commands_head">Failed to execute commands:</string>
+    <string name="successful_commands_head">Successful:</string>
+    <string name="failed_commands_head">Failed:</string>
     <string name="permission_receive_sms_not_granted">The app cannot process remote commands without having the permission to receive sms.</string>
     <string name="receiver_life_info_running">running for %1$s</string>
     <string name="receiver_life_info_not_running">not running</string>
+
+    <string name="result_msg_commands_exec_success">command execution successful</string>
+    <string name="result_msg_commands_exec_partly_success">command execution partly successful</string>
+    <string name="result_msg_commands_exec_failed">command execution failed</string>
 
 </resources>

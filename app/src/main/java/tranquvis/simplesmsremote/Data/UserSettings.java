@@ -8,7 +8,8 @@ import java.io.Serializable;
 public class UserSettings implements Serializable
 {
     private boolean startReceiverOnSystemStart;
-    private boolean notifyCommandsExecuted;
+    private boolean notifyCommandsExecuted = true;
+    private boolean replyWithResult;
 
     public UserSettings()
     {
@@ -35,4 +36,13 @@ public class UserSettings implements Serializable
     }
 
 
+    public boolean isReplyWithResult()
+    {
+        return replyWithResult;
+    }
+
+    public void setReplyWithResult(boolean replyWithResult)
+    {
+        this.replyWithResult = replyWithResult;
+    }
 }

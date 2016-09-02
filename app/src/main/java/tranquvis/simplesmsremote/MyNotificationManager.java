@@ -43,31 +43,27 @@ public class MyNotificationManager
     public static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
     public static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
 
-    public void notifySmsCommandsReceived(MySmsCommandMessage commandMessage,
-                                          List<ControlCommand> failedCommands)
+    public void notifySmsCommandsReceived(MySmsCommandMessage commandMessage)
     {
         final Resources res = context.getResources();
 
         final String tag = "SmsCommandsReceived";
-        final String ticker = res.getString(R.string.notification_sms_command_received);
         final String title = res.getString(R.string.notification_sms_command_received);
 
         String text = "";
 
-        List<ControlCommand> successfulCommands = commandMessage.getControlCommands();
-        successfulCommands.removeAll(failedCommands);
-        if(!successfulCommands.isEmpty())
+        if(!commandMessage.getSuccessfulCommands().isEmpty())
         {
             text += res.getString(R.string.successful_commands_head) + "\r\n - ";
-            text += StringUtils.join(successfulCommands, "\r\n - ");
+            text += StringUtils.join(commandMessage.getSuccessfulCommands(), "\r\n - ");
         }
 
         text += "\r\n";
 
-        if(!failedCommands.isEmpty())
+        if(!commandMessage.getFailedCommands().isEmpty())
         {
             text += res.getString(R.string.failed_commands_head) + "\r\n - ";
-            text += StringUtils.join(failedCommands, "\r\n - ");
+            text += StringUtils.join(commandMessage.getFailedCommands(), "\r\n - ");
         }
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
@@ -91,7 +87,6 @@ public class MyNotificationManager
         final Resources res = context.getResources();
 
         final String tag = "StartSmsReceiverAfterBootFailed";
-        final String ticker = res.getString(R.string.notification_title_start_receiver_after_boot_failed);
         final String title = res.getString(R.string.notification_title_start_receiver_after_boot_failed);
 
         String text = res.getString(R.string.notification_content_start_receiver_after_boot_failed);

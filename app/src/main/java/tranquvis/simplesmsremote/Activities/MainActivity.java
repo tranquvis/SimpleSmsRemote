@@ -56,6 +56,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return;
         }
 
+        try {
+            DataManager.SaveUserData(this);
+        } catch (IOException e) {
+            Toast.makeText(this, R.string.alert_load_data_failed, Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this,
                 ControlModule.getAllControlActions());

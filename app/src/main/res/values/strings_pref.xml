@@ -3,8 +3,17 @@
     <string name="pref_header_general">General</string>
 
     <string name="pref_title_receiver_autostart">Autostart receiver</string>
-    <string name="pref_summary_receiver_autostart">Start sms receiver on system startup</string>
+    <string name="pref_summary_receiver_autostart">
+        Start sms receiver on system startup
+    </string>
 
-    <string name="pref_title_notification_sms_commands_executed">Commands executed notification</string>
-    <string name="pref_summary_notification_sms_commands_executed">Show notification after remote commands have been executed</string>
+    <string name="pref_title_notification_sms_commands_executed"> Commands executed notification</string>
+    <string name="pref_summary_notification_sms_commands_executed">
+        Show notification after remote commands have been executed
+    </string>
+
+    <string name="pref_title_send_result_sms_back">Reply to sender with result message</string>
+    <string name="pref_summary_send_result_sms_back">
+        Send an result message back to sender-phone after commands were executed.
+    </string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,11 @@ import tranquvis.simplesmsremote.ControlCommand;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.MyNotificationManager;
+import tranquvis.simplesmsremote.Services.Sms.MySms;
 import tranquvis.simplesmsremote.Services.Sms.MySmsCommandMessage;
+import tranquvis.simplesmsremote.Services.Sms.MySmsService;
+import tranquvis.simplesmsremote.Services.Sms.MySmsSimpleMessage;
+import tranquvis.simplesmsremote.Services.Sms.SmsServiceListener;
 
 public class SMSReceiver extends BroadcastReceiver
 {
@@ -31,6 +36,7 @@ public class SMSReceiver extends BroadcastReceiver
         {
             Bundle bundle = intent.getExtras(); //get the SMS message passed in
             SmsMessage smsMessage;
+            MySmsCommandMessage comMsg;
             if (bundle != null){
                 //retrieve the SMS message received
                 try{
@@ -43,28 +49,62 @@ public class SMSReceiver extends BroadcastReceiver
                     else
                         smsMessage = SmsMessage.createFromPdu((byte[])pdus[0]);
 
-                    MySmsCommandMessage comMsg = MySmsCommandMessage.CreateFromSmsMessage(smsMessage);
+                    comMsg = MySmsCommandMessage.CreateFromSmsMessage(smsMessage);
                     if(comMsg == null)
                         return;
 
                     DataManager.LoadUserData(context);
 
-                    List<ControlCommand> failedCommands = new ArrayList<>();
                     //execute commands
+                    List<ControlCommand> failedCommands = new ArrayList<>();
                     for(ControlCommand command : comMsg.getControlCommands())
                     {
                         if(!command.execute(context, comMsg))
                             failedCommands.add(command);
                     }
+                    comMsg.setFailedCommands(failedCommands);
 
                     if(DataManager.getUserData().getUserSettings().isNotifyCommandsExecuted())
-                        MyNotificationManager.getInstance(context).notifySmsCommandsReceived(comMsg,
-                                failedCommands);
+                        MyNotificationManager.getInstance(context).notifySmsCommandsReceived(comMsg);
+
                 }
                 catch(Exception e)
                 {
+                    e.printStackTrace();
                     DataManager.addLogEntry(LogEntry.Predefined.SmsProcessingFailed(context),
                             context);
+                    return;
+                }
+
+                try
+                {
+                    if (DataManager.getUserData().getUserSettings().isReplyWithResult())
+                    {
+                        MySmsService smsService = new MySmsService(context, new SmsServiceListener()
+                        {
+                            @Override
+                            public void OnSmsSent(MySms sms, int resultCode)
+                            {
+                                Log.i("ExecReplyMessage", "sms sent");
+                            }
+
+                            @Override
+                            public void OnSmsDelivered(MySms sms, int resultCode)
+                            {
+                                Log.i("ExecReplyMessage", "sms delivered");
+                            }
+                        });
+                        smsService.sendSMS(MySmsSimpleMessage.CreateResultReplyMessage(
+                                context, comMsg));
+                        DataManager.addLogEntry(LogEntry.Predefined.ReplyExecResultTrySending(
+                                context, comMsg.getPhoneNumber()), context);
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    DataManager.addLogEntry(LogEntry.Predefined.ReplyExecResultFailedUnexpected(
+                            context), context);
                 }
             }
         }

@@ -87,6 +87,12 @@ public class ControlCommand
     {
         ControlModule module = getModule();
         ControlModuleUserData moduleUserData = module.getUserData();
+        if(moduleUserData == null)
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context, this),
+                    context);
+            return false;
+        }
         if(!module.isCompatible())
         {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,

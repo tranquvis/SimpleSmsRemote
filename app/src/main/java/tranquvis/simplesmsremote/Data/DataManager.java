@@ -81,7 +81,9 @@ public class DataManager {
         {
             fis = context.openFileInput(FILENAME_USER_DATA);
         } catch (FileNotFoundException e) {
+            //apply default values
             userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
+            SaveUserData(context);
             return;
         }
 

@@ -46,7 +46,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
         viewHolder.vTitle.setText(logEntry.getTitle());
         viewHolder.vTitle.setTextColor(context.getResources().getColor(logEntry.getType().
                 getColorRes()));
-        viewHolder.vTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm").format(logEntry.getTime()));
+        viewHolder.vTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(logEntry.getTime()));
         viewHolder.vType.setImageResource(logEntry.getType().getIconRes());
 
         if(logEntry.getSummary() != null) {

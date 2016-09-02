@@ -90,7 +90,7 @@ public class LogEntry
                     String.format(context.getString(R.string.log_title_com_exec_failed),
                             command.toString()),
                     String.format(context.getString(R.string.log_summary_com_exec_failed_phone_not_granted),
-                            phone, command.getModule().getTitleRes()),
+                            phone, context.getString(command.getModule().getTitleRes())),
                     Calendar.getInstance().getTime(), Type.Error
             );
         }
@@ -102,6 +102,18 @@ public class LogEntry
                             command.toString()),
                     String.format(context.getString(
                             R.string.log_summary_com_exec_failed_phone_incompatible),
+                            context.getString(command.getModule().getTitleRes())),
+                    Calendar.getInstance().getTime(), Type.Error
+            );
+        }
+
+        public static LogEntry ComExecFailedModuleDisabled(Context context, ControlCommand command)
+        {
+            return new LogEntry(
+                    String.format(context.getString(R.string.log_title_com_exec_failed),
+                            command.toString()),
+                    String.format(context.getString(
+                            R.string.log_summary_com_exec_failed_module_disabled),
                             context.getString(command.getModule().getTitleRes())),
                     Calendar.getInstance().getTime(), Type.Error
             );
@@ -149,6 +161,20 @@ public class LogEntry
             return new LogEntry(context.getString(R.string.log_title_after_boot_receiver_start_failed),
                     context.getString(R.string.log_summary_after_boot_receiver_start_failed_unexpected),
                     Calendar.getInstance().getTime(), Type.Error);
+        }
+
+        public static LogEntry ReplyExecResultFailedUnexpected(Context context)
+        {
+            return new LogEntry(context.getString(R.string.log_title_reply_exec_result_failed),
+                    context.getString(R.string.log_summary_reply_exec_result_failed_unexpected),
+                    Calendar.getInstance().getTime(), Type.Error);
+        }
+
+        public static LogEntry ReplyExecResultTrySending(Context context, String phone)
+        {
+            return new LogEntry(String.format(context.getString(
+                    R.string.log_title_reply_exec_result_try_sending), phone),
+                    null, Calendar.getInstance().getTime(), Type.Info);
         }
     }
 

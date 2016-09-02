@@ -6,9 +6,14 @@
     <string name="log_title_sms_receiver_started">Sms receiver started</string>
     <string name="log_title_sms_receiver_stopped">Sms receiver stopped</string>
     <string name="log_title_after_boot_receiver_start_failed">Failed to start sms receiver after boot</string>
+    <string name="log_title_reply_exec_result_failed">Failed to send command execution reply to sender</string>
+    <string name="log_title_reply_exec_result_try_sending">Try to send result message to phone (%1$s)</string>
 
     <string name="log_summary_com_exec_failed_perm_denied">
         android permissions denied
+    </string>
+    <string name="log_summary_com_exec_failed_module_disabled">
+        module (%1$s) is disabled
     </string>
     <string name="log_summary_com_exec_failed_phone_not_granted">
         phone (%1$s) is not allowed to use the module (%2$s)
@@ -20,6 +25,9 @@
         an unexpected error occurred
     </string>
     <string name="log_summary_after_boot_receiver_start_failed_unexpected">
+        an unexpected error occurred
+    </string>
+    <string name="log_summary_reply_exec_result_failed_unexpected">
         an unexpected error occurred
     </string>
 </resources>

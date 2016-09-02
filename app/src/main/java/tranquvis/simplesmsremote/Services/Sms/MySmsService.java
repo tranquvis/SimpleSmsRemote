@@ -1,6 +1,10 @@
 package tranquvis.simplesmsremote.Services.Sms;
 
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.telephony.*;
 import android.widget.Toast;
 
@@ -38,7 +42,7 @@ public class MySmsService
             ex.printStackTrace();
         }
 
-        /*
+
         PendingIntent sentPI = PendingIntent.getBroadcast(context, 0, new Intent(CODE_SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
                 new Intent(CODE_DELIVERED), 0);
@@ -64,6 +68,5 @@ public class MySmsService
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(sms.getPhoneNumber(), null, sms.getMessage(), sentPI,
                 deliveredPI);
-                */
     }
 }

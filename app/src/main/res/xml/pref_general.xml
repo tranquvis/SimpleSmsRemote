@@ -12,4 +12,10 @@
         android:summary="@string/pref_summary_notification_sms_commands_executed"
         android:title="@string/pref_title_notification_sms_commands_executed"/>
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="pref_switch_reply_with_result"
+        android:summary="@string/pref_summary_send_result_sms_back"
+        android:title="@string/pref_title_send_result_sms_back"/>
+
 </PreferenceScreen>
