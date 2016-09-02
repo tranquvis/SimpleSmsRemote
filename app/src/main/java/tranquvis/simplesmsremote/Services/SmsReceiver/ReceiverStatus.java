@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.ReceiverService;
+package tranquvis.simplesmsremote.Services.SmsReceiver;
 
 public enum ReceiverStatus
 {

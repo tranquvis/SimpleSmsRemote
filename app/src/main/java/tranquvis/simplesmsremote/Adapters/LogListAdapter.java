@@ -49,7 +49,6 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
         viewHolder.vTime.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm").format(logEntry.getTime()));
         viewHolder.vType.setImageResource(logEntry.getType().getIconRes());
 
-        String test = logEntry.getSummary();
         if(logEntry.getSummary() != null) {
             viewHolder.vSummary.setText(logEntry.getSummary());
             View.OnClickListener onToggleClick = new View.OnClickListener() {

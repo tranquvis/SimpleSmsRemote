@@ -1,12 +1,11 @@
-package tranquvis.simplesmsremote.SmsService;
+package tranquvis.simplesmsremote.Services.Sms;
 
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.telephony.*;
 import android.widget.Toast;
+
+import tranquvis.simplesmsremote.Services.Sms.MySms;
+import tranquvis.simplesmsremote.Services.Sms.SmsServiceListener;
 
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.

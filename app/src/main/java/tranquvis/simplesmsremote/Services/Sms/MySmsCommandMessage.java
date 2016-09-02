@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.SmsService;
+package tranquvis.simplesmsremote.Services.Sms;
 
 import android.telephony.SmsMessage;
 

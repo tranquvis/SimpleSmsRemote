@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.MainActivity;
-import tranquvis.simplesmsremote.SmsService.MySmsCommandMessage;
+import tranquvis.simplesmsremote.Services.Sms.MySmsCommandMessage;
 
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
@@ -58,24 +58,25 @@ public class MyNotificationManager
         successfulCommands.removeAll(failedCommands);
         if(!successfulCommands.isEmpty())
         {
-            text += res.getString(R.string.successful_commands_head) + "\r\n";
-            text += StringUtils.join(successfulCommands, "\r\n");
+            text += res.getString(R.string.successful_commands_head) + "\r\n - ";
+            text += StringUtils.join(successfulCommands, "\r\n - ");
         }
+
+        text += "\r\n";
 
         if(!failedCommands.isEmpty())
         {
-            text += res.getString(R.string.failed_commands_head) + "\r\n";
-            text += StringUtils.join(failedCommands, "\r\n");
+            text += res.getString(R.string.failed_commands_head) + "\r\n - ";
+            text += StringUtils.join(failedCommands, "\r\n - ");
         }
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_app)
+                .setSmallIcon(R.drawable.ic_app_notification)
+                .setColor(res.getColor(R.color.colorPrimary))
                 .setContentTitle(title)
                 .setContentText(text)
-                //optional
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setTicker(ticker)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(PendingIntent.getActivity(context,
                         CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED,
                         new Intent(context, MainActivity.class), 0))
@@ -96,18 +97,14 @@ public class MyNotificationManager
         String text = res.getString(R.string.notification_content_start_receiver_after_boot_failed);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_app)
+                .setDefaults(0)
+                .setSmallIcon(R.drawable.ic_app_notification)
                 .setContentTitle(title)
                 .setContentText(text)
-                //optional
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setTicker(ticker)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(PendingIntent.getActivity(context,
                         CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT,
-                        new Intent(context, MainActivity.class), 0))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text)
-                        .setBigContentTitle(title));
+                        new Intent(context, MainActivity.class), 0));
 
         notify(builder.build(), tag);
     }

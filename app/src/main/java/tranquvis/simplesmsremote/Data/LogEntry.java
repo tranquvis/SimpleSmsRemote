@@ -58,6 +58,8 @@ public class LogEntry
             String[] parts = textLine.split("''");
             String title = parts[0];
             String summary = parts[1];
+            if(summary.length() == 0 || summary.equals("null"))
+                summary = null;
             Date time = new Date(Long.parseLong(parts[2]));
             Type type = Type.valueOf(parts[3]);
 
@@ -127,6 +129,25 @@ public class LogEntry
         public static LogEntry SmsProcessingFailed(Context context)
         {
             return new LogEntry(context.getString(R.string.log_title_sms_processing_failed), null,
+                    Calendar.getInstance().getTime(), Type.Error);
+        }
+
+        public static LogEntry SmsReceiverStarted(Context context)
+        {
+            return new LogEntry(context.getString(R.string.log_title_sms_receiver_started), null,
+                    Calendar.getInstance().getTime(), Type.Info);
+        }
+
+        public static LogEntry SmsReceiverStopped(Context context)
+        {
+            return new LogEntry(context.getString(R.string.log_title_sms_receiver_stopped), null,
+                    Calendar.getInstance().getTime(), Type.Info);
+        }
+
+        public static LogEntry AfterBootReceiverStartFailedUnexpected(Context context)
+        {
+            return new LogEntry(context.getString(R.string.log_title_after_boot_receiver_start_failed),
+                    context.getString(R.string.log_summary_after_boot_receiver_start_failed_unexpected),
                     Calendar.getInstance().getTime(), Type.Error);
         }
     }

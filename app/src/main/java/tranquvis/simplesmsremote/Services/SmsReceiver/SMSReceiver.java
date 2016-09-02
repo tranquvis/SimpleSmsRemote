@@ -1,11 +1,10 @@
-package tranquvis.simplesmsremote.ReceiverService;
+package tranquvis.simplesmsremote.Services.SmsReceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,7 @@ import tranquvis.simplesmsremote.ControlCommand;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.MyNotificationManager;
-import tranquvis.simplesmsremote.ReceiverService.SMSReceiverService;
-import tranquvis.simplesmsremote.SmsService.MySmsCommandMessage;
+import tranquvis.simplesmsremote.Services.Sms.MySmsCommandMessage;
 
 public class SMSReceiver extends BroadcastReceiver
 {
@@ -49,15 +47,19 @@ public class SMSReceiver extends BroadcastReceiver
                     if(comMsg == null)
                         return;
 
+                    DataManager.LoadUserData(context);
+
                     List<ControlCommand> failedCommands = new ArrayList<>();
+                    //execute commands
                     for(ControlCommand command : comMsg.getControlCommands())
                     {
                         if(!command.execute(context, comMsg))
                             failedCommands.add(command);
                     }
 
-                    MyNotificationManager.getInstance(context).notifySmsCommandsReceived(comMsg,
-                            failedCommands);
+                    if(DataManager.getUserData().getUserSettings().isNotifyCommandsExecuted())
+                        MyNotificationManager.getInstance(context).notifySmsCommandsReceived(comMsg,
+                                failedCommands);
                 }
                 catch(Exception e)
                 {

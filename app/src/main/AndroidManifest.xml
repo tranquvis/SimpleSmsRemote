@@ -55,7 +55,7 @@
         </activity>
 
         <service
-            android:name=".ReceiverService.SMSReceiverService"
+            android:name=".Services.SmsReceiver.SMSReceiverService"
             android:enabled="true"
             android:exported="true"
             android:process=":receiverService"></service>

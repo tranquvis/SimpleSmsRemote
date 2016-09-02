@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.SmsService;
+package tranquvis.simplesmsremote.Services.Sms;
 
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.

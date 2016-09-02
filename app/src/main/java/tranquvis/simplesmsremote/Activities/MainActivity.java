@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.test.suitebuilder.TestMethod;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,15 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
+import tranquvis.simplesmsremote.MyNotificationManager;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.ReceiverService.SMSReceiverService;
+import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiverService;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener
 {

@@ -116,7 +116,7 @@ public class DataManager {
      */
     public static void addLogEntry(LogEntry logEntry, Context context)
     {
-        log.add(0, logEntry);
+        if(log != null) log.add(0, logEntry);
         try
         {
             FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_APPEND);
@@ -136,7 +136,7 @@ public class DataManager {
      */
     public static void clearLog(Context context)
     {
-        log.clear();
+        if(log != null) log.clear();
         try
         {
             FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_PRIVATE);

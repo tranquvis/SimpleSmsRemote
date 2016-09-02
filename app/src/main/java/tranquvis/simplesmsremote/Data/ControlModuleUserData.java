@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.Data;
 
+import android.telephony.PhoneNumberUtils;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -44,6 +46,16 @@ public class ControlModuleUserData implements Serializable
     public List<String> getGrantedPhones()
     {
         return grantedPhones;
+    }
+
+    public boolean isPhoneGranted(String phone)
+    {
+        for (String grantedPhone : grantedPhones)
+        {
+            if(PhoneNumberUtils.compare(phone, grantedPhone))
+                return true;
+        }
+        return false;
     }
 
     public String toTextLine()

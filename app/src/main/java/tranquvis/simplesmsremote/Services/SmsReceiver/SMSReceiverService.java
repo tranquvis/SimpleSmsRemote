@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.ReceiverService;
+package tranquvis.simplesmsremote.Services.SmsReceiver;
 
 import android.app.Service;
 import android.content.Context;
@@ -8,10 +8,11 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.R;
 
 public class SMSReceiverService extends Service
@@ -65,6 +66,7 @@ public class SMSReceiverService extends Service
     private void registerSMSReceiver()
     {
         setStartTime(this, Calendar.getInstance().getTime());
+        DataManager.addLogEntry(LogEntry.Predefined.SmsReceiverStarted(this),this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.setPriority(2147483647);
         intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
@@ -74,6 +76,7 @@ public class SMSReceiverService extends Service
     private void unregisterSMSReceiver()
     {
         unregisterReceiver(smsReceiver);
+        DataManager.addLogEntry(LogEntry.Predefined.SmsReceiverStopped(this),this);
     }
 
     private static void setStatus(Context context, ReceiverStatus status)

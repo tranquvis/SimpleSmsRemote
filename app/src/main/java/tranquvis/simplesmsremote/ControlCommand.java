@@ -7,7 +7,7 @@ import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.HotspotHelper;
 import tranquvis.simplesmsremote.Helper.MobileDataHelper;
-import tranquvis.simplesmsremote.SmsService.MySms;
+import tranquvis.simplesmsremote.Services.Sms.MySms;
 
 /**
  * Created by Andreas Kaltenleitner on 29.08.2016.
@@ -87,22 +87,22 @@ public class ControlCommand
     {
         ControlModule module = getModule();
         ControlModuleUserData moduleUserData = module.getUserData();
-        if(!module.checkPermissions(context))
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
-                    this), context);
-            return false;
-        }
         if(!module.isCompatible())
         {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
                     this), context);
             return false;
         }
-        if(!moduleUserData.getGrantedPhones().contains(controlSms.getPhoneNumber()))
+        if(!moduleUserData.isPhoneGranted(controlSms.getPhoneNumber()))
         {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(context, this,
                     controlSms.getPhoneNumber()), context);
+            return false;
+        }
+        if(!module.checkPermissions(context))
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
+                    this), context);
             return false;
         }
 

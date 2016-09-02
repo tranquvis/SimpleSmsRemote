@@ -16,8 +16,7 @@
         android:layout_marginRight="3dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -33,11 +32,11 @@
             android:ems="10"
             android:id="@+id/editText"
             android:layout_alignParentTop="true"
-            android:textSize="14sp"
+            android:textSize="17sp"
             android:layout_toLeftOf="@+id/imageButton_delete"
             android:layout_toRightOf="@+id/imageView_type"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
+            android:layout_marginRight="15dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
