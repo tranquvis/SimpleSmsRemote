@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-import android.util.Log;
+
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,12 +17,22 @@ public class MobileDataHelper
 {
     public static void setMobileDataState(Context context, boolean enabled) throws Exception {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            setMobileDataStateNew(context, enabled);
+            setMobileDataState2(context, enabled);
         else
-            setMobileDataStateOld(context, enabled);
+            setMobileDataState1(context, enabled);
     }
 
-    private static void setMobileDataStateOld(Context context, boolean enabled) throws Exception
+    public static boolean getMobileDataState(Context context) throws Exception {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            return getMobileDataState2(context);
+        else
+            throw new NotImplementedException("only for android version 5 and above with root access");
+    }
+
+    /**
+     * For android versions 2.3 to 4.4
+     */
+    private static void setMobileDataState1(Context context, boolean enabled) throws Exception
     {
         final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final Class conmanClass = Class.forName(conman.getClass().getName());
@@ -35,9 +46,14 @@ public class MobileDataHelper
         setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
     }
 
-    private static void setMobileDataStateNew(Context context, boolean enabled) throws Exception
+    /**
+     * For android versions 5 and above
+     * Needs root access!
+     */
+    private static void setMobileDataState2(Context context, boolean enabled) throws Exception
     {
-        //Only working on rooted devices");
+        throw new NotImplementedException("not tested so far");
+        /*
         TelephonyManager telephonyService =
                 (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         Method setMobileDataEnabledMethod = telephonyService.getClass()
@@ -45,11 +61,17 @@ public class MobileDataHelper
 
         if (setMobileDataEnabledMethod != null)
             setMobileDataEnabledMethod.invoke(telephonyService, enabled);
+            */
     }
 
-    private static boolean getMobileDataStateNew(Context context) throws Exception
+    /**
+     * For android versions 5 and above
+     * Needs root access!
+     */
+    private static boolean getMobileDataState2(Context context) throws Exception
     {
-        //Only working on rooted devices
+        throw new NotImplementedException("not tested so far");
+        /*
         TelephonyManager telephonyService =
                 (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         Method getMobileDataEnabledMethod = telephonyService.getClass().
@@ -59,5 +81,6 @@ public class MobileDataHelper
             return (boolean) getMobileDataEnabledMethod.invoke(telephonyService);
 
         return false;
+        */
     }
 }

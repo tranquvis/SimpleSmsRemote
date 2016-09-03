@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Helper.MobileDataHelper;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.MyNotificationManager;
 import tranquvis.simplesmsremote.R;
