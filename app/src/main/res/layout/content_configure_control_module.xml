@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.ConfigureControlModuleActivity"
-    tools:showIn="@layout/activity_configure_control_module">
+    tools:showIn="@layout/activity_configure_control_module"
+    android:id="@+id/relativeLayout_content">
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -150,7 +151,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:dividerHeight="0dp"
-                    android:divider="@null"/>
+                    android:divider="@null"
+                    android:descendantFocusability="afterDescendants"/>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_add_phone"
@@ -162,6 +164,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/listView_granted_phones"
                     android:layout_margin="10dp"/>
+
             </RelativeLayout>
 
         </RelativeLayout>

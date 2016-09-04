@@ -5,6 +5,13 @@
                 android:layout_height="wrap_content"
     >
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/autocomplete_anchor"
+        android:layout_marginLeft="-100dp"
+        android:layout_below="@+id/relativeLayout_item_content"></FrameLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +23,7 @@
         android:layout_marginRight="3dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        >
+        android:id="@+id/relativeLayout_item_content">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -24,19 +31,6 @@
             android:id="@+id/imageView_type"
             android:src="@drawable/ic_local_phone_grey_700_24dp"
             android:layout_centerVertical="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:ems="10"
-            android:id="@+id/editText"
-            android:layout_alignParentTop="true"
-            android:textSize="17sp"
-            android:layout_toLeftOf="@+id/imageButton_delete"
-            android:layout_toRightOf="@+id/imageView_type"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -47,6 +41,22 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
+
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edittext_phonenumber"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imageButton_delete"
+            android:layout_toRightOf="@+id/imageView_type"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="@string/hint_phone_edit"
+            android:textColorHint="#a8a8a8"
+            android:dropDownWidth="match_parent"
+            android:dropDownHeight="match_parent"
+            android:dropDownAnchor="@id/autocomplete_anchor" />
+
     </RelativeLayout>
 
 </RelativeLayout>

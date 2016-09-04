@@ -51,4 +51,6 @@
     <string name="result_msg_commands_exec_partly_success">command execution partly successful</string>
     <string name="result_msg_commands_exec_failed">command execution failed</string>
 
+    <string name="hint_phone_edit">phone number</string>
+
 </resources>

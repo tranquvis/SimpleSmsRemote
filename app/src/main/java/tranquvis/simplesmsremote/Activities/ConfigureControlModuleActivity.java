@@ -1,5 +1,6 @@
 package tranquvis.simplesmsremote.Activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +28,15 @@ import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Helper.ContactsHelper;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.R;
 
 public class ConfigureControlModuleActivity extends AppCompatActivity implements View.OnClickListener
 {
+    private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
+    private static final int REQUEST_CODE_PERM_READ_CONTACTS = 10;
+
     ControlModule controlModule;
     List<String> grantedPhones;
     boolean isModuleEnabled;
@@ -38,7 +45,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     String[] remainingPermissionRequests;
     String[] lastPermissionRequests;
     boolean processPermissionRequestOnResume = false;
-    int CODE_PERMISSION_REQUEST = 1;
 
     ListView grantedPhonesListView;
     GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
@@ -102,11 +108,21 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             grantedPhonesListView = (ListView) findViewById(R.id.listView_granted_phones);
             grantedPhonesListAdapter = new GrantedPhonesEditableListAdapter(this, grantedPhones,
                     grantedPhonesListView);
+            grantedPhonesListAdapter.setContacts(ContactsHelper.readContacts(this));
             grantedPhonesListView.setScrollContainer(false);
             grantedPhonesListView.setAdapter(grantedPhonesListAdapter);
 
             FloatingActionButton addPhoneFab = (FloatingActionButton) findViewById(R.id.fab_add_phone);
             addPhoneFab.setOnClickListener(this);
+
+            if(!PermissionHelper.AppHasPermission(this, Manifest.permission.READ_CONTACTS))
+                PermissionHelper.RequestCommonPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        REQUEST_CODE_PERM_READ_CONTACTS);
+            else
+            {
+                grantedPhonesListAdapter.setContacts(ContactsHelper.readContacts(this));
+            }
         }
         else
         {
@@ -193,7 +209,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     private void requestPermissions(String[] permissions)
     {
         PermissionHelper.RequestResult result = PermissionHelper.RequestNextPermissions(this,
-                permissions, CODE_PERMISSION_REQUEST);
+                permissions, REQUEST_CODE_PERM_MODULE_REQUIREMENTS);
         remainingPermissionRequests = result.getRemainingPermissions();
         lastPermissionRequests = result.getRequestPermissions();
         if(result.getRequestType() == PermissionHelper.RequestType.INDEPENDENT_ACTIVITY)
@@ -203,7 +219,17 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        onPermissionRequestFinished();
+        switch (requestCode)
+        {
+            case REQUEST_CODE_PERM_MODULE_REQUIREMENTS:
+                onModuleRequiredPermissionRequestFinished();
+                break;
+            case REQUEST_CODE_PERM_READ_CONTACTS:
+                if(PermissionHelper.AppHasPermission(this, Manifest.permission.READ_CONTACTS))
+                    grantedPhonesListAdapter.setContacts(ContactsHelper.readContacts(this));
+                break;
+
+        }
     }
 
     @Override
@@ -214,11 +240,11 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         if(processPermissionRequestOnResume)
         {
             processPermissionRequestOnResume = false;
-            onPermissionRequestFinished();
+            onModuleRequiredPermissionRequestFinished();
         }
     }
 
-    private void onPermissionRequestFinished()
+    private void onModuleRequiredPermissionRequestFinished()
     {
         if(PermissionHelper.AppHasPermissions(this, lastPermissionRequests))
         {

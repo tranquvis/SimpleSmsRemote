@@ -20,14 +20,15 @@ import tranquvis.simplesmsremote.Services.Sms.MySmsCommandMessage;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MyNotificationManagerTest
+public class MyNotificationManagerTest extends AppContextTest
 {
-    private Context appContext;
     private MyNotificationManager notificationManager;
 
+    @Override
     @Before
-    public void setup() {
-        appContext = InstrumentationRegistry.getTargetContext();
+    public void setUp() throws Exception
+    {
+        super.setUp();
         notificationManager = MyNotificationManager.getInstance(appContext);
     }
 

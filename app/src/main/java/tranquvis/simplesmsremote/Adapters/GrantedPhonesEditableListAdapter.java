@@ -1,19 +1,27 @@
 package tranquvis.simplesmsremote.Adapters;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tranquvis.simplesmsremote.Helper.ContactsHelper;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -27,11 +35,32 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
     private ListView listView;
     private int itemHeight = 0;
 
+    private List<ContactsHelper.Contact> contacts;
+    private ContactsListAdapter contactsListAdapter;
+
     public GrantedPhonesEditableListAdapter(Context context, List<String> phones, ListView listView)
     {
         super(context, LAYOUT_RES, phones);
         this.phones = phones;
         this.listView = listView;
+    }
+
+    /**
+     * set contacts, which are shown in autocompletion list of phone EditText.
+     * @param contacts
+     */
+    public void setContacts(List<ContactsHelper.Contact> contacts) {
+        this.contacts = contacts;
+        contactsListAdapter = new ContactsListAdapter(getContext(), contacts);
+
+        //set autocomplete list adapter
+
+        for(int i = 0; i < listView.getChildCount(); i++) {
+            View view = listView.getChildAt(i);
+            AutoCompleteTextView editText = (AutoCompleteTextView)
+                    view.findViewById(R.id.edittext_phonenumber);
+            editText.setAdapter(contactsListAdapter);
+        }
     }
 
     @Override
@@ -52,10 +81,14 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
 
         String phone = phones.get(position);
 
-        final EditText phoneEditText = (EditText) convertView.findViewById(R.id.editText);
+        final AutoCompleteTextView phoneEditText = (AutoCompleteTextView)
+                convertView.findViewById(R.id.edittext_phonenumber);
         ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.imageButton_delete);
 
         phoneEditText.setText(phone);
+        phoneEditText.setAdapter(contactsListAdapter);
+        //TODO add button for contacts list and show only used numbers in autocomplete
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -93,7 +126,7 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
     {
         for(int i = 0; i < listView.getChildCount(); i++) {
             View view = listView.getChildAt(i);
-            EditText editText = (EditText) view.findViewById(R.id.editText);
+            EditText editText = (EditText) view.findViewById(R.id.edittext_phonenumber);
             phones.set(i, editText.getText().toString());
         }
     }
