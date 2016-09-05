@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.ControlModule;
@@ -58,5 +59,19 @@ public class UserData implements Serializable
                 break;
             }
         }
+    }
+
+    public List<String> getAllUsedPhones()
+    {
+        List<String> phones = new ArrayList<>();
+        for(ControlModuleUserData moduleUserData : controlModules)
+        {
+            for(String phone : moduleUserData.getGrantedPhones())
+            {
+                if(phone != null && phone.length() > 0)
+                    phones.add(phone);
+            }
+        }
+        return phones;
     }
 }

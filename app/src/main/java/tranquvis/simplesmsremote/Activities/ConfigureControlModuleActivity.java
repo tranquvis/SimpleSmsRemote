@@ -2,9 +2,12 @@ package tranquvis.simplesmsremote.Activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StyleableRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,14 +32,12 @@ import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Helper.ContactsHelper;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.R;
 
 public class ConfigureControlModuleActivity extends AppCompatActivity implements View.OnClickListener
 {
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
-    private static final int REQUEST_CODE_PERM_READ_CONTACTS = 10;
 
     ControlModule controlModule;
     List<String> grantedPhones;
@@ -50,6 +52,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
     CoordinatorLayout coordinatorLayout;
+
+    protected int THEME_COLOR_PRIMARY;
+    protected int THEME_COLOR_PRIMARY_DARK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,23 +86,23 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         ((TextView)findViewById(R.id.textView_commands)).setText(controlModule.getCommandsString());
 
         TextView compatibilityTextView = (TextView)findViewById(R.id.textView_compatibility_info);
+        Button buttonChangeEnabled = (Button)findViewById(R.id.button_change_enabled);
+
+        buttonChangeEnabled.setText(!isModuleEnabled ? R.string.enable_module
+                : R.string.disable_module);
+
         if(controlModule.isCompatible())
         {
             compatibilityTextView.setText(R.string.compatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorSuccess));
+            buttonChangeEnabled.setOnClickListener(this);
         }
         else
         {
             compatibilityTextView.setText(R.string.incompatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorError));
-        }
-
-        Button buttonChangeEnabled = (Button)findViewById(R.id.button_change_enabled);
-        buttonChangeEnabled.setText(!isModuleEnabled ? R.string.enable_module
-                : R.string.disable_module);
-        buttonChangeEnabled.setOnClickListener(this);
-        if(!controlModule.isCompatible())
             buttonChangeEnabled.setEnabled(false);
+        }
 
         if(isModuleEnabled)
         {
@@ -108,21 +113,11 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             grantedPhonesListView = (ListView) findViewById(R.id.listView_granted_phones);
             grantedPhonesListAdapter = new GrantedPhonesEditableListAdapter(this, grantedPhones,
                     grantedPhonesListView);
-            grantedPhonesListAdapter.setContacts(ContactsHelper.readContacts(this));
             grantedPhonesListView.setScrollContainer(false);
             grantedPhonesListView.setAdapter(grantedPhonesListAdapter);
 
             FloatingActionButton addPhoneFab = (FloatingActionButton) findViewById(R.id.fab_add_phone);
             addPhoneFab.setOnClickListener(this);
-
-            if(!PermissionHelper.AppHasPermission(this, Manifest.permission.READ_CONTACTS))
-                PermissionHelper.RequestCommonPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        REQUEST_CODE_PERM_READ_CONTACTS);
-            else
-            {
-                grantedPhonesListAdapter.setContacts(ContactsHelper.readContacts(this));
-            }
         }
         else
         {
@@ -224,11 +219,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             case REQUEST_CODE_PERM_MODULE_REQUIREMENTS:
                 onModuleRequiredPermissionRequestFinished();
                 break;
-            case REQUEST_CODE_PERM_READ_CONTACTS:
-                if(PermissionHelper.AppHasPermission(this, Manifest.permission.READ_CONTACTS))
-                    grantedPhonesListAdapter.setContacts(ContactsHelper.readContacts(this));
-                break;
-
         }
     }
 
@@ -293,6 +283,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             if(!isModuleEnabled)
                 Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
                     .show();
+            //TODO
         } catch (IOException e)
         {
             Toast.makeText(this, R.string.alert_save_data_failed,

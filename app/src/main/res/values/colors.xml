@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8E24AA</color>
-    <color name="colorPrimaryDark">#6A1B9A</color>
-    <color name="colorAccent">#3D5AFE</color>
+    <color name="materialPurple200">#CE93D8</color>
+    <color name="materialPurple300">#BA68C8</color>
+    <color name="materialPurple500">#9C27B0</color>
+    <color name="materialPurple600">#8E24AA</color>
+    <color name="materialPurple800">#6A1B9A</color>
+    <color name="materialPurpleA100">#EA80FC</color>
+    <color name="materialPurpleA400">#D500F9</color>
+    <color name="materialPurpleA700">#AA00FF</color>
+    
+    <color name="materialIndigoA400">#3D5AFE</color>
+    <color name="materialIndigoA700">#304FFE</color>
+    
+    <color name="colorPrimary">@color/materialPurple600</color>
+    <color name="colorPrimaryDark">@color/materialPurple800</color>
+    <color name="colorPrimaryLight">@color/materialPurple300</color>
+    <color name="colorAccent">@color/materialIndigoA400</color>
 
     <color name="colorError">#EF5350</color>
     <color name="colorSuccess">#66BB6A</color>

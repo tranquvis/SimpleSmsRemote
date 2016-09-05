@@ -12,6 +12,8 @@ import java.util.List;
 /**
  * Created by Andi on 04.09.2016.
  */
+//unused so far
+/*
 public class ContactsHelper {
     public static List<Contact> readContacts(Context context) {
         ContentResolver cr = context.getContentResolver();
@@ -65,3 +67,4 @@ public class ContactsHelper {
         }
     }
 }
+*/
