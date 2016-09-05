@@ -131,8 +131,12 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         switch (item.getItemId())
         {
             case android.R.id.home:
-                saveUserData();
-                saveOnStop = false;
+                if(isModuleEnabled && saveOnStop)
+                {
+                    saveUserData();
+                    saveOnStop = false;
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -255,7 +259,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     @Override
     protected void onStop()
     {
-        if(isModuleEnabled && saveOnStop) saveUserData();
+        if(isModuleEnabled && saveOnStop)
+            saveUserData();
         super.onStop();
     }
 
