@@ -80,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         receiverLifeInfoTextView = (TextView) findViewById(R.id.textView_receiver_life_info);
 
         startUpdatingReceiverStatusAsync();
+
+        if(DataManager.isFirstStart())
+        {
+            //TODO
+        }
     }
 
     private void startUpdatingReceiverStatusAsync()

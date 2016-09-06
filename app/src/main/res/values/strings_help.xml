@@ -8,4 +8,18 @@
     </string>
     <string name="help_take_a_tour">Take a tour</string>
 
+    <string name="help_receiver_title">Receiver</string>
+    <string name="help_receiver_content">
+        The receiver is listening for incoming sms and executes the received commands.
+        It can be started and stopped manually by clicking the right button.
+        \nIn order to start the receiver after boot, set the respective option in settings.
+    </string>
+
+    <string name="help_module_title">Module</string>
+    <string name="help_module_content">
+        The control functions are grouped into modules.
+        Each module contains one or multiple commands. (e.g. enable hotspot, disable hotspot)
+        Incompatible modules are market with a red minus symbol and cannot be enabled.
+    </string>
+
 </resources>

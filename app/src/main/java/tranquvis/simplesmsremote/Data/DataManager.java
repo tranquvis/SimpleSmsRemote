@@ -30,6 +30,8 @@ public class DataManager {
     private static UserData userData;
     private static List<LogEntry> log;
 
+    private static boolean firstStart;
+
     public static ControlModuleUserData getUserDataForControlModule(ControlModule controlModule)
     {
         for (ControlModuleUserData moduleUserData : userData.getControlModules()) {
@@ -47,6 +49,11 @@ public class DataManager {
     public static List<LogEntry> getLog()
     {
         return log;
+    }
+
+    public static boolean isFirstStart()
+    {
+        return firstStart;
     }
 
     public static void LoadLog(Context context) throws IOException
@@ -82,6 +89,7 @@ public class DataManager {
             fis = context.openFileInput(FILENAME_USER_DATA);
         } catch (FileNotFoundException e) {
             //apply default values
+            firstStart = true;
             userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
             SaveUserData(context);
             return;
