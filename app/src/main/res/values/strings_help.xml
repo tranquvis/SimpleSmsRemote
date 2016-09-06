@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help_start_title">Welcome to Simple Sms Remote</string>
+    <string name="help_start_content">
+        This app functions as a receiver for sms commands.
+        So you can control this phone by sending simple control messages. (e.g. rc enable hotspot)
+        \nLets see how this works.
+    </string>
+    <string name="help_take_a_tour">Take a tour</string>
+
+</resources>

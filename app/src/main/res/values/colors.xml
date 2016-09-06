@@ -6,8 +6,8 @@
     <color name="materialPurple600">#8E24AA</color>
     <color name="materialPurple800">#6A1B9A</color>
     <color name="materialPurpleA100">#EA80FC</color>
-    <color name="materialPurpleA400">#D500F9</color>
-    <color name="materialPurpleA700">#AA00FF</color>
+    <color name="materialPurpleA400">#d500f9</color>
+    <color name="materialPurpleA700">#aa00ff</color>
     
     <color name="materialIndigoA400">#3D5AFE</color>
     <color name="materialIndigoA700">#304FFE</color>

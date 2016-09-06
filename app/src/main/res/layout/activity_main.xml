@@ -23,5 +23,62 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layout_help_overlay"
+                    android:background="#a7eeeeee"
+                    android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_help_start"
+            android:layout_centerInParent="true"
+            android:background="@drawable/abc_popup_background_mtrl_mult"
+            android:padding="20dp"
+            android:layout_margin="10dp"
+            android:contextClickable="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/help_start_title"
+                android:id="@+id/textView_help_start_title"
+                android:textColor="@color/materialPurpleA700"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/help_start_content"
+                android:id="@+id/textView_help_start_content"
+                android:layout_below="@+id/textView_help_start_title"
+                android:textSize="16sp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_take_a_tour"
+                android:layout_below="@+id/textView_help_start_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/color_state_list_primary"
+                android:textColor="#fff"
+                android:text="@string/help_take_a_tour"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/simple_abort"
+                android:id="@+id/button2"
+                android:layout_alignParentBottom="false"
+                android:layout_alignBaseline="@+id/button_take_a_tour"
+                android:layout_toRightOf="@+id/button_take_a_tour"
+                android:layout_alignParentEnd="false"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <!--  <include layout="@layout/help_overlay_main" /> -->
 
 </android.support.design.widget.CoordinatorLayout>
