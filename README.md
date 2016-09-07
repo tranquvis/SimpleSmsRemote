@@ -1,6 +1,7 @@
 # SimpleSmsRemote
 Remote controll a phone by sms messages.
 
+
 Install the app on the device, which should be controlled, and send control commands from any messenger to it.
 
 ## Features
@@ -13,3 +14,5 @@ Install the app on the device, which should be controlled, and send control comm
 ### Modules
 * Hotspot (enable/disable)
 * Mobile Data Connection (enable/disable)
+
+##Contributors
