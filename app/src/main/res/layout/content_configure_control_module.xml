@@ -110,6 +110,23 @@
                     android:background="#eee"
                     android:lineSpacingExtra="5dp"/>
 
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageButton_command_info"
+                    android:src="@drawable/ic_info_outline_grey_700_24dp"
+                    android:background="@null"
+                    android:layout_alignBottom="@+id/textView_commands_title"
+                    android:layout_alignRight="@+id/textView_commands"
+                    android:layout_alignEnd="@+id/textView_commands"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginBottom="-5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    />
+
             </RelativeLayout>
 
             <TextView

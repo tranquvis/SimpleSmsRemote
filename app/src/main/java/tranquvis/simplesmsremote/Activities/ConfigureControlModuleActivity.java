@@ -2,6 +2,7 @@ package tranquvis.simplesmsremote.Activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -91,6 +92,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         buttonChangeEnabled.setText(!isModuleEnabled ? R.string.enable_module
                 : R.string.disable_module);
 
+        findViewById(R.id.imageButton_command_info).setOnClickListener(this);
+
         if(controlModule.isCompatible())
         {
             compatibilityTextView.setText(R.string.compatible);
@@ -154,6 +157,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                 break;
             case R.id.fab_add_phone:
                 grantedPhonesListAdapter.addPhone("");
+                break;
+            case R.id.imageButton_command_info:
+                startActivity(new Intent(this, HelpHowToControlActivity.class));
                 break;
         }
     }

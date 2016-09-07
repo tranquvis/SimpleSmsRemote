@@ -13,8 +13,13 @@
         android:title="@string/action_log"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_help"
+        android:id="@+id/action_help_tour"
         android:orderInCategory="100"
-        android:title="@string/action_help"
+        android:title="@string/action_help_tour"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_help_how_to_control"
+        android:orderInCategory="100"
+        android:title="@string/action_help_how_to_control"
         app:showAsAction="never" />
 </menu>

@@ -10,14 +10,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.test.suitebuilder.TestMethod;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +26,7 @@ import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.HelpOverlay;
-import tranquvis.simplesmsremote.Helper.MobileDataHelper;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
-import tranquvis.simplesmsremote.MyNotificationManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiverService;
 
@@ -134,8 +130,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         HelpOverlay.View helpView = helpOverlay.getView(helpViewPos);
         if(helpView == null)
         {
-            //help finished
-            recreate();
+            //goto how to control
+            startActivity(new Intent(this, HelpHowToControlActivity.class));
             return;
         }
         helpInfoTitleTextView.setText(helpView.getTitleRes());
@@ -150,7 +146,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         else
         {
             if(helpViewPos == helpOverlay.getHelpViewCount() - 1)
-                helpNextButton.setText(R.string.help_finish);
+            {
+                //last help view
+                helpNextButton.setText(R.string.help_how_to_control_title);
+            }
             else
                 helpNextButton.setText(R.string.help_next);
 
@@ -273,10 +272,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_log:
                 startActivity(new Intent(this, LogActivity.class));
                 return true;
-            case R.id.action_help:
+            case R.id.action_help_tour:
                 Intent intent = new Intent(this, this.getClass());
                 intent.putExtra("showHelpOverlay", true);
                 startActivity(intent);
+                break;
+            case R.id.action_help_how_to_control:
+                startActivity(new Intent(this, HelpHowToControlActivity.class));
                 break;
         }
 

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.HelpHowToControlActivity"
+    tools:showIn="@layout/activity_help_how_to_control">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_steps"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:background="#fff"
+        android:elevation="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="1. "
+            android:id="@+id/textView_step_1_pre"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_step_1"
+            android:id="@+id/textView_step_1"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView_step_1_pre"
+            android:layout_toEndOf="@+id/textView_step_1_pre"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="2. "
+            android:id="@+id/textView_step_2_pre"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/textView_step_1"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_step_2"
+            android:id="@+id/textView_step_2"
+            android:layout_toRightOf="@+id/textView_step_2_pre"
+            android:layout_toEndOf="@+id/textView_step_2_pre"
+            android:layout_alignTop="@+id/textView_step_2_pre"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="3. "
+            android:id="@+id/textView_step_3_pre"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/textView_step_2"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_step_3"
+            android:id="@+id/textView_step_3"
+            android:layout_toRightOf="@+id/textView_step_3_pre"
+            android:layout_toEndOf="@+id/textView_step_3_pre"
+            android:layout_alignTop="@+id/textView_step_3_pre"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="4. "
+            android:id="@+id/textView_step_4_pre"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/textView_step_3"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_step_4"
+            android:id="@+id/textView_step_4"
+            android:layout_toRightOf="@+id/textView_step_4_pre"
+            android:layout_toEndOf="@+id/textView_step_4_pre"
+            android:layout_alignTop="@+id/textView_step_4_pre"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="5. "
+            android:id="@+id/textView_step_5_pre"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/textView_step_4"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_step_5"
+            android:id="@+id/textView_step_5"
+            android:layout_toRightOf="@+id/textView_step_5_pre"
+            android:layout_toEndOf="@+id/textView_step_5_pre"
+            android:layout_alignTop="@+id/textView_step_5_pre"
+            android:textSize="16sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_how_to_control_syntax_title"
+        android:id="@+id/textView_syntax_head"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginBottom="15dp"
+        android:layout_below="@+id/layout_steps"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_syntax"
+        android:layout_below="@+id/textView_syntax_head"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:elevation="2dp"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_syntax_def"
+            android:id="@+id/textView_command_syntax"
+            android:textColor="@color/colorAccent"
+            android:textSize="17sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_how_to_control_syntax_example"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/textView_command_syntax"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

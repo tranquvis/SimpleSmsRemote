@@ -10,8 +10,7 @@ public class HelpOverlay
                         R.id.layout_help_receiver),
                 new View(R.string.help_module_title, R.string.help_module_content,
                         R.id.layout_help_module),
-                new View(R.string.help_other_title, R.string.help_other_content,
-                        R.id.layout_help_other)
+                new View(R.string.help_other_title, R.string.help_other_content, -1)
         });
     }
 
