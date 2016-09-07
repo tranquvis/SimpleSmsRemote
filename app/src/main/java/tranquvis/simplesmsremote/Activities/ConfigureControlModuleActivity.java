@@ -3,12 +3,9 @@ package tranquvis.simplesmsremote.Activities;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StyleableRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,11 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,9 +47,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
     CoordinatorLayout coordinatorLayout;
-
-    protected int THEME_COLOR_PRIMARY;
-    protected int THEME_COLOR_PRIMARY_DARK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
