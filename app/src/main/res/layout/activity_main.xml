@@ -28,7 +28,8 @@
                     android:layout_height="match_parent"
                     android:id="@+id/layout_help_overlay"
                     android:clickable="true"
-                    android:background="#77000000">
+                    android:background="#77000000"
+                    android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -46,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help_start_title"
-                android:id="@+id/textView_help_start_title"
+                android:id="@+id/textView_help_info_title"
                 android:textColor="@color/materialPurpleA700"
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
@@ -55,15 +56,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help_start_content"
-                android:id="@+id/textView_help_start_content"
-                android:layout_below="@+id/textView_help_start_title"
+                android:id="@+id/textView_help_info_content"
+                android:layout_below="@+id/textView_help_info_title"
                 android:textSize="16sp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_help_next"
-                android:layout_below="@+id/textView_help_start_content"
+                android:layout_below="@+id/textView_help_info_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/color_state_list_primary"
                 android:textColor="#fff"
@@ -167,12 +168,13 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_help_log"
+            android:id="@+id/layout_help_other"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="150dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="100dp">
+            android:layout_marginRight="100dp"
+            android:visibility="invisible">
 
             <ImageView
                 android:layout_width="50dp"

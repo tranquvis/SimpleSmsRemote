@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.HelpOverlay;
 import tranquvis.simplesmsremote.Helper.MobileDataHelper;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.MyNotificationManager;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final int CODE_PERM_REQUEST_RECEIVE_SMS = 1;
 
     CoordinatorLayout coordinatorLayout;
+    Toolbar toolbar;
     ListView listView;
     ManageControlModulesListAdapter listAdapter;
 
@@ -45,12 +49,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     FloatingActionButton receiverChangeStateFab;
     TextView receiverLifeInfoTextView;
 
+    boolean showHelpOverlay = false;
+    HelpOverlay helpOverlay;
+    int helpViewPos = -1;
+
+    TextView helpInfoTitleTextView;
+    TextView helpInfoDescTextView;
+    Button helpNextButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         try {
@@ -82,9 +94,81 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startUpdatingReceiverStatusAsync();
 
         if(DataManager.isFirstStart())
+            showHelpOverlay = true;
+        if(getIntent().getBooleanExtra("showHelpOverlay", false))
         {
-            //TODO
+            showHelpOverlay = true;
+            getIntent().removeExtra("showHelpOverlay");
         }
+
+        if(showHelpOverlay)
+        {
+            helpInfoTitleTextView = (TextView) findViewById(R.id.textView_help_info_title);
+            helpInfoDescTextView = (TextView) findViewById(R.id.textView_help_info_content);
+            helpNextButton = (Button) findViewById(R.id.button_help_next);
+
+            findViewById(R.id.layout_help_overlay).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout_help_info).setVisibility(View.VISIBLE);
+            helpOverlay = HelpOverlay.GetMainActivityOverlay();
+            showNextHelpView();
+            helpNextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    showNextHelpView();
+                }
+            });
+            findViewById(R.id.button_help_abort).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    recreate();
+                }
+            });
+        }
+    }
+
+    private void showNextHelpView()
+    {
+        helpViewPos++;
+        HelpOverlay.View helpView = helpOverlay.getView(helpViewPos);
+        if(helpView == null)
+        {
+            //help finished
+            recreate();
+            return;
+        }
+        helpInfoTitleTextView.setText(helpView.getTitleRes());
+        helpInfoDescTextView.setText(helpView.getDescRes());
+        if(helpView.getHintContainerResId() >= 0)
+            findViewById(helpView.getHintContainerResId()).setVisibility(View.VISIBLE);
+        if(helpViewPos == 0)
+        {
+            //first
+            helpNextButton.setText(R.string.help_take_a_tour);
+        }
+        else
+        {
+            if(helpViewPos == helpOverlay.getHelpViewCount() - 1)
+                helpNextButton.setText(R.string.help_finish);
+            else
+                helpNextButton.setText(R.string.help_next);
+
+            HelpOverlay.View previousHelpView = helpOverlay.getView(helpViewPos - 1);
+            if(previousHelpView.getHintContainerResId() >= 0)
+                findViewById(previousHelpView.getHintContainerResId())
+                        .setVisibility(View.INVISIBLE);
+
+            if(helpView.getTitleRes() == R.string.help_other_title)
+            {
+                toolbar.showOverflowMenu();
+            }
+            else
+            {
+                toolbar.hideOverflowMenu();
+            }
+        }
+
     }
 
     private void startUpdatingReceiverStatusAsync()
@@ -178,6 +262,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        if(showHelpOverlay)
+            return false;
+
         switch (item.getItemId())
         {
             case R.id.action_settings:
@@ -186,6 +273,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_log:
                 startActivity(new Intent(this, LogActivity.class));
                 return true;
+            case R.id.action_help:
+                Intent intent = new Intent(this, this.getClass());
+                intent.putExtra("showHelpOverlay", true);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

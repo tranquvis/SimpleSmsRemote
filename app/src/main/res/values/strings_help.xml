@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="help_take_a_tour">Take a tour</string>
+    <string name="help_next">Next</string>
+    <string name="help_finish">Finish</string>
+
     <string name="help_start_title">Welcome to Simple Sms Remote</string>
     <string name="help_start_content">
         This app functions as a receiver for sms commands.
         So you can control this phone by sending simple control messages. (e.g. rc enable hotspot)
         \nLets see how this works.
     </string>
-    <string name="help_take_a_tour">Take a tour</string>
 
     <string name="help_receiver_title">Receiver</string>
     <string name="help_receiver_content">
@@ -19,7 +22,11 @@
     <string name="help_module_content">
         The control functions are grouped into modules.
         Each module contains one or multiple commands. (e.g. enable hotspot, disable hotspot)
-        Incompatible modules are market with a red minus symbol and cannot be enabled.
+        Incompatible modules are marked with a red minus symbol and cannot be enabled.
     </string>
 
+    <string name="help_other_title">Other</string>
+    <string name="help_other_content">
+        Make configurations, inspect the receivers history and check for dangerous behaviour.
+    </string>
 </resources>
