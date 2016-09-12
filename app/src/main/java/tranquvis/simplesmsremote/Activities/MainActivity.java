@@ -122,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             });
         }
+        else
+        {
+            findViewById(R.id.layout_help_overlay).setVisibility(View.INVISIBLE);
+        }
     }
 
     private void showNextHelpView()

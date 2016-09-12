@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
                     if (PermissionHelper.AppHasPermission(getActivity(), Manifest.permission.SEND_SMS))
                         DataManager.getUserData().getUserSettings().setReplyWithResult(true);
                     else
-                        PermissionHelper.RequestCommonPermissions(getActivity(),
+                        PermissionHelper.RequestCommonPermissions(this,
                                 new String[]{Manifest.permission.SEND_SMS},
                                 RESULT_CODE_PERM_REQUEST_FOR_REPLY_WITH_RESULT);
                 }
@@ -99,7 +100,8 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
     {
         switch (requestCode)
         {

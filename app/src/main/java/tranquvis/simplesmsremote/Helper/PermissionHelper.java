@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.ActivityCompat;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -57,6 +59,11 @@ public class PermissionHelper
     public static void RequestCommonPermissions(Activity activity, String[] permissions, int resultCode)
     {
         ActivityCompat.requestPermissions(activity, permissions, resultCode);
+    }
+
+    public static void RequestCommonPermissions(Fragment fragment, String[] permissions, int resultCode)
+    {
+        FragmentCompat.requestPermissions(fragment, permissions, resultCode);
     }
 
     public static RequestResult RequestNextPermissions(

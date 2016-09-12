@@ -108,7 +108,8 @@
                     android:layout_alignParentStart="true"
                     android:padding="10dp"
                     android:background="#eee"
-                    android:lineSpacingExtra="5dp"/>
+                    android:lineSpacingExtra="5dp"
+                    android:textIsSelectable="true"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
