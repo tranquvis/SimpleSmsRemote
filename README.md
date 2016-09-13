@@ -1,8 +1,8 @@
 # SimpleSmsRemote
-Remote controll a phone by sms messages.
+Remotely control a phone through sms messages.
 
 
-Install the app on the device, which should be controlled, and send control commands from any messenger to it.
+Install the app on a device, which should be controlled, and send control commands from any messenger to it.
 
 ## Features
 * specify which modules are accessable and which phones are granted
@@ -15,4 +15,7 @@ Install the app on the device, which should be controlled, and send control comm
 * Hotspot (enable/disable)
 * Mobile Data Connection (enable/disable)
 
-##Contributors
+## Security
+Granted phones are required to be set for each module, so not everyone can control the device.
+However, if someone fakes his phone number he is able to use all enabled modules. (Note that this might be a complicated and illegal procedure. Moreover also common antitheft apps like avast trust the sender's phone number.
+## Contributors
