@@ -18,5 +18,5 @@ Granted phones are required to be set for each module, so not everyone can contr
 However, if someone fakes his phone number he is able to use all enabled modules. (Note that this might be a complicated and illegal procedure. Moreover also common antitheft apps like avast trust the sender's phone number.
 
 ## Copyright & License
-This Software is available under [MIT License](LICENSE.md).
+This software is available under [MIT License](LICENSE.md).
 
