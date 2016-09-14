@@ -4,7 +4,7 @@ Install the app on a device, which should be controlled, and send control comman
 
 ###<span style="color:blue">Will be available in Play Store soon!</span>
 
-**status:** <span style="color:red">under development</span>
+<span style="color:red">under development</span>
 
 ![Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
 
