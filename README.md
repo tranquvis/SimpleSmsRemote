@@ -18,4 +18,6 @@ Install the app on a device, which should be controlled, and send control comman
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
 However, if someone fakes his phone number he is able to use all enabled modules. (Note that this might be a complicated and illegal procedure. Moreover also common antitheft apps like avast trust the sender's phone number.
-## Contributors
+
+## Copyright & License
+
