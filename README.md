@@ -1,6 +1,7 @@
 # Simple sms remote
 Remotely control a phone through sms messages.
 Install the app on a device, which should be controlled, and send control commands from any messenger to it.
+
 ![Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
 
 ## Features
