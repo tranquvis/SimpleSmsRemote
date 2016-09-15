@@ -27,6 +27,7 @@ import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.HelpOverlay;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
+import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiverService;
 
@@ -103,7 +104,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             helpInfoDescTextView = (TextView) findViewById(R.id.textView_help_info_content);
             helpNextButton = (Button) findViewById(R.id.button_help_next);
 
-            findViewById(R.id.layout_help_overlay).setVisibility(View.VISIBLE);
+            View helpOverlayView = findViewById(R.id.layout_help_overlay);
+            helpOverlayView.setVisibility(View.VISIBLE);
+            helpOverlayView.setOnTouchListener(new OnSwipeTouchListener(this){
+                @Override
+                public void onSwipeLeft()
+                {
+                    showNextHelpView();
+                }
+
+                @Override
+                public void onSwipeRight()
+                {
+                    showPreviousHelpView();
+                }
+            });
             findViewById(R.id.layout_help_info).setVisibility(View.VISIBLE);
             helpOverlay = HelpOverlay.GetMainActivityOverlay();
             showNextHelpView();
@@ -121,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     recreate();
                 }
             });
+
         }
         else
         {
@@ -138,6 +154,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             startActivity(new Intent(this, HelpHowToControlActivity.class));
             return;
         }
+
+        updateHelpView(helpView);
+        if(helpViewPos > 0)
+        {
+            HelpOverlay.View previousHelpView = helpOverlay.getView(helpViewPos - 1);
+            if (previousHelpView.getHintContainerResId() >= 0)
+                findViewById(previousHelpView.getHintContainerResId())
+                        .setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void showPreviousHelpView()
+    {
+        if(helpViewPos - 1 < 0)
+            return;
+        helpViewPos--;
+        HelpOverlay.View helpView = helpOverlay.getView(helpViewPos);
+
+        updateHelpView(helpView);
+        HelpOverlay.View previousHelpView = helpOverlay.getView(helpViewPos + 1);
+        if (previousHelpView != null && previousHelpView.getHintContainerResId() >= 0)
+            findViewById(previousHelpView.getHintContainerResId())
+                    .setVisibility(View.INVISIBLE);
+    }
+
+    private void updateHelpView(HelpOverlay.View helpView)
+    {
         helpInfoTitleTextView.setText(helpView.getTitleRes());
         helpInfoDescTextView.setText(helpView.getDescRes());
         if(helpView.getHintContainerResId() >= 0)
@@ -157,11 +200,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             else
                 helpNextButton.setText(R.string.help_next);
 
-            HelpOverlay.View previousHelpView = helpOverlay.getView(helpViewPos - 1);
-            if(previousHelpView.getHintContainerResId() >= 0)
-                findViewById(previousHelpView.getHintContainerResId())
-                        .setVisibility(View.INVISIBLE);
-
             if(helpView.getTitleRes() == R.string.help_other_title)
             {
                 toolbar.showOverflowMenu();
@@ -171,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 toolbar.hideOverflowMenu();
             }
         }
-
     }
 
     private void startUpdatingReceiverStatusAsync()
