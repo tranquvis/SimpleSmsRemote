@@ -109,6 +109,8 @@ public class DataManager {
         }
         os.close();
         fis.close();
+
+        firstStart = false;
     }
 
     public static void SaveUserData(Context context) throws IOException {

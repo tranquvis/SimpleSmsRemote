@@ -42,12 +42,12 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/imageView_receiver_icon"
             android:src="@drawable/ic_app_light"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"/>
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"

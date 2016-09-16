@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     FloatingActionButton receiverChangeStateFab;
     TextView receiverLifeInfoTextView;
 
+    View helpOverlayView;
     boolean showHelpOverlay = false;
     HelpOverlay helpOverlay;
     int helpViewPos = -1;
@@ -104,13 +105,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             helpInfoDescTextView = (TextView) findViewById(R.id.textView_help_info_content);
             helpNextButton = (Button) findViewById(R.id.button_help_next);
 
-            View helpOverlayView = findViewById(R.id.layout_help_overlay);
+            helpOverlayView = findViewById(R.id.layout_help_overlay);
             helpOverlayView.setVisibility(View.VISIBLE);
             helpOverlayView.setOnTouchListener(new OnSwipeTouchListener(this){
                 @Override
                 public void onSwipeLeft()
                 {
-                    showNextHelpView();
+                    if(helpViewPos < helpOverlay.getHelpViewCount() - 1)
+                        showNextHelpView();
                 }
 
                 @Override
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(helpView == null)
         {
             //goto how to control
+            helpOverlayView.setVisibility(View.GONE);
             startActivity(new Intent(this, HelpHowToControlActivity.class));
             return;
         }
