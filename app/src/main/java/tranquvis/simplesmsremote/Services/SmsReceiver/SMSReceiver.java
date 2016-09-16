@@ -30,13 +30,13 @@ public class SMSReceiver extends BroadcastReceiver
     }
 
     @Override
-    public void onReceive(Context context, Intent intent)
+    public void onReceive(final Context context, Intent intent)
     {
         if(intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED"))
         {
             Bundle bundle = intent.getExtras(); //get the SMS message passed in
             SmsMessage smsMessage;
-            MySmsCommandMessage comMsg;
+            final MySmsCommandMessage comMsg;
             if (bundle != null){
                 //retrieve the SMS message received
                 try{
@@ -80,18 +80,20 @@ public class SMSReceiver extends BroadcastReceiver
                 {
                     if (DataManager.getUserData().getUserSettings().isReplyWithResult())
                     {
-                        MySmsService smsService = new MySmsService(context, new SmsServiceListener()
+                        MySmsService smsService = new MySmsService(context);
+                        smsService.setSmsServiceListener(new SmsServiceListener()
                         {
                             @Override
                             public void OnSmsSent(MySms sms, int resultCode)
                             {
-                                Log.i("ExecReplyMessage", "sms sent");
+                                DataManager.addLogEntry(LogEntry.Predefined.ReplyExecResultSent(
+                                        context, comMsg.getPhoneNumber()), context);
                             }
 
                             @Override
                             public void OnSmsDelivered(MySms sms, int resultCode)
                             {
-                                Log.i("ExecReplyMessage", "sms delivered");
+                                Log.i("ExecReplyMessage", "result sms delivered");
                             }
                         });
                         smsService.sendSMS(MySmsSimpleMessage.CreateResultReplyMessage(

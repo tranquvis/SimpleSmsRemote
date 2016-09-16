@@ -8,6 +8,7 @@
     <string name="log_title_after_boot_receiver_start_failed">Failed to start sms receiver after boot</string>
     <string name="log_title_reply_exec_result_failed">Failed to send command execution reply to sender</string>
     <string name="log_title_reply_exec_result_try_sending">Try to send result message to phone (%1$s)</string>
+    <string name="log_title_reply_exec_result_sent">Result message has been sent to phone (%1$s)</string>
 
     <string name="log_summary_com_exec_failed_perm_denied">
         android permissions denied

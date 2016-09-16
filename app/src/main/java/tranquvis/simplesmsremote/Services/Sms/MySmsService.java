@@ -20,29 +20,20 @@ public class MySmsService
     private static final String CODE_DELIVERED = "SMS_DELIVERED";
 
     private Context context;
-    private final SmsServiceListener smsServiceListener;
+    private SmsServiceListener smsServiceListener;
 
-    public MySmsService(Context context, SmsServiceListener smsServiceListener)
+    public MySmsService(Context context)
     {
         this.context = context;
+    }
+
+    public void setSmsServiceListener(SmsServiceListener smsServiceListener)
+    {
         this.smsServiceListener = smsServiceListener;
     }
 
     public void sendSMS(final MySms sms)
     {
-        try
-        {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(sms.getPhoneNumber(), null, sms.getMessage(), null, null);
-            Toast.makeText(context, "Message Sent", Toast.LENGTH_LONG).show();
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
-        }
-
-
         PendingIntent sentPI = PendingIntent.getBroadcast(context, 0, new Intent(CODE_SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
                 new Intent(CODE_DELIVERED), 0);
@@ -52,7 +43,8 @@ public class MySmsService
             @Override
             public void onReceive(Context arg0, Intent arg1)
             {
-                smsServiceListener.OnSmsSent(sms, getResultCode());
+                if(smsServiceListener != null)
+                    smsServiceListener.OnSmsSent(sms, getResultCode());
             }
         }, new IntentFilter(CODE_SENT));
 
@@ -61,7 +53,8 @@ public class MySmsService
             @Override
             public void onReceive(Context arg0, Intent arg1)
             {
-                smsServiceListener.OnSmsDelivered(sms, getResultCode());
+                if(smsServiceListener != null)
+                    smsServiceListener.OnSmsDelivered(sms, getResultCode());
             }
         }, new IntentFilter(CODE_DELIVERED));
 

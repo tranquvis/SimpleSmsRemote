@@ -176,6 +176,13 @@ public class LogEntry
                     R.string.log_title_reply_exec_result_try_sending), phone),
                     null, Calendar.getInstance().getTime(), Type.Info);
         }
+
+        public static LogEntry ReplyExecResultSent(Context context, String phone)
+        {
+            return new LogEntry(String.format(context.getString(
+                    R.string.log_title_reply_exec_result_sent), phone),
+                    null, Calendar.getInstance().getTime(), Type.Info);
+        }
     }
 
     public enum Type
