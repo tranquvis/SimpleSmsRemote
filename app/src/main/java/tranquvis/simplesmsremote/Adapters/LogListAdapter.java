@@ -64,6 +64,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
                 }
             };
             viewHolder.vToggleOverlay.setOnClickListener(onToggleClick);
+            viewHolder.vToggle.setVisibility(View.VISIBLE);
         }
         else {
             viewHolder.vToggle.setVisibility(View.GONE);

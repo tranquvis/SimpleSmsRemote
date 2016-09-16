@@ -285,7 +285,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             if(!isModuleEnabled)
                 Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
                     .show();
-            //TODO
         } catch (IOException e)
         {
             Toast.makeText(this, R.string.alert_save_data_failed,

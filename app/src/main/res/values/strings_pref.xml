@@ -14,6 +14,6 @@
 
     <string name="pref_title_send_result_sms_back">Reply to sender with result message</string>
     <string name="pref_summary_send_result_sms_back">
-        Send an result message back to sender-phone after commands were executed.
+        Send a result message back to sender-phone after commands were executed.
     </string>
 </resources>

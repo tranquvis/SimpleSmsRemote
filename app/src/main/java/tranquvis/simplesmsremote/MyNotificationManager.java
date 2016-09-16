@@ -56,9 +56,8 @@ public class MyNotificationManager
         {
             text += res.getString(R.string.successful_commands_head) + "\r\n - ";
             text += StringUtils.join(commandMessage.getSuccessfulCommands(), "\r\n - ");
+            text += "\r\n";
         }
-
-        text += "\r\n";
 
         if(!commandMessage.getFailedCommands().isEmpty())
         {

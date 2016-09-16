@@ -24,7 +24,7 @@ public class ControlCommand
 
     public static ControlCommand getFromCommand(String command)
     {
-        command = command.trim();
+        command = command.trim().toLowerCase();
         for (ControlCommand com : ALL)
         {
             if(com.command.equals(command))
@@ -87,16 +87,17 @@ public class ControlCommand
     {
         ControlModule module = getModule();
         ControlModuleUserData moduleUserData = module.getUserData();
-        if(moduleUserData == null)
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context, this),
-                    context);
-            return false;
-        }
+
         if(!module.isCompatible())
         {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
                     this), context);
+            return false;
+        }
+        if(moduleUserData == null)
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context, this),
+                    context);
             return false;
         }
         if(!moduleUserData.isPhoneGranted(controlSms.getPhoneNumber()))

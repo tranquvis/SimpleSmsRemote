@@ -84,7 +84,8 @@ public class MySmsCommandMessage implements MySms
 
         //check key
         if(messageContent.length() < KEY.length()
-                || !messageContent.substring(0, KEY.length()).equals(KEY))
+                || !messageContent.substring(0, KEY.length()).toLowerCase()
+                .equals(KEY.toLowerCase()))
             return null;
 
         //retrieve control actions
