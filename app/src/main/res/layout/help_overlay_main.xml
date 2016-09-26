@@ -88,7 +88,6 @@
             android:paddingBottom="10dp"
             android:background="#fff"
             android:layout_below="@+id/layout_help_receiver_frame"
-            android:layout_alignStart="@+id/layout_help_info"
             android:layout_marginLeft="4dp"
             android:id="@+id/layout_help_receiver_desc">
 
