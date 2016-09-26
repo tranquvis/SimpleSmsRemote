@@ -4,7 +4,7 @@ Install the app on a device, which should be controlled, and send control comman
 
 **compatible android versions:** 4.0.3 (Ice Cream Sandwich) and higher
 
-![Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
+[Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
 
 #### Will be available in Play Store soon!
 **status:** under development
