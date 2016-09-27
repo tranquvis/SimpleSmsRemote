@@ -40,7 +40,7 @@
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".Activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
