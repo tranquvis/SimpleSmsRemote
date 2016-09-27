@@ -18,8 +18,8 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="FloatingActionButtonFewMargin">
-        <item name="android:layout_marginLeft">-10dp</item>
-        <item name="android:layout_marginTop">-8dp</item>
+        <item name="android:layout_marginLeft">-8dp</item>
+        <item name="android:layout_marginTop">-10dp</item>
         <item name="android:layout_marginRight">-8dp</item>
         <item name="android:layout_marginBottom">-10dp</item>
     </style>
