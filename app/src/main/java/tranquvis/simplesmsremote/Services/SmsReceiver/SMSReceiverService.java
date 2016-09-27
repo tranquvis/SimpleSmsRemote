@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -18,6 +19,8 @@ import tranquvis.simplesmsremote.R;
 public class SMSReceiverService extends Service
 {
     public static final String PREFERENCE_FILENAME = "sms_receiver_service_pref";
+
+    public final String TAG = getClass().getName();
 
     private SMSReceiver smsReceiver = new SMSReceiver(this);
 
@@ -57,9 +60,10 @@ public class SMSReceiverService extends Service
         }
         catch (Exception e)
         {
-
         }
+        Log.i(TAG, getString(R.string.receiver_stopped));
         Toast.makeText(this, R.string.receiver_stopped, Toast.LENGTH_SHORT).show();
+        setStatus(this, ReceiverStatus.Stopped);
         super.onDestroy();
     }
 
@@ -100,7 +104,6 @@ public class SMSReceiverService extends Service
 
     public static void stop(Context context)
     {
-        setStatus(context, ReceiverStatus.Stopped);
         context.stopService(new Intent(context, SMSReceiverService.class));
     }
 

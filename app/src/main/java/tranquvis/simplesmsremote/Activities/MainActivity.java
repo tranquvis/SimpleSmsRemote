@@ -1,7 +1,9 @@
 package tranquvis.simplesmsremote.Activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +31,7 @@ import tranquvis.simplesmsremote.HelpOverlay;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
 import tranquvis.simplesmsremote.R;
+import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiver;
 import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiverService;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener
@@ -78,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             finish();
             return;
         }
+
+        SharedPreferences preferencesWriter = getSharedPreferences(
+                SMSReceiverService.PREFERENCE_FILENAME, Context.MODE_MULTI_PROCESS);
+        preferencesWriter.edit().clear().commit();
 
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this,
