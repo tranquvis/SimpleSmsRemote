@@ -6,9 +6,9 @@
                 android:id="@+id/layout_help_overlay"
                 android:clickable="true"
                 android:background="#77000000"
-                android:visibility="gone"
                 tools:context="tranquvis.simplesmsremote.Activities.MainActivity"
-                tools:showIn="@layout/activity_main">
+                tools:showIn="@layout/activity_main"
+                android:visibility="gone">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -48,7 +48,8 @@
             android:backgroundTint="@color/color_state_list_primary"
             android:textColor="#fff"
             android:text="@string/help_take_a_tour"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
 
         <Button
             android:layout_width="wrap_content"
