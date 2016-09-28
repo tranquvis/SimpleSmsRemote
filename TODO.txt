@@ -1,0 +1,2 @@
+TODO change PreferenceScreen to CompatPreferenceScreen
+TODO log entry for stopping receiver not saved in apis below 21

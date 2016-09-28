@@ -18,7 +18,8 @@ public class BootCompletedReceiver extends BroadcastReceiver {
         try {
             DataManager.LoadUserData(context);
             if(DataManager.getUserData().getUserSettings().isStartReceiverOnSystemStart()) {
-                SMSReceiverService.start(context);
+                SMSReceiverService.start(context,
+                        DataManager.getUserData().getUserSettings().isReceiverStartForeground());
                 Log.i("receiver", "service started successful");
             }
         } catch (Exception e) {

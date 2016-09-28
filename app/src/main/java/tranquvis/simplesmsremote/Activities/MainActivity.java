@@ -82,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return;
         }
 
-        SharedPreferences preferencesWriter = getSharedPreferences(
-                SMSReceiverService.PREFERENCE_FILENAME, Context.MODE_MULTI_PROCESS);
-        preferencesWriter.edit().clear().commit();
-
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this,
                 ControlModule.getAllControlActions());
@@ -292,13 +288,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     new String[]{ Manifest.permission.RECEIVE_SMS}, CODE_PERM_REQUEST_RECEIVE_SMS);
             return;
         }
-        SMSReceiverService.start(this);
+        SMSReceiverService.start(getBaseContext(),
+                DataManager.getUserData().getUserSettings().isReceiverStartForeground());
         updateReceiverStatus();
     }
 
     private void stopSMSReceiverService()
     {
-        SMSReceiverService.stop(this);
+        SMSReceiverService.stop(getBaseContext());
         updateReceiverStatus();
     }
 

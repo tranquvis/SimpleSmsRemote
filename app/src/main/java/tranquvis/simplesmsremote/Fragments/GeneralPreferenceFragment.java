@@ -11,6 +11,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -27,6 +28,8 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
     private static final String KEY_NOTIFY_COMMANDS_EXECUTED =
             "pref_switch_notify_sms_commands_executed";
     private static final String KEY_REPLY_WITH_RESULT = "pref_switch_reply_with_result";
+    private static final String KEY_RECEIVER_START_FOREGROUND =
+            "pref_switch_receiver_start_foreground";
 
     private static final int RESULT_CODE_PERM_REQUEST_FOR_REPLY_WITH_RESULT = 1;
 
@@ -44,6 +47,18 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
                 userSettings.isNotifyCommandsExecuted());
         ((SwitchPreference)findPreference(KEY_REPLY_WITH_RESULT)).setChecked(
                 userSettings.isReplyWithResult());
+
+        final SwitchPreference prefReceiverStartForeground =
+                (SwitchPreference) findPreference(KEY_RECEIVER_START_FOREGROUND);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        {
+            prefReceiverStartForeground.setEnabled(false);
+            prefReceiverStartForeground.setChecked(true);
+        }
+        else
+        {
+            prefReceiverStartForeground.setChecked(userSettings.isReceiverStartForeground());
+        }
     }
 
 
@@ -95,6 +110,10 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
                 }
                 else
                     DataManager.getUserData().getUserSettings().setReplyWithResult(false);
+                break;
+            case KEY_RECEIVER_START_FOREGROUND:
+                DataManager.getUserData().getUserSettings().setReceiverStartForeground(
+                        ((SwitchPreference)pref).isChecked());
                 break;
         }
     }

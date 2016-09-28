@@ -45,6 +45,8 @@
     <string name="notification_sms_command_received">sms command received</string>
     <string name="notification_title_start_receiver_after_boot_failed">Failed to start sms command receiver</string>
     <string name="notification_content_start_receiver_after_boot_failed">No sms commands can be received at the moment.</string>
+    <string name="notification_title_permanent_status">Sms Receiver is running</string>
+    <string name="notification_content_permanent_status">Sms commands can be sent</string>
     <string name="successful_commands_head">Successful:</string>
     <string name="failed_commands_head">Failed:</string>
     <string name="permission_receive_sms_not_granted">The app cannot process remote commands without having the permission to receive sms.</string>

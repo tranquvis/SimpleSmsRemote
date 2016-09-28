@@ -1,5 +1,8 @@
 package tranquvis.simplesmsremote.Services.SmsReceiver;
 
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,16 +12,23 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
+import tranquvis.simplesmsremote.MyNotificationManager;
 import tranquvis.simplesmsremote.R;
 
 public class SMSReceiverService extends Service
 {
     public static final String PREFERENCE_FILENAME = "sms_receiver_service_pref";
+    public static final int ID = 986789;
+
+    private static final String EXTRA_START_FOREGROUND = "start_foreground";
+
+    private static boolean RUNNING;
 
     public final String TAG = getClass().getName();
 
@@ -37,19 +47,19 @@ public class SMSReceiverService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        switch (getStatus(this))
+        if(!RUNNING)
         {
-            case NOT_STARTED:
-            case Stopped:
-                Toast.makeText(this, R.string.receiver_started, Toast.LENGTH_SHORT).show();
-                registerSMSReceiver();
-                break;
-            case RUNNING:
-                break;
+            Toast.makeText(this, R.string.receiver_started, Toast.LENGTH_SHORT).show();
+
+            if(intent.hasExtra(EXTRA_START_FOREGROUND))
+                startForeground(ID,
+                        MyNotificationManager.getInstance(this).PermanentStatusNotification());
+            registerSMSReceiver();
+
+            RUNNING = true;
         }
 
-        setStatus(this, ReceiverStatus.RUNNING);
-        return super.onStartCommand(intent, flags, startId);
+        return Service.START_STICKY;
     }
 
     @Override
@@ -61,9 +71,11 @@ public class SMSReceiverService extends Service
         catch (Exception e)
         {
         }
+
         Log.i(TAG, getString(R.string.receiver_stopped));
+        RUNNING = false;
         Toast.makeText(this, R.string.receiver_stopped, Toast.LENGTH_SHORT).show();
-        setStatus(this, ReceiverStatus.Stopped);
+
         super.onDestroy();
     }
 
@@ -83,13 +95,6 @@ public class SMSReceiverService extends Service
         DataManager.addLogEntry(LogEntry.Predefined.SmsReceiverStopped(this),this);
     }
 
-    private static void setStatus(Context context, ReceiverStatus status)
-    {
-        SharedPreferences preferencesWriter = context.getSharedPreferences(PREFERENCE_FILENAME,
-                Context.MODE_MULTI_PROCESS);
-        preferencesWriter.edit().putString("status", status.name()).commit();
-    }
-
     private static void setStartTime(Context context, Date time)
     {
         SharedPreferences preferencesWriter = context.getSharedPreferences(PREFERENCE_FILENAME,
@@ -97,9 +102,12 @@ public class SMSReceiverService extends Service
         preferencesWriter.edit().putString("time", String.valueOf(time.getTime())).commit();
     }
 
-    public static void start(Context context)
+    public static void start(Context context, boolean foreground)
     {
-        context.startService(new Intent(context, SMSReceiverService.class));
+        Intent intent = new Intent(context, SMSReceiverService.class);
+        if(foreground)
+            intent.putExtra(EXTRA_START_FOREGROUND, true);
+        context.startService(intent);
     }
 
     public static void stop(Context context)
@@ -109,7 +117,13 @@ public class SMSReceiverService extends Service
 
     public static boolean isRunning(Context context)
     {
-        return getStatus(context) == ReceiverStatus.RUNNING;
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (SMSReceiverService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static Date getStartTime(Context context)
@@ -124,13 +138,5 @@ public class SMSReceiverService extends Service
             setStartTime(context, Calendar.getInstance().getTime());
             return getStartTime(context);
         }
-    }
-
-    public static ReceiverStatus getStatus(Context context)
-    {
-        SharedPreferences preferencesReader = context.getSharedPreferences(PREFERENCE_FILENAME,
-                Context.MODE_MULTI_PROCESS);
-        return ReceiverStatus.valueOf(preferencesReader.getString("status",
-                ReceiverStatus.NOT_STARTED.name()));
     }
 }
