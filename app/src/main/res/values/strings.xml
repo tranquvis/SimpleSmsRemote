@@ -4,6 +4,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_log">History</string>
     <string name="title_activity_help_how_to_control">How to control</string>
+    <string name="title_activity_configure_control_action">Configure control module</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_log">Log</string>
@@ -26,10 +27,8 @@
     <string name="alert_sure_to_clear_log">Clear whole log?</string>
     <string name="ok">okay</string>
     <string name="receiver_service_title">Sms Receiver</string>
-    <string name="title_activity_configure_control_action">Configure Control Action</string>
     <string name="commands_title">Commands</string>
     <string name="granted_phones_title">Granted phones</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="enable_module">enable module</string>
     <string name="disable_module">disable module</string>
     <string name="save">save</string>
