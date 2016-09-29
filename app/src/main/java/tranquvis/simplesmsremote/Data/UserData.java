@@ -68,7 +68,7 @@ public class UserData implements Serializable
         {
             for(String phone : moduleUserData.getGrantedPhones())
             {
-                if(phone != null && phone.length() > 0)
+                if(phone != null && phone.length() > 0 && !phones.contains(phone))
                     phones.add(phone);
             }
         }
