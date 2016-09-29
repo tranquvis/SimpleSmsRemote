@@ -16,6 +16,7 @@ Install the app on a device, which should be controlled, and send control comman
 * start sms receiver after boot
 * send multiple commands sith one message
 * reply to sender phone with result message 
+* possibility to show permanent notification with reciver status (required in android versions below 5.0 Lollipop)
 * view log of sms receiver
 
 ### Modules
