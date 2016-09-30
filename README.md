@@ -22,6 +22,7 @@ Install the app on a device, which should be controlled, and send control comman
 ### Modules
 * Hotspot (enable/disable)
 * Mobile Data Connection (enable/disable)
+* Battery (fetch level)
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
