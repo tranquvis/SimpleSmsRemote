@@ -38,6 +38,7 @@ public class MySmsService
         PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
                 new Intent(CODE_DELIVERED), 0);
 
+        //TODO set timeout
         context.registerReceiver(new BroadcastReceiver()
         {
             @Override
