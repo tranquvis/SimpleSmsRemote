@@ -56,6 +56,8 @@
     <string name="result_msg_commands_exec_partly_success">command execution partly successful</string>
     <string name="result_msg_commands_exec_failed">command execution failed</string>
     <string name="result_msg_battery_level">battery level: %1$.0f%%</string>
+    <string name="result_msg_battery_is_charging_false">battery is not charging</string>
+    <string name="result_msg_battery_is_charging_true">battery is charging</string>
 
     <string name="hint_phone_edit">phone number</string>
 

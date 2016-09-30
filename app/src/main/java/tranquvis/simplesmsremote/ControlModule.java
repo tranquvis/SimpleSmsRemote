@@ -53,7 +53,8 @@ public class ControlModule
 
         BATTERY = new ControlModule("battery",
                 new ControlCommand[]{
-                        ControlCommand.BATTERY_LEVEL_FETCH
+                        ControlCommand.BATTERY_LEVEL_FETCH,
+                        ControlCommand.BATTERY_IS_CHARGING
                 },
                 -1, -1,
                 new String[]{},

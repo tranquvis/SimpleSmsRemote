@@ -30,4 +30,14 @@ public class BatteryHelper
 
         return level / (float)scale;
     }
+
+    public static boolean IsBatteryCharging(Context context)
+    {
+        Intent batteryStatus = getBatteryStatusIntent(context);
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                status == BatteryManager.BATTERY_STATUS_FULL;
+
+        return  isCharging;
+    }
 }
