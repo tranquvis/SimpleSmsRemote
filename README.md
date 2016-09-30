@@ -9,7 +9,7 @@ Install the app on a device, which should be controlled, and send control comman
 #### Will be available in Play Store soon!
 **status:** under development
 
-[download alpha](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/app/app-release-alpha-0.2.apk)
+[download alpha](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/app/app-release-alpha-0.3.apk)
 
 ## Features
 * specify which modules are accessable and which phones are granted
@@ -22,6 +22,7 @@ Install the app on a device, which should be controlled, and send control comman
 ### Modules
 * Hotspot (enable/disable)
 * Mobile Data Connection (enable/disable)
+* Battery (fetch level)
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
