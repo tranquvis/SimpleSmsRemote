@@ -15,10 +15,11 @@ import tranquvis.simplesmsremote.Helper.*;
  */
 public class ControlModule
 {
-    private static final ControlModule[] All_ACTIONS;
+    private static final ControlModule[] All_MODULES;
 
     public static final ControlModule WIFI_HOTSPOT;
     public static final ControlModule MOBILE_DATA;
+    public static final ControlModule BATTERY;
 
     static {
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
@@ -50,14 +51,24 @@ public class ControlModule
                 R.string.control_module_desc_mobile_data,
                 R.drawable.ic_network_cell_grey_700_36dp);
 
-        All_ACTIONS = new ControlModule[]{
-                WIFI_HOTSPOT, MOBILE_DATA
+        BATTERY = new ControlModule("battery",
+                new ControlCommand[]{
+                        ControlCommand.BATTERY_LEVEL_FETCH
+                },
+                -1, -1,
+                new String[]{},
+                R.string.control_module_title_battery,
+                R.string.control_module_desc_battery,
+                R.drawable.ic_battery_50_grey_700_36dp);
+
+        All_MODULES = new ControlModule[]{
+                WIFI_HOTSPOT, MOBILE_DATA, BATTERY
         };
     }
 
     public static ControlModule getFromId(String id)
     {
-        for (ControlModule controlModule : All_ACTIONS)
+        for (ControlModule controlModule : All_MODULES)
         {
             if (controlModule.getId().equals(id))
                 return controlModule;
@@ -67,7 +78,7 @@ public class ControlModule
 
     public static ControlModule getFromCommand(ControlCommand command)
     {
-        for (ControlModule controlModule : All_ACTIONS)
+        for (ControlModule controlModule : All_MODULES)
         {
             if (ArrayUtils.contains(controlModule.getCommands(), command))
                 return controlModule;
@@ -152,7 +163,7 @@ public class ControlModule
     }
 
     /**
-     * check if control action is compatible with the executing android system
+     * check if control module is compatible with the executing android system
      * @return true if compatible
      */
     public boolean isCompatible()
@@ -179,7 +190,7 @@ public class ControlModule
     }
 
     /**
-     * check if required permissions for this action are granted
+     * check if required permissions for this module are granted
      * @param context app context
      * @return true if granted
      */
@@ -188,8 +199,8 @@ public class ControlModule
         return  PermissionHelper.AppHasPermissions(context, requiredPermissions);
     }
 
-    public static ControlModule[] getAllControlActions()
+    public static ControlModule[] getAllControlModules()
     {
-        return All_ACTIONS.clone();
+        return All_MODULES.clone();
     }
 }

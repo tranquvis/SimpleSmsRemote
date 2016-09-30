@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.MainActivity;
@@ -44,7 +45,8 @@ public class MyNotificationManager
     public static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
     public static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
 
-    public void notifySmsCommandsReceived(MySmsCommandMessage commandMessage)
+    public void notifySmsCommandsExecuted(MySmsCommandMessage commandMessage,
+                                          List<ControlCommand.ExecutionResult> executionResults)
     {
         final Resources res = context.getResources();
 
@@ -52,19 +54,25 @@ public class MyNotificationManager
         final String title = res.getString(R.string.notification_sms_command_received);
 
         String text = "";
+        List<String> resultMessages = new ArrayList<>();
 
-        if(!commandMessage.getSuccessfulCommands().isEmpty())
+        for (ControlCommand.ExecutionResult execResult : executionResults)
         {
-            text += res.getString(R.string.successful_commands_head) + "\r\n - ";
-            text += StringUtils.join(commandMessage.getSuccessfulCommands(), "\r\n - ");
-            text += "\r\n";
+            if(execResult.getCustomResultMessage() != null)
+            {
+                resultMessages.add("[info] " + execResult.getCustomResultMessage());
+            }
+            else if(execResult.isSuccess())
+            {
+                resultMessages.add("[success] " + execResult.getCommand().toString());
+            }
+            else
+            {
+                resultMessages.add("[failed] " + execResult.getCommand().toString());
+            }
         }
 
-        if(!commandMessage.getFailedCommands().isEmpty())
-        {
-            text += res.getString(R.string.failed_commands_head) + "\r\n - ";
-            text += StringUtils.join(commandMessage.getFailedCommands(), "\r\n - ");
-        }
+        text = StringUtils.join(resultMessages, "\r\n");
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setDefaults(Notification.DEFAULT_ALL)

@@ -3,7 +3,6 @@ package tranquvis.simplesmsremote.Helper;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.telephony.TelephonyManager;
 
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -15,16 +14,16 @@ import java.lang.reflect.Method;
  */
 public class MobileDataHelper
 {
-    public static void setMobileDataState(Context context, boolean enabled) throws Exception {
+    public static void SetMobileDataState(Context context, boolean enabled) throws Exception {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            setMobileDataState2(context, enabled);
+            SetMobileDataState2(context, enabled);
         else
-            setMobileDataState1(context, enabled);
+            SetMobileDataState1(context, enabled);
     }
 
-    public static boolean getMobileDataState(Context context) throws Exception {
+    public static boolean GetMobileDataState(Context context) throws Exception {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return getMobileDataState2(context);
+            return GetMobileDataState2(context);
         else
             throw new NotImplementedException("only for android version 5 and above with root access");
     }
@@ -32,7 +31,7 @@ public class MobileDataHelper
     /**
      * For android versions 2.3 to 4.4
      */
-    private static void setMobileDataState1(Context context, boolean enabled) throws Exception
+    private static void SetMobileDataState1(Context context, boolean enabled) throws Exception
     {
         final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final Class conmanClass = Class.forName(conman.getClass().getName());
@@ -50,7 +49,7 @@ public class MobileDataHelper
      * For android versions 5 and above
      * Needs root access!
      */
-    private static void setMobileDataState2(Context context, boolean enabled) throws Exception
+    private static void SetMobileDataState2(Context context, boolean enabled) throws Exception
     {
         throw new NotImplementedException("not tested so far");
         /*
@@ -68,7 +67,7 @@ public class MobileDataHelper
      * For android versions 5 and above
      * Needs root access!
      */
-    private static boolean getMobileDataState2(Context context) throws Exception
+    private static boolean GetMobileDataState2(Context context) throws Exception
     {
         throw new NotImplementedException("not tested so far");
         /*

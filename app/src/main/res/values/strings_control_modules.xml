@@ -9,4 +9,9 @@
     <string name="control_module_desc_mobile_data">
         Enable and disable mobile data (internet connection).
     </string>
+
+    <string name="control_module_title_battery">Battery</string>
+    <string name="control_module_desc_battery">
+        Get status of the devices battery.
+    </string>
 </resources>

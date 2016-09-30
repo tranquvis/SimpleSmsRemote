@@ -1,7 +1,5 @@
 package tranquvis.simplesmsremote;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -38,9 +36,9 @@ public class MyNotificationManagerTest extends AppContextTest
         MySmsCommandMessage smsCommandMessage = new MySmsCommandMessage("000");
         smsCommandMessage.addControlCommand(ControlCommand.WIFI_HOTSPOT_DISABLE);
         smsCommandMessage.addControlCommand(ControlCommand.MOBILE_DATA_ENABLE);
-        List<ControlCommand> failedCommands = new ArrayList<>();
-        failedCommands.add(ControlCommand.MOBILE_DATA_ENABLE);
-        notificationManager.notifySmsCommandsReceived(smsCommandMessage);
+        List<ControlCommand.ExecutionResult> executionResults = new ArrayList<>();
+        executionResults.add(new ControlCommand.ExecutionResult(ControlCommand.MOBILE_DATA_ENABLE));
+        notificationManager.notifySmsCommandsExecuted(smsCommandMessage, executionResults);
     }
 
     @Test

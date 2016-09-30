@@ -37,6 +37,8 @@ public class SMSReceiver extends BroadcastReceiver
             Bundle bundle = intent.getExtras(); //get the SMS message passed in
             SmsMessage smsMessage;
             final MySmsCommandMessage comMsg;
+            List<ControlCommand.ExecutionResult> executionResults;
+            boolean hasExecResultWithForceSendingResult = false;
             if (bundle != null){
                 //retrieve the SMS message received
                 try{
@@ -56,16 +58,18 @@ public class SMSReceiver extends BroadcastReceiver
                     DataManager.LoadUserData(context);
 
                     //execute commands
-                    List<ControlCommand> failedCommands = new ArrayList<>();
+                    executionResults = new ArrayList<>();
                     for(ControlCommand command : comMsg.getControlCommands())
                     {
-                        if(!command.execute(context, comMsg))
-                            failedCommands.add(command);
+                        ControlCommand.ExecutionResult result = command.execute(context, comMsg);
+                        executionResults.add(result);
+                        if(result.isForceSendingResultSmsMessage())
+                            hasExecResultWithForceSendingResult = true;
                     }
-                    comMsg.setFailedCommands(failedCommands);
 
                     if(DataManager.getUserData().getUserSettings().isNotifyCommandsExecuted())
-                        MyNotificationManager.getInstance(context).notifySmsCommandsReceived(comMsg);
+                        MyNotificationManager.getInstance(context).notifySmsCommandsExecuted(
+                                comMsg, executionResults);
 
                 }
                 catch(Exception e)
@@ -78,9 +82,12 @@ public class SMSReceiver extends BroadcastReceiver
 
                 try
                 {
-                    if (DataManager.getUserData().getUserSettings().isReplyWithResult())
+                    boolean replyWithDefaultResult = DataManager.getUserData().getUserSettings().
+                            isReplyWithResult();
+                    MySmsService smsService;
+                    if(replyWithDefaultResult || hasExecResultWithForceSendingResult)
                     {
-                        MySmsService smsService = new MySmsService(context);
+                        smsService = new MySmsService(context);
                         smsService.setSmsServiceListener(new SmsServiceListener()
                         {
                             @Override
@@ -96,10 +103,9 @@ public class SMSReceiver extends BroadcastReceiver
                                 Log.i("ExecReplyMessage", "result sms delivered");
                             }
                         });
+
                         smsService.sendSMS(MySmsSimpleMessage.CreateResultReplyMessage(
-                                context, comMsg));
-                        DataManager.addLogEntry(LogEntry.Predefined.ReplyExecResultTrySending(
-                                context, comMsg.getPhoneNumber()), context);
+                                context, comMsg, executionResults));
                     }
                 }
                 catch (Exception e)

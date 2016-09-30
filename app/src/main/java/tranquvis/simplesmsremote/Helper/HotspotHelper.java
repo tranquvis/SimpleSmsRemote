@@ -14,7 +14,7 @@ import tranquvis.simplesmsremote.Data.LogEntry;
  */
 public class HotspotHelper
 {
-    public static boolean isHotspotEnabled(Context context) throws Exception
+    public static boolean IsHotspotEnabled(Context context) throws Exception
     {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         Method method = wifimanager.getClass().getDeclaredMethod("isWifiApEnabled");
@@ -27,7 +27,7 @@ public class HotspotHelper
      * @param context
      * @param state true if hotspot should be enabled, false if disabled
      */
-    public static void setHotspotState(Context context, boolean state) throws Exception {
+    public static void SetHotspotState(Context context, boolean state) throws Exception {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         wifimanager.setWifiEnabled(state);
 

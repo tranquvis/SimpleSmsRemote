@@ -5,6 +5,7 @@ import android.content.Context;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
+import tranquvis.simplesmsremote.Helper.BatteryHelper;
 import tranquvis.simplesmsremote.Helper.HotspotHelper;
 import tranquvis.simplesmsremote.Helper.MobileDataHelper;
 import tranquvis.simplesmsremote.Services.Sms.MySms;
@@ -18,9 +19,10 @@ public class ControlCommand
     public static final ControlCommand WIFI_HOTSPOT_DISABLE = new ControlCommand("disable hotspot");
     public static final ControlCommand MOBILE_DATA_ENABLE = new ControlCommand("enable mobile data");
     public static final ControlCommand MOBILE_DATA_DISABLE = new ControlCommand("disable mobile data");
+    public static final ControlCommand BATTERY_LEVEL_FETCH = new ControlCommand("fetch battery level", true);
 
     public static final ControlCommand[] ALL = {WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE,
-            MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE};
+            MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE, BATTERY_LEVEL_FETCH};
 
     public static ControlCommand getFromCommand(String command)
     {
@@ -33,43 +35,72 @@ public class ControlCommand
         return null;
     }
 
-    private String command;
+    private static ExecutionResult lastExec;
 
-    private ControlCommand(String command)
+    public static ExecutionResult getLastExec()
     {
-        this.command = command;
+        return lastExec;
     }
 
 
-    public boolean execute(Context context, MySms controlSms)
+    private String command;
+    private boolean sendsResultSmsItself;
+
+    private ControlCommand(String command, boolean sendsResultSmsItself)
     {
+        this.command = command;
+        this.sendsResultSmsItself = sendsResultSmsItself;
+    }
+
+    private ControlCommand(String command)
+    {
+        this(command, false);
+    }
+    public ExecutionResult execute(Context context, MySms controlSms)
+    {
+        lastExec = new ExecutionResult(this);
+
         if(!isExecutionGranted(controlSms, context))
-            return false;
-
-        try
+            lastExec.setSuccess(false);
+        else
         {
-            if (this.equals(ControlCommand.WIFI_HOTSPOT_ENABLE)) {
-                HotspotHelper.setHotspotState(context, true);
-            }
-            else if (this.equals(ControlCommand.WIFI_HOTSPOT_DISABLE)) {
-                HotspotHelper.setHotspotState(context, false);
-            }
-            else if (this.equals(ControlCommand.MOBILE_DATA_ENABLE)) {
-                MobileDataHelper.setMobileDataState(context, true);
-            }
-            else if (this.equals(ControlCommand.MOBILE_DATA_DISABLE)) {
-                MobileDataHelper.setMobileDataState(context, false);
-            }
+            try
+            {
+                if (this.equals(ControlCommand.WIFI_HOTSPOT_ENABLE))
+                {
+                    HotspotHelper.SetHotspotState(context, true);
+                }
+                else if (this.equals(ControlCommand.WIFI_HOTSPOT_DISABLE))
+                {
+                    HotspotHelper.SetHotspotState(context, false);
+                }
+                else if (this.equals(ControlCommand.MOBILE_DATA_ENABLE))
+                {
+                    MobileDataHelper.SetMobileDataState(context, true);
+                }
+                else if (this.equals(ControlCommand.MOBILE_DATA_DISABLE))
+                {
+                    MobileDataHelper.SetMobileDataState(context, false);
+                }
+                else if (this.equals(ControlCommand.BATTERY_LEVEL_FETCH))
+                {
+                    float batteryLevel = BatteryHelper.GetBatteryLevel(context);
+                    lastExec.setCustomResultMessage(context.getResources().getString(
+                            R.string.result_msg_battery_level, batteryLevel*100));
+                    lastExec.setForceSendingResultSmsMessage(true);
+                }
 
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
-            return true;
+                DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, this), context);
+                lastExec.setSuccess(true);
+            } catch (Exception e)
+            {
+                DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, this),
+                        context);
+                lastExec.setSuccess(false);
+            }
         }
-        catch (Exception e)
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, this),
-                    context);
-            return false;
-        }
+
+        return lastExec;
     }
 
     @Override
@@ -114,5 +145,63 @@ public class ControlCommand
         }
 
         return true;
+    }
+
+    public boolean isSendsResultSmsItself()
+    {
+        return sendsResultSmsItself;
+    }
+
+    public static class ExecutionResult
+    {
+        private ControlCommand command;
+        private boolean success = true;
+        private String customResultMessage = null;
+        private boolean forceSendingResultSmsMessage = false;
+
+        public ExecutionResult(ControlCommand command)
+        {
+            this.command = command;
+        }
+
+        public boolean isSuccess()
+        {
+            return success;
+        }
+
+        public void setSuccess(boolean success)
+        {
+            this.success = success;
+        }
+
+        public String getCustomResultMessage()
+        {
+            return customResultMessage;
+        }
+
+        public void setCustomResultMessage(String customResultMessage)
+        {
+            this.customResultMessage = customResultMessage;
+        }
+
+        public ControlCommand getCommand()
+        {
+            return command;
+        }
+
+        public void setCommand(ControlCommand command)
+        {
+            this.command = command;
+        }
+
+        public boolean isForceSendingResultSmsMessage()
+        {
+            return forceSendingResultSmsMessage;
+        }
+
+        public void setForceSendingResultSmsMessage(boolean forceSendingResultSmsMessage)
+        {
+            this.forceSendingResultSmsMessage = forceSendingResultSmsMessage;
+        }
     }
 }

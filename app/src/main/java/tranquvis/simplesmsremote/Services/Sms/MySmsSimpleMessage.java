@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.ControlCommand;
@@ -36,30 +37,31 @@ public class MySmsSimpleMessage implements MySms
         return message;
     }
 
-    public static MySmsSimpleMessage CreateResultReplyMessage(Context context,
-                                                              MySmsCommandMessage receivedMsg)
+    public static MySmsSimpleMessage CreateResultReplyMessage(
+            Context context, MySmsCommandMessage receivedMsg,
+            List<ControlCommand.ExecutionResult> executionResults)
     {
-        Resources res = context.getResources();
+        String text = "";
+        List<String> resultMessages = new ArrayList<>();
 
-        //1: success, 0: partly success, -1 failed
-        int result = receivedMsg.getSuccessfulCommands().isEmpty() ? -1 :
-                (receivedMsg.getFailedCommands().isEmpty() ? 1 : 0);
-
-        int titleRes = result == 1 ? R.string.result_msg_commands_exec_success
-                : (result == 0 ? R.string.result_msg_commands_exec_partly_success
-                    : R.string.result_msg_commands_exec_failed
-                );
-
-        String message = "rc-result " + res.getString(titleRes);
-
-        if(result == 0)
+        for (ControlCommand.ExecutionResult execResult : executionResults)
         {
-            message += res.getString(R.string.successful_commands_head) + "\r\n - ";
-            message += StringUtils.join(receivedMsg.getSuccessfulCommands(), "\r\n - ");
-            message += "\r\n";
-            message += res.getString(R.string.failed_commands_head) + "\r\n - ";
-            message += StringUtils.join(receivedMsg.getFailedCommands(), "\r\n - ");
+            if(execResult.getCustomResultMessage() != null)
+            {
+                resultMessages.add("[info] " + execResult.getCustomResultMessage());
+            }
+            else if(execResult.isSuccess())
+            {
+                resultMessages.add("[success] " + execResult.getCommand().toString());
+            }
+            else
+            {
+                resultMessages.add("[failed] " + execResult.getCommand().toString());
+            }
         }
+
+        text = StringUtils.join(resultMessages, "\r\n");
+        String message = "rc-result\r\n" + text;
 
         return new MySmsSimpleMessage(receivedMsg.getPhoneNumber(), message);
     }

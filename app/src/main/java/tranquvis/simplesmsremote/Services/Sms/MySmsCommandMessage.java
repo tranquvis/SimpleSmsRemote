@@ -15,8 +15,6 @@ public class MySmsCommandMessage implements MySms
     private static final String KEY = "rc ";
     private String phoneNumber;
     private List<ControlCommand> controlCommands = new ArrayList<>();
-    private List<ControlCommand> successfulCommands = new ArrayList<>();
-    private List<ControlCommand> failedCommands = new ArrayList<>();
 
     public MySmsCommandMessage(String phoneNumber)
     {
@@ -48,26 +46,6 @@ public class MySmsCommandMessage implements MySms
     public List<ControlCommand> getControlCommands()
     {
         return controlCommands;
-    }
-
-    public List<ControlCommand> getSuccessfulCommands()
-    {
-        return successfulCommands;
-    }
-
-    public List<ControlCommand> getFailedCommands()
-    {
-        return failedCommands;
-    }
-
-    public void setFailedCommands(List<ControlCommand> failedCommands)
-    {
-        this.failedCommands = failedCommands;
-        for (ControlCommand com : controlCommands)
-        {
-            if(!failedCommands.contains(com))
-                successfulCommands.add(com);
-        }
     }
 
     /**
