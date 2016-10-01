@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import tranquvis.simplesmsremote.R;
  */
 public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
 {
-    public static final int LAYOUT_RES = R.layout.listview_item_granted_phones_editable;
+    private static final int LAYOUT_RES = R.layout.listview_item_granted_phones_editable;
 
     private List<String> phones;
     private ListView listView;
@@ -40,8 +41,9 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
                 R.id.textView_phone, usedNumbers);
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent)
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent)
     {
         if(convertView == null)
         {
@@ -78,7 +80,7 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
         return convertView;
     }
 
-    public void removePhone(int position)
+    private void removePhone(int position)
     {
         updateData();
         phones.remove(position);

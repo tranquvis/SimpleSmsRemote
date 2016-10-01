@@ -38,12 +38,12 @@ public class MyNotificationManager
         nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    Context context;
-    NotificationManager nm;
+    private Context context;
+    private NotificationManager nm;
 
-    public static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
-    public static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
-    public static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
+    private static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
+    private static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
+    private static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
 
     public void notifySmsCommandsExecuted(MySmsCommandMessage commandMessage,
                                           List<ControlCommand.ExecutionResult> executionResults)
@@ -53,9 +53,8 @@ public class MyNotificationManager
         final String tag = "SmsCommandsReceived";
         final String title = res.getString(R.string.notification_sms_command_received);
 
-        String text = "";
-        List<String> resultMessages = new ArrayList<>();
 
+        List<String> resultMessages = new ArrayList<>();
         for (ControlCommand.ExecutionResult execResult : executionResults)
         {
             if(execResult.getCustomResultMessage() != null)
@@ -72,7 +71,7 @@ public class MyNotificationManager
             }
         }
 
-        text = StringUtils.join(resultMessages, "\r\n");
+        String text = StringUtils.join(resultMessages, "\r\n");
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setDefaults(Notification.DEFAULT_ALL)

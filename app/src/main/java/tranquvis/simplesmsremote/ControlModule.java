@@ -8,7 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Helper.*;
+import tranquvis.simplesmsremote.Helper.PermissionHelper;
 
 /**
  * Created by Andreas Kaltenleitner on 23.08.2016.
@@ -17,9 +17,9 @@ public class ControlModule
 {
     private static final ControlModule[] All_MODULES;
 
-    public static final ControlModule WIFI_HOTSPOT;
-    public static final ControlModule MOBILE_DATA;
-    public static final ControlModule BATTERY;
+    static final ControlModule WIFI_HOTSPOT;
+    static final ControlModule MOBILE_DATA;
+    static final ControlModule BATTERY;
 
     static {
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
@@ -97,7 +97,7 @@ public class ControlModule
     private int descriptionRes;
     private int iconRes;
 
-    public ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax, String[] requiredPermissions, int titleRes, int descriptionRes, int iconRes) {
+    private ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax, String[] requiredPermissions, int titleRes, int descriptionRes, int iconRes) {
         this.id = id;
         this.commands = commands;
         this.sdkMin = sdkMin;
@@ -112,7 +112,7 @@ public class ControlModule
         return id;
     }
 
-    public ControlCommand[] getCommands() {
+    private ControlCommand[] getCommands() {
         return commands;
     }
 
@@ -195,7 +195,7 @@ public class ControlModule
      * @param context app context
      * @return true if granted
      */
-    public boolean checkPermissions(Context context)
+    boolean checkPermissions(Context context)
     {
         return  PermissionHelper.AppHasPermissions(context, requiredPermissions);
     }

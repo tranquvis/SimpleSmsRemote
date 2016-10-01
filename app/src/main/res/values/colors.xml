@@ -11,7 +11,7 @@
     
     <color name="materialIndigoA400">#3D5AFE</color>
     <color name="materialIndigoA700">#304FFE</color>
-    
+
     <color name="colorPrimary">@color/materialPurple600</color>
     <color name="colorPrimaryDark">@color/materialPurple800</color>
     <color name="colorPrimaryLight">@color/materialPurple300</color>

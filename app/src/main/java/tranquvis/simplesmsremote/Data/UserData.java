@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.simplesmsremote.ControlModule;
-
 /**
  * Created by Andreas Kaltenleitner on 30.08.2016.
  */

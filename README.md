@@ -12,11 +12,11 @@ Install the app on a device, which should be controlled, and send control comman
 [download alpha](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/app/app-release-alpha-0.4.apk)
 
 ## Features
-* specify which modules are accessable and which phones are granted
+* specify which modules are accessible and which phones are granted
 * start sms receiver after boot
-* send multiple commands sith one message
+* send multiple commands with one message
 * reply to sender phone with result message 
-* possibility to show permanent notification with reciver status (required in android versions below 5.0 Lollipop)
+* possibility to show permanent notification with receiver status (required in android versions below 5.0 Lollipop)
 * view log of sms receiver
 
 ### Modules

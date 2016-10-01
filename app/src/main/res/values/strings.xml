@@ -25,13 +25,11 @@
     <string name="alert_save_data_failed">The App failed to save your data.</string>
     <string name="alert_sure_to_disable_module">Do you really want to disable this module?</string>
     <string name="alert_sure_to_clear_log">Clear whole log?</string>
-    <string name="ok">okay</string>
     <string name="receiver_service_title">Sms Receiver</string>
     <string name="commands_title">Commands</string>
     <string name="granted_phones_title">Granted phones</string>
     <string name="enable_module">enable module</string>
     <string name="disable_module">disable module</string>
-    <string name="save">save</string>
     <string name="compatible">compatible</string>
     <string name="incompatible">not compatible</string>
     <string name="permissions_denied">You need to grant the required permissions in order to enable this control module.</string>
@@ -46,15 +44,10 @@
     <string name="notification_content_start_receiver_after_boot_failed">No sms commands can be received at the moment.</string>
     <string name="notification_title_permanent_status">Sms Receiver is running</string>
     <string name="notification_content_permanent_status">Sms commands can be sent</string>
-    <string name="successful_commands_head">Successful:</string>
-    <string name="failed_commands_head">Failed:</string>
     <string name="permission_receive_sms_not_granted">The app cannot process remote commands without having the permission to receive sms.</string>
     <string name="receiver_life_info_running">running for %1$s</string>
     <string name="receiver_life_info_not_running">not running</string>
 
-    <string name="result_msg_commands_exec_success">command execution successful</string>
-    <string name="result_msg_commands_exec_partly_success">command execution partly successful</string>
-    <string name="result_msg_commands_exec_failed">command execution failed</string>
     <string name="result_msg_battery_level">battery level: %1$.0f%%</string>
     <string name="result_msg_battery_is_charging_false">battery is not charging</string>
     <string name="result_msg_battery_is_charging_true">battery is charging</string>

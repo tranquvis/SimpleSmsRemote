@@ -101,7 +101,6 @@
         android:background="@drawable/abc_popup_background_mtrl_mult"
         android:padding="20dp"
         android:layout_margin="10dp"
-        android:contextClickable="false"
         android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="true">
 

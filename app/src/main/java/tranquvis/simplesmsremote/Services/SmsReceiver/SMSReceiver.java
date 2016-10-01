@@ -22,7 +22,7 @@ import tranquvis.simplesmsremote.Services.Sms.SmsServiceListener;
 
 public class SMSReceiver extends BroadcastReceiver
 {
-    SMSReceiverService smsReceiverService;
+    private SMSReceiverService smsReceiverService;
 
     public SMSReceiver(SMSReceiverService smsReceiverService)
     {

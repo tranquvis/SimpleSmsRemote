@@ -1,8 +1,6 @@
 package tranquvis.simplesmsremote.Data;
 
 import android.content.Context;
-import android.nfc.FormatException;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -13,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,7 +120,7 @@ public class DataManager {
 
     /**
      * add log entry and save to file
-     * @param logEntry
+     * @param logEntry log entry
      * @param context file context
      */
     public static void addLogEntry(LogEntry logEntry, Context context)

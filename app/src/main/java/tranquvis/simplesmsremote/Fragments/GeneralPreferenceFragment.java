@@ -8,13 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.widget.Toast;
-
-import java.io.IOException;
 
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.UserSettings;

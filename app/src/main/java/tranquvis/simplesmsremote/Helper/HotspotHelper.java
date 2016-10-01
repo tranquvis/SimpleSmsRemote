@@ -6,9 +6,6 @@ import android.net.wifi.WifiManager;
 
 import java.lang.reflect.Method;
 
-import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Data.LogEntry;
-
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
@@ -24,7 +21,7 @@ public class HotspotHelper
 
     /**
      * set state of hotspot to enabled to disabled
-     * @param context
+     * @param context app context
      * @param state true if hotspot should be enabled, false if disabled
      */
     public static void SetHotspotState(Context context, boolean state) throws Exception {

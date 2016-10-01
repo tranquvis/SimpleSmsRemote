@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.Helper;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +12,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.ActivityCompat;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -114,7 +114,7 @@ public class PermissionHelper
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static void RequestWriteSettingsPermission(Activity activity)
+    private static void RequestWriteSettingsPermission(Activity activity)
     {
         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
         intent.setData(Uri.parse("package:" + activity.getPackageName()));

@@ -5,11 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.telephony.*;
-import android.widget.Toast;
-
-import tranquvis.simplesmsremote.Services.Sms.MySms;
-import tranquvis.simplesmsremote.Services.Sms.SmsServiceListener;
+import android.telephony.SmsManager;
 
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.

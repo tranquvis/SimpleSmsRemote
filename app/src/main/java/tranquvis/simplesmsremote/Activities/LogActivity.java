@@ -3,22 +3,18 @@ package tranquvis.simplesmsremote.Activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 
 import tranquvis.simplesmsremote.Adapters.LogListAdapter;
-import tranquvis.simplesmsremote.ControlCommand;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.R;
 
 public class LogActivity extends AppCompatActivity

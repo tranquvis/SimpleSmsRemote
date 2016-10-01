@@ -69,8 +69,8 @@ public class MySmsCommandMessage implements MySms
         //retrieve control actions
         String controlCommandsStr = messageContent.substring(KEY.length(),
                 messageContent.length()).trim();
-        String[] commandStrs = controlCommandsStr.split(",");
-        for (String commandStr : commandStrs)
+        String[] commandStrings = controlCommandsStr.split(",");
+        for (String commandStr : commandStrings)
         {
             if(commandStr.length() != 0)
             {

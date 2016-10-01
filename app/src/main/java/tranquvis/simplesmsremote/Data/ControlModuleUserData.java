@@ -24,7 +24,7 @@ public class ControlModuleUserData implements Serializable
     }
 
     /**
-     * parse ControlActionUserDatafrom text line
+     * parse ControlActionUserData from text line
      * @param textLine line of text
      * @return user data
      */

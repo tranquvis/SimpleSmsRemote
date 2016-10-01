@@ -18,7 +18,7 @@ public class LogEntry
     private Date time;
     private Type type;
 
-    public LogEntry(String title, String summary, Date time, Type type)
+    private LogEntry(String title, String summary, Date time, Type type)
     {
         this.title = title;
         this.summary = summary;
@@ -46,12 +46,12 @@ public class LogEntry
         return type;
     }
 
-    public String toTextLine()
+    String toTextLine()
     {
         return String.format("%1$s''%2$s''%3$d''%4$s", title, summary, time.getTime(), type.name());
     }
 
-    public static LogEntry parseFromTextLine(String textLine)
+    static LogEntry parseFromTextLine(String textLine)
     {
         try
         {

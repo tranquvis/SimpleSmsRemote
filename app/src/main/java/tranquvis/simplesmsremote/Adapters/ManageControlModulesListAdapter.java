@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,15 @@ import tranquvis.simplesmsremote.R;
  * Created by Andi on 28.08.2016.
  */
 public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule> {
-    public static final int LAYOUT_RES = R.layout.listview_item_manage_control_modules;
+    private static final int LAYOUT_RES = R.layout.listview_item_manage_control_modules;
 
     public ManageControlModulesListAdapter(Context context, ControlModule[] data) {
         super(context, LAYOUT_RES, data);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(int position, View convertView, @NonNull ViewGroup parent)
     {
         if(convertView == null)
         {

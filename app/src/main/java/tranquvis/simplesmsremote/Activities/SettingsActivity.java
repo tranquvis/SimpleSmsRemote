@@ -1,10 +1,8 @@
 package tranquvis.simplesmsremote.Activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -15,7 +13,8 @@ import tranquvis.simplesmsremote.R;
 
 public class SettingsActivity extends AppCompatActivity
 {
-    boolean saveOnStop = true;
+    private boolean saveOnStop = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity
         super.onStop();
     }
 
-    protected void saveUserData()
+    private void saveUserData()
     {
         try
         {

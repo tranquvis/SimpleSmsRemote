@@ -1,8 +1,6 @@
 package tranquvis.simplesmsremote.Services.SmsReceiver;
 
 import android.app.ActivityManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +10,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,18 +20,18 @@ import tranquvis.simplesmsremote.R;
 
 public class SMSReceiverService extends Service
 {
-    public static final String PREFERENCE_FILENAME = "sms_receiver_service_pref";
-    public static final int ID = 986789;
+    private static final String PREFERENCE_FILENAME = "sms_receiver_service_pref";
+    private static final int ID = 986789;
 
     private static final String EXTRA_START_FOREGROUND = "start_foreground";
 
     private static boolean RUNNING;
 
-    public final String TAG = getClass().getName();
+    private final String TAG = getClass().getName();
 
     private SMSReceiver smsReceiver = new SMSReceiver(this);
 
-    public SMSReceiverService()
+    private SMSReceiverService()
     {
     }
 

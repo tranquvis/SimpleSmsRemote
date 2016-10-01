@@ -18,7 +18,7 @@ public class BatteryHelper
 
     /**
      * get battery level from 0 to 1
-     * @param context
+     * @param context app context
      * @return level as decimal between 0 and 1
      */
     public static float GetBatteryLevel(Context context)

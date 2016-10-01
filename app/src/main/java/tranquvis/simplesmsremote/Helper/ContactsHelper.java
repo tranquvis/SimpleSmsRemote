@@ -1,14 +1,5 @@
 package tranquvis.simplesmsremote.Helper;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.provider.ContactsContract;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Andi on 04.09.2016.
  */

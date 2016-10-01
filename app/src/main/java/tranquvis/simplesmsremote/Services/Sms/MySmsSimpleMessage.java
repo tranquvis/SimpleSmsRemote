@@ -1,7 +1,6 @@
 package tranquvis.simplesmsremote.Services.Sms;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.ControlCommand;
-import tranquvis.simplesmsremote.R;
 
 /**
  * Created by Andreas Kaltenleitner on 02.09.2016.
@@ -41,7 +39,6 @@ public class MySmsSimpleMessage implements MySms
             Context context, MySmsCommandMessage receivedMsg,
             List<ControlCommand.ExecutionResult> executionResults)
     {
-        String text = "";
         List<String> resultMessages = new ArrayList<>();
 
         for (ControlCommand.ExecutionResult execResult : executionResults)
@@ -60,7 +57,7 @@ public class MySmsSimpleMessage implements MySms
             }
         }
 
-        text = StringUtils.join(resultMessages, "\r\n");
+        String text = StringUtils.join(resultMessages, "\r\n");
         String message = "rc-result\r\n" + text;
 
         return new MySmsSimpleMessage(receivedMsg.getPhoneNumber(), message);

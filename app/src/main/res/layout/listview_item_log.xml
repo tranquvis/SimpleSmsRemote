@@ -79,6 +79,6 @@
         android:clickable="true"
         android:layout_alignParentStart="false"
         android:layout_alignTop="@+id/imageView_type"
-        android:layout_alignParentTop="false"></RelativeLayout>
+        android:layout_alignParentTop="false"/>
 
 </RelativeLayout>

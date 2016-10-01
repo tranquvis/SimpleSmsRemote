@@ -1,6 +1,5 @@
 package tranquvis.simplesmsremote.Activities;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -34,19 +33,19 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 {
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
-    ControlModule controlModule;
-    List<String> grantedPhones;
-    boolean isModuleEnabled;
-    boolean saveOnStop = true;
+    private ControlModule controlModule;
+    private List<String> grantedPhones;
+    private boolean isModuleEnabled;
+    private boolean saveOnStop = true;
 
-    String[] remainingPermissionRequests;
-    String[] lastPermissionRequests;
-    boolean processPermissionRequestOnResume = false;
+    private String[] remainingPermissionRequests;
+    private String[] lastPermissionRequests;
+    private boolean processPermissionRequestOnResume = false;
 
-    ListView grantedPhonesListView;
-    GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
+    private ListView grantedPhonesListView;
+    private GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
-    CoordinatorLayout coordinatorLayout;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -10,9 +10,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -35,25 +35,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 {
     private static final int CODE_PERM_REQUEST_RECEIVE_SMS = 1;
 
-    CoordinatorLayout coordinatorLayout;
-    Toolbar toolbar;
-    ListView listView;
-    ManageControlModulesListAdapter listAdapter;
+    private CoordinatorLayout coordinatorLayout;
+    private Toolbar toolbar;
+    private ListView listView;
+    private ManageControlModulesListAdapter listAdapter;
 
-    boolean startReceiverAfterPermRequest;
-    Thread receiverStatusUpdateThread;
+    private boolean startReceiverAfterPermRequest;
+    private Thread receiverStatusUpdateThread;
 
-    FloatingActionButton receiverChangeStateFab;
-    TextView receiverLifeInfoTextView;
+    private FloatingActionButton receiverChangeStateFab;
+    private TextView receiverLifeInfoTextView;
 
-    View helpOverlayView;
-    boolean showHelpOverlay = false;
-    HelpOverlay helpOverlay;
-    int helpViewPos = -1;
+    private View helpOverlayView;
+    private boolean showHelpOverlay = false;
+    private HelpOverlay helpOverlay;
+    private int helpViewPos = -1;
 
-    TextView helpInfoTitleTextView;
-    TextView helpInfoDescTextView;
-    Button helpNextButton;
+    private TextView helpInfoTitleTextView;
+    private TextView helpInfoDescTextView;
+    private Button helpNextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             {
                 try
                 {
-                    while(true)
+                    while(!MainActivity.this.isFinishing())
                     {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -235,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 } catch (InterruptedException e)
                 {
-                    return;
                 }
             }
         });
@@ -258,14 +257,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTime) -
                     TimeUnit.DAYS.toSeconds(days) - TimeUnit.HOURS.toSeconds(hours) -
                     TimeUnit.MINUTES.toSeconds(minutes);
-            String elaspedTimeStr = (days > 0 ? String.valueOf(days) + "d " : "")
+            String elapsedTimeStr = (days > 0 ? String.valueOf(days) + "d " : "")
                     + (days > 0 || hours > 0 ? String.valueOf(hours) + "h " : "")
                     + (days > 0 || hours > 0 || minutes > 0 ? String.valueOf(minutes) + "min " : "")
                     + String.valueOf(seconds) + "s";
             //endregion
             receiverLifeInfoTextView.setTextColor(getResources().getColor(R.color.colorSuccess));
             receiverLifeInfoTextView.setText(getResources().getString(
-                    R.string.receiver_life_info_running, elaspedTimeStr));
+                    R.string.receiver_life_info_running, elapsedTimeStr));
         }
         else
         {
