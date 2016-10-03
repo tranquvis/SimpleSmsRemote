@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.HelpOverlay;
+import tranquvis.simplesmsremote.Helper.LocationHelper;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
 import tranquvis.simplesmsremote.R;
@@ -34,6 +36,7 @@ import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiverService;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener
 {
     private static final int CODE_PERM_REQUEST_RECEIVE_SMS = 1;
+    private final String TAG = getClass().getName();
 
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;

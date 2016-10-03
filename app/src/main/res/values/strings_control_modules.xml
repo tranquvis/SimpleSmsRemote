@@ -14,4 +14,9 @@
     <string name="control_module_desc_battery">
         Get status of the devices battery.
     </string>
+
+    <string name="control_module_title_location">Location</string>
+    <string name="control_module_desc_location">
+        Get location of this device.
+    </string>
 </resources>

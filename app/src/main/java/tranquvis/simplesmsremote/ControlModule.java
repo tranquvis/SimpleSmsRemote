@@ -10,6 +10,8 @@ import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 
+import static android.Manifest.permission_group.LOCATION;
+
 /**
  * Created by Andreas Kaltenleitner on 23.08.2016.
  */
@@ -17,9 +19,10 @@ public class ControlModule
 {
     private static final ControlModule[] All_MODULES;
 
-    static final ControlModule WIFI_HOTSPOT;
-    static final ControlModule MOBILE_DATA;
-    static final ControlModule BATTERY;
+    public static final ControlModule WIFI_HOTSPOT;
+    public static final ControlModule MOBILE_DATA;
+    public static final ControlModule BATTERY;
+    public static final ControlModule LOCATION;
 
     static {
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
@@ -60,6 +63,16 @@ public class ControlModule
                 new String[]{},
                 R.string.control_module_title_battery,
                 R.string.control_module_desc_battery,
+                R.drawable.ic_battery_50_grey_700_36dp);
+
+        LOCATION = new ControlModule("location",
+                new ControlCommand[]{
+
+                },
+                -1, -1,
+                new String[]{},
+                R.string.control_module_title_location,
+                R.string.control_module_desc_location,
                 R.drawable.ic_battery_50_grey_700_36dp);
 
         All_MODULES = new ControlModule[]{
