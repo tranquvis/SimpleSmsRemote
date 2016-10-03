@@ -31,7 +31,7 @@ public class SMSReceiverService extends Service
 
     private SMSReceiver smsReceiver = new SMSReceiver(this);
 
-    private SMSReceiverService()
+    public SMSReceiverService()
     {
     }
 

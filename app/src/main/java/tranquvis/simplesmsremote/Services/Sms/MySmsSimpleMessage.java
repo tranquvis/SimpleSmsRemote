@@ -45,15 +45,15 @@ public class MySmsSimpleMessage implements MySms
         {
             if(execResult.getCustomResultMessage() != null)
             {
-                resultMessages.add("[info] " + execResult.getCustomResultMessage());
+                resultMessages.add("(info) " + execResult.getCustomResultMessage());
             }
             else if(execResult.isSuccess())
             {
-                resultMessages.add("[success] " + execResult.getCommand().toString());
+                resultMessages.add("(success) " + execResult.getCommand().toString());
             }
             else
             {
-                resultMessages.add("[failed] " + execResult.getCommand().toString());
+                resultMessages.add("(failed) " + execResult.getCommand().toString());
             }
         }
 
