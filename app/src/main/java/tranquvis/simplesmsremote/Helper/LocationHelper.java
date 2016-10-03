@@ -5,12 +5,9 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
-
-import java.security.Provider;
 
 /**
  * Created by Andreas Kaltenleitner on 03.10.2016.
@@ -18,7 +15,35 @@ import java.security.Provider;
 
 public class LocationHelper
 {
+    private static final String TAG = LocationHelper.class.getName();
     private static Location lastLocation;
+
+
+    public static Location GetLocation(Context context, int maxTimeMilliseconds) throws SecurityException
+    {
+        LocationManager locationManager = (LocationManager)
+                context.getSystemService(Context.LOCATION_SERVICE);
+
+        Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location networkLocation =
+                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if(gpsLocation != null && (networkLocation == null
+                || gpsLocation.getTime() > networkLocation.getTime()))
+        {
+            lastLocation = gpsLocation;
+        }
+        else if(networkLocation != null)
+        {
+            lastLocation = networkLocation;
+        }
+        else
+        {
+            lastLocation = RequestNewLocation(context, maxTimeMilliseconds);
+        }
+
+        return lastLocation;
+    }
 
     /**
      * listen on location changed and save the new location to LocationHelper.lastLocation
@@ -26,7 +51,7 @@ public class LocationHelper
      * @param context app context
      * @throws SecurityException
      */
-    public static void FetchNewLocation(Context context)
+    public static void RequestNewLocation(Context context)
             throws SecurityException
     {
         lastLocation = null;
@@ -42,25 +67,25 @@ public class LocationHelper
             public void onLocationChanged(Location location)
             {
                 lastLocation = location;
-                Log.e("LocationHelper", location.toString());
+                Log.i(TAG, location.toString());
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle)
             {
-                Log.e("LocationHelper", s);
+                Log.e(TAG, s);
             }
 
             @Override
             public void onProviderEnabled(String s)
             {
-                Log.e("LocationHelper", s);
+                Log.e(TAG, s);
             }
 
             @Override
             public void onProviderDisabled(String s)
             {
-                Log.e("LocationHelper", s);
+                Log.e(TAG, s);
             }
         };
 
@@ -73,11 +98,11 @@ public class LocationHelper
      * @param maxTime max waiting time in milliseconds
      * @return new location or null if failed
      */
-    public static Location FetchNewLocation(Context context, int maxTime)
+    public static Location RequestNewLocation(Context context, int maxTime)
     {
         int timeout = 5;
-        LocationHelper.FetchNewLocation(context);
-        for(int i = 0; timeout * i < maxTime; i++)
+        LocationHelper.RequestNewLocation(context);
+        for(int i = 0; timeout * (i+1) <= maxTime; i++)
         {
             try
             {
@@ -86,17 +111,12 @@ public class LocationHelper
             {
                 return null;
             }
-            if(getLastLocation() != null)
+            if(lastLocation != null)
             {
-                return getLastLocation();
+                return lastLocation;
             }
         }
 
         return null;
-    }
-
-    public static Location getLastLocation()
-    {
-        return lastLocation;
     }
 }

@@ -15,7 +15,7 @@ public class LocationHelperTest extends AppContextTest
     @Test
     public void fetchLocation() throws Exception
     {
-        Location location = LocationHelper.FetchNewLocation(appContext, 500);
+        Location location = LocationHelper.GetLocation(appContext, 4000);
         assert location != null;
         Log.i("UnitTest", location.toString());
     }

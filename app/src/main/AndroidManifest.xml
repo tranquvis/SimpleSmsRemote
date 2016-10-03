@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tranquvis.simplesmsremote">
+    package="tranquvis.simplesmsremote">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -23,9 +23,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -35,7 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.SettingsActivity"
@@ -44,7 +44,7 @@
             android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.LogActivity"
@@ -53,14 +53,14 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
 
         <service
             android:name=".Services.SmsReceiver.SMSReceiverService"
             android:enabled="true"
             android:exported="true"
-            android:process=":receiverService"/>
+            android:process=":receiverService" />
 
         <receiver
             android:name=".BootCompletedReceiver"
@@ -68,7 +68,7 @@
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -79,8 +79,12 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="tranquvis.simplesmsremote.Activities.MainActivity"/>
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".TestActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
