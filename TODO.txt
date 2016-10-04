@@ -1,3 +1,4 @@
 TODO change PreferenceScreen to CompatPreferenceScreen
 TODO log entry for stopping receiver not saved in apis below 21 (solution: save receiver status cyclically to file)
 TODO create modules: gps (fetch location), wifi (connect to specific network)
+TODO option to delete sms from inbox
