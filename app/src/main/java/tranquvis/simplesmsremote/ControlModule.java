@@ -78,7 +78,7 @@ public class ControlModule
                 R.drawable.ic_location_on_grey_700_36dp);
 
         All_MODULES = new ControlModule[]{
-                WIFI_HOTSPOT, MOBILE_DATA, BATTERY
+                WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION
         };
     }
 
