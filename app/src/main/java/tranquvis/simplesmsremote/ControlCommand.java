@@ -1,12 +1,14 @@
 package tranquvis.simplesmsremote;
 
 import android.content.Context;
+import android.location.Location;
 
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.BatteryHelper;
 import tranquvis.simplesmsremote.Helper.HotspotHelper;
+import tranquvis.simplesmsremote.Helper.LocationHelper;
 import tranquvis.simplesmsremote.Helper.MobileDataHelper;
 import tranquvis.simplesmsremote.Services.Sms.MySms;
 
@@ -15,17 +17,19 @@ import tranquvis.simplesmsremote.Services.Sms.MySms;
  */
 public class ControlCommand
 {
-    static final ControlCommand WIFI_HOTSPOT_ENABLE = new ControlCommand("enable hotspot");
-    static final ControlCommand WIFI_HOTSPOT_DISABLE = new ControlCommand("disable hotspot");
-    static final ControlCommand MOBILE_DATA_ENABLE = new ControlCommand("enable mobile data");
-    static final ControlCommand MOBILE_DATA_DISABLE = new ControlCommand("disable mobile data");
-    static final ControlCommand BATTERY_LEVEL_FETCH = new ControlCommand("fetch battery level", true);
-    static final ControlCommand BATTERY_IS_CHARGING = new ControlCommand("is battery charging", true);
+    public static final ControlCommand WIFI_HOTSPOT_ENABLE = new ControlCommand("enable hotspot");
+    public static final ControlCommand WIFI_HOTSPOT_DISABLE = new ControlCommand("disable hotspot");
+    public static final ControlCommand MOBILE_DATA_ENABLE = new ControlCommand("enable mobile data");
+    public static final ControlCommand MOBILE_DATA_DISABLE = new ControlCommand("disable mobile data");
+    public static final ControlCommand BATTERY_LEVEL_FETCH = new ControlCommand("fetch battery level", true);
+    public static final ControlCommand BATTERY_IS_CHARGING = new ControlCommand("is battery charging", true);
+    public static final ControlCommand LOCATION_FETCH = new ControlCommand("fetch location", true);
 
     private static final ControlCommand[] ALL = {
             WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE,
             MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE,
-            BATTERY_LEVEL_FETCH, BATTERY_IS_CHARGING
+            BATTERY_LEVEL_FETCH, BATTERY_IS_CHARGING,
+            LOCATION_FETCH
     };
 
     public static ControlCommand getFromCommand(String command)
@@ -99,6 +103,14 @@ public class ControlCommand
                     lastExec.customResultMessage = context.getString(
                             isBatteryCharging ? R.string.result_msg_battery_is_charging_true
                                     : R.string.result_msg_battery_is_charging_false);
+                    lastExec.forceSendingResultSmsMessage = true;
+                }
+                else if (this.equals(ControlCommand.LOCATION_FETCH))
+                {
+                    Location location = LocationHelper.GetLocation(context, 4000);
+                    lastExec.customResultMessage = context.getString(
+                            R.string.result_msg_location_coordinates,
+                            location.getLatitude(), location.getLongitude());
                     lastExec.forceSendingResultSmsMessage = true;
                 }
 

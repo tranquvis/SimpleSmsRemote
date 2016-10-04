@@ -67,13 +67,15 @@ public class ControlModule
 
         LOCATION = new ControlModule("location",
                 new ControlCommand[]{
-
+                    ControlCommand.LOCATION_FETCH
                 },
                 -1, -1,
-                new String[]{},
+                new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                },
                 R.string.control_module_title_location,
                 R.string.control_module_desc_location,
-                R.drawable.ic_battery_50_grey_700_36dp);
+                R.drawable.ic_location_on_grey_700_36dp);
 
         All_MODULES = new ControlModule[]{
                 WIFI_HOTSPOT, MOBILE_DATA, BATTERY

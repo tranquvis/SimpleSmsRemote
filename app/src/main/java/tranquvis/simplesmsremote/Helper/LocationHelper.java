@@ -19,6 +19,15 @@ public class LocationHelper
     private static Location lastLocation;
 
 
+    /**
+     * Get the current location. <br/>
+     * If no previously saved location was found a new is requested.
+     * @param context app context
+     * @param maxTimeMilliseconds max. time, which the location request may take
+     * @return location
+     * @throws SecurityException
+     * @// TODO: use new google play services api (see https://developer.android.com/training/location/index.html)
+     */
     public static Location GetLocation(Context context, int maxTimeMilliseconds) throws SecurityException
     {
         LocationManager locationManager = (LocationManager)
