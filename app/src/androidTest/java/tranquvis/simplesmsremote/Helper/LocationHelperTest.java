@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by Andreas Kaltenleitner on 03.10.2016.
  */
@@ -16,7 +18,7 @@ public class LocationHelperTest extends AppContextTest
     public void fetchLocation() throws Exception
     {
         Location location = LocationHelper.GetLocation(appContext, 4000);
-        assert location != null;
+        assertTrue(location != null);
         Log.i("UnitTest", location.toString());
     }
 }
