@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="result_msg_battery_level">battery level: %1$.0f%%</string>
+    <string name="result_msg_battery_is_charging_false">battery is not charging</string>
+    <string name="result_msg_battery_is_charging_true">battery is charging</string>
+
+    <string name="result_msg_location_coordinates">location: %1$.4f,%2$.4f</string>
+</resources>
