@@ -1,5 +1,8 @@
 package tranquvis.simplesmsremote.Helper;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
+
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
@@ -12,6 +15,10 @@ public class HotspotHelperTest extends AppContextTest
 {
     @Test
     public void setHotspotStateEnabled() throws Exception {
+        //enabled wifi must be turned of. So turn on wifi ...
+        WifiManager wifimanager = (WifiManager) appContext.getSystemService(Context.WIFI_SERVICE);
+        wifimanager.setWifiEnabled(false);
+
         HotspotHelper.SetHotspotState(appContext, true);
         boolean success = false;
         for(int i  = 0; i < 10; i++)

@@ -11,6 +11,12 @@ import java.lang.reflect.Method;
  */
 public class HotspotHelper
 {
+    /**
+     * check hotspot state
+     * @param context app context
+     * @return if hotspot is enabled
+     * @throws Exception
+     */
     public static boolean IsHotspotEnabled(Context context) throws Exception
     {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -20,15 +26,15 @@ public class HotspotHelper
     }
 
     /**
-     * set state of hotspot to enabled to disabled
+     * set state of hotspot to enabled or disabled
      * @param context app context
-     * @param state true if hotspot should be enabled, false if disabled
+     * @param enabled hotspot state
      */
-    public static void SetHotspotState(Context context, boolean state) throws Exception {
+    public static void SetHotspotState(Context context, boolean enabled) throws Exception {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        wifimanager.setWifiEnabled(state);
-
+        if(enabled)
+            wifimanager.setWifiEnabled(false);
         Method method = wifimanager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
-        method.invoke(wifimanager, null, state);
+        method.invoke(wifimanager, null, enabled);
     }
 }
