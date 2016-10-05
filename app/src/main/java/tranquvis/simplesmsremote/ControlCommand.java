@@ -7,7 +7,8 @@ import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.BatteryHelper;
-import tranquvis.simplesmsremote.Helper.HotspotHelper;
+import tranquvis.simplesmsremote.Helper.BluetoothHelper;
+import tranquvis.simplesmsremote.Helper.WifiHelper;
 import tranquvis.simplesmsremote.Helper.LocationHelper;
 import tranquvis.simplesmsremote.Helper.MobileDataHelper;
 import tranquvis.simplesmsremote.Services.Sms.MySms;
@@ -19,17 +20,32 @@ public class ControlCommand
 {
     public static final ControlCommand WIFI_HOTSPOT_ENABLE = new ControlCommand("enable hotspot");
     public static final ControlCommand WIFI_HOTSPOT_DISABLE = new ControlCommand("disable hotspot");
+    public static final ControlCommand WIFI_HOTSPOT_IS_ENABLED = new ControlCommand("is hotspot enabled");
+
     public static final ControlCommand MOBILE_DATA_ENABLE = new ControlCommand("enable mobile data");
     public static final ControlCommand MOBILE_DATA_DISABLE = new ControlCommand("disable mobile data");
-    public static final ControlCommand BATTERY_LEVEL_FETCH = new ControlCommand("fetch battery level", true);
-    public static final ControlCommand BATTERY_IS_CHARGING = new ControlCommand("is battery charging", true);
-    public static final ControlCommand LOCATION_FETCH = new ControlCommand("fetch location", true);
+    public static final ControlCommand MOBILE_DATA_IS_ENABLED = new ControlCommand("is mobile data enabled");
+
+    public static final ControlCommand BATTERY_LEVEL_FETCH = new ControlCommand("fetch battery level");
+    public static final ControlCommand BATTERY_IS_CHARGING = new ControlCommand("is battery charging");
+
+    public static final ControlCommand LOCATION_FETCH = new ControlCommand("fetch location");
+
+    public static final ControlCommand WIFI_ENABLE = new ControlCommand("enable wifi");
+    public static final ControlCommand WIFI_DISABLE = new ControlCommand("disable wifi");
+    public static final ControlCommand WIFI_IS_ENABLED = new ControlCommand("is wifi enabled");
+
+    public static final ControlCommand BLUETOOTH_ENABLE = new ControlCommand("enable bluetooth");
+    public static final ControlCommand BLUETOOTH_DISABLE = new ControlCommand("disable bluetooth");
+    public static final ControlCommand BLUETOOTH_IS_ENABLED = new ControlCommand("is blueooth enabled");
 
     private static final ControlCommand[] ALL = {
-            WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE,
-            MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE,
+            WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE, WIFI_HOTSPOT_IS_ENABLED,
+            MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE, MOBILE_DATA_IS_ENABLED,
             BATTERY_LEVEL_FETCH, BATTERY_IS_CHARGING,
-            LOCATION_FETCH
+            LOCATION_FETCH,
+            WIFI_ENABLE, WIFI_DISABLE, WIFI_IS_ENABLED,
+            BLUETOOTH_ENABLE, BLUETOOTH_DISABLE, BLUETOOTH_IS_ENABLED
     };
 
     public static ControlCommand getFromCommand(String command)
@@ -52,18 +68,12 @@ public class ControlCommand
 
 
     private String command;
-    private boolean sendsResultSmsItself;
-
-    private ControlCommand(String command, boolean sendsResultSmsItself)
-    {
-        this.command = command;
-        this.sendsResultSmsItself = sendsResultSmsItself;
-    }
 
     private ControlCommand(String command)
     {
-        this(command, false);
+        this.command = command;
     }
+
     public ExecutionResult execute(Context context, MySms controlSms)
     {
         lastExec = new ExecutionResult(this);
@@ -76,11 +86,19 @@ public class ControlCommand
             {
                 if (this.equals(ControlCommand.WIFI_HOTSPOT_ENABLE))
                 {
-                    HotspotHelper.SetHotspotState(context, true);
+                    WifiHelper.SetHotspotState(context, true);
                 }
                 else if (this.equals(ControlCommand.WIFI_HOTSPOT_DISABLE))
                 {
-                    HotspotHelper.SetHotspotState(context, false);
+                    WifiHelper.SetHotspotState(context, false);
+                }
+                else if (this.equals(ControlCommand.WIFI_HOTSPOT_IS_ENABLED))
+                {
+                    boolean isHotspotEnabled = WifiHelper.IsHotspotEnabled(context);
+                    lastExec.customResultMessage = context.getString(
+                            isHotspotEnabled ? R.string.result_msg_hotspot_is_enabled_true
+                                    : R.string.result_msg_hotspot_is_enabled_false);
+                    lastExec.forceSendingResultSmsMessage = true;
                 }
                 else if (this.equals(ControlCommand.MOBILE_DATA_ENABLE))
                 {
@@ -89,6 +107,14 @@ public class ControlCommand
                 else if (this.equals(ControlCommand.MOBILE_DATA_DISABLE))
                 {
                     MobileDataHelper.SetMobileDataState(context, false);
+                }
+                else if (this.equals(ControlCommand.MOBILE_DATA_IS_ENABLED))
+                {
+                    boolean isMobileDataEnabled = MobileDataHelper.IsMobileDataEnabled(context);
+                    lastExec.customResultMessage = context.getString(
+                            isMobileDataEnabled ? R.string.result_msg_mobile_data_is_enabled_true
+                                    : R.string.result_msg_mobile_data_is_enabled_false);
+                    lastExec.forceSendingResultSmsMessage = true;
                 }
                 else if (this.equals(ControlCommand.BATTERY_LEVEL_FETCH))
                 {
@@ -108,9 +134,43 @@ public class ControlCommand
                 else if (this.equals(ControlCommand.LOCATION_FETCH))
                 {
                     Location location = LocationHelper.GetLocation(context, 4000);
+                    if(location == null)
+                        throw new Exception("Location Request timed out");
                     lastExec.customResultMessage = context.getString(
                             R.string.result_msg_location_coordinates,
                             location.getLatitude(), location.getLongitude());
+                    lastExec.forceSendingResultSmsMessage = true;
+                }
+                else if (this.equals(ControlCommand.WIFI_ENABLE))
+                {
+                    WifiHelper.SetWifiState(context, true);
+                }
+                else if (this.equals(ControlCommand.WIFI_DISABLE))
+                {
+                    WifiHelper.SetWifiState(context, false);
+                }
+                else if (this.equals(ControlCommand.WIFI_IS_ENABLED))
+                {
+                    boolean isWifiEnabled = WifiHelper.IsWifiEnabled(context);
+                    lastExec.customResultMessage = context.getString(
+                            isWifiEnabled ? R.string.result_msg_wifi_is_enabled_true
+                                    : R.string.result_msg_wifi_is_enabled_false);
+                    lastExec.forceSendingResultSmsMessage = true;
+                }
+                else if (this.equals(ControlCommand.BLUETOOTH_ENABLE))
+                {
+                    BluetoothHelper.SetBluetoothState(true);
+                }
+                else if (this.equals(ControlCommand.BLUETOOTH_DISABLE))
+                {
+                    BluetoothHelper.SetBluetoothState(false);
+                }
+                else if (this.equals(ControlCommand.BLUETOOTH_IS_ENABLED))
+                {
+                    boolean isBluetoothEnabled = BluetoothHelper.IsBluetoothEnabled();
+                    lastExec.customResultMessage = context.getString(
+                            isBluetoothEnabled ? R.string.result_msg_bluetooth_is_enabled_true
+                                    : R.string.result_msg_bluetooth_is_enabled_false);
                     lastExec.forceSendingResultSmsMessage = true;
                 }
 
@@ -118,6 +178,7 @@ public class ControlCommand
                 lastExec.success = true;
             } catch (Exception e)
             {
+                e.printStackTrace();
                 DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, this),
                         context);
                 lastExec.success = false;
@@ -169,11 +230,6 @@ public class ControlCommand
         }
 
         return true;
-    }
-
-    public boolean isSendsResultSmsItself()
-    {
-        return sendsResultSmsItself;
     }
 
     public static class ExecutionResult

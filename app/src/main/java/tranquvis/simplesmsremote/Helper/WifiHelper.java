@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
-public class HotspotHelper
+public class WifiHelper
 {
     /**
      * check hotspot state
@@ -36,5 +36,27 @@ public class HotspotHelper
             wifimanager.setWifiEnabled(false);
         Method method = wifimanager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
         method.invoke(wifimanager, null, enabled);
+    }
+
+    /**
+     * check wifi state
+     * @param context app context
+     * @return if wifi is enabled
+     */
+    public static boolean IsWifiEnabled(Context context)
+    {
+        WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        return wifimanager.isWifiEnabled();
+    }
+
+    /**
+     * enable or disable wifi
+     * @param context app context
+     * @param enabled wifi state
+     * @throws Exception
+     */
+    public static void SetWifiState(Context context, boolean enabled) throws Exception {
+        WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        wifimanager.setWifiEnabled(enabled);
     }
 }

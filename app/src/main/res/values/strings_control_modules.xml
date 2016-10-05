@@ -2,21 +2,32 @@
 <resources>
     <string name="control_module_title_wifi_hotspot">Wifi Hotspot</string>
     <string name="control_module_desc_wifi_hotspot">
-        Start and stop wifi hotspot. The hotspot must be preconfigured in the system settings.
+        Turn hotspot on and off. Check if hotspot is enabled.
+        \nThe hotspot must be preconfigured in the system settings.
     </string>
 
     <string name="control_module_title_mobile_data">Mobile Data</string>
     <string name="control_module_desc_mobile_data">
-        Enable and disable mobile data (internet connection).
+        Manage mobile data (internet connection). Check if mobile data is enabled.
     </string>
 
     <string name="control_module_title_battery">Battery</string>
     <string name="control_module_desc_battery">
-        Get status of the devices battery.
+        Get level of the devices battery and check if it is loading.
     </string>
 
     <string name="control_module_title_location">Location</string>
     <string name="control_module_desc_location">
         Get location of this device.
+    </string>
+
+    <string name="control_module_title_wifi">Wifi</string>
+    <string name="control_module_desc_wifi">
+        Turn wifi on and off. Check if wifi is enabled.
+    </string>
+
+    <string name="control_module_title_bluetooth">Wifi</string>
+    <string name="control_module_desc_bluetooth">
+        Turn bluetooth on and off. Check if bluetooth is enabled.
     </string>
 </resources>

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Andi on 04.10.2016.
  */
-public class HotspotHelperTest extends AppContextTest
+public class WifiHelperTest extends AppContextTest
 {
     @Test
     public void setHotspotStateEnabled() throws Exception {
@@ -19,11 +19,11 @@ public class HotspotHelperTest extends AppContextTest
         WifiManager wifimanager = (WifiManager) appContext.getSystemService(Context.WIFI_SERVICE);
         wifimanager.setWifiEnabled(false);
 
-        HotspotHelper.SetHotspotState(appContext, true);
+        WifiHelper.SetHotspotState(appContext, true);
         boolean success = false;
         for(int i  = 0; i < 10; i++)
         {
-            if(HotspotHelper.IsHotspotEnabled(appContext))
+            if(WifiHelper.IsHotspotEnabled(appContext))
             {
                 success = true;
                 break;
@@ -36,11 +36,11 @@ public class HotspotHelperTest extends AppContextTest
 
     @Test
     public void setHotspotStateDisabled() throws Exception {
-        HotspotHelper.SetHotspotState(appContext, false);
+        WifiHelper.SetHotspotState(appContext, false);
         boolean success = false;
         for(int i  = 0; i < 10; i++)
         {
-            if(!HotspotHelper.IsHotspotEnabled(appContext))
+            if(!WifiHelper.IsHotspotEnabled(appContext))
             {
                 success = true;
                 break;

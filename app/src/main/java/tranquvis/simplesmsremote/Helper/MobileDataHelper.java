@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.Helper;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Build;
+import android.telephony.TelephonyManager;
 
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -21,11 +22,11 @@ public class MobileDataHelper
             SetMobileDataState1(context, enabled);
     }
 
-    public static boolean GetMobileDataState(Context context) throws Exception {
+    public static boolean IsMobileDataEnabled(Context context) throws Exception {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            return GetMobileDataState2(context);
+            return IsMobileDataEnabled2(context);
         else
-            throw new NotImplementedException("only for android version 5 and above with root access");
+            return IsMobileDataEnabled1(context);
     }
 
     /**
@@ -33,16 +34,31 @@ public class MobileDataHelper
      */
     private static void SetMobileDataState1(Context context, boolean enabled) throws Exception
     {
-        final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        final Class conmanClass = Class.forName(conman.getClass().getName());
-        final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
-        iConnectivityManagerField.setAccessible(true);
-        final Object iConnectivityManager = iConnectivityManagerField.get(conman);
-        final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
-        final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+        final ConnectivityManager cm = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final Class cmClass = Class.forName(cm.getClass().getName());
+        final Field iCmField = cmClass.getDeclaredField("mService");
+        iCmField.setAccessible(true); // Make the method callable
+        final Object iCm = iCmField.get(cm);
+        final Class iCmClass = Class.forName(iCm.getClass().getName());
+        final Method setMobileDataEnabledMethod =
+                iCmClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
         setMobileDataEnabledMethod.setAccessible(true);
 
-        setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
+        setMobileDataEnabledMethod.invoke(iCm, enabled);
+    }
+
+    /**
+     * For android versions 2.3 to 4.4
+     */
+    private static boolean IsMobileDataEnabled1(Context context) throws Exception
+    {
+        final ConnectivityManager cm = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        Class cmClass = Class.forName(cm.getClass().getName());
+        Method method = cmClass.getDeclaredMethod("getMobileDataEnabled");
+        method.setAccessible(true); // Make the method callable
+        return (Boolean) method.invoke(cm);
     }
 
     /**
@@ -67,10 +83,8 @@ public class MobileDataHelper
      * For android versions 5 and above
      * Needs root access!
      */
-    private static boolean GetMobileDataState2(Context context) throws Exception
+    private static boolean IsMobileDataEnabled2(Context context) throws Exception
     {
-        throw new NotImplementedException("not tested so far");
-        /*
         TelephonyManager telephonyService =
                 (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         Method getMobileDataEnabledMethod = telephonyService.getClass().
@@ -80,6 +94,5 @@ public class MobileDataHelper
             return (boolean) getMobileDataEnabledMethod.invoke(telephonyService);
 
         return false;
-        */
     }
 }

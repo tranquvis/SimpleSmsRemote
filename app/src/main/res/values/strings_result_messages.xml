@@ -5,4 +5,16 @@
     <string name="result_msg_battery_is_charging_true">battery is charging</string>
 
     <string name="result_msg_location_coordinates">location: %1$.4f,%2$.4f</string>
+
+    <string name="result_msg_hotspot_is_enabled_false">hotspot is not enabled</string>
+    <string name="result_msg_hotspot_is_enabled_true">hotspot is enabled</string>
+
+    <string name="result_msg_mobile_data_is_enabled_false">mobile data is not enabled</string>
+    <string name="result_msg_mobile_data_is_enabled_true">mobile data is enabled</string>
+
+    <string name="result_msg_wifi_is_enabled_false">wifi is not enabled</string>
+    <string name="result_msg_wifi_is_enabled_true">wifi is enabled</string>
+
+    <string name="result_msg_bluetooth_is_enabled_false">bluetooth is not enabled</string>
+    <string name="result_msg_bluetooth_is_enabled_true">bluetooth is enabled</string>
 </resources>

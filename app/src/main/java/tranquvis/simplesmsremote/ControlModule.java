@@ -23,6 +23,8 @@ public class ControlModule
     public static final ControlModule MOBILE_DATA;
     public static final ControlModule BATTERY;
     public static final ControlModule LOCATION;
+    public static final ControlModule WIFI;
+    public static final ControlModule BLUETOOTH;
 
     static {
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
@@ -77,8 +79,36 @@ public class ControlModule
                 R.string.control_module_desc_location,
                 R.drawable.ic_location_on_grey_700_36dp);
 
+        WIFI = new ControlModule("location",
+                new ControlCommand[]{
+                        ControlCommand.LOCATION_FETCH
+                },
+                -1, -1,
+                new String[]{
+                        Manifest.permission.CHANGE_WIFI_STATE,
+                        Manifest.permission.ACCESS_WIFI_STATE
+                },
+                R.string.control_module_title_wifi,
+                R.string.control_module_desc_wifi,
+                R.drawable.ic_signal_wifi_2_bar_grey_700_36dp);
+
+        BLUETOOTH = new ControlModule("bluetooth",
+                new ControlCommand[]{
+                        ControlCommand.BLUETOOTH_ENABLE,
+                        ControlCommand.BLUETOOTH_DISABLE,
+                        ControlCommand.BLUETOOTH_IS_ENABLED
+                },
+                -1, -1,
+                new String[]{
+                        Manifest.permission.BLUETOOTH,
+                        Manifest.permission.BLUETOOTH_ADMIN
+                },
+                R.string.control_module_title_bluetooth,
+                R.string.control_module_desc_bluetooth,
+                R.drawable.ic_bluetooth_grey_700_36dp);
+
         All_MODULES = new ControlModule[]{
-                WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION
+                WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH
         };
     }
 
