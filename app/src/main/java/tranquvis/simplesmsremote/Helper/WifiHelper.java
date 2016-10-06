@@ -56,6 +56,8 @@ public class WifiHelper
      * @throws Exception
      */
     public static void SetWifiState(Context context, boolean enabled) throws Exception {
+        SetHotspotState(context, false);
+
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if(!wifimanager.setWifiEnabled(enabled))
             throw new Exception("failed to set wifi state");

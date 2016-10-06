@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.Helper;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
+import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
 
 import static org.junit.Assert.*;
 
@@ -12,45 +13,39 @@ import static org.junit.Assert.*;
 public class BluetoothHelperTest extends AppContextTest
 {
     @Test
+    @ExecSequentially("bluetooth")
     public void setBluetoothStateEnabled() throws Exception
     {
         BluetoothHelper.SetBluetoothState(true);
 
-        boolean success = false;
-        for(int i  = 0; i < 100; i++)
-        {
-            if(BluetoothHelper.IsBluetoothEnabled())
-            {
-                success = true;
-                break;
+        boolean enabled = TryUntil(new TryMethod<Boolean>() {
+            @Override
+            public Boolean run() throws Exception {
+                return BluetoothHelper.IsBluetoothEnabled();
             }
-        }
-
-        assertTrue(success);
+        }, true, 10, 10000);
+        assertTrue(enabled);
     }
 
     @Test
+    @ExecSequentially("bluetooth")
     public void setBluetoothStateDisabled() throws Exception
     {
         BluetoothHelper.SetBluetoothState(false);
 
-        boolean success = false;
-        for(int i  = 0; i < 100; i++)
-        {
-            if(!BluetoothHelper.IsBluetoothEnabled())
-            {
-                success = true;
-                break;
+        boolean enabled = TryUntil(new TryMethod<Boolean>() {
+            @Override
+            public Boolean run() throws Exception {
+                return BluetoothHelper.IsBluetoothEnabled();
             }
-        }
-
-        assertTrue(success);
+        }, false, 10, 10000);
+        assertFalse(enabled);
     }
 
     @Test
+    @ExecSequentially("bluetooth")
     public void isBluetoothEnabled() throws Exception
     {
         BluetoothHelper.IsBluetoothEnabled();
     }
-
 }

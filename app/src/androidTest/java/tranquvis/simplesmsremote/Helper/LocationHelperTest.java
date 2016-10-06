@@ -1,7 +1,6 @@
 package tranquvis.simplesmsremote.Helper;
 
 import android.location.Location;
-import android.util.Log;
 
 import org.junit.Test;
 

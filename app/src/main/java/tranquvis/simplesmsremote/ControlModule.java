@@ -81,7 +81,7 @@ public class ControlModule
                 R.string.control_module_desc_location,
                 R.drawable.ic_location_on_grey_700_36dp);
 
-        WIFI = new ControlModule("location",
+        WIFI = new ControlModule("wifi",
                 new ControlCommand[]{
                         ControlCommand.WIFI_ENABLE,
                         ControlCommand.WIFI_DISABLE,
