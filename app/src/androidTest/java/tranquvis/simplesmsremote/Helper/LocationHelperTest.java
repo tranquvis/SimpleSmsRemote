@@ -19,6 +19,5 @@ public class LocationHelperTest extends AppContextTest
     {
         Location location = LocationHelper.GetLocation(appContext, 4000);
         assertTrue(location != null);
-        Log.i("UnitTest", location.toString());
     }
 }
