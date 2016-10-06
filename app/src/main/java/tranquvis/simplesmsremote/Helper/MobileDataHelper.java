@@ -15,6 +15,12 @@ import java.lang.reflect.Method;
  */
 public class MobileDataHelper
 {
+    /**
+     * set state of mobile data connection
+     * @param context app context
+     * @param enabled state of connection
+     * @throws Exception
+     */
     public static void SetMobileDataState(Context context, boolean enabled) throws Exception {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             SetMobileDataState2(context, enabled);
@@ -22,6 +28,12 @@ public class MobileDataHelper
             SetMobileDataState1(context, enabled);
     }
 
+    /**
+     * check if mobile data connection is enabled
+     * @param context app context
+     * @return true if mobile data connection is enabled
+     * @throws Exception
+     */
     public static boolean IsMobileDataEnabled(Context context) throws Exception {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             return IsMobileDataEnabled2(context);
@@ -34,8 +46,8 @@ public class MobileDataHelper
      */
     private static void SetMobileDataState1(Context context, boolean enabled) throws Exception
     {
-        final ConnectivityManager cm = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final Class cmClass = Class.forName(cm.getClass().getName());
         final Field iCmField = cmClass.getDeclaredField("mService");
         iCmField.setAccessible(true); // Make the method callable
@@ -53,8 +65,8 @@ public class MobileDataHelper
      */
     private static boolean IsMobileDataEnabled1(Context context) throws Exception
     {
-        final ConnectivityManager cm = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         Class cmClass = Class.forName(cm.getClass().getName());
         Method method = cmClass.getDeclaredMethod("getMobileDataEnabled");
         method.setAccessible(true); // Make the method callable

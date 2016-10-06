@@ -30,7 +30,8 @@ public class ControlModule
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
                 new ControlCommand[]{
                         ControlCommand.WIFI_HOTSPOT_ENABLE,
-                        ControlCommand.WIFI_HOTSPOT_DISABLE
+                        ControlCommand.WIFI_HOTSPOT_DISABLE,
+                        ControlCommand.WIFI_HOTSPOT_IS_ENABLED
                 },
                 -1, -1,
                 new String[]{
@@ -46,7 +47,8 @@ public class ControlModule
         MOBILE_DATA = new ControlModule("mobile_data",
                 new ControlCommand[]{
                         ControlCommand.MOBILE_DATA_ENABLE,
-                        ControlCommand.MOBILE_DATA_DISABLE
+                        ControlCommand.MOBILE_DATA_DISABLE,
+                        ControlCommand.MOBILE_DATA_IS_ENABLED
                 },
                 -1, Build.VERSION_CODES.LOLLIPOP,
                 new String[]{
@@ -81,7 +83,9 @@ public class ControlModule
 
         WIFI = new ControlModule("location",
                 new ControlCommand[]{
-                        ControlCommand.LOCATION_FETCH
+                        ControlCommand.WIFI_ENABLE,
+                        ControlCommand.WIFI_DISABLE,
+                        ControlCommand.WIFI_IS_ENABLED
                 },
                 -1, -1,
                 new String[]{

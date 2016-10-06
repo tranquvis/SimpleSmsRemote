@@ -24,6 +24,12 @@ import java.util.List;
  */
 public class PermissionHelper
 {
+    /**
+     * Check if the app has permissions
+     * @param context app context
+     * @param permissions permissions to check
+     * @return true if app has all permissions
+     */
     public static boolean AppHasPermissions(Context context, String[] permissions)
     {
         for(String perm : permissions)
@@ -34,6 +40,12 @@ public class PermissionHelper
         return true;
     }
 
+    /**
+     * Check if the app has a specific permissions
+     * @param context app context
+     * @param permission permission to check
+     * @return true if app has permission
+     */
     public static boolean AppHasPermission(Context context, String permission)
     {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -44,6 +56,12 @@ public class PermissionHelper
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * Get all permissions, which are not granted to the app, from {@code permissions}
+     * @param context app context
+     * @param permissions permissions to search
+     * @return not granted permissions
+     */
     public static String[] FilterAppPermissions(Context context, String[] permissions)
     {
         List<String> perms = new ArrayList<>();
@@ -56,16 +74,37 @@ public class PermissionHelper
         return perms.toArray(new String[perms.size()]);
     }
 
+    /**
+     * request common permissions via dialog <br/>
+     * with common permissions are meant all permissions that can be request via the standard dialog
+     * @param activity any activity
+     * @param permissions permissions to request
+     * @param resultCode code to identify this request
+     */
     public static void RequestCommonPermissions(Activity activity, String[] permissions, int resultCode)
     {
         ActivityCompat.requestPermissions(activity, permissions, resultCode);
     }
 
+    /**
+     * request common permissions via dialog <br/>
+     * with common permissions are meant all permissions that can be request via the standard dialog
+     * @param fragment any fragment
+     * @param permissions permissions to request
+     * @param resultCode code to identify this request
+     */
     public static void RequestCommonPermissions(Fragment fragment, String[] permissions, int resultCode)
     {
         FragmentCompat.requestPermissions(fragment, permissions, resultCode);
     }
 
+    /**
+     * Use this method to request permissions successively
+     * @param activity any activity
+     * @param permissions permissions to request
+     * @param resultCode code to identify this request
+     * @return request result with remaining and just requested permissions
+     */
     public static RequestResult RequestNextPermissions(
             Activity activity, String[] permissions, int resultCode)
     {
@@ -113,6 +152,10 @@ public class PermissionHelper
         return new RequestResult(requestPermissions, remainingPermissions, requestType);
     }
 
+    /**
+     * Start activity in order to request permission for writing settings <br/>
+     * @param activity any activity
+     */
     @TargetApi(Build.VERSION_CODES.M)
     private static void RequestWriteSettingsPermission(Activity activity)
     {
@@ -128,7 +171,7 @@ public class PermissionHelper
         private String[] remainingPermissions;
         private RequestType requestType;
 
-        public RequestResult(String[] requestPermissions, String[] remainingPermissions, RequestType requestType)
+        RequestResult(String[] requestPermissions, String[] remainingPermissions, RequestType requestType)
         {
             this.requestPermissions = requestPermissions;
             this.remainingPermissions = remainingPermissions;

@@ -18,7 +18,6 @@ public class LocationHelper
     private static final String TAG = LocationHelper.class.getName();
     private static Location lastLocation;
 
-
     /**
      * Get the current location. <br/>
      * If no previously saved location was found a new is requested.
@@ -56,11 +55,10 @@ public class LocationHelper
 
     /**
      * listen on location changed and save the new location to LocationHelper.lastLocation
-     * use getLastLocation to get the new location
      * @param context app context
      * @throws SecurityException
      */
-    public static void RequestNewLocation(Context context)
+    private static void RequestNewLocation(Context context)
             throws SecurityException
     {
         lastLocation = null;
@@ -107,7 +105,7 @@ public class LocationHelper
      * @param maxTime max waiting time in milliseconds
      * @return new location or null if failed
      */
-    public static Location RequestNewLocation(Context context, int maxTime)
+    private static Location RequestNewLocation(Context context, int maxTime)
     {
         int timeout = 5;
         LocationHelper.RequestNewLocation(context);

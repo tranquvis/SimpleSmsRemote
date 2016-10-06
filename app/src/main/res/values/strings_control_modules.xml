@@ -26,7 +26,7 @@
         Turn wifi on and off. Check if wifi is enabled.
     </string>
 
-    <string name="control_module_title_bluetooth">Wifi</string>
+    <string name="control_module_title_bluetooth">Bluetooth</string>
     <string name="control_module_desc_bluetooth">
         Turn bluetooth on and off. Check if bluetooth is enabled.
     </string>

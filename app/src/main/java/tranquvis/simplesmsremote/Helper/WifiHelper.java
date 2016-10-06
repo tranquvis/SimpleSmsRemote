@@ -12,9 +12,9 @@ import java.lang.reflect.Method;
 public class WifiHelper
 {
     /**
-     * check hotspot state
+     * check if hotspot is enabled
      * @param context app context
-     * @return if hotspot is enabled
+     * @return true if hotspot is enabled
      * @throws Exception
      */
     public static boolean IsHotspotEnabled(Context context) throws Exception
@@ -39,9 +39,9 @@ public class WifiHelper
     }
 
     /**
-     * check wifi state
+     * check if wifi is enabled
      * @param context app context
-     * @return if wifi is enabled
+     * @return true if wifi is enabled
      */
     public static boolean IsWifiEnabled(Context context)
     {
@@ -57,6 +57,7 @@ public class WifiHelper
      */
     public static void SetWifiState(Context context, boolean enabled) throws Exception {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        wifimanager.setWifiEnabled(enabled);
+        if(!wifimanager.setWifiEnabled(enabled))
+            throw new Exception("failed to set wifi state");
     }
 }

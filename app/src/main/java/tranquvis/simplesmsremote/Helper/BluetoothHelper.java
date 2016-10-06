@@ -1,9 +1,6 @@
 package tranquvis.simplesmsremote.Helper;
 
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
-
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Created by Andreas Kaltenleitner on 05.10.2016.
@@ -11,9 +8,22 @@ import org.apache.commons.lang3.NotImplementedException;
 
 public class BluetoothHelper
 {
-    public static void SetBluetoothState(boolean enabled) throws Exception
+    private static BluetoothAdapter getDefaultBluetoothHandle() throws Exception
     {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(bluetoothAdapter == null)
+            throw new Exception("bluetooth not supported on this device");
+        return bluetoothAdapter;
+    }
+
+    /**
+     * set bluetooth state
+     * @param enabled bluetooth state
+     * @throws Exception
+     */
+    public static void SetBluetoothState(boolean enabled) throws Exception
+    {
+        BluetoothAdapter bluetoothAdapter = getDefaultBluetoothHandle();
 
         boolean isEnabled = bluetoothAdapter.isEnabled();
         if (enabled && !isEnabled)
@@ -28,9 +38,14 @@ public class BluetoothHelper
         }
     }
 
+    /**
+     * check if bluetooth is enabled
+     * @return true if bluetooth is enabled
+     * @throws Exception
+     */
     public static boolean IsBluetoothEnabled() throws Exception
     {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter bluetoothAdapter = getDefaultBluetoothHandle();
         return bluetoothAdapter.isEnabled();
     }
 }
