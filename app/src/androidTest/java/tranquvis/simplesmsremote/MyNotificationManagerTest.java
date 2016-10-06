@@ -50,6 +50,6 @@ public class MyNotificationManagerTest extends AppContextTest
     @After
     public void beforeEnd() throws InterruptedException
     {
-        Thread.sleep(20000);
+        //Thread.sleep(20000);
     }
 }
