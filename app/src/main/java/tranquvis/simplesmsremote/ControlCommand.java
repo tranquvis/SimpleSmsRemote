@@ -37,7 +37,7 @@ public class ControlCommand
 
     public static final ControlCommand BLUETOOTH_ENABLE = new ControlCommand("enable bluetooth");
     public static final ControlCommand BLUETOOTH_DISABLE = new ControlCommand("disable bluetooth");
-    public static final ControlCommand BLUETOOTH_IS_ENABLED = new ControlCommand("is blueooth enabled");
+    public static final ControlCommand BLUETOOTH_IS_ENABLED = new ControlCommand("is bluetooth enabled");
 
     private static final ControlCommand[] ALL = {
             WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE, WIFI_HOTSPOT_IS_ENABLED,

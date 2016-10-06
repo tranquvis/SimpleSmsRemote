@@ -28,8 +28,9 @@ public class BluetoothHelper
         }
     }
 
-    public static boolean IsBluetoothEnabled()
+    public static boolean IsBluetoothEnabled() throws Exception
     {
-        throw new NotImplementedException("TODO");
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        return bluetoothAdapter.isEnabled();
     }
 }
