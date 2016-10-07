@@ -37,7 +37,7 @@ public class MySmsSimpleMessage implements MySms
 
     public static MySmsSimpleMessage CreateResultReplyMessage(
             Context context, MySmsCommandMessage receivedMsg,
-            List<ControlCommand.ExecutionResult> executionResults)
+            List<ControlCommand.ExecutionResult> executionResults, boolean replyWithDefaultResult)
     {
         List<String> resultMessages = new ArrayList<>();
 
@@ -47,13 +47,16 @@ public class MySmsSimpleMessage implements MySms
             {
                 resultMessages.add("(info) " + execResult.getCustomResultMessage());
             }
-            else if(execResult.isSuccess())
+            else if(replyWithDefaultResult)
             {
-                resultMessages.add("(success) " + execResult.getCommand().toString());
-            }
-            else
-            {
-                resultMessages.add("(failed) " + execResult.getCommand().toString());
+                if(execResult.isSuccess())
+                {
+                    resultMessages.add("(success) " + execResult.getCommand().toString());
+                }
+                else
+                {
+                    resultMessages.add("(failed) " + execResult.getCommand().toString());
+                }
             }
         }
 

@@ -105,7 +105,7 @@ public class SMSReceiver extends BroadcastReceiver
                         });
 
                         smsService.sendSMS(MySmsSimpleMessage.CreateResultReplyMessage(
-                                context, comMsg, executionResults));
+                                context, comMsg, executionResults, replyWithDefaultResult));
                     }
                 }
                 catch (Exception e)
