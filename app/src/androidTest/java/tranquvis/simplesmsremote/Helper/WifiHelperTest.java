@@ -5,8 +5,6 @@ import android.net.wifi.WifiManager;
 
 import org.junit.Test;
 
-import java.util.ArrayDeque;
-
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
 
