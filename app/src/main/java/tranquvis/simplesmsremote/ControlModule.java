@@ -10,8 +10,6 @@ import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.PermissionHelper;
 
-import static android.Manifest.permission_group.LOCATION;
-
 /**
  * Created by Andreas Kaltenleitner on 23.08.2016.
  */
@@ -25,6 +23,7 @@ public class ControlModule
     public static final ControlModule LOCATION;
     public static final ControlModule WIFI;
     public static final ControlModule BLUETOOTH;
+    public static final ControlModule AUDIO;
 
     static {
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
@@ -61,7 +60,7 @@ public class ControlModule
 
         BATTERY = new ControlModule("battery",
                 new ControlCommand[]{
-                        ControlCommand.BATTERY_LEVEL_FETCH,
+                        ControlCommand.BATTERY_LEVEL_GET,
                         ControlCommand.BATTERY_IS_CHARGING
                 },
                 -1, -1,
@@ -72,7 +71,7 @@ public class ControlModule
 
         LOCATION = new ControlModule("location",
                 new ControlCommand[]{
-                    ControlCommand.LOCATION_FETCH
+                    ControlCommand.LOCATION_GET
                 },
                 -1, -1,
                 new String[]{
@@ -112,6 +111,18 @@ public class ControlModule
                 R.string.control_module_desc_bluetooth,
                 R.drawable.ic_bluetooth_grey_700_36dp);
 
+        AUDIO = new ControlModule("audio",
+                new ControlCommand[]{
+
+                },
+                -1, -1,
+                new String[]{
+
+                },
+                R.string.control_module_title_bluetooth,
+                R.string.control_module_desc_bluetooth,
+                R.drawable.ic_volume_up_grey_700_36dp);
+
         All_MODULES = new ControlModule[]{
                 WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH
         };
@@ -147,7 +158,9 @@ public class ControlModule
     private int descriptionRes;
     private int iconRes;
 
-    private ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax, String[] requiredPermissions, int titleRes, int descriptionRes, int iconRes) {
+    private ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax,
+                          String[] requiredPermissions, int titleRes, int descriptionRes,
+                          int iconRes) {
         this.id = id;
         this.commands = commands;
         this.sdkMin = sdkMin;
