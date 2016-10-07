@@ -18,10 +18,12 @@
         android:summary="@string/pref_summary_send_result_sms_back"
         android:title="@string/pref_title_send_result_sms_back"/>
 
+    <!--
     <SwitchPreference
         android:defaultValue="true"
         android:key="pref_switch_receiver_start_foreground"
         android:summary="@string/pref_summary_receiver_start_foreground"
         android:title="@string/pref_title_receiver_start_foreground"/>
+        -->
 
 </PreferenceScreen>

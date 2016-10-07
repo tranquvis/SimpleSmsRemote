@@ -15,15 +15,17 @@ Install the app on a device, which should be controlled, and send control comman
 * specify which modules are accessible and which phones are granted
 * start sms receiver after boot
 * send multiple commands with one message
-* reply to sender phone with result message 
-* possibility to show permanent notification with receiver status (required in android versions below 5.0 Lollipop)
+* reply to sender phone with result message
+* show permanent notification with receiver status
 * view log of sms receiver
 
 ### Modules
-* Hotspot (enable/disable)
-* Mobile Data Connection (enable/disable)
-* Battery (fetch level, check if battery is charging)
-* Location (fetch coordinates) (unstable)
+* Hotspot: enable, disable, check if enabled
+* Wifi: enable, disable, check if enabled
+* Bluetooth: enable, disable, check if enabled
+* Mobile Data Connection: enable, disable, check if enabled
+* Battery: fetch level, check if battery is charging
+* Location: fetch coordinates
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.

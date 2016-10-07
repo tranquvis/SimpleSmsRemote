@@ -99,11 +99,15 @@ public class SMSReceiverService extends Service
         preferencesWriter.edit().putString("time", String.valueOf(time.getTime())).commit();
     }
 
+    /**
+     *
+     * @param context app context
+     * @param foreground unused so far
+     */
     public static void start(Context context, boolean foreground)
     {
         Intent intent = new Intent(context, SMSReceiverService.class);
-        if(foreground)
-            intent.putExtra(EXTRA_START_FOREGROUND, true);
+        intent.putExtra(EXTRA_START_FOREGROUND, true); //always start foreground
         context.startService(intent);
     }
 

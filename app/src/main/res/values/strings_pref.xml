@@ -18,6 +18,5 @@
     <string name="pref_title_receiver_start_foreground">Show permanent notification</string>
     <string name="pref_summary_receiver_start_foreground">
         Show a permanent notification while the receiver service is running.
-        \nSwitching off this preference is only granted in android versions 5.0 (Lollipop) and higher.
     </string>
 </resources>

@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class UserSettings implements Serializable
 {
     private boolean startReceiverOnSystemStart;
-    private boolean notifyCommandsExecuted = true;
+    private boolean notifyCommandsExecuted = true; //unused
     private boolean replyWithResult;
     private boolean receiverStartForeground = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
 
