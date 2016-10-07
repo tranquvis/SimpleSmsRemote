@@ -52,7 +52,8 @@ public class ControlModule
                 },
                 -1, Build.VERSION_CODES.LOLLIPOP,
                 new String[]{
-                    Manifest.permission.CHANGE_NETWORK_STATE
+                    Manifest.permission.CHANGE_NETWORK_STATE,
+                    Manifest.permission.ACCESS_NETWORK_STATE
                 },
                 R.string.control_module_title_mobile_data,
                 R.string.control_module_desc_mobile_data,
