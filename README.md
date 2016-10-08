@@ -26,6 +26,7 @@ Install the app on a device, which should be controlled, and send control comman
 * Mobile Data Connection: enable, disable, check if enabled
 * Battery: fetch level, check if battery is charging
 * Location: fetch coordinates
+* Audio Volume: set volume of ringtone and music, fetch volume
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
