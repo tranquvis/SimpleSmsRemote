@@ -35,4 +35,8 @@
     <string name="control_module_desc_audio">
         Manage volume of ringtone, music usw..
     </string>
+    <string name="control_module_param_desc_audio">
+        audio types: ring, music
+        \nvolume: audio volume either as index (e.g. 6) or in percent (e.g. 90%)
+    </string>
 </resources>

@@ -13,7 +13,10 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView">
+        android:id="@+id/scrollView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -126,6 +129,30 @@
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     />
+
+                <TextView
+                    android:text="@string/module_command_parameter_info_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_command_parameter_info_title"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView_commands"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:text="parameter info content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/textView_command_parameter_info"
+                    android:layout_below="@+id/textView_command_parameter_info_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             </RelativeLayout>
 

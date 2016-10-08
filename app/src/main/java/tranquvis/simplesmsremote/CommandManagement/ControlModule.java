@@ -38,8 +38,8 @@ public class ControlModule
                 },
                 R.string.control_module_title_wifi_hotspot,
                 R.string.control_module_desc_wifi_hotspot,
-                R.drawable.ic_wifi_tethering_grey_700_36dp
-                );
+                R.drawable.ic_wifi_tethering_grey_700_36dp,
+                -1);
 
         MOBILE_DATA = new ControlModule("mobile_data",
                 new ControlCommand[]{
@@ -54,7 +54,8 @@ public class ControlModule
                 },
                 R.string.control_module_title_mobile_data,
                 R.string.control_module_desc_mobile_data,
-                R.drawable.ic_network_cell_grey_700_36dp);
+                R.drawable.ic_network_cell_grey_700_36dp,
+                -1);
 
         BATTERY = new ControlModule("battery",
                 new ControlCommand[]{
@@ -65,7 +66,8 @@ public class ControlModule
                 new String[]{},
                 R.string.control_module_title_battery,
                 R.string.control_module_desc_battery,
-                R.drawable.ic_battery_50_grey_700_36dp);
+                R.drawable.ic_battery_50_grey_700_36dp,
+                -1);
 
         LOCATION = new ControlModule("location",
                 new ControlCommand[]{
@@ -77,7 +79,8 @@ public class ControlModule
                 },
                 R.string.control_module_title_location,
                 R.string.control_module_desc_location,
-                R.drawable.ic_location_on_grey_700_36dp);
+                R.drawable.ic_location_on_grey_700_36dp,
+                -1);
 
         WIFI = new ControlModule("wifi",
                 new ControlCommand[]{
@@ -88,11 +91,13 @@ public class ControlModule
                 -1, -1,
                 new String[]{
                         Manifest.permission.CHANGE_WIFI_STATE,
-                        Manifest.permission.ACCESS_WIFI_STATE
+                        Manifest.permission.ACCESS_WIFI_STATE,
+                        Manifest.permission.WRITE_SETTINGS
                 },
                 R.string.control_module_title_wifi,
                 R.string.control_module_desc_wifi,
-                R.drawable.ic_signal_wifi_2_bar_grey_700_36dp);
+                R.drawable.ic_signal_wifi_2_bar_grey_700_36dp,
+                -1);
 
         BLUETOOTH = new ControlModule("bluetooth",
                 new ControlCommand[]{
@@ -107,7 +112,8 @@ public class ControlModule
                 },
                 R.string.control_module_title_bluetooth,
                 R.string.control_module_desc_bluetooth,
-                R.drawable.ic_bluetooth_grey_700_36dp);
+                R.drawable.ic_bluetooth_grey_700_36dp,
+                -1);
 
         AUDIO = new ControlModule("audio",
                 new ControlCommand[]{
@@ -121,7 +127,8 @@ public class ControlModule
                 },
                 R.string.control_module_title_audio,
                 R.string.control_module_desc_audio,
-                R.drawable.ic_volume_up_grey_700_36dp);
+                R.drawable.ic_volume_up_grey_700_36dp,
+                R.string.control_module_param_desc_audio);
     }
 
     public static ControlModule getFromId(String id)
@@ -153,10 +160,11 @@ public class ControlModule
     private int titleRes;
     private int descriptionRes;
     private int iconRes;
+    private int paramInfoRes;
 
     private ControlModule(String id, ControlCommand[] commands, int sdkMin, int sdkMax,
                           String[] requiredPermissions, int titleRes, int descriptionRes,
-                          int iconRes) {
+                          int iconRes, int paramInfoRes) {
         this.id = id;
         this.commands = commands;
         this.sdkMin = sdkMin;
@@ -165,6 +173,7 @@ public class ControlModule
         this.titleRes = titleRes;
         this.descriptionRes = descriptionRes;
         this.iconRes = iconRes;
+        this.paramInfoRes = paramInfoRes;
     }
 
     public String getId() {
@@ -205,6 +214,10 @@ public class ControlModule
 
     public int getIconRes() {
         return iconRes;
+    }
+
+    public int getParamInfoRes() {
+        return paramInfoRes;
     }
 
     /**

@@ -85,6 +85,7 @@ public class CommandInstance {
         for (ControlCommand com : ControlCommand.GetAllCommands())
         {
             CommandInstance commandInstance = new CommandInstance(com);
+            commandInstance.commandText = command;
 
             String commandTemplateNorm = com.getCommandTemplate();
 
@@ -100,8 +101,23 @@ public class CommandInstance {
             boolean inQuotes = false;
             char quoteC = 0;
 
-            for(int i = 0, ti = 0; i < commandNorm.length();)
+            for(int i = 0, ti = 0; i <= commandNorm.length();)
             {
+                if(i == commandNorm.length()) //end reached
+                {
+                    if(inQuotes) //unclosed quotes are not allowed
+                    {
+                        match = false;
+                    }
+                    if(paramAfterC == 0) //save param, if it reaches to end
+                    {
+                        match = true;
+                        commandInstance.setParam(paramPos,
+                                commandNorm.substring(paramStartIndex));
+                    }
+                    break;
+                }
+
                 char c = commandNorm.charAt(i);
                 char tc = commandTemplateNorm.charAt(ti);
 
@@ -128,14 +144,6 @@ public class CommandInstance {
                     else
                     {
                         i++;
-                        if(paramAfterC == 0 && i == commandNorm.length() - 1)
-                        {
-                            //end reached
-                            match = true;
-                            commandInstance.setParam(paramPos,
-                                    commandNorm.substring(paramStartIndex));
-                            break;
-                        }
                     }
 
                 }

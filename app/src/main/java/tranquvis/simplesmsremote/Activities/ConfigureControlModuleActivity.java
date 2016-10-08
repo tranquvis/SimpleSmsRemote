@@ -76,6 +76,17 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                 controlModule.getDescriptionRes());
         ((TextView)findViewById(R.id.textView_commands)).setText(controlModule.getCommandsString());
 
+        if(controlModule.getParamInfoRes() != -1)
+        {
+            ((TextView)findViewById(R.id.textView_command_parameter_info))
+                    .setText(controlModule.getParamInfoRes());
+        }
+        else
+        {
+            findViewById(R.id.textView_command_parameter_info_title).setVisibility(View.GONE);
+            findViewById(R.id.textView_command_parameter_info).setVisibility(View.GONE);
+        }
+
         TextView compatibilityTextView = (TextView)findViewById(R.id.textView_compatibility_info);
         Button buttonChangeEnabled = (Button)findViewById(R.id.button_change_enabled);
 

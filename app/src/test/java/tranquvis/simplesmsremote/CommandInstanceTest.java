@@ -129,6 +129,9 @@ public class CommandInstanceTest {
         CommandInstance ci =
                 CommandInstance.CreateFromCommand("set volume ring to 100%");
         assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_SET_VOLUME);
+
+        ci = CommandInstance.CreateFromCommand("set volume music to 1");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_SET_VOLUME);
     }
 
     @Test

@@ -19,6 +19,7 @@
 
     <string name="module_info_title">Module info</string>
     <string name="control_modules_title">Modules</string>
+    <string name="module_command_parameter_info_title">Parameter info</string>
     <string name="user_data_title">User data</string>
     <string name="alert_load_data_failed">The App failed to load user data.</string>
     <string name="alert_load_log_failed">The App failed to load log from file.</string>
