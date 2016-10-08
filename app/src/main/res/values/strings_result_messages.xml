@@ -17,4 +17,7 @@
 
     <string name="result_msg_bluetooth_is_enabled_false">bluetooth is not enabled</string>
     <string name="result_msg_bluetooth_is_enabled_true">bluetooth is enabled</string>
+
+    <string name="result_msg_audio_volume_index">%1$s volume is %2$d</string>
+    <string name="result_msg_audio_volume_percentage">%1$s volume is %2$.0f%%</string>
 </resources>

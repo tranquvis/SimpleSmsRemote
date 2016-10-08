@@ -3,6 +3,8 @@ package tranquvis.simplesmsremote.Utils;
 import android.content.Context;
 import android.media.AudioManager;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Created by Andreas Kaltenleitner on 07.10.2016.
  */
@@ -72,18 +74,30 @@ public class AudioUtils
     }
 
     public enum AudioType{
-        RING(AudioManager.STREAM_RING), MUSIC(AudioManager.STREAM_MUSIC);
+        RING(AudioManager.STREAM_RING, "ring"), MUSIC(AudioManager.STREAM_MUSIC, "music");
 
         private int streamType;
+        private String[] names;
 
-        AudioType(int streamType)
+        AudioType(int streamType, String... names)
         {
             this.streamType = streamType;
+            this.names = names;
         }
 
         public int getStreamType()
         {
             return streamType;
+        }
+
+        public static AudioType GetFromName(String name)
+        {
+            for(AudioType audioType : AudioType.values())
+            {
+                if(ArrayUtils.contains(audioType.names, name))
+                    return audioType;
+            }
+            throw new IllegalArgumentException("No audio type found");
         }
     }
 }

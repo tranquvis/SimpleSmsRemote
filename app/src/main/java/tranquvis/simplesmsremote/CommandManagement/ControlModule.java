@@ -6,6 +6,10 @@ import android.os.Build;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
@@ -16,15 +20,8 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
  */
 public class ControlModule
 {
-    private static final ControlModule[] All_MODULES;
-
-    public static final ControlModule WIFI_HOTSPOT;
-    public static final ControlModule MOBILE_DATA;
-    public static final ControlModule BATTERY;
-    public static final ControlModule LOCATION;
-    public static final ControlModule WIFI;
-    public static final ControlModule BLUETOOTH;
-    public static final ControlModule AUDIO;
+    public static final ControlModule
+            WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO;
 
     static {
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
@@ -114,24 +111,22 @@ public class ControlModule
 
         AUDIO = new ControlModule("audio",
                 new ControlCommand[]{
-
+                    ControlCommand.AUDIO_SET_VOLUME,
+                    ControlCommand.AUDIO_GET_VOLUME,
+                    ControlCommand.AUDIO_GET_VOLUME_PERCENTAGE
                 },
                 -1, -1,
                 new String[]{
 
                 },
-                R.string.control_module_title_bluetooth,
-                R.string.control_module_desc_bluetooth,
+                R.string.control_module_title_audio,
+                R.string.control_module_desc_audio,
                 R.drawable.ic_volume_up_grey_700_36dp);
-
-        All_MODULES = new ControlModule[]{
-                WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO
-        };
     }
 
     public static ControlModule getFromId(String id)
     {
-        for (ControlModule controlModule : All_MODULES)
+        for (ControlModule controlModule : GetAllModules())
         {
             if (controlModule.getId().equals(id))
                 return controlModule;
@@ -141,7 +136,7 @@ public class ControlModule
 
     public static ControlModule getFromCommand(ControlCommand command)
     {
-        for (ControlModule controlModule : All_MODULES)
+        for (ControlModule controlModule : GetAllModules())
         {
             if (ArrayUtils.contains(controlModule.getCommands(), command))
                 return controlModule;
@@ -264,8 +259,20 @@ public class ControlModule
         return  PermissionUtils.AppHasPermissions(context, requiredPermissions);
     }
 
-    public static ControlModule[] getAllControlModules()
+    public static List<ControlModule> GetAllModules()
     {
-        return All_MODULES.clone();
+        List<ControlModule> modules = new ArrayList<>();
+
+        for (Field field : ControlModule.class.getDeclaredFields()) {
+
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == ControlModule.class) {
+                try {
+                    modules.add((ControlModule) field.get(null));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return modules;
     }
 }

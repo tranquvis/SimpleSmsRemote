@@ -82,7 +82,7 @@ public class CommandInstance {
     {
         String commandNorm = command.trim().toLowerCase();
 
-        for (ControlCommand com : ControlCommand.ALL)
+        for (ControlCommand com : ControlCommand.GetAllCommands())
         {
             CommandInstance commandInstance = new CommandInstance(com);
 

@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this,
-                ControlModule.getAllControlModules());
+                ControlModule.GetAllModules());
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 

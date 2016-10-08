@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.R;
@@ -19,7 +21,7 @@ import tranquvis.simplesmsremote.R;
 public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule> {
     private static final int LAYOUT_RES = R.layout.listview_item_manage_control_modules;
 
-    public ManageControlModulesListAdapter(Context context, ControlModule[] data) {
+    public ManageControlModulesListAdapter(Context context, List<ControlModule> data) {
         super(context, LAYOUT_RES, data);
     }
 

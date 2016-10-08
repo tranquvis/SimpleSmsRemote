@@ -7,12 +7,14 @@ import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.R;
+import tranquvis.simplesmsremote.Utils.AudioUtils;
 import tranquvis.simplesmsremote.Utils.BatteryUtils;
 import tranquvis.simplesmsremote.Utils.BluetoothUtils;
 import tranquvis.simplesmsremote.Utils.LocationUtils;
 import tranquvis.simplesmsremote.Utils.MobileDataUtils;
 import tranquvis.simplesmsremote.Utils.WifiUtils;
 import tranquvis.simplesmsremote.Sms.MyMessage;
+import static tranquvis.simplesmsremote.CommandManagement.ControlCommand.*;
 
 /**
  * Created by Andi on 08.10.2016.
@@ -37,15 +39,15 @@ public class CommandExec
         {
             try
             {
-                if (command.equals(ControlCommand.WIFI_HOTSPOT_ENABLE))
+                if (command == WIFI_HOTSPOT_ENABLE)
                 {
                     WifiUtils.SetHotspotState(context, true);
                 }
-                else if (command.equals(ControlCommand.WIFI_HOTSPOT_DISABLE))
+                else if (command == WIFI_HOTSPOT_DISABLE)
                 {
                     WifiUtils.SetHotspotState(context, false);
                 }
-                else if (command.equals(ControlCommand.WIFI_HOTSPOT_IS_ENABLED))
+                else if (command == WIFI_HOTSPOT_IS_ENABLED)
                 {
                     boolean isHotspotEnabled = WifiUtils.IsHotspotEnabled(context);
                     result.setCustomResultMessage(context.getString(
@@ -53,15 +55,15 @@ public class CommandExec
                                     : R.string.result_msg_hotspot_is_enabled_false));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.MOBILE_DATA_ENABLE))
+                else if (command == MOBILE_DATA_ENABLE)
                 {
                     MobileDataUtils.SetMobileDataState(context, true);
                 }
-                else if (command.equals(ControlCommand.MOBILE_DATA_DISABLE))
+                else if (command == MOBILE_DATA_DISABLE)
                 {
                     MobileDataUtils.SetMobileDataState(context, false);
                 }
-                else if (command.equals(ControlCommand.MOBILE_DATA_IS_ENABLED))
+                else if (command == MOBILE_DATA_IS_ENABLED)
                 {
                     boolean isMobileDataEnabled = MobileDataUtils.IsMobileDataEnabled(context);
                     result.setCustomResultMessage(context.getString(
@@ -69,14 +71,14 @@ public class CommandExec
                                     : R.string.result_msg_mobile_data_is_enabled_false));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.BATTERY_LEVEL_GET))
+                else if (command == BATTERY_LEVEL_GET)
                 {
                     float batteryLevel = BatteryUtils.GetBatteryLevel(context);
                     result.setCustomResultMessage(context.getResources().getString(
                             R.string.result_msg_battery_level, batteryLevel*100));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.BATTERY_IS_CHARGING))
+                else if (command == BATTERY_IS_CHARGING)
                 {
                     boolean isBatteryCharging = BatteryUtils.IsBatteryCharging(context);
                     result.setCustomResultMessage(context.getString(
@@ -84,7 +86,7 @@ public class CommandExec
                                     : R.string.result_msg_battery_is_charging_false));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.LOCATION_GET))
+                else if (command == LOCATION_GET)
                 {
                     Location location = LocationUtils.GetLocation(context, 4000);
                     if(location == null)
@@ -94,15 +96,15 @@ public class CommandExec
                             location.getLatitude(), location.getLongitude()));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.WIFI_ENABLE))
+                else if (command == WIFI_ENABLE)
                 {
                     WifiUtils.SetWifiState(context, true);
                 }
-                else if (command.equals(ControlCommand.WIFI_DISABLE))
+                else if (command == WIFI_DISABLE)
                 {
                     WifiUtils.SetWifiState(context, false);
                 }
-                else if (command.equals(ControlCommand.WIFI_IS_ENABLED))
+                else if (command == WIFI_IS_ENABLED)
                 {
                     boolean isWifiEnabled = WifiUtils.IsWifiEnabled(context);
                     result.setCustomResultMessage(context.getString(
@@ -110,15 +112,15 @@ public class CommandExec
                                     : R.string.result_msg_wifi_is_enabled_false));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.BLUETOOTH_ENABLE))
+                else if (command == BLUETOOTH_ENABLE)
                 {
                     BluetoothUtils.SetBluetoothState(true);
                 }
-                else if (command.equals(ControlCommand.BLUETOOTH_DISABLE))
+                else if (command == BLUETOOTH_DISABLE)
                 {
                     BluetoothUtils.SetBluetoothState(false);
                 }
-                else if (command.equals(ControlCommand.BLUETOOTH_IS_ENABLED))
+                else if (command == BLUETOOTH_IS_ENABLED)
                 {
                     boolean isBluetoothEnabled = BluetoothUtils.IsBluetoothEnabled();
                     result.setCustomResultMessage(context.getString(
@@ -126,9 +128,47 @@ public class CommandExec
                                     : R.string.result_msg_bluetooth_is_enabled_false));
                     result.setForceSendingResultSmsMessage(true);
                 }
-                else if (command.equals(ControlCommand.AUDIO_SET_VOLUME))
+                else if (command == AUDIO_SET_VOLUME)
                 {
-                    //TODO
+                    String audioTypeStr = commandInstance.getParam(PARAM_AUDIO_TYPE);
+                    String volumeStr = commandInstance.getParam(PARAM_AUDIO_VOLUME);
+
+                    AudioUtils.AudioType audioType = AudioUtils.AudioType.GetFromName(audioTypeStr);
+
+                    if(volumeStr.charAt(volumeStr.length() - 1) == '%')
+                    {
+                        float volumePercentage =
+                                Float.parseFloat(volumeStr.substring(0, volumeStr.length() - 1));
+                        AudioUtils.SetVolumePercentage(context, volumePercentage, audioType);
+                    }
+                    else
+                    {
+                        int volumeIndex = Integer.parseInt(volumeStr);
+                        AudioUtils.SetVolumeIndex(context, volumeIndex, audioType);
+                    }
+                }
+                else if (command == AUDIO_GET_VOLUME)
+                {
+                    String audioTypeStr = commandInstance.getParam(PARAM_AUDIO_TYPE);
+                    AudioUtils.AudioType audioType = AudioUtils.AudioType.GetFromName(audioTypeStr);
+
+                    int volumeIndex = AudioUtils.GetVolumeIndex(context, audioType);
+
+                    result.setCustomResultMessage(context.getString(
+                            R.string.result_msg_audio_volume_index, audioTypeStr, volumeIndex));
+                    result.setForceSendingResultSmsMessage(true);
+                }
+                else if (command == AUDIO_GET_VOLUME_PERCENTAGE)
+                {
+                    String audioTypeStr = commandInstance.getParam(PARAM_AUDIO_TYPE);
+                    AudioUtils.AudioType audioType = AudioUtils.AudioType.GetFromName(audioTypeStr);
+
+                    float volumePercentage = AudioUtils.GetVolumePercentage(context, audioType);
+
+                    result.setCustomResultMessage(context.getString(
+                            R.string.result_msg_audio_volume_percentage, audioTypeStr,
+                            volumePercentage));
+                    result.setForceSendingResultSmsMessage(true);
                 }
 
                 DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
