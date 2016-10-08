@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +23,13 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
-import tranquvis.simplesmsremote.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.HelpOverlay;
-import tranquvis.simplesmsremote.Helper.LocationHelper;
-import tranquvis.simplesmsremote.Helper.PermissionHelper;
+import tranquvis.simplesmsremote.Helper.HelpOverlay;
+import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Services.SmsReceiver.SMSReceiverService;
+import tranquvis.simplesmsremote.Services.SMSReceiverService;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener
 {
@@ -280,10 +278,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void startSMSReceiverService()
     {
-        if(!PermissionHelper.AppHasPermission(this, Manifest.permission.RECEIVE_SMS))
+        if(!PermissionUtils.AppHasPermission(this, Manifest.permission.RECEIVE_SMS))
         {
             startReceiverAfterPermRequest = true;
-            PermissionHelper.RequestCommonPermissions(this,
+            PermissionUtils.RequestCommonPermissions(this,
                     new String[]{ Manifest.permission.RECEIVE_SMS}, CODE_PERM_REQUEST_RECEIVE_SMS);
             return;
         }
@@ -370,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             .setAction(R.string.simple_request_again, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    PermissionHelper.RequestCommonPermissions(MainActivity.this,
+                                    PermissionUtils.RequestCommonPermissions(MainActivity.this,
                                             new String[]{ Manifest.permission.RECEIVE_SMS},
                                             CODE_PERM_REQUEST_RECEIVE_SMS);
                                 }

@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.simplesmsremote.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 
 /**
  * Created by Andi on 28.08.2016.

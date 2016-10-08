@@ -60,13 +60,13 @@
         </activity>
 
         <service
-            android:name=".Services.SmsReceiver.SMSReceiverService"
+            android:name=".Services.SMSReceiverService"
             android:enabled="true"
             android:exported="true"
             android:process=":receiverService" />
 
         <receiver
-            android:name=".BootCompletedReceiver"
+            android:name=".Receiver.BootCompletedReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">

@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tranquvis.simplesmsremote.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.R;
 

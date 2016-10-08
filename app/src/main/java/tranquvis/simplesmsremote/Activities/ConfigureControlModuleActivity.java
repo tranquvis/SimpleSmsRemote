@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
-import tranquvis.simplesmsremote.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Helper.PermissionHelper;
+import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
 
 public class ConfigureControlModuleActivity extends AppCompatActivity implements View.OnClickListener
@@ -156,7 +156,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
     private void enableModule()
     {
-        if (!PermissionHelper.AppHasPermissions(this,
+        if (!PermissionUtils.AppHasPermissions(this,
                 controlModule.getRequiredPermissions(this)))
             requestPermissions(controlModule.getRequiredPermissions(this));
         else
@@ -203,11 +203,11 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
     private void requestPermissions(String[] permissions)
     {
-        PermissionHelper.RequestResult result = PermissionHelper.RequestNextPermissions(this,
+        PermissionUtils.RequestResult result = PermissionUtils.RequestNextPermissions(this,
                 permissions, REQUEST_CODE_PERM_MODULE_REQUIREMENTS);
         remainingPermissionRequests = result.getRemainingPermissions();
         lastPermissionRequests = result.getRequestPermissions();
-        if(result.getRequestType() == PermissionHelper.RequestType.INDEPENDENT_ACTIVITY)
+        if(result.getRequestType() == PermissionUtils.RequestType.INDEPENDENT_ACTIVITY)
             processPermissionRequestOnResume = true;
     }
 
@@ -236,7 +236,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
     private void onModuleRequiredPermissionRequestFinished()
     {
-        if(PermissionHelper.AppHasPermissions(this, lastPermissionRequests))
+        if(PermissionUtils.AppHasPermissions(this, lastPermissionRequests))
         {
             if(remainingPermissionRequests != null && remainingPermissionRequests.length > 0)
                 requestPermissions(remainingPermissionRequests);

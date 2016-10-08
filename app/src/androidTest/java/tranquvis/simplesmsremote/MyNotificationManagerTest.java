@@ -11,7 +11,9 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.simplesmsremote.Services.Sms.MySmsCommandMessage;
+import tranquvis.simplesmsremote.CommandManagement.ControlCommand;
+import tranquvis.simplesmsremote.Helper.MyNotificationManager;
+import tranquvis.simplesmsremote.Sms.MyCommandMessage;
 
 /**
  * Created by Andreas Kaltenleitner on 02.09.2016.
@@ -33,7 +35,7 @@ public class MyNotificationManagerTest extends AppContextTest
     @Test
     public void testNotifySmsCommandsReceived() throws Exception
     {
-        MySmsCommandMessage smsCommandMessage = new MySmsCommandMessage("000");
+        MyCommandMessage smsCommandMessage = new MyCommandMessage("000");
         smsCommandMessage.addControlCommand(ControlCommand.WIFI_HOTSPOT_DISABLE);
         smsCommandMessage.addControlCommand(ControlCommand.MOBILE_DATA_ENABLE);
         List<ControlCommand.ExecutionResult> executionResults = new ArrayList<>();

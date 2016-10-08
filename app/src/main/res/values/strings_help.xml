@@ -35,7 +35,7 @@
         enable module, which contains the required functionality
     </string>
     <string name="help_how_to_control_step_2">
-        add granted phones to module, from which you send the command messages
+        add granted phones to module, from which you send the commandTemplate messages
     </string>
     <string name="help_how_to_control_step_3">
         make sure that the receiver is running

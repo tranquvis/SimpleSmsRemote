@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.UserSettings;
-import tranquvis.simplesmsremote.Helper.PermissionHelper;
+import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -96,10 +96,10 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
             case KEY_REPLY_WITH_RESULT:
                 if(((SwitchPreference)pref).isChecked())
                 {
-                    if (PermissionHelper.AppHasPermission(getActivity(), Manifest.permission.SEND_SMS))
+                    if (PermissionUtils.AppHasPermission(getActivity(), Manifest.permission.SEND_SMS))
                         DataManager.getUserData().getUserSettings().setReplyWithResult(true);
                     else
-                        PermissionHelper.RequestCommonPermissions(this,
+                        PermissionUtils.RequestCommonPermissions(this,
                                 new String[]{Manifest.permission.SEND_SMS},
                                 RESULT_CODE_PERM_REQUEST_FOR_REPLY_WITH_RESULT);
                 }
