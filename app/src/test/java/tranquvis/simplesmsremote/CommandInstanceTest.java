@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.ControlCommand;
 
 import static org.junit.Assert.*;
 
@@ -10,10 +11,137 @@ import static org.junit.Assert.*;
  * Created by Andi on 07.10.2016.
  */
 public class CommandInstanceTest {
+
     @Test
-    public void getFromCommand() throws Exception {
-        CommandInstance cci =
+    public void getFromCommandGeneral() throws Exception {
+        CommandInstance ci =
                 CommandInstance.CreateFromCommand("set   volume \"tt \n''t\"\n to \"10 0%");
-        assertTrue(cci != null);
+        assertTrue(ci != null);
+    }
+
+    @Test
+    public void getFromCommandWifiHotspotEnable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("enable hotspot");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.WIFI_HOTSPOT_ENABLE);
+    }
+
+    @Test
+    public void getFromCommandWifiHotspotDisable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("disable hotspot");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.WIFI_HOTSPOT_DISABLE);
+    }
+
+    @Test
+    public void getFromCommandWifiHotspotIsEnabled() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("is hotspot enabled");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.WIFI_HOTSPOT_IS_ENABLED);
+    }
+
+    @Test
+    public void getFromCommandMobileDataEnable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("enable mobile data");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.MOBILE_DATA_ENABLE);
+    }
+
+    @Test
+    public void getFromCommandMobileDataDisable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("disable mobile data");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.MOBILE_DATA_DISABLE);
+    }
+
+    @Test
+    public void getFromCommandMobileDataIsEnabled() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("is mobile data enabled");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.MOBILE_DATA_IS_ENABLED);
+    }
+
+    @Test
+    public void getFromCommandBatteryLevelGet() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("get battery level");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.BATTERY_LEVEL_GET);
+    }
+
+    @Test
+    public void getFromCommandBatteryIsCharging() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("is battery charging");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.BATTERY_IS_CHARGING);
+    }
+
+    @Test
+    public void getFromCommandLocationGet() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("get location");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.LOCATION_GET);
+    }
+
+    @Test
+    public void getFromCommandWifiEnable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("enable wifi");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.WIFI_ENABLE);
+    }
+
+    @Test
+    public void getFromCommandWifiDisable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("disable wifi");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.WIFI_DISABLE);
+    }
+
+    @Test
+    public void getFromCommandWifiIsEnabled() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("is wifi enabled");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.WIFI_IS_ENABLED);
+    }
+
+    @Test
+    public void getFromCommandBluetoothEnable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("enable bluetooth");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.BLUETOOTH_ENABLE);
+    }
+
+    @Test
+    public void getFromCommandBluetoothDisable() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("disable bluetooth");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.BLUETOOTH_DISABLE);
+    }
+
+    @Test
+    public void getFromCommandBluetoothIsEnabled() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("is bluetooth enabled");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.BLUETOOTH_IS_ENABLED);
+    }
+
+    @Test
+    public void getFromCommandAudioSetVolume() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("set volume ring to 100%");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_SET_VOLUME);
+    }
+
+    @Test
+    public void getFromCommandAudioGetVolume() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("get volume for music");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_GET_VOLUME);
+    }
+
+    @Test
+    public void getFromCommandAudioGetVolumePercentage() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("get volume percentage for music");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_GET_VOLUME_PERCENTAGE);
     }
 }
