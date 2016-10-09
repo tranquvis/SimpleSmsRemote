@@ -43,6 +43,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
         ((SwitchPreference)findPreference(KEY_REPLY_WITH_RESULT)).setChecked(
                 userSettings.isReplyWithResult());
 
+        /*
         final SwitchPreference prefReceiverStartForeground =
                 (SwitchPreference) findPreference(KEY_RECEIVER_START_FOREGROUND);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
@@ -54,6 +55,7 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
         {
             prefReceiverStartForeground.setChecked(userSettings.isReceiverStartForeground());
         }
+        */
     }
 
 
