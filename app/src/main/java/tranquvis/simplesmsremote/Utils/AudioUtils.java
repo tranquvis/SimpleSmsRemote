@@ -74,7 +74,12 @@ public class AudioUtils
     }
 
     public enum AudioType{
-        RING(AudioManager.STREAM_RING, "ring"), MUSIC(AudioManager.STREAM_MUSIC, "music");
+        RING(AudioManager.STREAM_RING, "ring", "ringtone"),
+        MUSIC(AudioManager.STREAM_MUSIC, "music"),
+        ALARM(AudioManager.STREAM_ALARM, "alarm"),
+        NOTIFICATION(AudioManager.STREAM_NOTIFICATION, "notification"),
+        SYSTEM(AudioManager.STREAM_SYSTEM, "system"), //battery low, usb connected, keyboard press, unlock, boot, ...
+        VOICECALL(AudioManager.STREAM_VOICE_CALL, "phonecall", "voicecall", "phonecall", "call");
 
         private int streamType;
         private String[] names;

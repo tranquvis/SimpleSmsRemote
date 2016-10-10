@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
+import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.ControlCommand;
 import tranquvis.simplesmsremote.Helper.MyNotificationManager;
 import tranquvis.simplesmsremote.Sms.MyCommandMessage;
@@ -35,11 +37,20 @@ public class MyNotificationManagerTest extends AppContextTest
     @Test
     public void testNotifySmsCommandsReceived() throws Exception
     {
+        CommandInstance ci1 = CommandInstance.CreateFromCommand("enable wifi");
+        CommandInstance ci2 = CommandInstance.CreateFromCommand("disable hotspot");
+
         MyCommandMessage smsCommandMessage = new MyCommandMessage("000");
-        smsCommandMessage.addControlCommand(ControlCommand.WIFI_HOTSPOT_DISABLE);
-        smsCommandMessage.addControlCommand(ControlCommand.MOBILE_DATA_ENABLE);
-        List<ControlCommand.ExecutionResult> executionResults = new ArrayList<>();
-        executionResults.add(new ControlCommand.ExecutionResult(ControlCommand.MOBILE_DATA_ENABLE));
+        smsCommandMessage.addCommandInstance(ci1);
+        smsCommandMessage.addCommandInstance(ci2);
+
+        CommandExecResult result1 = ci1.executeCommand(appContext, smsCommandMessage);
+        CommandExecResult result2 = ci2.executeCommand(appContext, smsCommandMessage);
+
+        List<CommandExecResult> executionResults = new ArrayList<>();
+        executionResults.add(result1);
+        executionResults.add(result2);
+
         notificationManager.notifySmsCommandsExecuted(smsCommandMessage, executionResults);
     }
 

@@ -21,7 +21,7 @@ public class MyCommandMessage implements MyMessage
         this.phoneNumber = phoneNumber;
     }
 
-    private void addCommandInstance(CommandInstance commandInstance)
+    public void addCommandInstance(CommandInstance commandInstance)
     {
         commandInstances.add(commandInstance);
     }

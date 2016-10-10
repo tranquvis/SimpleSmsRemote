@@ -17,20 +17,36 @@ import static org.junit.Assert.*;
 public class AudioUtilsTest extends AppContextTest
 {
     @Test
+    public void setVolumeSpecificTest() throws Exception
+    {
+        testSetVolumeIndex(AudioType.SYSTEM, -4);
+    }
+
+    @Test
     @ExecSequentially("audio")
     public void setVolumePercentage() throws Exception
     {
-        testSetVolumePercentage(AudioType.MUSIC, 45);
-        testSetVolumePercentage(AudioType.RING, 100);
-        testSetVolumePercentage(AudioType.RING, 0);
+        for(AudioType audioType : AudioType.values())
+        {
+            testSetVolumePercentage(audioType, 45);
+            testSetVolumePercentage(audioType, 100);
+            testSetVolumePercentage(audioType, 0);
+            testSetVolumePercentage(audioType, -10);
+            testSetVolumePercentage(audioType, 200);
+        }
     }
 
     @Test
     @ExecSequentially("audio")
     public void setVolumeIndex() throws Exception
     {
-        testSetVolumeIndex(AudioType.MUSIC, 0);
-        testSetVolumeIndex(AudioType.RING, 3);
+        for(AudioType audioType : AudioType.values())
+        {
+            testSetVolumePercentage(audioType, 3);
+            testSetVolumePercentage(audioType, 20);
+            testSetVolumePercentage(audioType, 0);
+            testSetVolumePercentage(audioType, -10);
+        }
     }
 
     @Test
@@ -47,26 +63,60 @@ public class AudioUtilsTest extends AppContextTest
         AudioUtils.GetVolumeIndex(appContext, AudioUtils.AudioType.MUSIC);
     }
 
-    private float spreadVolume = -1;
     private void testSetVolumePercentage(AudioUtils.AudioType audioType, float volumePercentage)
     {
-        if(spreadVolume == -1)
-        {
-            AudioManager audioManager = (AudioManager)
-                    appContext.getSystemService(Context.AUDIO_SERVICE);
-            spreadVolume = 100f / audioManager.getStreamMaxVolume(audioType.getStreamType()) / 2f;
-        }
+        AudioManager audioManager = (AudioManager)
+                appContext.getSystemService(Context.AUDIO_SERVICE);
+        int maxVolumeIndex = audioManager.getStreamMaxVolume(audioType.getStreamType());
+        float spreadVolume = 100f / maxVolumeIndex / 2f;
 
         AudioUtils.SetVolumePercentage(appContext, volumePercentage, audioType);
-        float actualVolume = AudioUtils.GetVolumePercentage(appContext, audioType);
-        assertTrue(actualVolume < volumePercentage + spreadVolume
-                && actualVolume > volumePercentage - spreadVolume);
+
+        int expectedVolumeIndex = -1;
+        if((audioType == AudioType.VOICECALL)
+                && volumePercentage < (100f / (float) maxVolumeIndex))
+            expectedVolumeIndex = 1;
+        else if(volumePercentage > 100)
+            expectedVolumeIndex = maxVolumeIndex;
+        else if(volumePercentage < 0)
+            expectedVolumeIndex = 0;
+
+        if(expectedVolumeIndex != -1)
+        {
+            float actualVolumeIndex = AudioUtils.GetVolumeIndex(appContext, audioType);
+            assertTrue("audio type: " + audioType.name()
+                    + ", expectedVolumeIndex: " + expectedVolumeIndex
+                    + ", actualVolume: " + actualVolumeIndex,
+                    actualVolumeIndex == expectedVolumeIndex);
+        }
+        else
+        {
+            float actualVolume = AudioUtils.GetVolumePercentage(appContext, audioType);
+            assertTrue("audio type: " + audioType.name() + ", expectedVolume: " + volumePercentage
+                    + ", actualVolume: " + actualVolume,
+                    actualVolume < volumePercentage + spreadVolume
+                    && actualVolume > volumePercentage - spreadVolume);
+        }
     }
 
     private void testSetVolumeIndex(AudioUtils.AudioType audioType, int volumeIndex)
     {
         AudioUtils.SetVolumeIndex(appContext, volumeIndex, audioType);
         int actualVolumeIndex = AudioUtils.GetVolumeIndex(appContext, audioType);
-        assertTrue(volumeIndex == actualVolumeIndex);
+
+        AudioManager audioManager = (AudioManager)
+                appContext.getSystemService(Context.AUDIO_SERVICE);
+        int maxVolumeIndex = audioManager.getStreamMaxVolume(audioType.getStreamType());
+
+        int expectedVolumeIndex = volumeIndex;
+        if((audioType == AudioType.VOICECALL)
+                && volumeIndex < 1)
+            expectedVolumeIndex = 1;
+        else if(volumeIndex > maxVolumeIndex)
+            expectedVolumeIndex = maxVolumeIndex;
+        else if(volumeIndex < 0)
+            expectedVolumeIndex = 0;
+
+        assertTrue(expectedVolumeIndex == actualVolumeIndex);
     }
 }
