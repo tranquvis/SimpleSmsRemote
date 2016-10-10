@@ -19,6 +19,8 @@ public class AudioUtils
      */
     public static void SetVolumePercentage(Context context, float volume, AudioType type)
     {
+        if(volume < 0) volume = 0;
+
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(type.getStreamType(),
                 getVolumeIndexFromPercentage(audioManager, type.getStreamType(), volume), 0);
@@ -45,6 +47,8 @@ public class AudioUtils
      */
     public static void SetVolumeIndex(Context context, int volumeIndex, AudioType type)
     {
+        if(volumeIndex < 0) volumeIndex = 0;
+
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(type.getStreamType(), volumeIndex, 0);
     }
@@ -79,7 +83,8 @@ public class AudioUtils
         ALARM(AudioManager.STREAM_ALARM, "alarm"),
         NOTIFICATION(AudioManager.STREAM_NOTIFICATION, "notification"),
         SYSTEM(AudioManager.STREAM_SYSTEM, "system"), //battery low, usb connected, keyboard press, unlock, boot, ...
-        VOICECALL(AudioManager.STREAM_VOICE_CALL, "phonecall", "voicecall", "phonecall", "call");
+        VOICECALL(AudioManager.STREAM_VOICE_CALL, "phonecall", "voicecall", "phonecall", "call"),
+        DTMF(AudioManager.STREAM_DTMF, "dtmf");
 
         private int streamType;
         private String[] names;

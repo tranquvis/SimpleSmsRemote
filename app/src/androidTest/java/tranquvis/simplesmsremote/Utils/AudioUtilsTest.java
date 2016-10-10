@@ -17,22 +17,16 @@ import static org.junit.Assert.*;
 public class AudioUtilsTest extends AppContextTest
 {
     @Test
-    public void setVolumeSpecificTest() throws Exception
-    {
-        testSetVolumeIndex(AudioType.SYSTEM, -4);
-    }
-
-    @Test
     @ExecSequentially("audio")
     public void setVolumePercentage() throws Exception
     {
         for(AudioType audioType : AudioType.values())
         {
-            testSetVolumePercentage(audioType, 45);
             testSetVolumePercentage(audioType, 100);
             testSetVolumePercentage(audioType, 0);
             testSetVolumePercentage(audioType, -10);
             testSetVolumePercentage(audioType, 200);
+            testSetVolumePercentage(audioType, 45);
         }
     }
 
@@ -42,10 +36,10 @@ public class AudioUtilsTest extends AppContextTest
     {
         for(AudioType audioType : AudioType.values())
         {
-            testSetVolumePercentage(audioType, 3);
-            testSetVolumePercentage(audioType, 20);
-            testSetVolumePercentage(audioType, 0);
-            testSetVolumePercentage(audioType, -10);
+            testSetVolumeIndex(audioType, 20);
+            testSetVolumeIndex(audioType, 0);
+            testSetVolumeIndex(audioType, -10);
+            testSetVolumeIndex(audioType, 3);
         }
     }
 
@@ -85,15 +79,18 @@ public class AudioUtilsTest extends AppContextTest
         {
             float actualVolumeIndex = AudioUtils.GetVolumeIndex(appContext, audioType);
             assertTrue("audio type: " + audioType.name()
-                    + ", expectedVolumeIndex: " + expectedVolumeIndex
-                    + ", actualVolume: " + actualVolumeIndex,
+                    + ", given volume percentage: " + volumePercentage
+                    + ", expected volume index: " + expectedVolumeIndex
+                    + ", actual volume: " + actualVolumeIndex,
                     actualVolumeIndex == expectedVolumeIndex);
         }
         else
         {
             float actualVolume = AudioUtils.GetVolumePercentage(appContext, audioType);
-            assertTrue("audio type: " + audioType.name() + ", expectedVolume: " + volumePercentage
-                    + ", actualVolume: " + actualVolume,
+            assertTrue("audio type: " + audioType.name()
+                    + ", given volume: " + volumePercentage
+                    + ", expected volume: " + volumePercentage
+                    + ", actual volume: " + actualVolume,
                     actualVolume < volumePercentage + spreadVolume
                     && actualVolume > volumePercentage - spreadVolume);
         }
@@ -117,6 +114,10 @@ public class AudioUtilsTest extends AppContextTest
         else if(volumeIndex < 0)
             expectedVolumeIndex = 0;
 
-        assertTrue(expectedVolumeIndex == actualVolumeIndex);
+        assertTrue("audio type: " + audioType.name()
+                + ", given volume: " + volumeIndex
+                + ", expected volume: " + expectedVolumeIndex
+                + ", actual volume: " + actualVolumeIndex,
+                expectedVolumeIndex == actualVolumeIndex);
     }
 }
