@@ -143,7 +143,24 @@ public class CommandExec
                     }
                     else
                     {
-                        int volumeIndex = Integer.parseInt(volumeStr);
+                        int volumeIndex;
+                        switch (volumeStr)
+                        {
+                            case "vibrate":
+                                if(audioType != AudioUtils.AudioType.RING)
+                                    throw new Exception("vibrate is only possible for type ring");
+                                volumeIndex = AudioUtils.VOLUME_INDEX_RING_VIBRATE;
+                                break;
+                            case "silent":
+                                if(audioType != AudioUtils.AudioType.RING)
+                                    throw new Exception("vibrate is only possible for type ring");
+                                volumeIndex = AudioUtils.VOLUME_INDEX_RING_SILENT;
+                                break;
+                            default:
+                                volumeIndex = Integer.parseInt(volumeStr);
+                                break;
+                        }
+
                         AudioUtils.SetVolumeIndex(context, volumeIndex, audioType);
                     }
                 }
@@ -153,9 +170,15 @@ public class CommandExec
                     AudioUtils.AudioType audioType = AudioUtils.AudioType.GetFromName(audioTypeStr);
 
                     int volumeIndex = AudioUtils.GetVolumeIndex(context, audioType);
+                    String volumeStr = String.valueOf(volumeIndex);
+
+                    if(volumeIndex == AudioUtils.VOLUME_INDEX_RING_VIBRATE)
+                        volumeStr = "vibrate";
+                    else if(volumeIndex == AudioUtils.VOLUME_INDEX_RING_SILENT)
+                        volumeStr = "silent";
 
                     result.setCustomResultMessage(context.getString(
-                            R.string.result_msg_audio_volume_index, audioTypeStr, volumeIndex));
+                            R.string.result_msg_audio_volume, audioTypeStr, volumeStr));
                     result.setForceSendingResultSmsMessage(true);
                 }
                 else if (command == AUDIO_GET_VOLUME_PERCENTAGE)

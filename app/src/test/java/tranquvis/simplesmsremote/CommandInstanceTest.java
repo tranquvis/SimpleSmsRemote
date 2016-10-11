@@ -132,6 +132,12 @@ public class CommandInstanceTest {
 
         ci = CommandInstance.CreateFromCommand("set volume music to 1");
         assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_SET_VOLUME);
+
+        ci = CommandInstance.CreateFromCommand("set volume ring to vibrate");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_SET_VOLUME);
+
+        ci = CommandInstance.CreateFromCommand("set volume ring to silent");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_SET_VOLUME);
     }
 
     @Test
