@@ -98,22 +98,33 @@ public class CommandInstance {
             int paramStartIndex = 0;
             int paramPos = 0;
 
-            boolean inQuotes = false;
-            char quoteC = 0;
+            boolean inQuotation = false;
+            boolean paramWrappedWithQuotation = false;
+            char quotationC = 0;
 
             for(int i = 0, ti = 0; i <= commandNorm.length();)
             {
                 if(i == commandNorm.length()) //end reached
                 {
-                    if(inQuotes) //unclosed quotes are not allowed
+                    if(inQuotation) //unclosed quotations are not allowed
                     {
                         match = false;
                     }
                     if(paramAfterC == 0) //save param, if it reaches to end
                     {
                         match = true;
-                        commandInstance.setParam(paramPos,
-                                commandNorm.substring(paramStartIndex));
+
+                        //add param
+                        if(paramWrappedWithQuotation)
+                        {
+                            commandInstance.setParam(paramPos, commandNorm.substring(
+                                    paramStartIndex + 1, commandNorm.length() - 1));
+                        }
+                        else
+                        {
+                            commandInstance.setParam(paramPos, commandNorm.substring(
+                                    paramStartIndex));
+                        }
                     }
                     break;
                 }
@@ -123,20 +134,29 @@ public class CommandInstance {
 
                 if(inParam)
                 {
-                    if(inQuotes && (c == quoteC))
+                    if(inQuotation && (c == quotationC))
                     {
-                        inQuotes = false;
+                        inQuotation = false;
                     }
 
-                    if(!inQuotes && paramAfterC != 0 && (c == paramAfterC
+                    if(!inQuotation && paramAfterC != 0 && (c == paramAfterC
                             || (Character.isWhitespace(c) && Character.isWhitespace(paramAfterC))))
                     {
                         //param end reached
                         inParam = false;
                         match = true;
 
-                        commandInstance.setParam(paramPos,
-                                commandNorm.substring(paramStartIndex, i));
+                        //add param
+                        if(paramWrappedWithQuotation)
+                        {
+                            commandInstance.setParam(paramPos, commandNorm.substring(
+                                    paramStartIndex + 1, i - 1));
+                        }
+                        else
+                        {
+                            commandInstance.setParam(paramPos, commandNorm.substring(
+                                    paramStartIndex, i));
+                        }
                         paramPos++;
 
                         i++; ti++;
@@ -167,12 +187,15 @@ public class CommandInstance {
 
                     paramStartIndex = i;
 
-                    //check if param is wrapped with quotes
+                    //check if param is wrapped with quotations
                     if(c == '"' || c == '\'')
                     {
-                        inQuotes = true;
-                        quoteC = c;
+                        inQuotation = true;
+                        paramWrappedWithQuotation = true;
+                        quotationC = c;
                     }
+                    else
+                        paramWrappedWithQuotation = false;
 
                     i++;
                 }
