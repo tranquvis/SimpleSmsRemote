@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //load user data
         try {
             DataManager.LoadUserData(this);
         } catch (IOException e) {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return;
         }
 
+        //save user data
         try {
             DataManager.SaveUserData(this);
         } catch (IOException e) {
@@ -80,18 +84,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return;
         }
 
+        //region init list view
+        List<ControlModule> moduleList = ControlModule.GetAllModules(
+                ControlModule.GetDefaultComparator(this));
         listView = (ListView) findViewById(R.id.listView);
-        listAdapter = new ManageControlModulesListAdapter(this,
-                ControlModule.GetAllModules());
+        listAdapter = new ManageControlModulesListAdapter(this, moduleList);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
+        //endregion
 
+        //region init receiver status views
         receiverChangeStateFab = (FloatingActionButton) findViewById(R.id.fab_receiver_change_state);
         receiverChangeStateFab.setOnClickListener(this);
         receiverLifeInfoTextView = (TextView) findViewById(R.id.textView_receiver_life_info);
+        //endregion
 
         startUpdatingReceiverStatusAsync();
 
+        //region show help overlay on first start
         if(DataManager.isFirstStart())
             showHelpOverlay = true;
         if(getIntent().getBooleanExtra("showHelpOverlay", false))
@@ -145,8 +155,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         {
             findViewById(R.id.layout_help_overlay).setVisibility(View.INVISIBLE);
         }
+        //endregion
     }
 
+    /**
+     * goto next step of help overlay
+     */
     private void showNextHelpView()
     {
         helpViewPos++;
@@ -169,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    /**
+     * goto previous step of help overlay
+     */
     private void showPreviousHelpView()
     {
         if(helpViewPos - 1 < 0)
@@ -183,6 +200,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     .setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * update visible information of help overlay
+     * @param helpView current help view
+     */
     private void updateHelpView(HelpOverlay.View helpView)
     {
         helpInfoTitleTextView.setText(helpView.getTitleRes());
@@ -215,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    /**
+     * start updating receiver status in background until activity finishes
+     */
     private void startUpdatingReceiverStatusAsync()
     {
         receiverStatusUpdateThread = new Thread(new Runnable() {
@@ -242,6 +266,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         receiverStatusUpdateThread.start();
     }
 
+    /**
+     * Update all views, which show information about the receiver's status
+     */
     private void updateReceiverStatus()
     {
         if (SMSReceiverService.isRunning(this))

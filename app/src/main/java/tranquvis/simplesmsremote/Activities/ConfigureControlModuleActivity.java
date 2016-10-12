@@ -67,7 +67,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             return;
         }
         ControlModuleUserData userData = controlModule.getUserData();
-        isModuleEnabled = userData != null;
+        isModuleEnabled = controlModule.isEnabled();
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
         toolbar.setSubtitle(controlModule.getTitleRes());

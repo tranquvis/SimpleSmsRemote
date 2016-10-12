@@ -38,7 +38,6 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule>
         }
 
         ControlModule controlModule = getItem(position);
-        ControlModuleUserData userData = controlModule.getUserData();
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView_title);
         ImageView stateImageView = (ImageView) convertView.
@@ -50,7 +49,7 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule>
         if(!controlModule.isCompatible()) {
             stateImageView.setImageResource(R.drawable.ic_remove_circle_red_400_24dp);
         }
-        else if(userData == null) {
+        else if(!controlModule.isEnabled()) {
             stateImageView.setImageResource(R.drawable.ic_add_circle_indigo_400_24dp);
         }
         else {
