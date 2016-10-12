@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,10 +49,17 @@ public class PermissionUtils
      */
     public static boolean AppHasPermission(Context context, String permission)
     {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && permission.equals(Manifest.permission.WRITE_SETTINGS))
         {
-            if(permission.equals(Manifest.permission.WRITE_SETTINGS))
-                return Settings.System.canWrite(context);
+            return Settings.System.canWrite(context);
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && permission.equals(Manifest.permission.ACCESS_NOTIFICATION_POLICY))
+        {
+            NotificationManager notificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            return notificationManager.isNotificationPolicyAccessGranted();
         }
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
@@ -143,6 +151,14 @@ public class PermissionUtils
                 RequestWriteSettingsPermission(activity);
             }
         }
+        else if(requestPermission.equals(Manifest.permission.ACCESS_NOTIFICATION_POLICY))
+        {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            {
+                requestType = RequestType.INDEPENDENT_ACTIVITY;
+                RequestAccessNotificationPolicyPermission(activity);
+            }
+        }
         else
         {
             requestType = RequestType.COMMON_REQUEST_DIALOG;
@@ -163,6 +179,22 @@ public class PermissionUtils
         intent.setData(Uri.parse("package:" + activity.getPackageName()));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static void RequestAccessNotificationPolicyPermission(Activity activity)
+    {
+        NotificationManager notificationManager =
+                (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (!notificationManager.isNotificationPolicyAccessGranted()) {
+
+            Intent intent = new Intent(
+                    android.provider.Settings
+                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+            activity.startActivity(intent);
+        }
     }
 
     public static class RequestResult

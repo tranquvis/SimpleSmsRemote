@@ -2,6 +2,7 @@ package tranquvis.simplesmsremote.Utils;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Build;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,8 +22,7 @@ public class AudioUtilsTest extends AppContextTest
     @Test
     public void setSpecificVolume()
     {
-        AudioManager audioManager = (AudioManager) appContext.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioType.RING.getStreamType(), 4, 0);
+        testSetVolumeIndex(AudioType.RING, AudioUtils.VOLUME_INDEX_RING_VIBRATE);
     }
 
     @Test
@@ -120,11 +120,22 @@ public class AudioUtilsTest extends AppContextTest
         int maxVolumeIndex = audioManager.getStreamMaxVolume(audioType.getStreamType());
 
         int[] expectedVolumeIndexes = new int[]{ volumeIndex };
-        if((audioType == AudioType.VOICECALL)
-                && volumeIndex < 1)
-            expectedVolumeIndexes = new int[]{ 1, 0 };
+        if((audioType == AudioType.VOICECALL) && volumeIndex < 1)
+        {
+            expectedVolumeIndexes = new int[]{1, 0};
+        }
         else if(audioType == AudioType.RING && volumeIndex == AudioUtils.VOLUME_INDEX_RING_SILENT)
-            expectedVolumeIndexes = new int[]{ AudioUtils.VOLUME_INDEX_RING_SILENT };
+        {
+            expectedVolumeIndexes = new int[]{AudioUtils.VOLUME_INDEX_RING_SILENT};
+        }
+        else if (audioType == AudioType.RING
+                && Build.FINGERPRINT.contains("generic") //check if device is an emulator
+                && (volumeIndex == AudioUtils.VOLUME_INDEX_RING_VIBRATE || volumeIndex <= 0))
+        {
+            //allow silent volume setting too on emulators because emulators can not vibrate
+            expectedVolumeIndexes = new int[]{AudioUtils.VOLUME_INDEX_RING_VIBRATE,
+                    AudioUtils.VOLUME_INDEX_RING_SILENT};
+        }
         else if(audioType == AudioType.RING
                 && (volumeIndex == AudioUtils.VOLUME_INDEX_RING_VIBRATE || volumeIndex <= 0))
             expectedVolumeIndexes = new int[]{ AudioUtils.VOLUME_INDEX_RING_VIBRATE };

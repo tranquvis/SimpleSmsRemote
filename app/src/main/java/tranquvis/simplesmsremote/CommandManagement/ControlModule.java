@@ -123,7 +123,7 @@ public class ControlModule
                 },
                 -1, -1,
                 new String[]{
-
+                        Manifest.permission.ACCESS_NOTIFICATION_POLICY
                 },
                 R.string.control_module_title_audio,
                 R.string.control_module_desc_audio,
