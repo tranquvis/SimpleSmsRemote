@@ -14,7 +14,8 @@ public class ControlCommand
     public static final String
             PARAM_AUDIO_TYPE = "audio type",
             PARAM_AUDIO_VOLUME = "volume",
-            PARAM_BRIGHTNESS = "brightness";
+            PARAM_BRIGHTNESS = "brightness",
+            PARAM_DISPLAY_OFF_TIMEOUT = "timeout";
 
     public static final ControlCommand
             WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE, WIFI_HOTSPOT_IS_ENABLED,
@@ -24,7 +25,8 @@ public class ControlCommand
             WIFI_ENABLE, WIFI_DISABLE, WIFI_IS_ENABLED,
             BLUETOOTH_ENABLE, BLUETOOTH_DISABLE, BLUETOOTH_IS_ENABLED,
             AUDIO_SET_VOLUME, AUDIO_GET_VOLUME, AUDIO_GET_VOLUME_PERCENTAGE,
-            DISPLAY_GET_BRIGHTNESS, DISPLAY_SET_BRIGHTNESS;
+            DISPLAY_GET_BRIGHTNESS, DISPLAY_SET_BRIGHTNESS, DISPLAY_SET_OFF_TIMEOUT,
+                DISPLAY_GET_OFF_TIMEOUT, DISPLAY_TURN_OFF;
 
     static
     {
@@ -57,6 +59,10 @@ public class ControlCommand
 
         DISPLAY_GET_BRIGHTNESS = new ControlCommand("get brightness");
         DISPLAY_SET_BRIGHTNESS = new ControlCommand("set brightness to [%s]", PARAM_BRIGHTNESS);
+        DISPLAY_GET_OFF_TIMEOUT = new ControlCommand("get display off timeout");
+        DISPLAY_SET_OFF_TIMEOUT = new ControlCommand("set display off timeout to [%s]",
+                PARAM_DISPLAY_OFF_TIMEOUT);
+        DISPLAY_TURN_OFF = new ControlCommand("turn display off");
     }
 
     private String commandTemplate;

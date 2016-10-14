@@ -140,7 +140,10 @@ public class ControlModule
         DISPLAY = new ControlModule("display",
                 new ControlCommand[]{
                         ControlCommand.DISPLAY_GET_BRIGHTNESS,
-                        ControlCommand.DISPLAY_SET_BRIGHTNESS
+                        ControlCommand.DISPLAY_SET_BRIGHTNESS,
+                        ControlCommand.DISPLAY_GET_OFF_TIMEOUT,
+                        ControlCommand.DISPLAY_SET_OFF_TIMEOUT,
+                        ControlCommand.DISPLAY_TURN_OFF
                 });
         DISPLAY.requiredPermissions = new String[]{
                 Manifest.permission.WRITE_SETTINGS

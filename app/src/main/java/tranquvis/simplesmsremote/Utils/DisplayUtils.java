@@ -1,15 +1,9 @@
 package tranquvis.simplesmsremote.Utils;
 
-import android.app.Activity;
-import android.app.Service;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.Display;
-import android.view.Window;
 
 /**
  * Created by Andreas Kaltenleitner on 14.10.2016.
@@ -62,7 +56,13 @@ public class DisplayUtils
                 brightnessModeInt);
     }
 
-    public static BrightnessMode GetBrightnessMode(Context context) throws Settings.SettingNotFoundException
+    /**
+     * Get current brightness mode of device
+     * @param context app context
+     * @return brightness mode (see {@code BrightnessMode})
+     * @throws Exception
+     */
+    public static BrightnessMode GetBrightnessMode(Context context) throws Exception
     {
         int brightnessModeInt = Settings.System.getInt(context.getContentResolver(),
                 Settings.System.SCREEN_BRIGHTNESS_MODE);
@@ -70,12 +70,23 @@ public class DisplayUtils
                 ? BrightnessMode.AUTO : BrightnessMode.MANUAL;
     }
 
+    /**
+     * Set screen off timeout
+     * @param context app context
+     * @param timeout timeout to set in milliseconds
+     */
     public static void SetScreenOffTimeout(Context context, int timeout)
     {
         Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT,
                 timeout);
     }
 
+    /**
+     * Get screen off timeout
+     * @param context app context
+     * @return timeout in milliseconds
+     * @throws Exception
+     */
     public static int GetScreenOffTimeout(Context context) throws Exception
     {
         return Settings.System.getInt(context.getContentResolver(),
@@ -83,21 +94,35 @@ public class DisplayUtils
     }
 
     /**
-     * turn screen on or off
+     * Turn screen off. <br/>
+     * The execution may take up to 4 seconds, because it is required to wait until screen is
+     * turned off in order to preserve the current screen off timeout.
      * @param context app context
-     * @param on if the screen should be turned on
      */
-    public static void TurnScreen(Context context, boolean on) throws Exception
+    public static void TurnScreenOff(Context context) throws Exception
     {
         // workaround:
         // The screen off timeout is set to 0 so it will turn off in a few milliseconds.
         // After that the screen off timeout is set to its previous value.
-        int currentTimeout = GetScreenOffTimeout(context);
-        SetScreenOffTimeout(context, 0);
-        Thread.sleep(500);
-        SetScreenOffTimeout(context, currentTimeout);
+        int previousTimeout = GetScreenOffTimeout(context);
 
-        if(!IsScreenOn(context))
+        SetScreenOffTimeout(context, 0);
+
+        //wait until screen is turned off
+        final int maxWaitTime = 6000; //milliseconds
+        final int checkingTimeout = 200;
+
+        long startTime = System.currentTimeMillis();
+        boolean success = true;
+        while(IsScreenOn(context)
+                && (success = (System.currentTimeMillis() - startTime) < maxWaitTime))
+        {
+            Thread.sleep(checkingTimeout);
+        }
+
+        SetScreenOffTimeout(context, previousTimeout);
+
+        if(!success)
             throw new Exception("Failed to turn screen off. The screen was on anyhow after trying to turn it off.");
     }
 

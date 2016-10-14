@@ -1,8 +1,10 @@
 package tranquvis.simplesmsremote;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.core.deps.guava.util.concurrent.ExecutionError;
+import android.util.Log;
 
 import org.junit.Before;
 
@@ -57,5 +59,11 @@ public abstract class AppContextTest {
     protected interface TryMethod<T>
     {
         T run() throws Exception;
+    }
+
+    protected boolean isEmulator()
+    {
+        Log.i("fingerprint", Build.FINGERPRINT);
+        return Build.FINGERPRINT.contains("generic");
     }
 }

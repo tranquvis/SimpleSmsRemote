@@ -173,4 +173,34 @@ public class CommandInstanceTest {
         ci = CommandInstance.CreateFromCommand("set brightness to auto");
         assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_BRIGHTNESS);
     }
+
+    @Test
+    public void getFromCommandDisplayGetOffTimeout() throws Exception
+    {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("get display off timeout");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_GET_OFF_TIMEOUT);
+    }
+
+    @Test
+    public void getFromCommandDisplaySetOffTimeout() throws Exception
+    {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("set display off timeout to 10000.888ms");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_OFF_TIMEOUT);
+
+        ci = CommandInstance.CreateFromCommand("set display off timeout to 10000s");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_OFF_TIMEOUT);
+
+        ci = CommandInstance.CreateFromCommand("set display off timeout to 0.1min");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_OFF_TIMEOUT);
+    }
+
+    @Test
+    public void getFromCommandDisplayTurnOff() throws Exception
+    {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("turn display off");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_TURN_OFF);
+    }
 }

@@ -128,8 +128,7 @@ public class AudioUtilsTest extends AppContextTest
         {
             expectedVolumeIndexes = new int[]{AudioUtils.VOLUME_INDEX_RING_SILENT};
         }
-        else if (audioType == AudioType.RING
-                && Build.FINGERPRINT.contains("generic") //check if device is an emulator
+        else if (audioType == AudioType.RING && isEmulator()
                 && (volumeIndex == AudioUtils.VOLUME_INDEX_RING_VIBRATE || volumeIndex <= 0))
         {
             //allow silent volume setting too on emulators because emulators can not vibrate

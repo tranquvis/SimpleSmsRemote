@@ -42,9 +42,11 @@
 
     <string name="control_module_title_display">Display</string>
     <string name="control_module_desc_display">
-        Manage the display\'s brightness.
+        Manage the display\'s brightness and state (on or off). Set time, after which the display
+        is turned off when the user is not interacting with the phone.
     </string>
     <string name="control_module_param_desc_display">
         brightness: percentage (e.g. 50%) or auto
+        \ntimeout: time, after which the display is turned off (e.g. 30min, 10.5s, 500ms)
     </string>
 </resources>

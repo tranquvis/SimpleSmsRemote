@@ -1,10 +1,9 @@
 package tranquvis.simplesmsremote.Utils;
 
-import android.provider.Settings;
-
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
+import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
 
 import static org.junit.Assert.*;
 
@@ -14,6 +13,7 @@ import static org.junit.Assert.*;
 public class DisplayUtilsTest extends AppContextTest
 {
     @Test
+    @ExecSequentially("display-brightness")
     public void setBrightness() throws Exception
     {
         DisplayUtils.SetBrightness(appContext, 50);
@@ -21,6 +21,7 @@ public class DisplayUtilsTest extends AppContextTest
         assertTrue(Math.round(actualBrightness) == 50);
     }
     @Test
+    @ExecSequentially("display-brightness")
     public void getBrightness() throws Exception
     {
         float brightness = DisplayUtils.GetBrightness(appContext);
@@ -28,22 +29,52 @@ public class DisplayUtilsTest extends AppContextTest
     }
 
     @Test
+    @ExecSequentially("display-brightness")
     public void setBrightnessMode() throws Exception
     {
         DisplayUtils.SetBrightnessMode(appContext, DisplayUtils.BrightnessMode.AUTO);
         assertTrue(DisplayUtils.GetBrightnessMode(appContext) == DisplayUtils.BrightnessMode.AUTO);
     }
     @Test
+    @ExecSequentially("display-brightness")
     public void getBrightnessMode() throws Exception
     {
         DisplayUtils.GetBrightnessMode(appContext);
     }
 
     @Test
-    public void setScreenTimeout() throws Exception
+    @ExecSequentially("screen-state")
+    public void setScreenOffTimeout() throws Exception
     {
-        Settings.System.putInt(appContext.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 0);
-        Thread.sleep(1000);
-        Settings.System.putInt(appContext.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 30 * 60 * 1000);
+        int timeout = 345334;
+        DisplayUtils.SetScreenOffTimeout(appContext, timeout);
+        int actualScreenOffTimeout = DisplayUtils.GetScreenOffTimeout(appContext);
+        assertTrue(actualScreenOffTimeout == timeout);
+    }
+
+    @Test
+    @ExecSequentially("screen-state")
+    public void getScreenOffTimeout() throws Exception
+    {
+        DisplayUtils.GetScreenOffTimeout(appContext);
+    }
+
+    @Test
+    @ExecSequentially("screen-state")
+    public void turnScreenOff() throws Exception
+    {
+        //emulators do not turn off the screen
+        if(isEmulator())
+            return;
+
+        DisplayUtils.TurnScreenOff(appContext);
+        assertTrue(!DisplayUtils.IsScreenOn(appContext));
+    }
+
+    @Test
+    @ExecSequentially("screen-state")
+    public void isScreenOn() throws Exception
+    {
+        DisplayUtils.IsScreenOn(appContext);
     }
 }
