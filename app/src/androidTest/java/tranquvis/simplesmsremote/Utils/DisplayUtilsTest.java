@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.Utils;
 
+import android.provider.Settings;
+
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
@@ -35,5 +37,13 @@ public class DisplayUtilsTest extends AppContextTest
     public void getBrightnessMode() throws Exception
     {
         DisplayUtils.GetBrightnessMode(appContext);
+    }
+
+    @Test
+    public void setScreenTimeout() throws Exception
+    {
+        Settings.System.putInt(appContext.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 0);
+        Thread.sleep(1000);
+        Settings.System.putInt(appContext.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 30 * 60 * 1000);
     }
 }

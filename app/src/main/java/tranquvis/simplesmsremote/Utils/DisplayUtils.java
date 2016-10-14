@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.os.Build;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Display;
 import android.view.Window;
 
 /**
@@ -67,6 +70,54 @@ public class DisplayUtils
                 ? BrightnessMode.AUTO : BrightnessMode.MANUAL;
     }
 
+    public static void SetScreenOffTimeout(Context context, int timeout)
+    {
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT,
+                timeout);
+    }
+
+    public static int GetScreenOffTimeout(Context context) throws Exception
+    {
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.System.SCREEN_OFF_TIMEOUT);
+    }
+
+    /**
+     * turn screen on or off
+     * @param context app context
+     * @param on if the screen should be turned on
+     */
+    public static void TurnScreen(Context context, boolean on) throws Exception
+    {
+        // workaround:
+        // The screen off timeout is set to 0 so it will turn off in a few milliseconds.
+        // After that the screen off timeout is set to its previous value.
+        int currentTimeout = GetScreenOffTimeout(context);
+        SetScreenOffTimeout(context, 0);
+        Thread.sleep(500);
+        SetScreenOffTimeout(context, currentTimeout);
+
+        if(!IsScreenOn(context))
+            throw new Exception("Failed to turn screen off. The screen was on anyhow after trying to turn it off.");
+    }
+
+    /**
+     * check if screen is on
+     * @param context app context
+     * @return true if the screen is on
+     */
+    public static boolean IsScreenOn(Context context)
+    {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if(Build.VERSION.SDK_INT >= 20)
+        {
+            return pm.isInteractive();
+        }
+        else
+        {
+            return pm.isScreenOn();
+        }
+    }
 
     public enum BrightnessMode
     {
