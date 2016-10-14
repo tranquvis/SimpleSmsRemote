@@ -24,4 +24,16 @@ public class DisplayUtilsTest extends AppContextTest
         float brightness = DisplayUtils.GetBrightness(appContext);
         assertTrue(brightness >= 0 && brightness <= 100);
     }
+
+    @Test
+    public void setBrightnessMode() throws Exception
+    {
+        DisplayUtils.SetBrightnessMode(appContext, DisplayUtils.BrightnessMode.AUTO);
+        assertTrue(DisplayUtils.GetBrightnessMode(appContext) == DisplayUtils.BrightnessMode.AUTO);
+    }
+    @Test
+    public void getBrightnessMode() throws Exception
+    {
+        DisplayUtils.GetBrightnessMode(appContext);
+    }
 }
