@@ -20,4 +20,7 @@
 
     <string name="result_msg_audio_volume">%1$s volume is %2$s</string>
     <string name="result_msg_audio_volume_percentage">%1$s volume is %2$.0f%%</string>
+
+    <string name="result_msg_display_brightness_percentage">display brightness is  %1$.0f%%
+        (mode %2$s)</string>
 </resources>

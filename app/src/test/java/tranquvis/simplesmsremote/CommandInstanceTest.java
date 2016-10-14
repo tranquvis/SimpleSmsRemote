@@ -153,4 +153,24 @@ public class CommandInstanceTest {
                 CommandInstance.CreateFromCommand("get volume percentage for music");
         assertTrue(ci != null &&  ci.getCommand() == ControlCommand.AUDIO_GET_VOLUME_PERCENTAGE);
     }
+
+    @Test
+    public void getFromCommandDisplayGetBrightness() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("get brightness");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_GET_BRIGHTNESS);
+    }
+
+    @Test
+    public void getFromCommandDisplaySetBrightness() throws Exception {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("set brightness to 50%");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_BRIGHTNESS);
+
+        ci = CommandInstance.CreateFromCommand("set brightness to 0");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_BRIGHTNESS);
+
+        ci = CommandInstance.CreateFromCommand("set brightness to auto");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_SET_BRIGHTNESS);
+    }
 }

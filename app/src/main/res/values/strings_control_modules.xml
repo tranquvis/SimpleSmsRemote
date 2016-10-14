@@ -39,4 +39,12 @@
         audio types: ring, music, alarm, notification, system, phonecall, dtmf
         \nvolume: index (e.g. 6), percentage (e.g. 90%), vibrate or silent (only for audio type ring)
     </string>
+
+    <string name="control_module_title_display">Display</string>
+    <string name="control_module_desc_display">
+        Manage the display\'s brightness.
+    </string>
+    <string name="control_module_param_desc_display">
+        brightness: percentage (e.g. 50%) or auto
+    </string>
 </resources>

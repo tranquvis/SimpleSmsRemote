@@ -10,6 +10,7 @@ import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.AudioUtils;
 import tranquvis.simplesmsremote.Utils.BatteryUtils;
 import tranquvis.simplesmsremote.Utils.BluetoothUtils;
+import tranquvis.simplesmsremote.Utils.DisplayUtils;
 import tranquvis.simplesmsremote.Utils.LocationUtils;
 import tranquvis.simplesmsremote.Utils.MobileDataUtils;
 import tranquvis.simplesmsremote.Utils.WifiUtils;
@@ -191,6 +192,45 @@ public class CommandExec
                     result.setCustomResultMessage(context.getString(
                             R.string.result_msg_audio_volume_percentage, audioTypeStr,
                             volumePercentage));
+                    result.setForceSendingResultSmsMessage(true);
+                }
+                else if (command == DISPLAY_SET_BRIGHTNESS)
+                {
+                    String brightnessStr = commandInstance.getParam(PARAM_BRIGHTNESS);
+
+                    float brightnessPercentage;
+                    if(brightnessStr.equals("auto"))
+                    {
+                        //set brightness mode to auto
+                        DisplayUtils.SetBrightnessMode(context, DisplayUtils.BrightnessMode.AUTO);
+                    }
+                    else
+                    {
+                        //set brightness percentage
+                        // regardless of whether a percentage character is given
+                        if (brightnessStr.endsWith("%"))
+                        {
+                            brightnessPercentage = Float.parseFloat(brightnessStr.substring(0,
+                                    brightnessStr.length() - 1));
+                        }
+                        else
+                        {
+                            brightnessPercentage = Float.parseFloat(brightnessStr);
+                        }
+                        DisplayUtils.SetBrightness(context, brightnessPercentage);
+                    }
+                }
+                else if (command == DISPLAY_GET_BRIGHTNESS)
+                {
+                    float brightnessPercentage = DisplayUtils.GetBrightness(context);
+                    DisplayUtils.BrightnessMode brightnessMode =
+                            DisplayUtils.GetBrightnessMode(context);
+                    String brightnessModeStr = brightnessMode == DisplayUtils.BrightnessMode.AUTO
+                            ? "auto" : "manual";
+
+                    result.setCustomResultMessage(context.getString(
+                            R.string.result_msg_display_brightness_percentage, brightnessPercentage,
+                            brightnessModeStr));
                     result.setForceSendingResultSmsMessage(true);
                 }
 

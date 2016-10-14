@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
+import android.view.Display;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,8 @@ public class ControlCommand
 {
     public static final String
             PARAM_AUDIO_TYPE = "audio type",
-            PARAM_AUDIO_VOLUME = "volume";
+            PARAM_AUDIO_VOLUME = "volume",
+            PARAM_BRIGHTNESS = "brightness";
 
     public static final ControlCommand
             WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE, WIFI_HOTSPOT_IS_ENABLED,
@@ -20,9 +23,11 @@ public class ControlCommand
             LOCATION_GET,
             WIFI_ENABLE, WIFI_DISABLE, WIFI_IS_ENABLED,
             BLUETOOTH_ENABLE, BLUETOOTH_DISABLE, BLUETOOTH_IS_ENABLED,
-            AUDIO_SET_VOLUME, AUDIO_GET_VOLUME, AUDIO_GET_VOLUME_PERCENTAGE;
-    
-    static{
+            AUDIO_SET_VOLUME, AUDIO_GET_VOLUME, AUDIO_GET_VOLUME_PERCENTAGE,
+            DISPLAY_GET_BRIGHTNESS, DISPLAY_SET_BRIGHTNESS;
+
+    static
+    {
         WIFI_HOTSPOT_ENABLE = new ControlCommand("enable hotspot");
         WIFI_HOTSPOT_DISABLE = new ControlCommand("disable hotspot");
         WIFI_HOTSPOT_IS_ENABLED = new ControlCommand("is hotspot enabled");
@@ -46,10 +51,12 @@ public class ControlCommand
 
         AUDIO_SET_VOLUME = new ControlCommand("set volume [%s] to [%s]",
                 PARAM_AUDIO_TYPE, PARAM_AUDIO_VOLUME);
-        AUDIO_GET_VOLUME = new ControlCommand("get volume for [%s]",
-                PARAM_AUDIO_TYPE);
+        AUDIO_GET_VOLUME = new ControlCommand("get volume for [%s]", PARAM_AUDIO_TYPE);
         AUDIO_GET_VOLUME_PERCENTAGE = new ControlCommand("get volume percentage for [%s]",
                 PARAM_AUDIO_TYPE);
+
+        DISPLAY_GET_BRIGHTNESS = new ControlCommand("get brightness");
+        DISPLAY_SET_BRIGHTNESS = new ControlCommand("set brightness to [%s]", PARAM_BRIGHTNESS);
     }
 
     private String commandTemplate;
@@ -61,8 +68,9 @@ public class ControlCommand
 
         String[] s1 = commandTemplate.split("\\[");
         paramNames = new String[s1.length];
-        for (int i = 1; i < s1.length; i++) {
-            paramNames[i-1] = s1[i].split("\\]")[0];
+        for (int i = 1; i < s1.length; i++)
+        {
+            paramNames[i - 1] = s1[i].split("\\]")[0];
         }
     }
 
@@ -72,11 +80,13 @@ public class ControlCommand
         this.paramNames = paramNames;
     }
 
-    public String getCommandTemplate() {
+    public String getCommandTemplate()
+    {
         return commandTemplate;
     }
 
-    public String[] getParamNames() {
+    public String[] getParamNames()
+    {
         return paramNames;
     }
 
@@ -95,12 +105,16 @@ public class ControlCommand
     {
         List<ControlCommand> commands = new ArrayList<>();
 
-        for (Field field : ControlCommand.class.getDeclaredFields()) {
+        for (Field field : ControlCommand.class.getDeclaredFields())
+        {
 
-            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == ControlCommand.class) {
-                try {
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == ControlCommand.class)
+            {
+                try
+                {
                     commands.add((ControlCommand) field.get(null));
-                } catch (IllegalAccessException e) {
+                } catch (IllegalAccessException e)
+                {
                     e.printStackTrace();
                 }
             }
