@@ -1,4 +1,5 @@
 TODO change PreferenceScreen to CompatPreferenceScreen
 TODO log entry for stopping receiver not saved in apis below 21 (solution: save receiver status cyclically to file)
-TODO create modules: wifi (connect to specific network),
+TODO create modules: wifi (connect to specific network), camera
 TODO option to delete sms from inbox
+TODO create moore specific log entries for errors
