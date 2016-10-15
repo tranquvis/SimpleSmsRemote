@@ -1,12 +1,20 @@
 package tranquvis.simplesmsremote;
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.os.IBinder;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.core.deps.guava.util.concurrent.ExecutionError;
+import android.support.test.rule.ServiceTestRule;
 import android.util.Log;
 
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Andi on 04.09.2016.

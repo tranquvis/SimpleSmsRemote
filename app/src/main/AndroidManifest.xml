@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tranquvis.simplesmsremote">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -59,7 +61,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.HelpHowToControlActivity"
             android:label="@string/title_activity_help_how_to_control"
@@ -69,10 +70,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".TestActivity"
-            android:exported="true"/>
+            android:exported="true" />
 
         <service
             android:name=".Services.SMSReceiverService"
