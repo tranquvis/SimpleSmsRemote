@@ -24,9 +24,10 @@ Install the app on a device, which should be controlled, and send control comman
 * Wifi: enable, disable, check if enabled
 * Bluetooth: enable, disable, check if enabled
 * Mobile Data Connection: enable, disable, check if enabled
-* Battery: fetch level, check if battery is charging
-* Location: fetch coordinates
-* Audio Volume: set volume of ringtone and music, fetch volume
+* Battery: get level, check if battery is charging
+* Location: get current device coordinates
+* Audio Volume: set and get volume of all audio types (ringtone, music, ...)
+* Display: set and get brightness, set and get display off timeout, turn display off
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
