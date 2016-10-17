@@ -36,6 +36,7 @@
     <string name="permissions_denied">You need to grant the required permissions in order to enable this control module.</string>
     <string name="control_module_enabled_successful">The control module has been successfully enabled.</string>
     <string name="control_module_disabled_successful">The control module has been successfully disabled.</string>
+    <string name="title_module_section_settings">Settings</string>
 
     <string name="receiver_started">service for receiving sms commands started</string>
     <string name="receiver_stopped">receiver service stopped</string>
@@ -45,4 +46,7 @@
     <string name="permission_receive_sms_not_granted">The app cannot process remote commands without having the permission to receive sms.</string>
 
     <string name="hint_phone_edit">phone number</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

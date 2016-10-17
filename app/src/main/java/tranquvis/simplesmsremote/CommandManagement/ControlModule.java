@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
+import tranquvis.simplesmsremote.Activities.ModuleActivities.CameraModuleActivity;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
@@ -25,7 +27,7 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
 public class ControlModule
 {
     public static final ControlModule
-            WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY;
+            WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY, CAMERA;
 
     static
     {
@@ -153,6 +155,14 @@ public class ControlModule
         DISPLAY.iconRes = R.drawable.ic_settings_brightness_grey_700_36dp;
         DISPLAY.paramInfoRes = R.string.control_module_param_desc_display;
         //endregion
+
+        //region camera
+        CAMERA = new ControlModule("camera",
+                new ControlCommand[]{
+
+                });
+        CAMERA.configurationActivityType = CameraModuleActivity.class;
+        //endregion
     }
 
     public static ControlModule getFromId(String id)
@@ -185,6 +195,9 @@ public class ControlModule
     private int descriptionRes = -1;
     private int iconRes = -1;
     private int paramInfoRes = -1;
+
+    private Class<? extends ConfigureControlModuleActivity> configurationActivityType =
+            ConfigureControlModuleActivity.class;
 
     private ControlModule(String id, ControlCommand[] commands)
     {
@@ -242,6 +255,11 @@ public class ControlModule
     public int getParamInfoRes()
     {
         return paramInfoRes;
+    }
+
+    public Class<? extends ConfigureControlModuleActivity> getConfigurationActivityType()
+    {
+        return configurationActivityType;
     }
 
     /**
@@ -370,8 +388,12 @@ public class ControlModule
                 if ((module2.isEnabled() && !module1.isEnabled())
                         || (module2.isCompatible() && !module1.isCompatible()))
                     return 1;
-                return context.getString(module1.getTitleRes())
-                        .compareTo(context.getString(module2.getTitleRes()));
+                if(module1.getTitleRes() != -1 && module2.getTitleRes() != -1)
+                {
+                    return context.getString(module1.getTitleRes())
+                            .compareTo(context.getString(module2.getTitleRes()));
+                }
+                return module1.getId().compareTo(module2.getId());
             }
         };
     }

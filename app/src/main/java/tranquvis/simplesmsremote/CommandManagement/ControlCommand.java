@@ -26,7 +26,8 @@ public class ControlCommand
             BLUETOOTH_ENABLE, BLUETOOTH_DISABLE, BLUETOOTH_IS_ENABLED,
             AUDIO_SET_VOLUME, AUDIO_GET_VOLUME, AUDIO_GET_VOLUME_PERCENTAGE,
             DISPLAY_GET_BRIGHTNESS, DISPLAY_SET_BRIGHTNESS, DISPLAY_SET_OFF_TIMEOUT,
-                DISPLAY_GET_OFF_TIMEOUT, DISPLAY_TURN_OFF;
+                DISPLAY_GET_OFF_TIMEOUT, DISPLAY_TURN_OFF,
+            CAMERA_TAKE_PICTURE_SIMPLE, CAMERA_TAKE_PICTURE;
 
     static
     {
@@ -63,6 +64,9 @@ public class ControlCommand
         DISPLAY_SET_OFF_TIMEOUT = new ControlCommand("set display off timeout to [%s]",
                 PARAM_DISPLAY_OFF_TIMEOUT);
         DISPLAY_TURN_OFF = new ControlCommand("turn display off");
+
+        CAMERA_TAKE_PICTURE_SIMPLE = new ControlCommand("take picture");
+        CAMERA_TAKE_PICTURE = new ControlCommand("take picture with [%s]");
     }
 
     private String commandTemplate;

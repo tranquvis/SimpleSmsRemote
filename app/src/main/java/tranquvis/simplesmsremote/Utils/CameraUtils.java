@@ -82,9 +82,12 @@ public class CameraUtils {
                     case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
                         break;
                 }
+                if(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE).booleanValue())
+                    cameraInfo.setFlashlightSupport(true);
+
                 //TODO add more info
 
-                return new MyCameraInfo(cameraId, resolution);
+                return cameraInfo;
             }
         }
         return null;
@@ -102,7 +105,7 @@ public class CameraUtils {
 
         //create image surface
         final ImageReader imageReader = ImageReader.newInstance(settings.getResolution().getWidth(),
-                settings.getResolution().getHeight(), PixelFormat.JPEG, 1);
+                settings.getResolution().getHeight(), PixelFormat.RGBA_8888, 1);
         final List<Surface> surfaceList = new ArrayList<>();
         surfaceList.add(imageReader.getSurface());
 
@@ -123,10 +126,25 @@ public class CameraUtils {
         CaptureRequest.Builder captureRequestBuilder = cameraDevice.createCaptureRequest(
                 CameraDevice.TEMPLATE_STILL_CAPTURE);
         captureRequestBuilder.addTarget(surfaceList.get(0));
-        captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                CaptureRequest.CONTROL_AF_MODE_AUTO);
-        captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                CaptureRequest.CONTROL_AF_TRIGGER_START);
+
+        //configure capture based on settings
+        if(settings.isAutofocus())
+        {
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                    CaptureRequest.CONTROL_AF_MODE_AUTO);
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CaptureRequest.CONTROL_AF_TRIGGER_START);
+        }
+
+        if(settings.getFlashlight() == MyCaptureSettings.FlashlightMode.ON)
+        {
+            captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_SINGLE);
+        }
+        else if(settings.getFlashlight() == MyCaptureSettings.FlashlightMode.OFF)
+        {
+            captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+        }
+
         CaptureRequest captureRequest = captureRequestBuilder.build();
 
         //capture photo
@@ -209,7 +227,7 @@ public class CameraUtils {
         }, new Handler(context.getMainLooper()));
 
         //wait until photo is captured
-        final int maxWaitTime = 3000; //milliseconds
+        final int maxWaitTime = 5000; //milliseconds
         final int timeout = 10;
 
         long startTime = System.currentTimeMillis();
@@ -332,7 +350,8 @@ public class CameraUtils {
     {
         private String id;
         private Size resolution;
-        private boolean autofocusSupport;
+        private boolean autofocusSupport = false;
+        private boolean flashlightSupport = false;
 
         public MyCameraInfo(String id, Size resolution) {
             this.id = id;
@@ -355,6 +374,16 @@ public class CameraUtils {
             this.autofocusSupport = autofocusSupport;
         }
 
+        public boolean isFlashlightSupport()
+        {
+            return flashlightSupport;
+        }
+
+        public void setFlashlightSupport(boolean flashlightSupport)
+        {
+            this.flashlightSupport = flashlightSupport;
+        }
+
         public MyCaptureSettings getDefaultCaptureSettings()
         {
             String defaultPhotosPath = Environment.getExternalStoragePublicDirectory(
@@ -364,7 +393,8 @@ public class CameraUtils {
 
             MyCaptureSettings captureSettings = new MyCaptureSettings(resolution,
                     Bitmap.CompressFormat.JPEG, path);
-            captureSettings.autofocus = autofocusSupport;
+            captureSettings.setAutofocus(autofocusSupport);
+            captureSettings.setFlashlight(MyCaptureSettings.FlashlightMode.AUTO);
             return captureSettings;
         }
     }
@@ -374,7 +404,8 @@ public class CameraUtils {
         private Size resolution;
         private Bitmap.CompressFormat compressFormat;
         private String outputPath;
-        private boolean autofocus;
+        private boolean autofocus = false;
+        private FlashlightMode flashlight = FlashlightMode.AUTO;
 
         public MyCaptureSettings(Size resolution, Bitmap.CompressFormat compressFormat,
                                  String outputPath)
@@ -382,7 +413,6 @@ public class CameraUtils {
             this.resolution = resolution;
             this.compressFormat = compressFormat;
             this.outputPath = outputPath;
-            this.autofocus = autofocus;
         }
 
         public Size getResolution() {
@@ -415,6 +445,21 @@ public class CameraUtils {
 
         public void setAutofocus(boolean autofocus) {
             this.autofocus = autofocus;
+        }
+
+        public FlashlightMode getFlashlight()
+        {
+            return flashlight;
+        }
+
+        public void setFlashlight(FlashlightMode flashlight)
+        {
+            this.flashlight = flashlight;
+        }
+
+        public enum FlashlightMode
+        {
+            AUTO, OFF, ON
         }
     }
 }

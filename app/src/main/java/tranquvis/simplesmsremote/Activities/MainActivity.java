@@ -363,8 +363,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
     {
-        Intent intent = new Intent(this, ConfigureControlModuleActivity.class);
-        intent.putExtra("controlActionId", listAdapter.getItem(i).getId());
+        ControlModule module = listAdapter.getItem(i);
+        if(module == null)
+            return;
+
+        Intent intent = new Intent(this, module.getConfigurationActivityType());
+        intent.putExtra("controlActionId", module.getId());
         startActivity(intent);
     }
 

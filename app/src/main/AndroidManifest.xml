@@ -44,6 +44,15 @@
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
         <activity
+            android:name=".Activities.ModuleActivities.CameraModuleActivity"
+            android:label="@string/title_activity_configure_control_action"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
+        </activity>
+        <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".Activities.MainActivity"

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -70,10 +71,18 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         isModuleEnabled = controlModule.isEnabled();
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
-        toolbar.setSubtitle(controlModule.getTitleRes());
 
-        ((TextView)findViewById(R.id.textView_description)).setText(
-                controlModule.getDescriptionRes());
+        if(controlModule.getTitleRes() != -1)
+        {
+            toolbar.setSubtitle(controlModule.getTitleRes());
+        }
+
+        if(controlModule.getDescriptionRes() != -1)
+        {
+            ((TextView) findViewById(R.id.textView_description)).setText(
+                    controlModule.getDescriptionRes());
+        }
+
         ((TextView)findViewById(R.id.textView_commands)).setText(controlModule.getCommandsString());
 
         if(controlModule.getParamInfoRes() != -1)
@@ -300,5 +309,12 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             Toast.makeText(this, R.string.alert_save_data_failed,
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected void setSettingsContentLayout(int layoutId)
+    {
+        ViewStub settingsViewStub = (ViewStub) findViewById(R.id.viewStub_settings_content);
+        settingsViewStub.setLayoutResource(layoutId);
+        settingsViewStub.inflate();
     }
 }
