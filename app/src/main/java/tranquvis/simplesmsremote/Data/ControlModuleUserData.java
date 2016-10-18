@@ -1,5 +1,6 @@
 package tranquvis.simplesmsremote.Data;
 
+import android.support.annotation.Nullable;
 import android.telephony.PhoneNumberUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,26 +17,14 @@ public class ControlModuleUserData implements Serializable
 {
     private String controlModuleId;
     private List<String> grantedPhones;
+    private ModuleSettingsData settings;
 
-    public ControlModuleUserData(String controlModuleId, List<String> grantedPhones)
+    public ControlModuleUserData(String controlModuleId, @Nullable List<String> grantedPhones,
+                                 @Nullable ModuleSettingsData settings)
     {
         this.controlModuleId = controlModuleId;
         this.grantedPhones = grantedPhones != null ? grantedPhones : new ArrayList<String>();
-    }
-
-    /**
-     * parse ControlActionUserData from text line
-     * @param textLine line of text
-     * @return user data
-     */
-    public static ControlModuleUserData Parse(String textLine)
-    {
-        String[] parts = textLine.split(":");
-        String id = parts[0];
-        String[] dataParts = parts[1].split(";");
-        String[] phones = dataParts[0].split(",");
-
-        return new ControlModuleUserData(id, Arrays.asList(phones));
+        this.settings = settings;
     }
 
     public String getControlModuleId()
@@ -58,8 +47,8 @@ public class ControlModuleUserData implements Serializable
         return false;
     }
 
-    public String toTextLine()
+    public ModuleSettingsData getSettings()
     {
-        return controlModuleId + ":" + StringUtils.join(grantedPhones, ',');
+        return settings;
     }
 }

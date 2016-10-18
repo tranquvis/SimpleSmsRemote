@@ -27,6 +27,7 @@ import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
 
@@ -35,6 +36,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
     private ControlModule controlModule;
+    private ControlModuleUserData userData;
+    protected ModuleSettingsData moduleSettings;
     private List<String> grantedPhones;
     private boolean isModuleEnabled;
     private boolean saveOnStop = true;
@@ -47,6 +50,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     private GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
     private CoordinatorLayout coordinatorLayout;
+    private ViewStub settingsViewStub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +71,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             finish();
             return;
         }
-        ControlModuleUserData userData = controlModule.getUserData();
+        userData = controlModule.getUserData();
         isModuleEnabled = controlModule.isEnabled();
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
@@ -131,6 +135,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
             FloatingActionButton addPhoneFab = (FloatingActionButton) findViewById(R.id.fab_add_phone);
             addPhoneFab.setOnClickListener(this);
+
+            moduleSettings = userData.getSettings();
         }
         else
         {
@@ -292,11 +298,11 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                     filteredPhones.add(phone);
             }
             DataManager.getUserData().setControlModule(new ControlModuleUserData(
-                    controlModule.getId(), grantedPhones));
+                    controlModule.getId(), grantedPhones, moduleSettings));
         }
         else
             DataManager.getUserData().addControlModule(new ControlModuleUserData(
-                    controlModule.getId(), new ArrayList<String>()));
+                    controlModule.getId(), new ArrayList<String>(), moduleSettings));
 
         try
         {
@@ -316,5 +322,20 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         ViewStub settingsViewStub = (ViewStub) findViewById(R.id.viewStub_settings_content);
         settingsViewStub.setLayoutResource(layoutId);
         settingsViewStub.inflate();
+    }
+
+    protected CoordinatorLayout getCoordinatorLayout()
+    {
+        return coordinatorLayout;
+    }
+
+    protected ControlModule getControlModule()
+    {
+        return controlModule;
+    }
+
+    protected ControlModuleUserData getUserData()
+    {
+        return userData;
     }
 }

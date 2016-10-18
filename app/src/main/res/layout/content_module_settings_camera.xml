@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:text="TextView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"/>
+        android:background="#eee"
+        android:id="@+id/layout_spinner_settings_camera_device_bg"
+        android:padding="5dp">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_settings_camera_device"
+            android:dropDownWidth="match_parent"
+            />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch_settings_is_default"
+            android:text="@string/is_default_camera_device"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:text="@string/module_settings_camera_default_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch_settings_flashlight"
+            android:text="@string/flashlight_switch_title"
+            android:layout_marginLeft="15dp"/>
+    </LinearLayout>
+
+
 </LinearLayout>

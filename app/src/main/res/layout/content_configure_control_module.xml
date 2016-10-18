@@ -232,8 +232,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="0dp"
-                app:cardElevation="1dp"
-                app:contentPadding="16dp">
+                app:cardElevation="2dp" >
 
                 <ViewStub
                     android:layout_width="match_parent"

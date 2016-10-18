@@ -21,11 +21,12 @@
     <string name="control_modules_title">Modules</string>
     <string name="module_command_parameter_info_title">Parameter info</string>
     <string name="user_data_title">User data</string>
-    <string name="alert_load_data_failed">The App failed to load user data.</string>
-    <string name="alert_load_log_failed">The App failed to load log from file.</string>
-    <string name="alert_save_data_failed">The App failed to save your data.</string>
+    <string name="alert_load_data_failed">The app failed to load user data.</string>
+    <string name="alert_load_log_failed">The app failed to load log from file.</string>
+    <string name="alert_save_data_failed">The app failed to save your data.</string>
     <string name="alert_sure_to_disable_module">Do you really want to disable this module?</string>
     <string name="alert_sure_to_clear_log">Clear whole log?</string>
+    <string name="alert_load_cameras_failed">The app failed to load available cameras.</string>
     <string name="receiver_service_title">Sms Receiver</string>
     <string name="commands_title">Commands</string>
     <string name="granted_phones_title">Granted phones</string>
@@ -47,6 +48,13 @@
 
     <string name="hint_phone_edit">phone number</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_choose_camera">choose camera</string>
+    <string name="is_default_camera_device">default camera</string>
+
+    <string name="camera_facing_back_title">back camera</string>
+    <string name="camera_facing_front_title">front camera</string>
+    <string name="camera_facing_external_title">external camera</string>
+    <string name="camera_facing_unknown_title">unknown</string>
+    <string name="module_settings_camera_default_title">Default camera settings</string>
+    <string name="flashlight_switch_title">Flash</string>
 </resources>

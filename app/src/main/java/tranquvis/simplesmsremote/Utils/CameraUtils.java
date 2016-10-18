@@ -4,6 +4,7 @@ package tranquvis.simplesmsremote.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
@@ -27,7 +28,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import tranquvis.simplesmsremote.Data.CaptureSettings;
 
 /**
  * Created by Andi on 15.10.2016.
@@ -37,7 +41,7 @@ public class CameraUtils {
     private static final String TAG = CameraUtils.class.getName();
 
     public static void TakePhoto(final Context context, MyCameraInfo camera,
-                                 MyCaptureSettings settings) throws Exception {
+                                 CaptureSettings settings) throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TakePhoto2(context, camera, settings);
         } else {
@@ -45,6 +49,12 @@ public class CameraUtils {
         }
     }
 
+    /**
+     * Get first camera whose lens facing is back.
+     * @param context app context
+     * @return the camera information or null if no camera was found
+     * @throws Exception
+     */
     public static MyCameraInfo GetBackCamera(Context context) throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return GetBackCamera2(context);
@@ -53,42 +63,86 @@ public class CameraUtils {
         }
     }
 
+    public static List<MyCameraInfo> GetAllCameras(Context context) throws Exception
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return GetAllCameras2(context);
+        } else {
+            return GetAllCameras1(context);
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static MyCameraInfo GetBackCamera2(Context context) throws Exception {
+    private static List<MyCameraInfo> GetAllCameras2(Context context) throws Exception
+    {
+        List<MyCameraInfo> cameras = new ArrayList<>();
+
         CameraManager cameraManager =
                 (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
-        String[] cameraIdList = cameraManager.getCameraIdList();
-        for (int i = 0; i < cameraIdList.length; i++) {
-             String cameraId = cameraIdList[i];
+        for (String cameraId : cameraManager.getCameraIdList())
+        {
             CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
-            if(characteristics.get(CameraCharacteristics.LENS_FACING)
-                    == CameraCharacteristics.LENS_FACING_BACK)
+            MyCameraInfo cameraInfo = MyCameraInfo.CreateFromCameraCharacteristics(cameraId,
+                    characteristics);
+            cameras.add(cameraInfo);
+        }
+
+        return cameras;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static Iterable<MyCameraInfo> GetAllCamerasIterable2(Context context) throws Exception
+    {
+        final CameraManager cameraManager =
+                (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        final String[] cameraIdList = cameraManager.getCameraIdList();
+
+        return new Iterable<MyCameraInfo>() {
+            @Override
+            public Iterator<MyCameraInfo> iterator()
             {
-                Size resolution =
-                        characteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE);
+                return new Iterator<MyCameraInfo>() {
+                    private int pos = 0;
 
-                MyCameraInfo cameraInfo = new MyCameraInfo(cameraId, resolution);
+                    @Override
+                    public boolean hasNext()
+                    {
+                        return pos < cameraIdList.length - 1;
+                    }
 
-                // supported functionality depends on the supported hardware level
-                switch (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL))
-                {
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
-
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
-
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
-                        cameraInfo.setAutofocusSupport(true);
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
-                        break;
-                }
-                if(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE).booleanValue())
-                    cameraInfo.setFlashlightSupport(true);
-
-                //TODO add more info
-
-                return cameraInfo;
+                    @Override
+                    public MyCameraInfo next()
+                    {
+                        String cameraId = cameraIdList[pos++];
+                        CameraCharacteristics characteristics;
+                        try
+                        {
+                            characteristics = cameraManager.getCameraCharacteristics(cameraId);
+                            return MyCameraInfo.CreateFromCameraCharacteristics(cameraId,
+                                    characteristics);
+                        } catch (CameraAccessException e)
+                        {
+                            return null;
+                        }
+                    }
+                };
             }
+        };
+    }
+
+    private static List<MyCameraInfo> GetAllCameras1(Context context)
+    {
+        throw new NotImplementedException("TODO");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static MyCameraInfo GetBackCamera2(Context context) throws Exception {
+        for (MyCameraInfo cameraInfo : GetAllCamerasIterable2(context))
+        {
+            if(cameraInfo.getLensFacing() != null
+                    && cameraInfo.getLensFacing() == MyCameraInfo.LensFacing.BACK)
+                return cameraInfo;
         }
         return null;
     }
@@ -99,7 +153,7 @@ public class CameraUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static void TakePhoto2(final Context context, MyCameraInfo camera,
-                                   final MyCaptureSettings settings) throws Exception, SecurityException {
+                                   final CaptureSettings settings) throws Exception, SecurityException {
         CameraManager cameraManager =
                 (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
@@ -136,11 +190,11 @@ public class CameraUtils {
                     CaptureRequest.CONTROL_AF_TRIGGER_START);
         }
 
-        if(settings.getFlashlight() == MyCaptureSettings.FlashlightMode.ON)
+        if(settings.getFlashlight() == CaptureSettings.FlashlightMode.ON)
         {
             captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_SINGLE);
         }
-        else if(settings.getFlashlight() == MyCaptureSettings.FlashlightMode.OFF)
+        else if(settings.getFlashlight() == CaptureSettings.FlashlightMode.OFF)
         {
             captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
         }
@@ -188,7 +242,7 @@ public class CameraUtils {
     }
 
     private static void TakePhoto1(final Context context, MyCameraInfo camera,
-                                   MyCaptureSettings settings) throws Exception
+                                   CaptureSettings settings) throws Exception
     {
         throw new NotImplementedException("TODO");
     }
@@ -350,6 +404,7 @@ public class CameraUtils {
     {
         private String id;
         private Size resolution;
+        private LensFacing lensFacing = null;
         private boolean autofocusSupport = false;
         private boolean flashlightSupport = false;
 
@@ -384,82 +439,73 @@ public class CameraUtils {
             this.flashlightSupport = flashlightSupport;
         }
 
-        public MyCaptureSettings getDefaultCaptureSettings()
+        public LensFacing getLensFacing()
+        {
+            return lensFacing;
+        }
+
+        public void setLensFacing(LensFacing lensFacing)
+        {
+            this.lensFacing = lensFacing;
+        }
+
+        public CaptureSettings getDefaultCaptureSettings()
         {
             String defaultPhotosPath = Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DCIM).getAbsolutePath();
             String filename = "remotely_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
             String path = defaultPhotosPath + File.separator + filename;
 
-            MyCaptureSettings captureSettings = new MyCaptureSettings(resolution,
+            CaptureSettings captureSettings = new CaptureSettings(resolution,
                     Bitmap.CompressFormat.JPEG, path);
             captureSettings.setAutofocus(autofocusSupport);
-            captureSettings.setFlashlight(MyCaptureSettings.FlashlightMode.AUTO);
+            captureSettings.setFlashlight(CaptureSettings.FlashlightMode.AUTO);
             return captureSettings;
         }
-    }
 
-    public static class MyCaptureSettings
-    {
-        private Size resolution;
-        private Bitmap.CompressFormat compressFormat;
-        private String outputPath;
-        private boolean autofocus = false;
-        private FlashlightMode flashlight = FlashlightMode.AUTO;
-
-        public MyCaptureSettings(Size resolution, Bitmap.CompressFormat compressFormat,
-                                 String outputPath)
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        public static MyCameraInfo CreateFromCameraCharacteristics(String cameraId,
+                CameraCharacteristics characteristics)
         {
-            this.resolution = resolution;
-            this.compressFormat = compressFormat;
-            this.outputPath = outputPath;
+            Size resolution =
+                    characteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE);
+            MyCameraInfo cameraInfo = new MyCameraInfo(cameraId, resolution);
+
+            // supported functionality depends on the supported hardware level
+            switch (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL))
+            {
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
+
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
+
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
+                    cameraInfo.setAutofocusSupport(true);
+                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
+                    break;
+            }
+
+            if(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE).booleanValue())
+                cameraInfo.setFlashlightSupport(true);
+
+            Integer lensFacing = characteristics.get(CameraCharacteristics.LENS_FACING);
+            if(lensFacing != null)
+            {
+                if(lensFacing == CameraCharacteristics.LENS_FACING_BACK)
+                    cameraInfo.setLensFacing(LensFacing.BACK);
+                else if(lensFacing == CameraCharacteristics.LENS_FACING_FRONT)
+                    cameraInfo.setLensFacing(LensFacing.FRONT);
+                else if(lensFacing == CameraCharacteristics.LENS_FACING_EXTERNAL)
+                    cameraInfo.setLensFacing(LensFacing.EXTERNAL);
+            }
+
+            //TODO add more info
+
+            return cameraInfo;
         }
 
-        public Size getResolution() {
-            return resolution;
-        }
-
-        public void setResolution(Size resolution) {
-            this.resolution = resolution;
-        }
-
-        public Bitmap.CompressFormat getCompressFormat() {
-            return compressFormat;
-        }
-
-        public void setCompressFormat(Bitmap.CompressFormat compressFormat) {
-            this.compressFormat = compressFormat;
-        }
-
-        public String getOutputPath() {
-            return outputPath;
-        }
-
-        public void setOutputPath(String outputPath) {
-            this.outputPath = outputPath;
-        }
-
-        public boolean isAutofocus() {
-            return autofocus;
-        }
-
-        public void setAutofocus(boolean autofocus) {
-            this.autofocus = autofocus;
-        }
-
-        public FlashlightMode getFlashlight()
+        public enum LensFacing
         {
-            return flashlight;
-        }
-
-        public void setFlashlight(FlashlightMode flashlight)
-        {
-            this.flashlight = flashlight;
-        }
-
-        public enum FlashlightMode
-        {
-            AUTO, OFF, ON
+            FRONT, BACK, EXTERNAL
         }
     }
 }
