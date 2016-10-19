@@ -289,14 +289,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     private void saveUserData()
     {
         if(isModuleEnabled) {
-            grantedPhonesListAdapter.updateData();
-            List<String> filteredPhones = new ArrayList<>();
-            for(String phone : grantedPhones)
-            {
-                phone = phone.trim();
-                if(!phone.isEmpty() && !filteredPhones.contains(phone))
-                    filteredPhones.add(phone);
-            }
+            updateGrantedPhones();
+            updateModuleSettings();
+
             DataManager.getUserData().setControlModule(new ControlModuleUserData(
                     controlModule.getId(), grantedPhones, moduleSettings));
         }
@@ -322,6 +317,25 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         ViewStub settingsViewStub = (ViewStub) findViewById(R.id.viewStub_settings_content);
         settingsViewStub.setLayoutResource(layoutId);
         settingsViewStub.inflate();
+    }
+
+    private void updateGrantedPhones()
+    {
+        grantedPhonesListAdapter.updateData();
+        List<String> filteredPhones = new ArrayList<>();
+        for(String phone : grantedPhones)
+        {
+            phone = phone.trim();
+            if(!phone.isEmpty() && !filteredPhones.contains(phone))
+                filteredPhones.add(phone);
+        }
+        grantedPhones.clear();
+        grantedPhones.addAll(filteredPhones);
+    }
+
+    protected void updateModuleSettings()
+    {
+
     }
 
     protected CoordinatorLayout getCoordinatorLayout()

@@ -1,7 +1,12 @@
 package tranquvis.simplesmsremote.Data;
 
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+import tranquvis.simplesmsremote.Utils.CameraUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 18.10.2016.
@@ -9,25 +14,47 @@ import java.util.List;
 
 public class CameraModuleSettingsData extends ModuleSettingsData
 {
-    private List<String> cameraIdList;
-    private List<CaptureSettings> captureSettingsList;
+    private String defaultCameraId = null;
+    private List<CaptureSettings> captureSettingsList = new ArrayList<>();
 
-    public CameraModuleSettingsData(List<String> cameraIdList, List<CaptureSettings> captureSettingsList)
+    public CameraModuleSettingsData()
     {
-        this.cameraIdList = cameraIdList;
-        this.captureSettingsList = captureSettingsList;
+    }
+
+    public static CameraModuleSettingsData CreateDefaultSettings(
+            List<CameraUtils.MyCameraInfo> cameraInfoList)
+    {
+        CameraModuleSettingsData moduleSettings = new CameraModuleSettingsData();
+        for (CameraUtils.MyCameraInfo camera : cameraInfoList)
+        {
+            moduleSettings.captureSettingsList.add(camera.getDefaultCaptureSettings());
+        }
+        return moduleSettings;
     }
 
     public CaptureSettings getCaptureSettingsByCameraId(String id)
     {
-        int i = 0;
-        for (String cameraId : cameraIdList)
+        for (CaptureSettings settings : captureSettingsList)
         {
-            if(cameraId.equals(id))
-                return captureSettingsList.get(i);
-            i++;
+            if(settings.getCameraId().equals(id))
+                return settings;
         }
 
         return null;
+    }
+
+    public String getDefaultCameraId()
+    {
+        return defaultCameraId;
+    }
+
+    public void setDefaultCameraId(String defaultCameraId)
+    {
+        this.defaultCameraId = defaultCameraId;
+    }
+
+    public List<CaptureSettings> getCaptureSettingsList()
+    {
+        return captureSettingsList;
     }
 }

@@ -1,11 +1,12 @@
 package tranquvis.simplesmsremote.Data;
 
 import android.graphics.Bitmap;
-import android.util.Size;
+import android.support.annotation.Nullable;
 
+import org.apache.commons.lang3.NotImplementedException;
+
+import java.io.File;
 import java.io.Serializable;
-
-import tranquvis.simplesmsremote.Utils.CameraUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 18.10.2016.
@@ -13,38 +14,56 @@ import tranquvis.simplesmsremote.Utils.CameraUtils;
 
 public class CaptureSettings implements Serializable
 {
-    private Size resolution;
-    private Bitmap.CompressFormat compressFormat;
+    private String cameraId = null;
+    private int[] resolution; // width, height
+    private ImageFormat outputImageFormat;
     private String outputPath;
     private boolean autofocus = false;
     private FlashlightMode flashlight = FlashlightMode.AUTO;
 
-    public CaptureSettings(Size resolution, Bitmap.CompressFormat compressFormat,
-                             String outputPath)
+    public CaptureSettings(@Nullable String cameraId, int[] resolution, ImageFormat outputImageFormat,
+                           String outputPath)
     {
+        this.cameraId = cameraId;
         this.resolution = resolution;
-        this.compressFormat = compressFormat;
+        this.outputImageFormat = outputImageFormat;
         this.outputPath = outputPath;
     }
 
-    public Size getResolution() {
+    public String getCameraId()
+    {
+        return cameraId;
+    }
+
+    public void setCameraId(String cameraId)
+    {
+        this.cameraId = cameraId;
+    }
+
+    public int[] getResolution() {
         return resolution;
     }
 
-    public void setResolution(Size resolution) {
+    public void setResolution(int[] resolution) {
         this.resolution = resolution;
     }
 
-    public Bitmap.CompressFormat getCompressFormat() {
-        return compressFormat;
+    public ImageFormat getOutputImageFormat() {
+        return outputImageFormat;
     }
 
-    public void setCompressFormat(Bitmap.CompressFormat compressFormat) {
-        this.compressFormat = compressFormat;
+    public void setOutputImageFormat(ImageFormat outputImageFormat) {
+        this.outputImageFormat = outputImageFormat;
     }
 
     public String getOutputPath() {
         return outputPath;
+    }
+
+    public String getFileOutputPath()
+    {
+        String filename = "remotely_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        return outputPath + File.separator + filename;
     }
 
     public void setOutputPath(String outputPath) {
@@ -71,6 +90,24 @@ public class CaptureSettings implements Serializable
 
     public enum FlashlightMode
     {
-        AUTO, OFF, ON
+        AUTO, ON, OFF
+    }
+
+    public enum ImageFormat
+    {
+        JPEG, PNG;
+
+        public Bitmap.CompressFormat getBitmapCompressFormat()
+        {
+            switch (this)
+            {
+                case JPEG:
+                    return Bitmap.CompressFormat.JPEG;
+                case PNG:
+                    return Bitmap.CompressFormat.PNG;
+                default:
+                    throw new NotImplementedException("Image format not implemented");
+            }
+        }
     }
 }

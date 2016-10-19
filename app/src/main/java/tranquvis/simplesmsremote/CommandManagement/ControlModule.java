@@ -161,6 +161,9 @@ public class ControlModule
                 new ControlCommand[]{
 
                 });
+        CAMERA.requiredPermissions = new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        };
         CAMERA.configurationActivityType = CameraModuleActivity.class;
         //endregion
     }

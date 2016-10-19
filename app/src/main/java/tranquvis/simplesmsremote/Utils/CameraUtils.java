@@ -158,8 +158,8 @@ public class CameraUtils {
                 (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
         //create image surface
-        final ImageReader imageReader = ImageReader.newInstance(settings.getResolution().getWidth(),
-                settings.getResolution().getHeight(), PixelFormat.RGBA_8888, 1);
+        final ImageReader imageReader = ImageReader.newInstance(settings.getResolution()[0],
+                settings.getResolution()[1], PixelFormat.RGBA_8888, 1);
         final List<Surface> surfaceList = new ArrayList<>();
         surfaceList.add(imageReader.getSurface());
 
@@ -216,7 +216,7 @@ public class CameraUtils {
         imageReader.close();
 
         //save file
-        File file = new File(settings.getOutputPath());
+        File file = new File(settings.getFileOutputPath());
         file.getParentFile().mkdirs(); //create parent directories
         if(!file.createNewFile())
             throw new Exception("Failed to create file for image.");
@@ -224,7 +224,7 @@ public class CameraUtils {
         FileOutputStream os = null;
         try {
             os = new FileOutputStream(file);
-            bitmap.compress(settings.getCompressFormat(), 100, os);
+            bitmap.compress(settings.getOutputImageFormat().getBitmapCompressFormat(), 100, os);
             Log.i(TAG, "image saved successfully");
         }
         catch (FileNotFoundException e) {
@@ -403,12 +403,12 @@ public class CameraUtils {
     public static class MyCameraInfo
     {
         private String id;
-        private Size resolution;
+        private int[] resolution;
         private LensFacing lensFacing = null;
         private boolean autofocusSupport = false;
         private boolean flashlightSupport = false;
 
-        public MyCameraInfo(String id, Size resolution) {
+        public MyCameraInfo(String id, int[] resolution) {
             this.id = id;
             this.resolution = resolution;
         }
@@ -417,7 +417,7 @@ public class CameraUtils {
             return id;
         }
 
-        public Size getResolution() {
+        public int[] getResolution() {
             return resolution;
         }
 
@@ -453,11 +453,9 @@ public class CameraUtils {
         {
             String defaultPhotosPath = Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DCIM).getAbsolutePath();
-            String filename = "remotely_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-            String path = defaultPhotosPath + File.separator + filename;
 
-            CaptureSettings captureSettings = new CaptureSettings(resolution,
-                    Bitmap.CompressFormat.JPEG, path);
+            CaptureSettings captureSettings = new CaptureSettings(id, resolution,
+                    CaptureSettings.ImageFormat.JPEG, defaultPhotosPath);
             captureSettings.setAutofocus(autofocusSupport);
             captureSettings.setFlashlight(CaptureSettings.FlashlightMode.AUTO);
             return captureSettings;
@@ -467,8 +465,10 @@ public class CameraUtils {
         public static MyCameraInfo CreateFromCameraCharacteristics(String cameraId,
                 CameraCharacteristics characteristics)
         {
-            Size resolution =
+            Size resolutionSize =
                     characteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE);
+            int[] resolution = new int[]{resolutionSize.getWidth(), resolutionSize.getHeight()};
+
             MyCameraInfo cameraInfo = new MyCameraInfo(cameraId, resolution);
 
             // supported functionality depends on the supported hardware level
