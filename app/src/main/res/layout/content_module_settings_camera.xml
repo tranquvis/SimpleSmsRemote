@@ -39,14 +39,17 @@
             />
 
         <TextView
+            android:text="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"/>
+
+        <TextView
             android:text="@string/module_settings_camera_default_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimary"/>
+            style="@style/HeaderPrimaryStyle"/>
 
         <LinearLayout
             android:orientation="horizontal"

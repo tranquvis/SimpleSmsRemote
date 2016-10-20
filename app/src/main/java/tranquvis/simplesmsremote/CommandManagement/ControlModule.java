@@ -159,7 +159,8 @@ public class ControlModule
         //region camera
         CAMERA = new ControlModule("camera",
                 new ControlCommand[]{
-
+                        ControlCommand.CAMERA_TAKE_PICTURE,
+                        ControlCommand.CAMERA_TAKE_PICTURE_SIMPLE
                 });
         CAMERA.requiredPermissions = new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
