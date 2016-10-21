@@ -152,7 +152,7 @@ public class ControlModule
         };
         DISPLAY.titleRes = R.string.control_module_title_display;
         DISPLAY.descriptionRes = R.string.control_module_desc_display;
-        DISPLAY.iconRes = R.drawable.ic_camera_grey_700_36dp;
+        DISPLAY.iconRes = R.drawable.ic_settings_brightness_grey_700_36dp;
         DISPLAY.paramInfoRes = R.string.control_module_param_desc_display;
         //endregion
 
@@ -166,10 +166,10 @@ public class ControlModule
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
         };
         CAMERA.configurationActivityType = CameraModuleActivity.class;
-        DISPLAY.titleRes = R.string.control_module_title_camera;
-        DISPLAY.descriptionRes = R.string.control_module_desc_camera;
-        DISPLAY.iconRes = R.drawable.ic_settings_brightness_grey_700_36dp;
-        DISPLAY.paramInfoRes = R.string.control_module_param_desc_camera;
+        CAMERA.titleRes = R.string.control_module_title_camera;
+        CAMERA.descriptionRes = R.string.control_module_desc_camera;
+        CAMERA.iconRes = R.drawable.ic_camera_grey_700_36dp;
+        CAMERA.paramInfoRes = R.string.control_module_param_desc_camera;
         //endregion
     }
 
