@@ -58,7 +58,12 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
                     Snackbar.LENGTH_LONG);
         }
 
-        if(cameras != null)
+        if(cameras == null)
+        {
+            Snackbar.make(getCoordinatorLayout(), R.string.alert_no_cameras_found,
+                    Snackbar.LENGTH_INDEFINITE);
+        }
+        else
         {
             if(moduleSettings == null)
             {

@@ -3,18 +3,12 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:id="@+id/textView_title"
-        tools:text="title"
-        android:textAlignment="viewStart"
-        style="@style/HeaderPrimaryStyle"
-        android:layout_marginTop="5dp"/>
+        android:id="@+id/textView_command_template"
+        tools:text="command template"/>
 </RelativeLayout>

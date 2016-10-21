@@ -9,25 +9,24 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eee"
         android:id="@+id/layout_spinner_settings_camera_device_bg"
-        android:padding="5dp">
+        android:background="@drawable/bg_border_bottom_grey">
 
         <android.support.v7.widget.AppCompatSpinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_settings_camera_device"
-            android:dropDownWidth="match_parent"
-            />
+            android:dropDownWidth="match_parent" />
     </FrameLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginLeft="@dimen/card_padding"
+        android:layout_marginRight="@dimen/card_padding"
         android:layout_marginTop="10dp"
         android:id="@+id/layout_camera_settings_content">
 
@@ -36,27 +35,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/switch_settings_is_default"
             android:text="@string/is_default_camera_device"
-            />
-
-        <TextView
-            android:text="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5"/>
+            style="@style/CardContentTextStyle"/>
 
         <TextView
             android:text="@string/module_settings_camera_default_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
-            style="@style/HeaderPrimaryStyle"/>
+            style="@style/Header2PrimaryStyle"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp">
+            android:layout_marginBottom="@dimen/card_pref_vertical_margin"
+            android:layout_marginTop="@dimen/card_pref_vertical_margin">
 
             <TextView
                 android:text="@string/flashlight_switch_title"
@@ -64,23 +57,23 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView7"
                 android:layout_weight="10"
-                android:fontFamily="sans-serif"
-                android:textColor="#000"/>
+                style="@style/CardContentTextStyle"/>
 
             <android.support.v7.widget.AppCompatSpinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_settings_camera_flash"
                 android:layout_weight="1"
-                android:entries="@array/flash_options"/>
+                android:entries="@array/flash_options"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="@dimen/card_pref_vertical_margin"
+            android:layout_marginTop="@dimen/card_pref_vertical_margin">
 
             <TextView
                 android:text="@string/output_image_format_switch_title"
@@ -88,53 +81,51 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView8"
                 android:layout_weight="10"
-                android:fontFamily="sans-serif"
-                android:textColor="#000"/>
+                style="@style/CardContentTextStyle"/>
 
             <android.support.v7.widget.AppCompatSpinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_settings_camera_image_output_format"
                 android:layout_weight="1"
-                android:entries="@array/image_formats"/>
+                android:entries="@array/image_formats" />
 
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
             android:id="@+id/layout_settings_capture_output_path"
-            android:clickable="true">
+            android:clickable="true"
+            android:layout_marginBottom="@dimen/card_pref_vertical_margin"
+            android:layout_marginTop="@dimen/card_pref_vertical_margin">
 
             <TextView
                 android:text="@string/capture_output_path_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView9"
-                android:layout_weight="10"
-                android:textColor="#000"/>
+                android:id="@+id/textView9" />
 
             <TextView
-                android:text="TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_settings_capture_output_path"
-                android:layout_weight="10"
                 android:layout_below="@+id/textView9"
-                tools:text="path/foo"/>
+                tools:text="path/foo"
+                style="@style/CardContentTextStyle"
+                android:textColor="#000"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_more_horiz_black_24dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/imageView"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:contentDescription="@string/simple_choose"/>
 
         </RelativeLayout>
 

@@ -15,7 +15,8 @@ public class ControlCommand
             PARAM_AUDIO_TYPE = "audio type",
             PARAM_AUDIO_VOLUME = "volume",
             PARAM_BRIGHTNESS = "brightness",
-            PARAM_DISPLAY_OFF_TIMEOUT = "timeout";
+            PARAM_DISPLAY_OFF_TIMEOUT = "timeout",
+            PARAM_TAKE_PICTURE_SETTINGS = "settings";
 
     public static final ControlCommand
             WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE, WIFI_HOTSPOT_IS_ENABLED,
@@ -66,7 +67,8 @@ public class ControlCommand
         DISPLAY_TURN_OFF = new ControlCommand("turn display off");
 
         CAMERA_TAKE_PICTURE_SIMPLE = new ControlCommand("take picture");
-        CAMERA_TAKE_PICTURE = new ControlCommand("take picture with [%s]");
+        CAMERA_TAKE_PICTURE = new ControlCommand("take picture with [%s]",
+                PARAM_TAKE_PICTURE_SETTINGS);
     }
 
     private String commandTemplate;

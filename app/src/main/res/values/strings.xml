@@ -19,6 +19,7 @@
     <string name="simple_rename">rename</string>
     <string name="simple_delete">delete</string>
     <string name="simple_create">create</string>
+    <string name="simple_choose">choose</string>
 
     <string name="module_info_title">Module info</string>
     <string name="control_modules_title">Modules</string>
@@ -30,6 +31,7 @@
     <string name="alert_sure_to_disable_module">Do you really want to disable this module?</string>
     <string name="alert_sure_to_clear_log">Clear whole log?</string>
     <string name="alert_load_cameras_failed">The app failed to load available cameras.</string>
+    <string name="alert_no_cameras_found">No camera has been found on your device.</string>
     <string name="receiver_service_title">Sms Receiver</string>
     <string name="commands_title">Commands</string>
     <string name="granted_phones_title">Granted phones</string>

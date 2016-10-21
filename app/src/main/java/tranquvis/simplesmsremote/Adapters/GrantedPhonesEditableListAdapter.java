@@ -15,6 +15,7 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
+import tranquvis.simplesmsremote.Utils.UIUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 30.08.2016.
@@ -25,7 +26,6 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
 
     private List<String> phones;
     private ListView listView;
-    private int itemHeight = 0;
 
     private List<String> usedNumbers;
     private ArrayAdapter phoneListAdapter;
@@ -50,13 +50,6 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
-
-            if(itemHeight == 0)
-            {
-                convertView.measure(0, 0);
-                itemHeight = convertView.getMeasuredHeight();
-                updateHeight();
-            }
         }
 
         String phone = phones.get(position);
@@ -98,13 +91,7 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
     public void notifyDataSetChanged()
     {
         super.notifyDataSetChanged();
-        updateHeight();
-    }
-
-    private void updateHeight()
-    {
-        ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
-        layoutParams.height = (itemHeight + listView.getDividerHeight()) * phones.size();
+        UIUtils.SetListViewHeightBasedOnItems(listView);
     }
 
     public void updateData()

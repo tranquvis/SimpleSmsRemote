@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:listDivider">@drawable/list_divider</item>
     </style>
 
     <style name="SettingsTheme" parent="AppTheme.NoActionBar">
@@ -43,9 +45,43 @@
     </style>
 
     <style name="HeaderPrimaryStyle">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="Header2PrimaryStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="CardHeaderStyle">
+        <item name="android:textColor">#888</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+    <style name="CardContentTextStyle">
+        <item name="android:textColor">@color/colorTextGrey</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="CardContentTextSmallStyle">
+        <item name="android:textColor">@color/colorTextGrey</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="CodeBoxStyle">
+        <item name="android:background">@drawable/code_box</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
     </style>
 </resources>

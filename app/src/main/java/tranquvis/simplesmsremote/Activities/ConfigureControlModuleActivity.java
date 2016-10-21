@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tranquvis.simplesmsremote.Adapters.CommandTemplateListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.ControlModule;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
@@ -30,6 +31,7 @@ import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
+import tranquvis.simplesmsremote.Utils.UIUtils;
 
 public class ConfigureControlModuleActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -87,7 +89,11 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                     controlModule.getDescriptionRes());
         }
 
-        ((TextView)findViewById(R.id.textView_commands)).setText(controlModule.getCommandsString());
+        ListView commandsListView = (ListView) findViewById(R.id.listView_commands);
+        CommandTemplateListAdapter commandsListAdapter = new CommandTemplateListAdapter(this,
+                controlModule.getCommands());
+        commandsListView.setAdapter(commandsListAdapter);
+        UIUtils.SetListViewHeightBasedOnItems(commandsListView);
 
         if(controlModule.getParamInfoRes() != -1)
         {
@@ -123,6 +129,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
         if(isModuleEnabled)
         {
+            findViewById(R.id.card_user_settings).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView_user_settings_title).setVisibility(View.VISIBLE);
+
             grantedPhones = userData.getGrantedPhones();
             if (grantedPhones.isEmpty())
                 grantedPhones.add("");
@@ -132,16 +141,12 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                     grantedPhonesListView);
             grantedPhonesListView.setScrollContainer(false);
             grantedPhonesListView.setAdapter(grantedPhonesListAdapter);
+            UIUtils.SetListViewHeightBasedOnItems(grantedPhonesListView);
 
             FloatingActionButton addPhoneFab = (FloatingActionButton) findViewById(R.id.fab_add_phone);
             addPhoneFab.setOnClickListener(this);
 
             moduleSettings = userData.getSettings();
-        }
-        else
-        {
-            findViewById(R.id.layout_user_data).setVisibility(View.GONE);
-            findViewById(R.id.textView_user_data_title).setVisibility(View.GONE);
         }
     }
 
@@ -314,6 +319,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
     protected void setSettingsContentLayout(int layoutId)
     {
+        findViewById(R.id.card_module_settings).setVisibility(View.VISIBLE);
+        findViewById(R.id.textView_module_settings_title).setVisibility(View.VISIBLE);
+
         ViewStub settingsViewStub = (ViewStub) findViewById(R.id.viewStub_settings_content);
         settingsViewStub.setLayoutResource(layoutId);
         settingsViewStub.inflate();

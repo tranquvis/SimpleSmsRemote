@@ -16,9 +16,12 @@
     <color name="colorPrimaryDark">@color/materialPurple800</color>
     <color name="colorPrimaryLight">@color/materialPurple300</color>
     <color name="colorAccent">@color/materialIndigoA400</color>
+    <color name="colorAccentSecondary">#616161</color>
 
     <color name="colorError">#EF5350</color>
     <color name="colorSuccess">#66BB6A</color>
     <color name="colorInfo">#5C6BC0</color>
     <color name="colorTextGrey">#616161</color>
+
+    <color name="colorDivider">#ddd</color>
 </resources>

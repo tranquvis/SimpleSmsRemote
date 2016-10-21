@@ -33,7 +33,7 @@
 
     <string name="control_module_title_audio">Audio</string>
     <string name="control_module_desc_audio">
-        Manage volume of ringtone, music usw..
+        Manage volume of ringtone, music and more.
     </string>
     <string name="control_module_param_desc_audio">
         audio types: ring, music, alarm, notification, system, phonecall, dtmf
@@ -48,5 +48,14 @@
     <string name="control_module_param_desc_display">
         brightness: percentage (e.g. 50%) or auto
         \ntimeout: time, after which the display is turned off (e.g. 30min, 10.5s, 500ms)
+    </string>
+
+    <string name="control_module_title_camera">Camera</string>
+    <string name="control_module_desc_camera">
+        Take photo with predefined or individual settings.
+    </string>
+    <string name="control_module_param_desc_camera">
+        settings: individual settings for this capture
+        possible options: front cam, back cam, cam [index], flash on, flash off, flash auto)
     </string>
 </resources>

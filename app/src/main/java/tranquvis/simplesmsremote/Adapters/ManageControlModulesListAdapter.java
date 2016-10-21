@@ -34,7 +34,6 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<ControlModule>
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
-
         }
 
         ControlModule controlModule = getItem(position);
