@@ -19,6 +19,7 @@ import tranquvis.simplesmsremote.Activities.ModuleActivities.CameraModuleActivit
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
+import tranquvis.simplesmsremote.Utils.CameraUtils;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
 /**
@@ -165,6 +166,7 @@ public class ControlModule
         CAMERA.requiredPermissions = new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
         };
+        CAMERA.sdkMin = Build.VERSION_CODES.LOLLIPOP;
         CAMERA.configurationActivityType = CameraModuleActivity.class;
         CAMERA.titleRes = R.string.control_module_title_camera;
         CAMERA.descriptionRes = R.string.control_module_desc_camera;
@@ -290,12 +292,13 @@ public class ControlModule
 
     /**
      * Check if control module is compatible with the executing android system.
-     *
      * @return true if compatible
      */
     public boolean isCompatible()
     {
-        return Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax);
+        if(!(Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax)))
+            return false;
+        return true;
     }
 
     /**

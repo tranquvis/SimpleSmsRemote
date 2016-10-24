@@ -16,6 +16,8 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.util.Size;
@@ -50,16 +52,19 @@ public class CameraUtils {
     }
 
     /**
-     * Get first camera whose lens facing is back.
+     * Get first camera, which meets the given characteristics.
      * @param context app context
+     * @param lensFacing lens facing
      * @return the camera information or null if no camera was found
      * @throws Exception
      */
-    public static MyCameraInfo GetBackCamera(Context context) throws Exception {
+    public static MyCameraInfo GetCamera(Context context, @Nullable String cameraId,
+                                         @Nullable MyCameraInfo.LensFacing lensFacing)
+            throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return GetBackCamera2(context);
+            return GetCamera2(context, cameraId, lensFacing);
         } else {
-            return GetBackCamera1(context);
+            return GetCamera1(context, cameraId, lensFacing);
         }
     }
 
@@ -137,9 +142,16 @@ public class CameraUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static MyCameraInfo GetBackCamera2(Context context) throws Exception {
+    private static MyCameraInfo GetCamera2(Context context, @Nullable String cameraId,
+                                           @Nullable MyCameraInfo.LensFacing lensFacing)
+            throws Exception
+    {
         for (MyCameraInfo cameraInfo : GetAllCamerasIterable2(context))
         {
+            if(cameraInfo.getLensFacing() == null)
+                return cameraInfo;
+            if(cameraId != null && cameraInfo.getId().equals(cameraId))
+                return cameraInfo;
             if(cameraInfo.getLensFacing() != null
                     && cameraInfo.getLensFacing() == MyCameraInfo.LensFacing.BACK)
                 return cameraInfo;
@@ -147,7 +159,8 @@ public class CameraUtils {
         return null;
     }
 
-    private static MyCameraInfo GetBackCamera1(Context context) {
+    private static MyCameraInfo GetCamera1(Context context, @Nullable String cameraId,
+                                           @Nullable MyCameraInfo.LensFacing lensFacing) {
         throw new NotImplementedException("TODO");
     }
 
@@ -264,16 +277,18 @@ public class CameraUtils {
         final CaptureRequestResult result = new CaptureRequestResult();
         captureSession.capture(captureRequest, new CameraCaptureSession.CaptureCallback() {
             @Override
-            public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
-                                           TotalCaptureResult captureResult) {
+            public void onCaptureCompleted(@NonNull CameraCaptureSession session,
+                                           @NonNull CaptureRequest request,
+                                           @NonNull TotalCaptureResult captureResult) {
                 super.onCaptureCompleted(session, request, captureResult);
                 result.captureSuccess = true;
                 result.requestFinished = true;
             }
 
             @Override
-            public void onCaptureFailed(CameraCaptureSession session, CaptureRequest request,
-                                        CaptureFailure failure) {
+            public void onCaptureFailed(@NonNull CameraCaptureSession session,
+                                        @NonNull CaptureRequest request,
+                                        @NonNull CaptureFailure failure) {
                 super.onCaptureFailed(session, request, failure);
                 result.requestFinished = true;
             }
@@ -311,13 +326,13 @@ public class CameraUtils {
         final CaptureSessionRequestResult result = new CaptureSessionRequestResult();
         cameraDevice.createCaptureSession(surfaceList, new CameraCaptureSession.StateCallback() {
             @Override
-            public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+            public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                 result.cameraCaptureSession = cameraCaptureSession;
                 result.requestFinished = true;
             }
 
             @Override
-            public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
+            public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
                 result.requestFinished = true;
             }
         }, new Handler(context.getMainLooper()));
@@ -353,18 +368,18 @@ public class CameraUtils {
         final CameraOpenRequestResult result = new CameraOpenRequestResult();
         cameraManager.openCamera(cameraInfo.getId(), new CameraDevice.StateCallback() {
             @Override
-            public void onOpened(final CameraDevice cameraDevice) {
+            public void onOpened(@NonNull final CameraDevice cameraDevice) {
                 result.cameraDevice = cameraDevice;
                 result.requestFinished = true;
             }
 
             @Override
-            public void onDisconnected(CameraDevice cameraDevice) {
+            public void onDisconnected(@NonNull CameraDevice cameraDevice) {
                 result.requestFinished = true;
             }
 
             @Override
-            public void onError(CameraDevice cameraDevice, int i) {
+            public void onError(@NonNull CameraDevice cameraDevice, int i) {
                 result.requestFinished = true;
             }
         }, new Handler(context.getMainLooper()));

@@ -5,13 +5,17 @@ import android.icu.text.DecimalFormat;
 import android.icu.text.NumberFormat;
 import android.location.Location;
 
+import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
+import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
+import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.AudioUtils;
 import tranquvis.simplesmsremote.Utils.BatteryUtils;
 import tranquvis.simplesmsremote.Utils.BluetoothUtils;
+import tranquvis.simplesmsremote.Utils.CameraUtils;
 import tranquvis.simplesmsremote.Utils.DisplayUtils;
 import tranquvis.simplesmsremote.Utils.LocationUtils;
 import tranquvis.simplesmsremote.Utils.MobileDataUtils;
@@ -285,6 +289,61 @@ public class CommandExec
                 {
                     DisplayUtils.TurnScreenOff(context);
                     Thread.sleep(2000); // otherwise the notification forces the screen to turn on again
+                }
+                else if (command == CAMERA_TAKE_PICTURE_SIMPLE)
+                {
+                    CameraModuleSettingsData moduleSettings = (CameraModuleSettingsData)
+                            command.getModule().getUserData().getSettings();
+                    if(moduleSettings == null || moduleSettings.getDefaultCameraId() == null)
+                    {
+                        throw new Exception("Default camera not set.");
+                    }
+
+                    CameraUtils.MyCameraInfo cameraInfo = CameraUtils.GetCamera(context,
+                            moduleSettings.getDefaultCameraId(), null);
+                    if(cameraInfo == null)
+                        throw new Exception("Default camera not found on device.");
+
+                    CaptureSettings captureSettings
+                            = moduleSettings.getCaptureSettingsByCameraId(cameraInfo.getId());
+                    if(captureSettings == null)
+                        captureSettings = cameraInfo.getDefaultCaptureSettings();
+
+                    CameraUtils.TakePhoto(context, cameraInfo, captureSettings);
+                }
+                else if (command == CAMERA_TAKE_PICTURE)
+                {
+                    //retrieve given capture settings
+                    String cameraSettingsStr =
+                            commandInstance.getParam(PARAM_TAKE_PICTURE_SETTINGS);
+                    String[] cameraSettingsStrList = cameraSettingsStr.split("\\s*,\\s*");
+
+                    String cameraId = null;
+                    for (String settingStr : cameraSettingsStrList)
+                    {
+                        settingStr = settingStr.trim();
+                        if(settingStr.matches(""))
+                    }
+
+
+                    CameraModuleSettingsData moduleSettings = (CameraModuleSettingsData)
+                            command.getModule().getUserData().getSettings();
+                    if(moduleSettings == null || moduleSettings.getDefaultCameraId() == null)
+                    {
+                        throw new Exception("Default camera not set.");
+                    }
+
+                    CameraUtils.MyCameraInfo cameraInfo = CameraUtils.GetCamera(context,
+                            moduleSettings.getDefaultCameraId(), null);
+                    if(cameraInfo == null)
+                        throw new Exception("Default camera not found on device.");
+
+                    CaptureSettings captureSettings
+                            = moduleSettings.getCaptureSettingsByCameraId(cameraInfo.getId());
+                    if(captureSettings == null)
+                        captureSettings = cameraInfo.getDefaultCaptureSettings();
+
+                    CameraUtils.TakePhoto(context, cameraInfo, captureSettings);
                 }
 
                 DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
