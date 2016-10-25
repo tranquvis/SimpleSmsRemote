@@ -28,7 +28,7 @@ public class CameraModuleSettingsData extends ModuleSettingsData
         for (CameraUtils.MyCameraInfo camera : cameraInfoList)
         {
             moduleSettings.captureSettingsList.add(camera.getDefaultCaptureSettings());
-            if(camera.getLensFacing() == CameraUtils.MyCameraInfo.LensFacing.BACK)
+            if(camera.getLensFacing() == CameraUtils.LensFacing.BACK)
                 moduleSettings.defaultCameraId = camera.getId();
         }
 

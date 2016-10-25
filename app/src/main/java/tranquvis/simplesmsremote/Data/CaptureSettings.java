@@ -110,4 +110,17 @@ public class CaptureSettings implements Serializable
             }
         }
     }
+
+    public CaptureSettings clone() throws CloneNotSupportedException
+    {
+        return (CaptureSettings) super.clone();
+        /*
+        CaptureSettings settings =
+                new CaptureSettings(cameraId, resolution, outputImageFormat, outputPath);
+        settings.autofocus = autofocus;
+        settings.flashlight = flashlight;
+
+        return settings;
+        */
+    }
 }

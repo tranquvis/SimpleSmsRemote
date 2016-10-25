@@ -59,7 +59,7 @@ public class CameraUtils {
      * @throws Exception
      */
     public static MyCameraInfo GetCamera(Context context, @Nullable String cameraId,
-                                         @Nullable MyCameraInfo.LensFacing lensFacing)
+                                         @Nullable LensFacing lensFacing)
             throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return GetCamera2(context, cameraId, lensFacing);
@@ -143,7 +143,7 @@ public class CameraUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static MyCameraInfo GetCamera2(Context context, @Nullable String cameraId,
-                                           @Nullable MyCameraInfo.LensFacing lensFacing)
+                                           @Nullable LensFacing lensFacing)
             throws Exception
     {
         for (MyCameraInfo cameraInfo : GetAllCamerasIterable2(context))
@@ -153,14 +153,14 @@ public class CameraUtils {
             if(cameraId != null && cameraInfo.getId().equals(cameraId))
                 return cameraInfo;
             if(cameraInfo.getLensFacing() != null
-                    && cameraInfo.getLensFacing() == MyCameraInfo.LensFacing.BACK)
+                    && cameraInfo.getLensFacing() == LensFacing.BACK)
                 return cameraInfo;
         }
         return null;
     }
 
     private static MyCameraInfo GetCamera1(Context context, @Nullable String cameraId,
-                                           @Nullable MyCameraInfo.LensFacing lensFacing) {
+                                           @Nullable LensFacing lensFacing) {
         throw new NotImplementedException("TODO");
     }
 
@@ -517,10 +517,10 @@ public class CameraUtils {
 
             return cameraInfo;
         }
+    }
 
-        public enum LensFacing
-        {
-            FRONT, BACK, EXTERNAL
-        }
+    public enum LensFacing
+    {
+        FRONT, BACK, EXTERNAL
     }
 }

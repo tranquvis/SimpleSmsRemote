@@ -5,12 +5,15 @@ import android.icu.text.DecimalFormat;
 import android.icu.text.NumberFormat;
 import android.location.Location;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
+import tranquvis.simplesmsremote.Helper.CameraOptionsHelper;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.AudioUtils;
 import tranquvis.simplesmsremote.Utils.BatteryUtils;
@@ -313,35 +316,86 @@ public class CommandExec
                 }
                 else if (command == CAMERA_TAKE_PICTURE)
                 {
-                    //retrieve given capture settings
-                    String cameraSettingsStr =
+                    //region retrieve given capture settings
+                    String cameraOptionsStr =
                             commandInstance.getParam(PARAM_TAKE_PICTURE_SETTINGS);
-                    String[] cameraSettingsStrList = cameraSettingsStr.split("\\s*,\\s*");
+                    String[] cameraOptionsStrList = cameraOptionsStr.split("\\s*,\\s*");
 
                     String cameraId = null;
-                    for (String settingStr : cameraSettingsStrList)
+                    CameraUtils.LensFacing lensFacing = null;
+                    CaptureSettings.FlashlightMode flashMode = null;
+                    Boolean autofocus = null;
+                    for (String optionStr : cameraOptionsStrList)
                     {
-                        settingStr = settingStr.trim();
-                        if(settingStr.matches(""))
+                        optionStr = optionStr.trim();
+                        CameraOptionsHelper.TakePhotoOptions option =
+                                CameraOptionsHelper.TakePhotoOptions.FromOption(optionStr);
+                        if(option == null)
+                            continue;
+                        switch (option)
+                        {
+                            case CAMERA_INDEX:
+                                cameraId = (String) option.getValue(optionStr);
+                                break;
+                            case FRONT_CAMERA:
+                            case BACK_CAMERA:
+                                lensFacing = (CameraUtils.LensFacing) option.getValue(optionStr);
+                                break;
+                            case FLASH_ON:
+                            case FLASH_OFF:
+                            case FLASH_AUTO:
+                                flashMode = (CaptureSettings.FlashlightMode)
+                                        option.getValue(optionStr);
+                                break;
+                            case AUTOFOCUS_ON:
+                            case AUTOFOCUS_OFF:
+                                autofocus = (boolean) option.getValue(optionStr);
+                                break;
+                            default:
+                                throw new NotImplementedException("Option not implemented.");
+                        }
                     }
-
+                    //endregion
 
                     CameraModuleSettingsData moduleSettings = (CameraModuleSettingsData)
                             command.getModule().getUserData().getSettings();
-                    if(moduleSettings == null || moduleSettings.getDefaultCameraId() == null)
+
+                    //region get corresponding camera
+                    CameraUtils.MyCameraInfo cameraInfo;
+
+                    if(cameraId != null)
+                    {
+                        cameraInfo = CameraUtils.GetCamera(context, cameraId, null);
+                    }
+                    else if(lensFacing != null)
+                    {
+                        cameraInfo = CameraUtils.GetCamera(context, null, lensFacing);
+                    }
+                    else if(moduleSettings != null && moduleSettings.getDefaultCameraId() != null)
+                    {
+                        cameraInfo = CameraUtils.GetCamera(context,
+                                moduleSettings.getDefaultCameraId(), null);
+                    }
+                    else
                     {
                         throw new Exception("Default camera not set.");
                     }
 
-                    CameraUtils.MyCameraInfo cameraInfo = CameraUtils.GetCamera(context,
-                            moduleSettings.getDefaultCameraId(), null);
                     if(cameraInfo == null)
                         throw new Exception("Default camera not found on device.");
+                    //endregion
 
-                    CaptureSettings captureSettings
-                            = moduleSettings.getCaptureSettingsByCameraId(cameraInfo.getId());
+                    //region create capture settings
+                    CaptureSettings captureSettings = moduleSettings.getCaptureSettingsByCameraId(
+                            cameraInfo.getId()).clone();
                     if(captureSettings == null)
                         captureSettings = cameraInfo.getDefaultCaptureSettings();
+
+                    if(flashMode != null)
+                        captureSettings.setFlashlight(flashMode);
+                    if(autofocus != null)
+                        captureSettings.setAutofocus(autofocus);
+                    //endregion
 
                     CameraUtils.TakePhoto(context, cameraInfo, captureSettings);
                 }
