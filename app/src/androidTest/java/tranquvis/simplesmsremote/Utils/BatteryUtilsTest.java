@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.Utils;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
+import tranquvis.simplesmsremote.Utils.Device.BatteryUtils;
 
 import static org.junit.Assert.*;
 

@@ -1,8 +1,6 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
 import android.content.Context;
-import android.icu.text.DecimalFormat;
-import android.icu.text.NumberFormat;
 import android.location.Location;
 
 import org.apache.commons.lang3.NotImplementedException;
@@ -12,17 +10,16 @@ import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
-import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.Helper.CameraOptionsHelper;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.AudioUtils;
-import tranquvis.simplesmsremote.Utils.BatteryUtils;
-import tranquvis.simplesmsremote.Utils.BluetoothUtils;
-import tranquvis.simplesmsremote.Utils.CameraUtils;
-import tranquvis.simplesmsremote.Utils.DisplayUtils;
-import tranquvis.simplesmsremote.Utils.LocationUtils;
-import tranquvis.simplesmsremote.Utils.MobileDataUtils;
-import tranquvis.simplesmsremote.Utils.WifiUtils;
+import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
+import tranquvis.simplesmsremote.Utils.Device.BatteryUtils;
+import tranquvis.simplesmsremote.Utils.Device.BluetoothUtils;
+import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
+import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
+import tranquvis.simplesmsremote.Utils.Device.LocationUtils;
+import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
+import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 import tranquvis.simplesmsremote.Sms.MyMessage;
 import static tranquvis.simplesmsremote.CommandManagement.ControlCommand.*;
 
@@ -33,12 +30,22 @@ import static tranquvis.simplesmsremote.CommandManagement.ControlCommand.*;
 public class CommandExec
 {
     private CommandInstance commandInstance;
+    private Context context;
 
-    public CommandExec(CommandInstance commandInstance) {
+    public CommandExec(CommandInstance commandInstance, Context context) {
         this.commandInstance = commandInstance;
+        this.context = context;
     }
 
-    public CommandExecResult execute(Context context, MyMessage controlSms)
+    public Context getContext() {
+        return context;
+    }
+
+    public CommandInstance getCommandInstance() {
+        return commandInstance;
+    }
+
+    public CommandExecResult execute(MyMessage controlSms)
     {
         CommandExecResult result = new CommandExecResult(commandInstance);
         ControlCommand command = commandInstance.getCommand();
@@ -49,6 +56,8 @@ public class CommandExec
         {
             try
             {
+                command.execute(this); // replaces all below
+
                 if (command == WIFI_HOTSPOT_ENABLE)
                 {
                     WifiUtils.SetHotspotState(context, true);
@@ -293,7 +302,7 @@ public class CommandExec
                     DisplayUtils.TurnScreenOff(context);
                     Thread.sleep(2000); // otherwise the notification forces the screen to turn on again
                 }
-                else if (command == CAMERA_TAKE_PICTURE_SIMPLE)
+                else if (command == TAKE_PICTURE)
                 {
                     CameraModuleSettingsData moduleSettings = (CameraModuleSettingsData)
                             command.getModule().getUserData().getSettings();
@@ -312,9 +321,9 @@ public class CommandExec
                     if(captureSettings == null)
                         captureSettings = cameraInfo.getDefaultCaptureSettings();
 
-                    CameraUtils.TakePhoto(context, cameraInfo, captureSettings);
+                    CameraUtils.TakePicture(context, cameraInfo, captureSettings);
                 }
-                else if (command == CAMERA_TAKE_PICTURE)
+                else if (command == TAKE_PICTURE_WITH_OPTIONS)
                 {
                     //region retrieve given capture settings
                     String cameraOptionsStr =
@@ -328,8 +337,8 @@ public class CommandExec
                     for (String optionStr : cameraOptionsStrList)
                     {
                         optionStr = optionStr.trim();
-                        CameraOptionsHelper.TakePhotoOptions option =
-                                CameraOptionsHelper.TakePhotoOptions.FromOption(optionStr);
+                        CameraOptionsHelper.TakePictureOptions option =
+                                CameraOptionsHelper.TakePictureOptions.FromOption(optionStr);
                         if(option == null)
                             continue;
                         switch (option)
@@ -397,7 +406,7 @@ public class CommandExec
                         captureSettings.setAutofocus(autofocus);
                     //endregion
 
-                    CameraUtils.TakePhoto(context, cameraInfo, captureSettings);
+                    CameraUtils.TakePicture(context, cameraInfo, captureSettings);
                 }
 
                 DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);

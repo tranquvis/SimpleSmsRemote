@@ -1,12 +1,9 @@
 package tranquvis.simplesmsremote.Data;
 
-import android.support.annotation.Nullable;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.simplesmsremote.Utils.CameraUtils;
+import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 18.10.2016.

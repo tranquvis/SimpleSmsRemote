@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
+import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
 
 import static org.junit.Assert.*;
 

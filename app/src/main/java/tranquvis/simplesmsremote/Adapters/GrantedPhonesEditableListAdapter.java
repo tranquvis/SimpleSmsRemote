@@ -15,7 +15,7 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.UIUtils;
+import tranquvis.simplesmsremote.Utils.UI.UIUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 30.08.2016.

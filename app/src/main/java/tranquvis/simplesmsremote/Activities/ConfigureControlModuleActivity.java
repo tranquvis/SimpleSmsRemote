@@ -31,7 +31,7 @@ import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.UIUtils;
+import tranquvis.simplesmsremote.Utils.UI.UIUtils;
 
 public class ConfigureControlModuleActivity extends AppCompatActivity implements View.OnClickListener
 {

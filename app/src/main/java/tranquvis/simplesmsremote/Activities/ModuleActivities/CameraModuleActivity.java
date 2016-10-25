@@ -23,7 +23,7 @@ import tranquvis.simplesmsremote.Adapters.CameraDeviceSpinnerAdapter;
 import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.CameraUtils;
+import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 17.10.2016.

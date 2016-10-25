@@ -2,7 +2,6 @@ package tranquvis.simplesmsremote.Utils;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.os.Build;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +9,8 @@ import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
-import tranquvis.simplesmsremote.Utils.AudioUtils.AudioType;
+import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
+import tranquvis.simplesmsremote.Utils.Device.AudioUtils.AudioType;
 
 import static org.junit.Assert.*;
 

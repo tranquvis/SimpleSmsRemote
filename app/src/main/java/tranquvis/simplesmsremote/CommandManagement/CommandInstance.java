@@ -12,7 +12,6 @@ import tranquvis.simplesmsremote.Sms.MyCommandMessage;
 
 public class CommandInstance {
     private ControlCommand command;
-    private String[] params;
     private String commandText;
 
     /**
@@ -242,6 +241,6 @@ public class CommandInstance {
      */
     public CommandExecResult executeCommand(Context context, MyCommandMessage controlSms)
     {
-        return new CommandExec(this).execute(context, controlSms);
+        return new CommandExec(this, context).execute(context, controlSms);
     }
 }

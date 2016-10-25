@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.Utils;
+package tranquvis.simplesmsremote.Utils.Graphic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

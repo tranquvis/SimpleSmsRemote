@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.Utils;
+package tranquvis.simplesmsremote.Utils.Device;
 
 
 import android.content.Context;
@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Data.CaptureSettings;
+import tranquvis.simplesmsremote.Utils.Graphic.ImageUtils;
 
 /**
  * Created by Andi on 15.10.2016.
@@ -42,12 +43,12 @@ import tranquvis.simplesmsremote.Data.CaptureSettings;
 public class CameraUtils {
     private static final String TAG = CameraUtils.class.getName();
 
-    public static void TakePhoto(final Context context, MyCameraInfo camera,
+    public static void TakePicture(final Context context, MyCameraInfo camera,
                                  CaptureSettings settings) throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TakePhoto2(context, camera, settings);
+            TakePicture2(context, camera, settings);
         } else {
-            TakePhoto1(context, camera, settings);
+            TakePicture1(context, camera, settings);
         }
     }
 
@@ -165,7 +166,7 @@ public class CameraUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static void TakePhoto2(final Context context, MyCameraInfo camera,
+    private static void TakePicture2(final Context context, MyCameraInfo camera,
                                    final CaptureSettings settings) throws Exception, SecurityException {
         CameraManager cameraManager =
                 (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
@@ -254,7 +255,7 @@ public class CameraUtils {
         }
     }
 
-    private static void TakePhoto1(final Context context, MyCameraInfo camera,
+    private static void TakePicture1(final Context context, MyCameraInfo camera,
                                    CaptureSettings settings) throws Exception
     {
         throw new NotImplementedException("TODO");
@@ -272,7 +273,7 @@ public class CameraUtils {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static boolean CapturePhotoSync2(Context context, CameraCaptureSession captureSession,
-            CaptureRequest captureRequest) throws Exception
+                                             CaptureRequest captureRequest) throws Exception
     {
         final CaptureRequestResult result = new CaptureRequestResult();
         captureSession.capture(captureRequest, new CameraCaptureSession.CaptureCallback() {

@@ -5,6 +5,7 @@ import android.location.Location;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
+import tranquvis.simplesmsremote.Utils.Device.LocationUtils;
 
 import static org.junit.Assert.assertTrue;
 

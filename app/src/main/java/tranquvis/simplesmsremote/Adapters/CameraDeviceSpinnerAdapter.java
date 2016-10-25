@@ -1,7 +1,6 @@
 package tranquvis.simplesmsremote.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.CameraUtils;
+import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 /**
  * Created by Andreas Kaltenleitner on 18.10.2016.

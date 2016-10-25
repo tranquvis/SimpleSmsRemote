@@ -1,32 +1,29 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
+import android.content.Context;
+import android.support.annotation.StringRes;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
+
 /**
  * Created by Andreas Kaltenleitner on 29.08.2016.
  */
-public class ControlCommand
+public abstract class ControlCommand<T extends ControlCommand>
 {
+    protected static final ControlCommand TAKE_PICTURE_WITH_OPTIONS =
+            new CommandTakePictureWithOptions();
+    protected static final ControlCommand TAKE_PICTURE = new CommandTakePicture();
+
     public static final String
             PARAM_AUDIO_TYPE = "audio type",
             PARAM_AUDIO_VOLUME = "volume",
             PARAM_BRIGHTNESS = "brightness",
             PARAM_DISPLAY_OFF_TIMEOUT = "timeout",
             PARAM_TAKE_PICTURE_SETTINGS = "settings";
-
-    public static final ControlCommand
-            WIFI_HOTSPOT_ENABLE, WIFI_HOTSPOT_DISABLE, WIFI_HOTSPOT_IS_ENABLED,
-            MOBILE_DATA_ENABLE, MOBILE_DATA_DISABLE, MOBILE_DATA_IS_ENABLED,
-            BATTERY_LEVEL_GET, BATTERY_IS_CHARGING,
-            LOCATION_GET,
-            WIFI_ENABLE, WIFI_DISABLE, WIFI_IS_ENABLED,
-            BLUETOOTH_ENABLE, BLUETOOTH_DISABLE, BLUETOOTH_IS_ENABLED,
-            AUDIO_SET_VOLUME, AUDIO_GET_VOLUME, AUDIO_GET_VOLUME_PERCENTAGE,
-            DISPLAY_GET_BRIGHTNESS, DISPLAY_SET_BRIGHTNESS, DISPLAY_SET_OFF_TIMEOUT,
-                DISPLAY_GET_OFF_TIMEOUT, DISPLAY_TURN_OFF,
-            CAMERA_TAKE_PICTURE_SIMPLE, CAMERA_TAKE_PICTURE;
 
     static
     {
@@ -51,66 +48,44 @@ public class ControlCommand
         BLUETOOTH_DISABLE = new ControlCommand("disable bluetooth");
         BLUETOOTH_IS_ENABLED = new ControlCommand("is bluetooth enabled");
 
-        AUDIO_SET_VOLUME = new ControlCommand("set volume [%s] to [%s]",
-                PARAM_AUDIO_TYPE, PARAM_AUDIO_VOLUME);
-        AUDIO_GET_VOLUME = new ControlCommand("get volume for [%s]", PARAM_AUDIO_TYPE);
-        AUDIO_GET_VOLUME_PERCENTAGE = new ControlCommand("get volume percentage for [%s]",
-                PARAM_AUDIO_TYPE);
+        AUDIO_SET_VOLUME = new ControlCommand("set volume [" + PARAM_AUDIO_TYPE + "] to [" +
+                PARAM_AUDIO_VOLUME + "]");
+        AUDIO_GET_VOLUME = new ControlCommand("get volume for [" + PARAM_AUDIO_TYPE + "]");
+        AUDIO_GET_VOLUME_PERCENTAGE = new ControlCommand("get volume percentage for [" +
+                PARAM_AUDIO_TYPE + "]");
 
         DISPLAY_GET_BRIGHTNESS = new ControlCommand("get brightness");
-        DISPLAY_SET_BRIGHTNESS = new ControlCommand("set brightness to [%s]", PARAM_BRIGHTNESS);
+        DISPLAY_SET_BRIGHTNESS = new ControlCommand("set brightness to [" + PARAM_BRIGHTNESS + "]");
         DISPLAY_GET_OFF_TIMEOUT = new ControlCommand("get display off timeout");
-        DISPLAY_SET_OFF_TIMEOUT = new ControlCommand("set display off timeout to [%s]",
-                PARAM_DISPLAY_OFF_TIMEOUT);
+        DISPLAY_SET_OFF_TIMEOUT = new ControlCommand("set display off timeout to ["
+                + PARAM_DISPLAY_OFF_TIMEOUT + "]");
         DISPLAY_TURN_OFF = new ControlCommand("turn display off");
-
-        CAMERA_TAKE_PICTURE_SIMPLE = new ControlCommand("take picture");
-        CAMERA_TAKE_PICTURE = new ControlCommand("take picture with [%s]",
-                PARAM_TAKE_PICTURE_SETTINGS);
     }
 
-    private String title;
-    private String[] paramNames;
+    @StringRes
+    protected int titleRes;
+    protected String[] syntaxDescList;
+    protected PatternTreeNode patternTree;
 
-    private ControlCommand(String title)
+
+    protected ControlCommand() {}
+
+    public int getTitleRes()
     {
-        this.title = title;
-
-        String[] s1 = title.split("\\[");
-        paramNames = new String[s1.length];
-        for (int i = 1; i < s1.length; i++)
-        {
-            paramNames[i - 1] = s1[i].split("\\]")[0];
-        }
+        return titleRes;
     }
 
-    private ControlCommand(String title, String... paramNames)
-    {
-        this.title = String.format(title, (Object[]) paramNames);
-        this.paramNames = paramNames;
-    }
-
-    public String getTitle()
-    {
-        return title;
-    }
-
-    public String[] getParamNames()
-    {
-        return paramNames;
-    }
-
-    @Override
-    public String toString()
-    {
-        return title;
-    }
+    public abstract void execute(CommandExec commandExecutor) throws Exception;
 
     public ControlModule getModule()
     {
         return ControlModule.getFromCommand(this);
     }
 
+    /**
+     * Get all Commands by using reflection.
+     * @return all defined control commands
+     */
     public static List<ControlCommand> GetAllCommands()
     {
         List<ControlCommand> commands = new ArrayList<>();

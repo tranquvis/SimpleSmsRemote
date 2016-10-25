@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.Utils;
+package tranquvis.simplesmsremote.Utils.Device;
 
 import android.content.Context;
 import android.os.Build;

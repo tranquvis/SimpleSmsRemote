@@ -3,11 +3,9 @@ package tranquvis.simplesmsremote.CommandManagement;
 import android.Manifest;
 import android.content.Context;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -19,7 +17,6 @@ import tranquvis.simplesmsremote.Activities.ModuleActivities.CameraModuleActivit
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.CameraUtils;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
 /**
@@ -223,18 +220,6 @@ public class ControlModule
     public ControlCommand[] getCommands()
     {
         return commands;
-    }
-
-    public String getCommandsString()
-    {
-        String str = "";
-        for (ControlCommand com : commands)
-        {
-            if (com != commands[0])
-                str += "\r\n";
-            str += com.toString();
-        }
-        return str;
     }
 
     public int getSdkMin()

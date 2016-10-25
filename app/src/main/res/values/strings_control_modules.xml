@@ -52,10 +52,10 @@
 
     <string name="control_module_title_camera">Camera</string>
     <string name="control_module_desc_camera">
-        Take photo with predefined or individual settings.
+        Take picture with predefined or individual settings.
     </string>
     <string name="control_module_param_desc_camera">
         settings: individual settings for this capture
-        possible options: front cam, back cam, cam [index], flash on, flash off, flash auto)
+        possible options: front cam, back cam, cam [index], flash on, flash off, flash auto
     </string>
 </resources>

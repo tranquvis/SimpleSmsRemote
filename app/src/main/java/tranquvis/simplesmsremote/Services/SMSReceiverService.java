@@ -18,7 +18,6 @@ import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.MyNotificationManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Receiver.SMSReceiver;
-import tranquvis.simplesmsremote.Utils.CameraUtils;
 
 public class SMSReceiverService extends Service
 {

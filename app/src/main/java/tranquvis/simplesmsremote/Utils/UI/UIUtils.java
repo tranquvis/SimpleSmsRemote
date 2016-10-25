@@ -1,4 +1,4 @@
-package tranquvis.simplesmsremote.Utils;
+package tranquvis.simplesmsremote.Utils.UI;
 
 import android.view.View;
 import android.view.ViewGroup;

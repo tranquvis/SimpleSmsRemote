@@ -3,17 +3,17 @@ package tranquvis.simplesmsremote.Utils;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.AppContextTest;
-import static tranquvis.simplesmsremote.Utils.CameraUtils.*;
+import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
-import static org.junit.Assert.*;
+import static tranquvis.simplesmsremote.Utils.Device.CameraUtils.*;
 
 /**
  * Created by Andi on 15.10.2016.
  */
 public class CameraUtilsTest extends AppContextTest {
     @Test
-    public void takePhoto() throws Exception {
+    public void takePicture() throws Exception {
         MyCameraInfo cameraInfo = CameraUtils.GetCamera(appContext, null, LensFacing.BACK);
-        TakePhoto(appContext, cameraInfo, cameraInfo.getDefaultCaptureSettings());
+        TakePicture(appContext, cameraInfo, cameraInfo.getDefaultCaptureSettings());
     }
 }
