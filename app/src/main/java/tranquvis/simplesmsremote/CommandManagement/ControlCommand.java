@@ -1,7 +1,5 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
-import android.view.Display;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,14 +69,14 @@ public class ControlCommand
                 PARAM_TAKE_PICTURE_SETTINGS);
     }
 
-    private String commandTemplate;
+    private String title;
     private String[] paramNames;
 
-    private ControlCommand(String commandTemplate)
+    private ControlCommand(String title)
     {
-        this.commandTemplate = commandTemplate;
+        this.title = title;
 
-        String[] s1 = commandTemplate.split("\\[");
+        String[] s1 = title.split("\\[");
         paramNames = new String[s1.length];
         for (int i = 1; i < s1.length; i++)
         {
@@ -86,15 +84,15 @@ public class ControlCommand
         }
     }
 
-    private ControlCommand(String commandTemplate, String... paramNames)
+    private ControlCommand(String title, String... paramNames)
     {
-        this.commandTemplate = String.format(commandTemplate, (Object[]) paramNames);
+        this.title = String.format(title, (Object[]) paramNames);
         this.paramNames = paramNames;
     }
 
-    public String getCommandTemplate()
+    public String getTitle()
     {
-        return commandTemplate;
+        return title;
     }
 
     public String[] getParamNames()
@@ -105,7 +103,7 @@ public class ControlCommand
     @Override
     public String toString()
     {
-        return commandTemplate;
+        return title;
     }
 
     public ControlModule getModule()
@@ -134,3 +132,4 @@ public class ControlCommand
         return commands;
     }
 }
+

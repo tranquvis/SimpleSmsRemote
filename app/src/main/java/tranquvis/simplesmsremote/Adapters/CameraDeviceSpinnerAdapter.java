@@ -45,11 +45,11 @@ public class CameraDeviceSpinnerAdapter extends ArrayAdapter<CameraUtils.MyCamer
         int lensFacingDescRes = -1;
         if(cameraInfo.getLensFacing() == null)
             lensFacingDescRes = R.string.camera_facing_unknown_title;
-        else if(cameraInfo.getLensFacing() == CameraUtils.MyCameraInfo.LensFacing.BACK)
+        else if(cameraInfo.getLensFacing() == CameraUtils.LensFacing.BACK)
             lensFacingDescRes = R.string.camera_facing_back_title;
-        else if(cameraInfo.getLensFacing() == CameraUtils.MyCameraInfo.LensFacing.FRONT)
+        else if(cameraInfo.getLensFacing() == CameraUtils.LensFacing.FRONT)
             lensFacingDescRes = R.string.camera_facing_back_title;
-        else if(cameraInfo.getLensFacing() == CameraUtils.MyCameraInfo.LensFacing.EXTERNAL)
+        else if(cameraInfo.getLensFacing() == CameraUtils.LensFacing.EXTERNAL)
             lensFacingDescRes = R.string.camera_facing_back_title;
 
         String title = "Camera " + cameraInfo.getId() + " ("

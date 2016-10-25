@@ -87,7 +87,7 @@ public class CommandInstance {
             CommandInstance commandInstance = new CommandInstance(com);
             commandInstance.commandText = command;
 
-            String commandTemplateNorm = com.getCommandTemplate();
+            String commandTemplateNorm = com.getTitle();
 
             boolean match = true; //assume that the template matches
 

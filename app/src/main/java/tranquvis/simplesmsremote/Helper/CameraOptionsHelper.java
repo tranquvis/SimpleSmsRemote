@@ -27,19 +27,19 @@ public class CameraOptionsHelper
         private String name;
 
         @Language("RegExp")
-        private String matcher;
+        private String pattern;
 
         private Class valueType;
 
         /**
          * Create option for taking a photo.
          * @param name option name
-         * @param matcher regular expression, which defines which strings match this option
+         * @param pattern regular expression, which defines which strings match this option
          */
-        TakePhotoOptions(String name, @Language("RegExp") String matcher)
+        TakePhotoOptions(String name, @Language("RegExp") String pattern)
         {
             this.name = name;
-            this.matcher = matcher;
+            this.pattern = pattern;
         }
 
         public String getName()
@@ -51,7 +51,7 @@ public class CameraOptionsHelper
         {
             for (TakePhotoOptions o : values())
             {
-                if(option.matches(o.matcher))
+                if(option.matches(o.pattern))
                     return o;
             }
             return null;

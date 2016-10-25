@@ -1,6 +1,14 @@
 package tranquvis.simplesmsremote;
 
+import android.provider.Settings;
+import android.util.Log;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.ControlCommand;
@@ -197,10 +205,36 @@ public class CommandInstanceTest {
     }
 
     @Test
-    public void getFromCommandDisplayTurnOff() throws Exception
+    public void getFromCommandCameraTakePictureSimple() throws Exception
     {
         CommandInstance ci =
-                CommandInstance.CreateFromCommand("turn display off");
+                CommandInstance.CreateFromCommand("take picture");
+        assertTrue(ci != null &&  ci.getCommand() == ControlCommand.CAMERA_TAKE_PICTURE);
+    }
+
+    @Test
+    public void getFromCommandCameraTakePicture() throws Exception
+    {
+        CommandInstance ci =
+                CommandInstance.CreateFromCommand("take picture with \" \"");
         assertTrue(ci != null &&  ci.getCommand() == ControlCommand.DISPLAY_TURN_OFF);
+    }
+
+    @Test
+    public void temp() throws Exception
+    {
+        Pattern p = Pattern.compile("take\\s+picture\\s+with\\s+(flash|)\\s+");
+        Matcher m = p.matcher("take picture with flash ");
+
+        List<String> groups;
+        if(m.find())
+        {
+            groups = new ArrayList<>();
+            for (int i = 0; i <= m.groupCount(); i++)
+            {
+                groups.add(m.group(i));
+            }
+            System.out.print("");
+        }
     }
 }

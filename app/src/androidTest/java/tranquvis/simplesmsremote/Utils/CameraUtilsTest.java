@@ -13,8 +13,7 @@ import static org.junit.Assert.*;
 public class CameraUtilsTest extends AppContextTest {
     @Test
     public void takePhoto() throws Exception {
-        MyCameraInfo cameraInfo = CameraUtils.GetCamera(appContext, null,
-                MyCameraInfo.LensFacing.BACK);
+        MyCameraInfo cameraInfo = CameraUtils.GetCamera(appContext, null, LensFacing.BACK);
         TakePhoto(appContext, cameraInfo, cameraInfo.getDefaultCaptureSettings());
     }
 }
