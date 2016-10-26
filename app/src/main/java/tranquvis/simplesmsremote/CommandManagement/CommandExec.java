@@ -1,27 +1,11 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
 import android.content.Context;
-import android.location.Location;
 
-import org.apache.commons.lang3.NotImplementedException;
-
-import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
-import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
-import tranquvis.simplesmsremote.Helper.CameraOptionsHelper;
-import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
-import tranquvis.simplesmsremote.Utils.Device.BatteryUtils;
-import tranquvis.simplesmsremote.Utils.Device.BluetoothUtils;
-import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
-import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
-import tranquvis.simplesmsremote.Utils.Device.LocationUtils;
-import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
-import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 import tranquvis.simplesmsremote.Sms.MyMessage;
-import static tranquvis.simplesmsremote.CommandManagement.ControlCommand.*;
 
 /**
  * Created by Andi on 08.10.2016.
@@ -48,7 +32,7 @@ public class CommandExec
     public CommandExecResult execute(MyMessage controlSms)
     {
         CommandExecResult result = new CommandExecResult(commandInstance);
-        ControlCommand command = commandInstance.getCommand();
+        Command command = commandInstance.getCommand();
 
         if(!isGranted(controlSms, context))
             result.setSuccess(false);
@@ -56,8 +40,9 @@ public class CommandExec
         {
             try
             {
-                command.execute(this); // replaces all below
+                command.execute(this, result); // replaces all below
 
+                /*
                 if (command == WIFI_HOTSPOT_ENABLE)
                 {
                     WifiUtils.SetHotspotState(context, true);
@@ -254,7 +239,7 @@ public class CommandExec
                 else if(command == DISPLAY_SET_OFF_TIMEOUT)
                 {
                     String timeoutStr =
-                            commandInstance.getParam(ControlCommand.PARAM_DISPLAY_OFF_TIMEOUT);
+                            commandInstance.getParam(Command.PARAM_DISPLAY_OFF_TIMEOUT);
 
                     int timeoutStrLength = timeoutStr.length();
                     String timeoutValueStr;
@@ -407,7 +392,9 @@ public class CommandExec
                     //endregion
 
                     CameraUtils.TakePicture(context, cameraInfo, captureSettings);
+
                 }
+                */
 
                 DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
                 result.setSuccess(true);
@@ -421,41 +408,5 @@ public class CommandExec
         }
 
         return result;
-    }
-
-
-    private boolean isGranted(MyMessage controlSms, Context context)
-    {
-        ControlModule module = commandInstance.getCommand().getModule();
-        ControlModuleUserData moduleUserData = module.getUserData();
-
-        if(!module.isCompatible())
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
-                    commandInstance.getCommand()), context);
-            return false;
-        }
-        if(moduleUserData == null)
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context,
-                    commandInstance.getCommand()),
-                    context);
-            return false;
-        }
-        if(!moduleUserData.isPhoneGranted(controlSms.getPhoneNumber()))
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(context,
-                    commandInstance.getCommand(), controlSms.getPhoneNumber()),
-                    context);
-            return false;
-        }
-        if(!module.checkPermissions(context))
-        {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
-                    commandInstance.getCommand()), context);
-            return false;
-        }
-
-        return true;
     }
 }

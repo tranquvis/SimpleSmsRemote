@@ -2,64 +2,56 @@ package tranquvis.simplesmsremote.CommandManagement;
 
 import android.content.Context;
 
-import org.apache.commons.lang3.ArrayUtils;
-
+import tranquvis.simplesmsremote.CommandManagement.Commands.Commands;
+import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
+import tranquvis.simplesmsremote.Data.ControlModuleUserData;
+import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Sms.MyCommandMessage;
+import tranquvis.simplesmsremote.Utils.Regex.MatcherTreeNode;
 
 /**
  * Created by Andi on 07.10.2016.
  */
 
 public class CommandInstance {
-    private ControlCommand command;
+    private Command command;
     private String commandText;
-
-    /**
-     * Create command instance.
-     * @param command the underlying control command
-     */
-    private CommandInstance(ControlCommand command) {
-        this(command, new String[command.getParamNames().length], "");
-    }
+    private MatcherTreeNode matcherTree;
 
     /**
      * Create command instance and fill it with parameters
      * @param command the underlying control command
-     * @param params command parameters
      * @param commandText the command text which represents this instance
+     * @param matcherTree The regex matcher tree for {@code commandText},
+     *                    which contains all parameters.
      */
-    private CommandInstance(ControlCommand command, String[] params, String commandText) {
+    private CommandInstance(Command command, String commandText,
+                            MatcherTreeNode matcherTree) {
         this.command = command;
-        this.params = params;
         this.commandText = commandText;
+        this.matcherTree = matcherTree;
     }
 
-    private void setParam(int index, String value)
+    /**
+     * Extract param from matcher tree.
+     * @param commandParam the param which schould be retrieved
+     * @param <T> value type
+     * @return the param value or null if the param hasn' been found
+     */
+    public <T> T getParam(CommandParam<T> commandParam)
     {
-        params[index] = value;
+        MatcherTreeNode paramNode = matcherTree.getNodeByPatternId(commandParam.getId());
+        if(paramNode == null)
+            return null;
+        String paramInput = paramNode.getInput();
+        if(paramInput == null)
+            return null;
+        return commandParam.getValueFromInput(paramInput);
     }
 
-    private void setParam(String name, String value)
-    {
-        params[ArrayUtils.indexOf(command.getParamNames(), name)] = value;
-    }
-
-    public String getParam(int index)
-    {
-        return params[index];
-    }
-
-    public String getParam(String name)
-    {
-        return params[ArrayUtils.indexOf(command.getParamNames(), name)];
-    }
-
-    public ControlCommand getCommand() {
+    public Command getCommand() {
         return command;
-    }
-
-    public String[] getParams() {
-        return params;
     }
 
     public String getCommandText() {
@@ -73,164 +65,53 @@ public class CommandInstance {
 
     /**
      * get control command instance from command text
-     * @param command command text
+     * @param commandText command text
      * @return control command instance
      * @throws Exception
      */
-    public static CommandInstance CreateFromCommand(String command) throws Exception
-    {
-        String commandNorm = command.trim().toLowerCase();
+    public static CommandInstance CreateFromCommand(String commandText) throws Exception {
+        commandText = commandText.toLowerCase();
 
-        for (ControlCommand com : ControlCommand.GetAllCommands())
-        {
-            CommandInstance commandInstance = new CommandInstance(com);
-            commandInstance.commandText = command;
-
-            String commandTemplateNorm = com.getTitle();
-
-            boolean match = true; //assume that the template matches
-
-            boolean inWhitespace = false;
-
-            boolean inParam = false;
-            char paramAfterC = 0;
-            int paramStartIndex = 0;
-            int paramPos = 0;
-
-            boolean inQuotation = false;
-            boolean paramWrappedWithQuotation = false;
-            char quotationC = 0;
-
-            for(int i = 0, ti = 0; i <= commandNorm.length();)
-            {
-                if(i == commandNorm.length()) //end reached
-                {
-                    if(inQuotation) //unclosed quotations are not allowed
-                    {
-                        match = false;
-                    }
-                    if(paramAfterC == 0) //save param, if it reaches to end
-                    {
-                        match = true;
-
-                        //add param
-                        if(paramWrappedWithQuotation)
-                        {
-                            commandInstance.setParam(paramPos, commandNorm.substring(
-                                    paramStartIndex + 1, commandNorm.length() - 1));
-                        }
-                        else
-                        {
-                            commandInstance.setParam(paramPos, commandNorm.substring(
-                                    paramStartIndex));
-                        }
-                    }
-                    break;
-                }
-
-                char c = commandNorm.charAt(i);
-                char tc = commandTemplateNorm.charAt(ti);
-
-                if(inParam)
-                {
-                    if(inQuotation && (c == quotationC))
-                    {
-                        inQuotation = false;
-                    }
-
-                    if(!inQuotation && paramAfterC != 0 && (c == paramAfterC
-                            || (Character.isWhitespace(c) && Character.isWhitespace(paramAfterC))))
-                    {
-                        //param end reached
-                        inParam = false;
-                        match = true;
-
-                        //add param
-                        if(paramWrappedWithQuotation)
-                        {
-                            commandInstance.setParam(paramPos, commandNorm.substring(
-                                    paramStartIndex + 1, i - 1));
-                        }
-                        else
-                        {
-                            commandInstance.setParam(paramPos, commandNorm.substring(
-                                    paramStartIndex, i));
-                        }
-                        paramPos++;
-
-                        i++; ti++;
-                    }
-                    else
-                    {
-                        i++;
-                    }
-
-                }
-                else if(tc == '[')
-                {
-                    inParam = true;
-                    match = false;
-                    int pei = commandTemplateNorm.indexOf(']', ti);
-                    if(pei == -1)
-                        throw new Exception("Invalid command template syntax");
-                    //check if param reaches end of command
-                    if(pei == commandTemplateNorm.length() - 1) {
-                        //reaches end
-                        paramAfterC = 0;
-                        ti = pei;
-                    }
-                    else {
-                        paramAfterC = commandTemplateNorm.charAt(pei + 1);
-                        ti = pei + 1;
-                    }
-
-                    paramStartIndex = i;
-
-                    //check if param is wrapped with quotations
-                    if(c == '"' || c == '\'')
-                    {
-                        inQuotation = true;
-                        paramWrappedWithQuotation = true;
-                        quotationC = c;
-                    }
-                    else
-                        paramWrappedWithQuotation = false;
-
-                    i++;
-                }
-                else if(Character.isWhitespace(c) && Character.isWhitespace(tc))
-                {
-                    inWhitespace = true;
-                    i++; ti++;
-                }
-                else if(c == tc) {
-                    if(inWhitespace && !Character.isWhitespace(c))
-                        inWhitespace = false;
-                    i++; ti++;
-                }
-                else if(inWhitespace)
-                {
-                    if(!Character.isWhitespace(c) && !Character.isWhitespace(tc))
-                    {
-                        match = false;
-                        break;
-                    }
-                    if(Character.isWhitespace(c)) i++;
-                    if(Character.isWhitespace(tc)) ti++;
-                }
-                else
-                {
-                    match = false;
-                    break;
-                }
-            }
-            if(match)
-            {
-                //command matches with template
-                return commandInstance;
+        for (Command com : Commands.GetAllCommands()) {
+            MatcherTreeNode matcherTree = com.patternTree.buildMatcherTree();
+            if (matcherTree.testInput(commandText)) {
+                return new CommandInstance(com, commandText, matcherTree);
             }
         }
         return null;
+    }
+
+    public boolean isExecutionGranted(Context context, String phone)
+    {
+        ControlModule module = getCommand().getModule();
+        ControlModuleUserData moduleUserData = module.getUserData();
+
+        if(!module.isCompatible())
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
+                    getCommand()), context);
+            return false;
+        }
+        if(moduleUserData == null)
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context,
+                    getCommand()), context);
+            return false;
+        }
+        if(!moduleUserData.isPhoneGranted(phone))
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(context,
+                    getCommand(), phone), context);
+            return false;
+        }
+        if(!module.checkPermissions(context))
+        {
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
+                    getCommand()), context);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -241,6 +122,27 @@ public class CommandInstance {
      */
     public CommandExecResult executeCommand(Context context, MyCommandMessage controlSms)
     {
-        return new CommandExec(this, context).execute(context, controlSms);
+        CommandExecResult result = new CommandExecResult(this);
+        Command command = getCommand();
+
+        if(!isExecutionGranted(context, controlSms.getPhoneNumber()))
+            result.setSuccess(false);
+        else
+        {
+            try
+            {
+                command.execute(context, this, result);
+                DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
+                result.setSuccess(true);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+                DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, command),
+                        context);
+                result.setSuccess(false);
+            }
+        }
+
+        return result;
     }
 }

@@ -1,6 +1,5 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
-import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -13,10 +12,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
-import tranquvis.simplesmsremote.Activities.ModuleActivities.CameraModuleActivity;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
 /**
@@ -24,6 +21,7 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
  */
 public class ControlModule
 {
+    /*
     public static final ControlModule
             WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY, CAMERA;
 
@@ -31,10 +29,10 @@ public class ControlModule
     {
         //region
         WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
-                new ControlCommand[]{
-                        ControlCommand.WIFI_HOTSPOT_ENABLE,
-                        ControlCommand.WIFI_HOTSPOT_DISABLE,
-                        ControlCommand.WIFI_HOTSPOT_IS_ENABLED
+                new Command[]{
+                        Command.WIFI_HOTSPOT_ENABLE,
+                        Command.WIFI_HOTSPOT_DISABLE,
+                        Command.WIFI_HOTSPOT_IS_ENABLED
                 });
         WIFI_HOTSPOT.requiredPermissions = new String[]{
                 Manifest.permission.CHANGE_WIFI_STATE,
@@ -48,10 +46,10 @@ public class ControlModule
 
         //region mobile data
         MOBILE_DATA = new ControlModule("mobile_data",
-                new ControlCommand[]{
-                        ControlCommand.MOBILE_DATA_ENABLE,
-                        ControlCommand.MOBILE_DATA_DISABLE,
-                        ControlCommand.MOBILE_DATA_IS_ENABLED
+                new Command[]{
+                        Command.MOBILE_DATA_ENABLE,
+                        Command.MOBILE_DATA_DISABLE,
+                        Command.MOBILE_DATA_IS_ENABLED
                 });
         MOBILE_DATA.sdkMax = Build.VERSION_CODES.LOLLIPOP;
         MOBILE_DATA.requiredPermissions = new String[]{
@@ -65,9 +63,9 @@ public class ControlModule
 
         //region battery
         BATTERY = new ControlModule("battery",
-                new ControlCommand[]{
-                        ControlCommand.BATTERY_LEVEL_GET,
-                        ControlCommand.BATTERY_IS_CHARGING
+                new Command[]{
+                        Command.BATTERY_LEVEL_GET,
+                        Command.BATTERY_IS_CHARGING
                 });
         BATTERY.titleRes = R.string.control_module_title_battery;
         BATTERY.descriptionRes = R.string.control_module_desc_battery;
@@ -76,8 +74,8 @@ public class ControlModule
 
         //region location
         LOCATION = new ControlModule("location",
-                new ControlCommand[]{
-                        ControlCommand.LOCATION_GET
+                new Command[]{
+                        Command.LOCATION_GET
                 });
         LOCATION.requiredPermissions =
                 new String[]{
@@ -90,10 +88,10 @@ public class ControlModule
 
         //region wifi
         WIFI = new ControlModule("wifi",
-                new ControlCommand[]{
-                        ControlCommand.WIFI_ENABLE,
-                        ControlCommand.WIFI_DISABLE,
-                        ControlCommand.WIFI_IS_ENABLED
+                new Command[]{
+                        Command.WIFI_ENABLE,
+                        Command.WIFI_DISABLE,
+                        Command.WIFI_IS_ENABLED
                 });
         WIFI.requiredPermissions = new String[]{
                 Manifest.permission.CHANGE_WIFI_STATE,
@@ -107,10 +105,10 @@ public class ControlModule
 
         //region bluetooth
         BLUETOOTH = new ControlModule("bluetooth",
-                new ControlCommand[]{
-                        ControlCommand.BLUETOOTH_ENABLE,
-                        ControlCommand.BLUETOOTH_DISABLE,
-                        ControlCommand.BLUETOOTH_IS_ENABLED
+                new Command[]{
+                        Command.BLUETOOTH_ENABLE,
+                        Command.BLUETOOTH_DISABLE,
+                        Command.BLUETOOTH_IS_ENABLED
                 });
         BLUETOOTH.requiredPermissions = new String[]{
                 Manifest.permission.BLUETOOTH,
@@ -122,10 +120,10 @@ public class ControlModule
 
         //region audio
         AUDIO = new ControlModule("audio",
-                new ControlCommand[]{
-                        ControlCommand.AUDIO_SET_VOLUME,
-                        ControlCommand.AUDIO_GET_VOLUME,
-                        ControlCommand.AUDIO_GET_VOLUME_PERCENTAGE
+                new Command[]{
+                        Command.AUDIO_SET_VOLUME,
+                        Command.AUDIO_GET_VOLUME,
+                        Command.AUDIO_GET_VOLUME_PERCENTAGE
                 });
         AUDIO.requiredPermissions = new String[]{
                 Manifest.permission.ACCESS_NOTIFICATION_POLICY //API requirements can be ignored
@@ -138,12 +136,12 @@ public class ControlModule
 
         //region display
         DISPLAY = new ControlModule("display",
-                new ControlCommand[]{
-                        ControlCommand.DISPLAY_GET_BRIGHTNESS,
-                        ControlCommand.DISPLAY_SET_BRIGHTNESS,
-                        ControlCommand.DISPLAY_GET_OFF_TIMEOUT,
-                        ControlCommand.DISPLAY_SET_OFF_TIMEOUT,
-                        ControlCommand.DISPLAY_TURN_OFF
+                new Command[]{
+                        Command.DISPLAY_GET_BRIGHTNESS,
+                        Command.DISPLAY_SET_BRIGHTNESS,
+                        Command.DISPLAY_GET_OFF_TIMEOUT,
+                        Command.DISPLAY_SET_OFF_TIMEOUT,
+                        Command.DISPLAY_TURN_OFF
                 });
         DISPLAY.requiredPermissions = new String[]{
                 Manifest.permission.WRITE_SETTINGS
@@ -156,9 +154,9 @@ public class ControlModule
 
         //region camera
         CAMERA = new ControlModule("camera",
-                new ControlCommand[]{
-                        ControlCommand.CAMERA_TAKE_PICTURE,
-                        ControlCommand.CAMERA_TAKE_PICTURE_SIMPLE
+                new Command[]{
+                        Command.CAMERA_TAKE_PICTURE,
+                        Command.CAMERA_TAKE_PICTURE_SIMPLE
                 });
         CAMERA.requiredPermissions = new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -171,7 +169,7 @@ public class ControlModule
         CAMERA.paramInfoRes = R.string.control_module_param_desc_camera;
         //endregion
     }
-
+*/
     public static ControlModule getFromId(String id)
     {
         for (ControlModule controlModule : GetAllModules(null))
@@ -182,7 +180,7 @@ public class ControlModule
         return null;
     }
 
-    public static ControlModule getFromCommand(ControlCommand command)
+    public static ControlModule getFromCommand(Command command)
     {
         for (ControlModule controlModule : GetAllModules(null))
         {
@@ -193,7 +191,7 @@ public class ControlModule
     }
 
     private String id;
-    private ControlCommand[] commands;
+    private Command[] commands;
     private int sdkMin = -1;
     private int sdkMax = -1;
     private String[] requiredPermissions;
@@ -206,7 +204,7 @@ public class ControlModule
     private Class<? extends ConfigureControlModuleActivity> configurationActivityType =
             ConfigureControlModuleActivity.class;
 
-    private ControlModule(String id, ControlCommand[] commands)
+    private ControlModule(String id, Command[] commands)
     {
         this.id = id;
         this.commands = commands;
@@ -217,7 +215,7 @@ public class ControlModule
         return id;
     }
 
-    public ControlCommand[] getCommands()
+    public Command[] getCommands()
     {
         return commands;
     }

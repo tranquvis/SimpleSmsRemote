@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="command_title_set_wifi_state">set wifi state</string>
+    <string name="command_title_get_wifi_state">get wifi state</string>
     <string name="command_title_take_picture">take picture</string>
     <string name="command_title_take_picture_with_options">take picture with options</string>
 </resources>

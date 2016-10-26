@@ -1,6 +1,10 @@
 package tranquvis.simplesmsremote.Utils.Regex;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.media.MediaBrowserCompat;
+
+import org.intellij.lang.annotations.Language;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,11 +14,11 @@ import java.util.regex.Pattern;
 
 public class PatternTreeNode
 {
-    private String id;
+    String id;
     @Language("RegExp")
-    private String regex;
-    private List<PatternTreeNode> childNodes;
-    private MatchType matchType;
+    String regex;
+    List<PatternTreeNode> childNodes = new ArrayList<>();
+    MatchType childMatchType;
 
     private Pattern pattern;
 
@@ -33,20 +37,24 @@ public class PatternTreeNode
      * during matching, it is added automatically, however without id.</p>
      * @param id node identifier
      * @param regex pattern
-     * @param matchType defines how child values should be matched in the given childNodes
+     * @param childMatchType defines how child values should be matched in the given childNodes
      * @param childNodes predefined children of node
      */
-    public PatternTreeNode(String id, @Language("RegExp") String regex, MatchType matchType,
+    public PatternTreeNode(String id, @Language("RegExp") String regex,
+                           @NonNull MatchType childMatchType,
                            @Nullable PatternTreeNode... childNodes)
     {
         this.id = id;
         this.regex = regex;
+        this.childMatchType = childMatchType;
         if(childNodes != null) {
             Collections.addAll(this.childNodes, childNodes);
         }
     }
 
     Matcher getMatcher(String input) {
+        if(pattern == null)
+            compile();
         return pattern.matcher(input);
     }
 
@@ -56,12 +64,16 @@ public class PatternTreeNode
             pattern = Pattern.compile(regex);
     }
 
-    public MatcherTreeNode matcherTree()
+    /**
+     * Build matcher tree recursively.
+     * @return root of matcher tree
+     */
+    public MatcherTreeNode buildMatcherTree()
     {
         List<MatcherTreeNode> matcherChildren = new ArrayList<>();
         for (PatternTreeNode childNode : childNodes) {
 
-            matcherChildren.add(childNode.matcherTree());
+            matcherChildren.add(childNode.buildMatcherTree());
         }
 
         return new MatcherTreeNode(this, matcherChildren);

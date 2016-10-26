@@ -1,5 +1,13 @@
-package tranquvis.simplesmsremote.CommandManagement;
+package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import android.content.Context;
+
+import org.intellij.lang.annotations.Language;
+
+import tranquvis.simplesmsremote.CommandManagement.Command;
+import tranquvis.simplesmsremote.CommandManagement.CommandExec;
+import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
+import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.R;
@@ -8,11 +16,14 @@ import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 /**
- * Created by kalte on 25.10.2016.
+ * Created by Andreas Kaltenleitner on 25.10.2016.
  */
 
-public class CommandTakePicture extends ControlCommand
+class CommandTakePicture extends Command
 {
+    @Language("RegExp")
+    private static final String PATTERN_ROOT = "^\\s*take\\s+(picture|photo)\\s*$";
+
     CommandTakePicture() {
         super();
         titleRes = R.string.command_title_take_picture;
@@ -20,13 +31,14 @@ public class CommandTakePicture extends ControlCommand
                 "take picture"
         };
         patternTree = new PatternTreeNode("root",
-                "take\\s+(picture|photo)",
+                PATTERN_ROOT,
                 MatchType.DO_NOT_MATCH
         );
     }
 
     @Override
-    public void execute(CommandExec commandExecutor) throws Exception
+    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
+            throws Exception
     {
         CameraModuleSettingsData moduleSettings = (CameraModuleSettingsData)
                 getModule().getUserData().getSettings();
@@ -35,7 +47,7 @@ public class CommandTakePicture extends ControlCommand
             throw new Exception("Default camera not set.");
         }
 
-        CameraUtils.MyCameraInfo cameraInfo = CameraUtils.GetCamera(commandExecutor.getContext(),
+        CameraUtils.MyCameraInfo cameraInfo = CameraUtils.GetCamera(context,
                 moduleSettings.getDefaultCameraId(), null);
         if(cameraInfo == null)
             throw new Exception("Default camera not found on device.");
@@ -45,6 +57,6 @@ public class CommandTakePicture extends ControlCommand
         if(captureSettings == null)
             captureSettings = cameraInfo.getDefaultCaptureSettings();
 
-        CameraUtils.TakePicture(commandExecutor.getContext(), cameraInfo, captureSettings);
+        CameraUtils.TakePicture(context, cameraInfo, captureSettings);
     }
 }

@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.Calendar;
 import java.util.Date;
 
-import tranquvis.simplesmsremote.CommandManagement.ControlCommand;
+import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -73,7 +73,7 @@ public class LogEntry
 
     public static class Predefined
     {
-        public static LogEntry ComExecFailedPermissionDenied(Context context, ControlCommand command)
+        public static LogEntry ComExecFailedPermissionDenied(Context context, Command command)
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
@@ -83,7 +83,7 @@ public class LogEntry
             );
         }
 
-        public static LogEntry ComExecFailedPhoneNotGranted(Context context, ControlCommand command,
+        public static LogEntry ComExecFailedPhoneNotGranted(Context context, Command command,
                                                             String phone)
         {
             return new LogEntry(
@@ -95,7 +95,7 @@ public class LogEntry
             );
         }
 
-        public static LogEntry ComExecFailedPhoneIncompatible(Context context, ControlCommand command)
+        public static LogEntry ComExecFailedPhoneIncompatible(Context context, Command command)
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
@@ -107,7 +107,7 @@ public class LogEntry
             );
         }
 
-        public static LogEntry ComExecFailedModuleDisabled(Context context, ControlCommand command)
+        public static LogEntry ComExecFailedModuleDisabled(Context context, Command command)
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
@@ -119,7 +119,7 @@ public class LogEntry
             );
         }
 
-        public static LogEntry ComExecFailedUnexpected(Context context, ControlCommand command)
+        public static LogEntry ComExecFailedUnexpected(Context context, Command command)
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
@@ -129,7 +129,7 @@ public class LogEntry
             );
         }
 
-        public static LogEntry ComExecSuccess(Context context, ControlCommand command)
+        public static LogEntry ComExecSuccess(Context context, Command command)
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_success),
