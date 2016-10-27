@@ -13,34 +13,35 @@ import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 /**
- * Created by Andreas Kaltenleitner on 26.10.2016.
+ * Created by Andreas Kaltenleitner on 27.10.2016.
  */
 
-public class CommandGetWifiState extends Command {
+public class CommandGetHotspotState extends Command
+{
     @Language("RegExp")
     private static final String
-            PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_GET_STATE_ON_OFF, "wlan|wifi");
+            PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_GET_STATE_ON_OFF,
+                "((wifi|wlan)\\s+)?hotspot");
 
-    public CommandGetWifiState()
+    public CommandGetHotspotState()
     {
-        this.titleRes = R.string.command_title_get_wifi_state;
+        this.titleRes = R.string.command_title_get_hotspot_state;
         this.syntaxDescList =  new String[]{
-                "is wifi enabled"
+                "is hotspot enabled"
         };
         this.patternTree = new PatternTreeNode("root",
                 PATTERN_ROOT,
                 MatchType.DO_NOT_MATCH
         );
     }
-
     @Override
-    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
-            throws Exception {
-        boolean isWifiEnabled = WifiUtils.IsWifiEnabled(context);
-
-        // create result message
-        result.setCustomResultMessage(context.getString(isWifiEnabled ? R.string.result_msg_wifi_is_enabled_true
-                        : R.string.result_msg_wifi_is_enabled_false));
+    protected void execute(Context context, CommandInstance commandInstance,
+                           CommandExecResult result) throws Exception
+    {
+        boolean isHotspotEnabled = WifiUtils.IsHotspotEnabled(context);
+        result.setCustomResultMessage(context.getString(
+                isHotspotEnabled ? R.string.result_msg_hotspot_is_enabled_true
+                        : R.string.result_msg_hotspot_is_enabled_false));
         result.setForceSendingResultSmsMessage(true);
     }
 }

@@ -44,7 +44,7 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
     {
         super.onCreate(savedInstanceState);
 
-        if(!getControlModule().isEnabled())
+        if(!getModule().isEnabled())
             return;
 
         //load available cameras

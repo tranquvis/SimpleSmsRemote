@@ -78,7 +78,7 @@ public abstract class CommandTest extends AppContextTest
             return this;
         }
 
-        public CommandTester has(CommandParam param, Object value)
+        public <T> CommandTester has(CommandParam<T> param, T value)
         {
             Object paramValue = ci.getParam(param);
             assertTrue(paramValue != null && paramValue.equals(value));

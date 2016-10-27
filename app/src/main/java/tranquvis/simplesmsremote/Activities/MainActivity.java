@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,12 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
-import tranquvis.simplesmsremote.CommandManagement.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.HelpOverlay;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
@@ -88,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //region init list view
-        List<ControlModule> moduleList = ControlModule.GetAllModules(
-                ControlModule.GetDefaultComparator(this));
+        List<Module> moduleList = Module.GetAllModules(
+                Module.GetDefaultComparator(this));
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this, moduleList);
         listView.setAdapter(listAdapter);
@@ -363,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
     {
-        ControlModule module = listAdapter.getItem(i);
+        Module module = listAdapter.getItem(i);
         if(module == null)
             return;
 

@@ -5,17 +5,6 @@ import android.support.annotation.StringRes;
 
 import org.intellij.lang.annotations.Language;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetWifiState;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePicture;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureWithOptions;
-import tranquvis.simplesmsremote.Data.ControlModuleUserData;
-import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Data.LogEntry;
-import tranquvis.simplesmsremote.Sms.MyMessage;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 /**
@@ -27,20 +16,26 @@ public abstract class Command
     @Language("RegExp")
     protected static final String PATTERN_MULTI_PARAMS = "(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*";
 
-    /*
-    public static final String
-            PARAM_AUDIO_TYPE = "audio type",
-            PARAM_AUDIO_VOLUME = "volume",
-            PARAM_BRIGHTNESS = "brightness",
-            PARAM_DISPLAY_OFF_TIMEOUT = "timeout",
-            PARAM_TAKE_PICTURE_SETTINGS = "settings";
+    @Language("RegExp")
+    protected static final String
+            PATTERN_TEMPLATE_SET_STATE_ON_OFF =
+                "(?i)^\\s*((enable|disable)\\s+(%1$s))" +
+                "|(turn\\s+(%1$s)\\s+(on|off))|(turn\\s+(on|off)\\s+(%1$s))" +
+                "|(set\\s+(%1$s)\\s+state\\s+to)\\s*(on|off|enabled|disabled)$",
+            PATTERN_TEMPLATE_GET_STATE_ON_OFF =
+                    "(?i)^\\s*(((is\\s+)?(wifi|wlan)\\s+(enabled|disabled|on|off)(\\?)?)" +
+                    "|(get\\s+(wifi|wlan)\\s+state))\\s*$";
 
+
+
+    protected static String GetPatternFromTemplate(String template,
+                                                   @Language("RegExp") String... values)
+    {
+        return String.format(template, (Object[]) values);
+    }
+    /*
     static
     {
-        WIFI_HOTSPOT_ENABLE = new Command("enable hotspot");
-        WIFI_HOTSPOT_DISABLE = new Command("disable hotspot");
-        WIFI_HOTSPOT_IS_ENABLED = new Command("is hotspot enabled");
-
         MOBILE_DATA_ENABLE = new Command("enable mobile data");
         MOBILE_DATA_DISABLE = new Command("disable mobile data");
         MOBILE_DATA_IS_ENABLED = new Command("is mobile data enabled");
@@ -90,9 +85,9 @@ public abstract class Command
                                     CommandExecResult result)
             throws Exception;
 
-    public ControlModule getModule()
+    public Module getModule()
     {
-        return ControlModule.getFromCommand(this);
+        return Module.getFromCommand(this);
     }
 }
 

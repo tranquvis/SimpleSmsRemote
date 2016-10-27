@@ -70,9 +70,7 @@ public class CommandInstance {
      * @throws Exception
      */
     public static CommandInstance CreateFromCommand(String commandText) throws Exception {
-        commandText = commandText.toLowerCase();
-
-        for (Command com : Commands.GetAllCommands()) {
+        for (Command com : Commands.GetAll()) {
             MatcherTreeNode matcherTree = com.patternTree.buildMatcherTree();
             if (matcherTree.testInput(commandText)) {
                 return new CommandInstance(com, commandText, matcherTree);
@@ -83,7 +81,7 @@ public class CommandInstance {
 
     public boolean isExecutionGranted(Context context, String phone)
     {
-        ControlModule module = getCommand().getModule();
+        Module module = getCommand().getModule();
         ControlModuleUserData moduleUserData = module.getUserData();
 
         if(!module.isCompatible())

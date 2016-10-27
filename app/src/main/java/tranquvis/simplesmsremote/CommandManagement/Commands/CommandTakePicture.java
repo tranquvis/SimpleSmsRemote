@@ -19,12 +19,12 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
  * Created by Andreas Kaltenleitner on 25.10.2016.
  */
 
-class CommandTakePicture extends Command
+public class CommandTakePicture extends Command
 {
     @Language("RegExp")
-    private static final String PATTERN_ROOT = "^\\s*take\\s+(picture|photo)\\s*$";
+    private static final String PATTERN_ROOT = "(?i)^\\s*(take|capture)\\s+(picture|photo)\\s*$";
 
-    CommandTakePicture() {
+    public CommandTakePicture() {
         super();
         titleRes = R.string.command_title_take_picture;
         syntaxDescList = new String[]{

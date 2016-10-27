@@ -25,7 +25,7 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.Adapters.CommandTemplateListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
-import tranquvis.simplesmsremote.CommandManagement.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
@@ -37,7 +37,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 {
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
-    private ControlModule controlModule;
+    private Module module;
     private ControlModuleUserData userData;
     protected ModuleSettingsData moduleSettings;
     private List<String> grantedPhones;
@@ -67,38 +67,38 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         Resources res = getResources();
 
         String controlModuleId = getIntent().getStringExtra("controlActionId");
-        controlModule = ControlModule.getFromId(controlModuleId);
-        if(controlModule == null)
+        module = Module.getFromId(controlModuleId);
+        if(module == null)
         {
             finish();
             return;
         }
-        userData = controlModule.getUserData();
-        isModuleEnabled = controlModule.isEnabled();
+        userData = module.getUserData();
+        isModuleEnabled = module.isEnabled();
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
 
-        if(controlModule.getTitleRes() != -1)
+        if(module.getTitleRes() != -1)
         {
-            toolbar.setSubtitle(controlModule.getTitleRes());
+            toolbar.setSubtitle(module.getTitleRes());
         }
 
-        if(controlModule.getDescriptionRes() != -1)
+        if(module.getDescriptionRes() != -1)
         {
             ((TextView) findViewById(R.id.textView_description)).setText(
-                    controlModule.getDescriptionRes());
+                    module.getDescriptionRes());
         }
 
         ListView commandsListView = (ListView) findViewById(R.id.listView_commands);
         CommandTemplateListAdapter commandsListAdapter = new CommandTemplateListAdapter(this,
-                controlModule.getCommands());
+                module.getCommands());
         commandsListView.setAdapter(commandsListAdapter);
         UIUtils.SetListViewHeightBasedOnItems(commandsListView);
 
-        if(controlModule.getParamInfoRes() != -1)
+        if(module.getParamInfoRes() != -1)
         {
             ((TextView)findViewById(R.id.textView_command_parameter_info))
-                    .setText(controlModule.getParamInfoRes());
+                    .setText(module.getParamInfoRes());
         }
         else
         {
@@ -114,7 +114,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
         findViewById(R.id.imageButton_command_info).setOnClickListener(this);
 
-        if(controlModule.isCompatible())
+        if(module.isCompatible())
         {
             compatibilityTextView.setText(R.string.compatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorSuccess));
@@ -188,8 +188,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     private void enableModule()
     {
         if (!PermissionUtils.AppHasPermissions(this,
-                controlModule.getRequiredPermissions(this)))
-            requestPermissions(controlModule.getRequiredPermissions(this));
+                module.getRequiredPermissions(this)))
+            requestPermissions(module.getRequiredPermissions(this));
         else
         {
             saveUserData();
@@ -212,7 +212,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                             public void onClick(DialogInterface dialogInterface, int i)
                             {
                                 DataManager.getUserData().removeControlModule(
-                                        controlModule.getId());
+                                        module.getId());
                                 isModuleEnabled = false;
                                 try
                                 {
@@ -298,11 +298,11 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             updateModuleSettings();
 
             DataManager.getUserData().setControlModule(new ControlModuleUserData(
-                    controlModule.getId(), grantedPhones, moduleSettings));
+                    module.getId(), grantedPhones, moduleSettings));
         }
         else
             DataManager.getUserData().addControlModule(new ControlModuleUserData(
-                    controlModule.getId(), new ArrayList<String>(), moduleSettings));
+                    module.getId(), new ArrayList<String>(), moduleSettings));
 
         try
         {
@@ -351,9 +351,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         return coordinatorLayout;
     }
 
-    protected ControlModule getControlModule()
+    protected Module getModule()
     {
-        return controlModule;
+        return module;
     }
 
     protected ControlModuleUserData getUserData()

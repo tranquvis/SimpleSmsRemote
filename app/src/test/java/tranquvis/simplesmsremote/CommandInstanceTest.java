@@ -12,26 +12,7 @@ import static org.junit.Assert.*;
  */
 public class CommandInstanceTest {
 
-    @Test
-    public void getFromCommandGeneral() throws Exception {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("set   volume \"tt \n''t\"\n to \"10 0%");
-        assertTrue(ci != null);
-    }
 /*
-    @Test
-    public void getFromCommandWifiHotspotEnable() throws Exception {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("enable hotspot");
-        assertTrue(ci != null &&  ci.getCommand() == Command.WIFI_HOTSPOT_ENABLE);
-    }
-
-    @Test
-    public void getFromCommandWifiHotspotDisable() throws Exception {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("disable hotspot");
-        assertTrue(ci != null &&  ci.getCommand() == Command.WIFI_HOTSPOT_DISABLE);
-    }
 
     @Test
     public void getFromCommandWifiHotspotIsEnabled() throws Exception {
@@ -80,27 +61,6 @@ public class CommandInstanceTest {
         CommandInstance ci =
                 CommandInstance.CreateFromCommand("get location");
         assertTrue(ci != null &&  ci.getCommand() == Command.LOCATION_GET);
-    }
-
-    @Test
-    public void getFromCommandWifiEnable() throws Exception {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("enable wifi");
-        assertTrue(ci != null &&  ci.getCommand() == Command.WIFI_ENABLE);
-    }
-
-    @Test
-    public void getFromCommandWifiDisable() throws Exception {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("disable wifi");
-        assertTrue(ci != null &&  ci.getCommand() == Command.WIFI_DISABLE);
-    }
-
-    @Test
-    public void getFromCommandWifiIsEnabled() throws Exception {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("is wifi enabled");
-        assertTrue(ci != null &&  ci.getCommand() == Command.WIFI_IS_ENABLED);
     }
 
     @Test
@@ -196,32 +156,5 @@ public class CommandInstanceTest {
         assertTrue(ci != null &&  ci.getCommand() == Command.DISPLAY_SET_OFF_TIMEOUT);
     }
 
-    @Test
-    public void getFromCommandCameraTakePicture() throws Exception
-    {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("take picture with \" \"");
-        assertTrue(ci != null &&  ci.getCommand() == Command.DISPLAY_TURN_OFF);
-    }
-
 */
-    @Test
-    public void getFromCommandCameraTakePicture() throws Exception
-    {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("take picture");
-        assertTrue(ci != null &&  ci.getCommand() == Command.TAKE_PICTURE);
-    }
-
-    @Test
-    public void getFromCommandCameraTakePictureWithOptions() throws Exception
-    {
-        CommandInstance ci =
-                CommandInstance.CreateFromCommand("take picture with autofocus");
-        assertTrue(ci != null &&  ci.getCommand() == Command.TAKE_PICTURE_WITH_OPTIONS);
-    }
-
-    @Test
-    public void name() throws Exception {
-    }
 }

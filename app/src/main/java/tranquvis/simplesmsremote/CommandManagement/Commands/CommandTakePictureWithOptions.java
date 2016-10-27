@@ -25,28 +25,28 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
  * Created by Andreas Kaltenleitner on 25.10.2016.
  */
 
-class CommandTakePictureWithOptions extends Command
+public class CommandTakePictureWithOptions extends Command
 {
     private static final CommandParamString PARAM_OPTIONS = new CommandParamString("options");
-    private static final CommandParamCamera PARAM_CAMERA = new CommandParamCamera("camera");
-    private static final CommandParamFlash PARAM_FLASH = new CommandParamFlash("flash");
-    private static final CommandParamOnOff PARAM_AUTOFOCUS = new CommandParamOnOff("autofocus");
+    static final CommandParamCamera PARAM_CAMERA = new CommandParamCamera("camera");
+    static final CommandParamFlash PARAM_FLASH = new CommandParamFlash("flash");
+    static final CommandParamOnOff PARAM_AUTOFOCUS = new CommandParamOnOff("autofocus");
 
     @Language("RegExp")
     private static final String
-            PATTERN_ROOT = "^\\s*(?:take|capture)\\s+(?:picture|photo)\\s+with\\s+(.*)\\s*$",
-            PATTERN_CAMERA = "^\\s*(\\d+|((back|front)(\\s+cam(era)?)?" +
-                    "|(cam(era)?\\s+(back|front))))\\s*$",
-            PATTERN_FLASH = "^\\s*(flash(light)?(\\s+(enabled|disabled|on|off|auto))?)" +
+            PATTERN_ROOT = "(?i)^\\s*(?:take|capture)\\s+(?:picture|photo)\\s+with\\s+(.*)\\s*$",
+            PATTERN_CAMERA = "(?i)^\\s*(\\d+|((back|front|external)(\\s+((cam(era)?)|lens)?))" +
+                    "|(((cam(era)?)|lens)?\\s+(back|front|external|\\d+)))\\s*$",
+            PATTERN_FLASH = "(?i)^\\s*(flash(light)?(\\s+(enabled|disabled|on|off|auto))?)" +
                     "|(no\\s+flash(light)?)\\s*$",
-            PATTERN_AUTOFOCUS = "^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
+            PATTERN_AUTOFOCUS = "(?i)^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
                     "|(?:(no)\\s+autofocus)\\s*$";
 
-    CommandTakePictureWithOptions() {
+    public CommandTakePictureWithOptions() {
         super();
         titleRes = R.string.command_title_take_picture_with_options;
         syntaxDescList = new String[]{
-                "take picture with [" + PARAM_OPTIONS + "]"
+                "take picture with [" + PARAM_OPTIONS.getId() + "]"
         };
         patternTree = new PatternTreeNode("root",
                 PATTERN_ROOT,

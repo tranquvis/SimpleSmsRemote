@@ -1,8 +1,12 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.reflections.Reflections;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 
@@ -11,17 +15,21 @@ import tranquvis.simplesmsremote.CommandManagement.Command;
  */
 
 public class Commands {
-    public static final Command TAKE_PICTURE_WITH_OPTIONS =
-            new CommandTakePictureWithOptions();
-    public static final Command TAKE_PICTURE = new CommandTakePicture();
-    public static final Command SET_WIFI_STATE = new CommandSetWifiState();
-    public static final Command GET_WIFI_STATE = new CommandGetWifiState();
+    public static final Command
+            TAKE_PICTURE_WITH_OPTIONS = new CommandTakePictureWithOptions(),
+            TAKE_PICTURE = new CommandTakePicture(),
+            SET_WIFI_STATE = new CommandSetWifiState(),
+            GET_WIFI_STATE = new CommandGetWifiState(),
+            SET_HOTSPOT_STATE = new CommandSetHotspotState(),
+            GET_HOTSPOT_STATE = new CommandGetHotspotState(),
+            SET_MOBILE_DATA_STATE = new CommandSetMobileDataState();
+
 
     /**
      * Get all Commands by using reflection.
      * @return all defined control commands
      */
-    public static List<Command> GetAllCommands()
+    public static List<Command> GetAll()
     {
         List<Command> commands = new ArrayList<>();
 

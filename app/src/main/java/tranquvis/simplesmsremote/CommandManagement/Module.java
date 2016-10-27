@@ -4,14 +4,13 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
+import tranquvis.simplesmsremote.CommandManagement.Modules.ModuleCamera;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
@@ -19,33 +18,18 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
 /**
  * Created by Andreas Kaltenleitner on 23.08.2016.
  */
-public class ControlModule
+public abstract class Module
 {
+    public static final Module
+            CAMERA = new ModuleCamera();
     /*
-    public static final ControlModule
+    public static final Module
             WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY, CAMERA;
 
     static
     {
-        //region
-        WIFI_HOTSPOT = new ControlModule("wifi_hotspot",
-                new Command[]{
-                        Command.WIFI_HOTSPOT_ENABLE,
-                        Command.WIFI_HOTSPOT_DISABLE,
-                        Command.WIFI_HOTSPOT_IS_ENABLED
-                });
-        WIFI_HOTSPOT.requiredPermissions = new String[]{
-                Manifest.permission.CHANGE_WIFI_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.WRITE_SETTINGS
-        };
-        WIFI_HOTSPOT.titleRes = R.string.control_module_title_wifi_hotspot;
-        WIFI_HOTSPOT.descriptionRes = R.string.control_module_desc_wifi_hotspot;
-        WIFI_HOTSPOT.iconRes = R.drawable.ic_wifi_tethering_grey_700_36dp;
-        //endregion
-
         //region mobile data
-        MOBILE_DATA = new ControlModule("mobile_data",
+        MOBILE_DATA = new Module("mobile_data",
                 new Command[]{
                         Command.MOBILE_DATA_ENABLE,
                         Command.MOBILE_DATA_DISABLE,
@@ -62,7 +46,7 @@ public class ControlModule
         //endregion
 
         //region battery
-        BATTERY = new ControlModule("battery",
+        BATTERY = new Module("battery",
                 new Command[]{
                         Command.BATTERY_LEVEL_GET,
                         Command.BATTERY_IS_CHARGING
@@ -73,7 +57,7 @@ public class ControlModule
         //endregion
 
         //region location
-        LOCATION = new ControlModule("location",
+        LOCATION = new Module("location",
                 new Command[]{
                         Command.LOCATION_GET
                 });
@@ -86,25 +70,8 @@ public class ControlModule
         LOCATION.iconRes = R.drawable.ic_location_on_grey_700_36dp;
         //endregion
 
-        //region wifi
-        WIFI = new ControlModule("wifi",
-                new Command[]{
-                        Command.WIFI_ENABLE,
-                        Command.WIFI_DISABLE,
-                        Command.WIFI_IS_ENABLED
-                });
-        WIFI.requiredPermissions = new String[]{
-                Manifest.permission.CHANGE_WIFI_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.WRITE_SETTINGS
-        };
-        WIFI.titleRes = R.string.control_module_title_wifi;
-        WIFI.descriptionRes = R.string.control_module_desc_wifi;
-        WIFI.iconRes = R.drawable.ic_signal_wifi_2_bar_grey_700_36dp;
-        //endregion
-
         //region bluetooth
-        BLUETOOTH = new ControlModule("bluetooth",
+        BLUETOOTH = new Module("bluetooth",
                 new Command[]{
                         Command.BLUETOOTH_ENABLE,
                         Command.BLUETOOTH_DISABLE,
@@ -119,7 +86,7 @@ public class ControlModule
         BLUETOOTH.iconRes = R.drawable.ic_bluetooth_grey_700_36dp;
 
         //region audio
-        AUDIO = new ControlModule("audio",
+        AUDIO = new Module("audio",
                 new Command[]{
                         Command.AUDIO_SET_VOLUME,
                         Command.AUDIO_GET_VOLUME,
@@ -135,7 +102,7 @@ public class ControlModule
         //endregion
 
         //region display
-        DISPLAY = new ControlModule("display",
+        DISPLAY = new Module("display",
                 new Command[]{
                         Command.DISPLAY_GET_BRIGHTNESS,
                         Command.DISPLAY_SET_BRIGHTNESS,
@@ -151,73 +118,43 @@ public class ControlModule
         DISPLAY.iconRes = R.drawable.ic_settings_brightness_grey_700_36dp;
         DISPLAY.paramInfoRes = R.string.control_module_param_desc_display;
         //endregion
-
-        //region camera
-        CAMERA = new ControlModule("camera",
-                new Command[]{
-                        Command.CAMERA_TAKE_PICTURE,
-                        Command.CAMERA_TAKE_PICTURE_SIMPLE
-                });
-        CAMERA.requiredPermissions = new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        };
-        CAMERA.sdkMin = Build.VERSION_CODES.LOLLIPOP;
-        CAMERA.configurationActivityType = CameraModuleActivity.class;
-        CAMERA.titleRes = R.string.control_module_title_camera;
-        CAMERA.descriptionRes = R.string.control_module_desc_camera;
-        CAMERA.iconRes = R.drawable.ic_camera_grey_700_36dp;
-        CAMERA.paramInfoRes = R.string.control_module_param_desc_camera;
-        //endregion
     }
 */
-    public static ControlModule getFromId(String id)
+    public static Module getFromId(String id)
     {
-        for (ControlModule controlModule : GetAllModules(null))
+        for (Module module : GetAllModules(null))
         {
-            if (controlModule.getId().equals(id))
-                return controlModule;
+            if (module.getId().equals(id))
+                return module;
         }
         return null;
     }
 
-    public static ControlModule getFromCommand(Command command)
+    public static Module getFromCommand(Command command)
     {
-        for (ControlModule controlModule : GetAllModules(null))
+        for (Module module : GetAllModules(null))
         {
-            if (ArrayUtils.contains(controlModule.getCommands(), command))
-                return controlModule;
+            if (module.getCommands().contains(command))
+                return module;
         }
         return null;
     }
 
-    private String id;
-    private Command[] commands;
-    private int sdkMin = -1;
-    private int sdkMax = -1;
-    private String[] requiredPermissions;
+    protected int sdkMin = -1;
+    protected int sdkMax = -1;
+    protected String[] requiredPermissions;
 
-    private int titleRes = -1;
-    private int descriptionRes = -1;
-    private int iconRes = -1;
-    private int paramInfoRes = -1;
+    protected int titleRes = -1;
+    protected int descriptionRes = -1;
+    protected int iconRes = -1;
+    protected int paramInfoRes = -1;
 
-    private Class<? extends ConfigureControlModuleActivity> configurationActivityType =
+    protected Class<? extends ConfigureControlModuleActivity> configurationActivityType =
             ConfigureControlModuleActivity.class;
-
-    private ControlModule(String id, Command[] commands)
-    {
-        this.id = id;
-        this.commands = commands;
-    }
 
     public String getId()
     {
-        return id;
-    }
-
-    public Command[] getCommands()
-    {
-        return commands;
+        return getClass().getName();
     }
 
     public int getSdkMin()
@@ -253,6 +190,32 @@ public class ControlModule
     public Class<? extends ConfigureControlModuleActivity> getConfigurationActivityType()
     {
         return configurationActivityType;
+    }
+
+    /**
+     * Get all Commands by using reflection.
+     * @return all defined control commands
+     */
+    public List<Command> getCommands()
+    {
+        List<Command> commands = new ArrayList<>();
+
+        for (Field field : this.getClass().getDeclaredFields())
+        {
+
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
+                    && Command.class.isAssignableFrom(field.getType()))
+            {
+                try
+                {
+                    commands.add((Command) field.get(null));
+                } catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return commands;
     }
 
     /**
@@ -300,7 +263,7 @@ public class ControlModule
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ControlModule that = (ControlModule) o;
+        Module that = (Module) o;
 
         return id != null ? id.equals(that.id) : that.id == null;
 
@@ -333,19 +296,19 @@ public class ControlModule
      * @return (sorted) list of all modules
      * @see Comparator
      */
-    public static List<ControlModule> GetAllModules(@Nullable Comparator<ControlModule> sortComparator)
+    public static List<Module> GetAllModules(@Nullable Comparator<Module> sortComparator)
     {
-        List<ControlModule> modules = new ArrayList<>();
+        List<Module> modules = new ArrayList<>();
 
-        for (Field field : ControlModule.class.getDeclaredFields())
+        for (Field field : Module.class.getDeclaredFields())
         {
 
             if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
-                    && field.getType() == ControlModule.class)
+                    && field.getType() == Module.class)
             {
                 try
                 {
-                    ControlModule module = (ControlModule) field.get(null);
+                    Module module = (Module) field.get(null);
 
                     boolean inserted = false;
                     if (sortComparator != null)
@@ -372,12 +335,12 @@ public class ControlModule
         return modules;
     }
 
-    public static Comparator<ControlModule> GetDefaultComparator(final Context context)
+    public static Comparator<Module> GetDefaultComparator(final Context context)
     {
-        return new Comparator<ControlModule>()
+        return new Comparator<Module>()
         {
             @Override
-            public int compare(ControlModule module1, ControlModule module2)
+            public int compare(Module module1, Module module2)
             {
                 if ((module2.isEnabled() && !module1.isEnabled())
                         || (module2.isCompatible() && !module1.isCompatible()))

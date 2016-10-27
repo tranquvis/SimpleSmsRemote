@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.simplesmsremote.CommandManagement.ControlModule;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 
 /**
  * Created by Andi on 28.08.2016.
@@ -29,10 +29,10 @@ public class DataManager {
 
     private static boolean firstStart;
 
-    public static ControlModuleUserData getUserDataForControlModule(ControlModule controlModule)
+    public static ControlModuleUserData getUserDataForControlModule(Module module)
     {
         for (ControlModuleUserData moduleUserData : userData.getControlModules()) {
-            if(moduleUserData.getControlModuleId().equals(controlModule.getId()))
+            if(moduleUserData.getControlModuleId().equals(module.getId()))
                 return moduleUserData;
         }
         return null;

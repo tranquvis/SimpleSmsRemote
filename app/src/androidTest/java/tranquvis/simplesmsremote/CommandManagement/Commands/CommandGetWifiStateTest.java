@@ -13,16 +13,18 @@ public class CommandGetWifiStateTest extends CommandTest {
 
     @Override
     protected void testPattern() throws Exception {
-        assertThat("is wifi enabled").matches();
+        assertThat("\n is  Wifi enabled \r").matches();
+        assertThat("is wifi on").matches();
+        assertThat("is wifi disabled").matches();
+        assertThat("is wifi off").matches();
         assertThat("is wifi disabled").matches();
         assertThat("wifi enabled?").matches();
-        assertThat("\rwifi disabled?").matches();
-        assertThat("get   wifi state\n").matches();
+        assertThat("wifi disabled?").matches();
+        assertThat("get wifi state").matches();
     }
 
     @Override
     protected void testExecution() throws Exception {
         assertThat("is wifi enabled").executes();
-
     }
 }
