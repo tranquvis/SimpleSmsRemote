@@ -1,12 +1,14 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import org.intellij.lang.annotations.Language;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
@@ -18,7 +20,7 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
  */
 public class CommandSetMobileDataState extends Command
 {
-    private static final CommandParamOnOff PARAM_MOBILE_DATA_STATE =
+    static final CommandParamOnOff PARAM_MOBILE_DATA_STATE =
             new CommandParamOnOff("mobile_data_state");
 
     @Language("RegExp")
@@ -26,8 +28,10 @@ public class CommandSetMobileDataState extends Command
             PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_SET_STATE_ON_OFF,
                 "((mobile\\s+data)|(mobile\\s+internet))(\\s+connection)?");
 
-    public CommandSetMobileDataState()
+    public CommandSetMobileDataState(@NonNull Module module)
     {
+        super(module);
+
         this.titleRes = R.string.command_title_set_mobile_data_state;
         this.syntaxDescList = new String[]{
                 "enable mobile data",

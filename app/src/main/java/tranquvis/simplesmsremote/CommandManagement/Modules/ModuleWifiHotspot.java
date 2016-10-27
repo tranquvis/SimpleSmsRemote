@@ -21,15 +21,11 @@ import tranquvis.simplesmsremote.R;
 
 public class ModuleWifiHotspot extends Module
 {
-    private static final CommandSetHotspotState COMMAND_SET_HOTSPOT_STATE =
-            new CommandSetHotspotState();
-    private static final CommandGetHotspotState COMMAND_GET_HOTSPOT_STATE =
-            new CommandGetHotspotState();
+    public final CommandSetHotspotState commandSetHotspotState = new CommandSetHotspotState(this);
+    public final CommandGetHotspotState commandGetHotspotState = new CommandGetHotspotState(this);
 
-    public ModuleWifiHotspot()
+    ModuleWifiHotspot()
     {
-        super("wifi_hotspot");
-
         this.titleRes = R.string.control_module_title_wifi_hotspot;
         this.descriptionRes = R.string.control_module_desc_wifi_hotspot;
         this.iconRes = R.drawable.ic_wifi_tethering_grey_700_36dp;

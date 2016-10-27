@@ -34,14 +34,6 @@ public class CommandExec
         return null;
         /*
 
-        else if (command == MOBILE_DATA_IS_ENABLED)
-        {
-            boolean isMobileDataEnabled = MobileDataUtils.IsMobileDataEnabled(context);
-            result.setCustomResultMessage(context.getString(
-                    isMobileDataEnabled ? R.string.result_msg_mobile_data_is_enabled_true
-                            : R.string.result_msg_mobile_data_is_enabled_false));
-            result.setForceSendingResultSmsMessage(true);
-        }
         else if (command == BATTERY_LEVEL_GET)
         {
             float batteryLevel = BatteryUtils.GetBatteryLevel(context);
@@ -65,22 +57,6 @@ public class CommandExec
             result.setCustomResultMessage(context.getString(
                     R.string.result_msg_location_coordinates,
                     location.getLatitude(), location.getLongitude()));
-            result.setForceSendingResultSmsMessage(true);
-        }
-        else if (command == WIFI_ENABLE)
-        {
-            WifiUtils.SetWifiState(context, true);
-        }
-        else if (command == WIFI_DISABLE)
-        {
-            WifiUtils.SetWifiState(context, false);
-        }
-        else if (command == WIFI_IS_ENABLED)
-        {
-            boolean isWifiEnabled = WifiUtils.IsWifiEnabled(context);
-            result.setCustomResultMessage(context.getString(
-                    isWifiEnabled ? R.string.result_msg_wifi_is_enabled_true
-                            : R.string.result_msg_wifi_is_enabled_false));
             result.setForceSendingResultSmsMessage(true);
         }
         else if (command == BLUETOOTH_ENABLE)

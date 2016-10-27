@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.HelpOverlay;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
@@ -84,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //region init list view
-        List<Module> moduleList = Module.GetAllModules(
-                Module.GetDefaultComparator(this));
+        List<Module> moduleList = Instances.GetAll(Module.GetDefaultComparator(this));
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this, moduleList);
         listView.setAdapter(listAdapter);

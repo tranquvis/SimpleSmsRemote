@@ -2,6 +2,7 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
@@ -18,7 +19,7 @@ public class CommandTakePictureWithOptionsTest extends CommandTest
 
     public CommandTakePictureWithOptionsTest()
     {
-        super(Commands.TAKE_PICTURE_WITH_OPTIONS);
+        super(Instances.CAMERA.commandTakePictureWithOptions);
     }
 
     @Override

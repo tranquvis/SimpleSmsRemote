@@ -1,12 +1,14 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import org.intellij.lang.annotations.Language;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -23,8 +25,10 @@ public class CommandGetHotspotState extends Command
             PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_GET_STATE_ON_OFF,
                 "((wifi|wlan)\\s+)?hotspot");
 
-    public CommandGetHotspotState()
+    public CommandGetHotspotState(@NonNull Module module)
     {
+        super(module);
+
         this.titleRes = R.string.command_title_get_hotspot_state;
         this.syntaxDescList =  new String[]{
                 "is hotspot enabled"
@@ -34,6 +38,8 @@ public class CommandGetHotspotState extends Command
                 MatchType.DO_NOT_MATCH
         );
     }
+
+
     @Override
     protected void execute(Context context, CommandInstance commandInstance,
                            CommandExecResult result) throws Exception

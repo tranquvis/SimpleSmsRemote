@@ -32,11 +32,6 @@ public abstract class CommandTest extends AppContextTest
     @Test
     protected abstract void testExecution() throws Exception;
 
-    protected void execute(String input)
-    {
-
-    }
-
     protected CommandTester assertThat(String input) throws Exception {
         return new CommandTester(input, command, appContext);
     }

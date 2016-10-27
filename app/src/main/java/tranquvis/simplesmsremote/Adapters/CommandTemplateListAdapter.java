@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.R;
 
@@ -18,7 +20,7 @@ import tranquvis.simplesmsremote.R;
 public class CommandTemplateListAdapter extends ArrayAdapter<Command>
 {
     private static final int LAYOUT_RES = R.layout.listview_item_commands;
-    public CommandTemplateListAdapter(Context context, Command[] commands)
+    public CommandTemplateListAdapter(Context context, List<Command> commands)
     {
         super(context, LAYOUT_RES, commands);
     }

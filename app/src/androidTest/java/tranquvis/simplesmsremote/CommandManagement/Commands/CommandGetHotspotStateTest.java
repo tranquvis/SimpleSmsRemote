@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
 /**
  * Created by Andreas Kaltenleitner on 27.10.2016.
@@ -9,7 +10,7 @@ public class CommandGetHotspotStateTest extends CommandTest
 {
     public CommandGetHotspotStateTest()
     {
-        super(Commands.GET_HOTSPOT_STATE);
+        super(Instances.WIFI_HOTSPOT.commandGetHotspotState);
     }
 
     @Override

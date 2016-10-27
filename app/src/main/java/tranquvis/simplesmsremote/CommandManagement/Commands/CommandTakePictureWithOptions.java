@@ -1,16 +1,17 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import org.intellij.lang.annotations.Language;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamString;
@@ -42,8 +43,10 @@ public class CommandTakePictureWithOptions extends Command
             PATTERN_AUTOFOCUS = "(?i)^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
                     "|(?:(no)\\s+autofocus)\\s*$";
 
-    public CommandTakePictureWithOptions() {
-        super();
+    public CommandTakePictureWithOptions(@NonNull Module module)
+    {
+        super(module);
+
         titleRes = R.string.command_title_take_picture_with_options;
         syntaxDescList = new String[]{
                 "take picture with [" + PARAM_OPTIONS.getId() + "]"

@@ -2,6 +2,7 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +14,7 @@ public class CommandTakePictureTest extends CommandTest
 
     public CommandTakePictureTest()
     {
-        super(Commands.TAKE_PICTURE);
+        super(Instances.CAMERA.commandTakePicture);
     }
 
     @Override

@@ -6,11 +6,12 @@ import android.support.annotation.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
-import tranquvis.simplesmsremote.CommandManagement.Modules.ModuleCamera;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
@@ -20,31 +21,12 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
  */
 public abstract class Module
 {
-    public static final Module
-            CAMERA = new ModuleCamera();
     /*
     public static final Module
             WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY, CAMERA;
 
     static
     {
-        //region mobile data
-        MOBILE_DATA = new Module("mobile_data",
-                new Command[]{
-                        Command.MOBILE_DATA_ENABLE,
-                        Command.MOBILE_DATA_DISABLE,
-                        Command.MOBILE_DATA_IS_ENABLED
-                });
-        MOBILE_DATA.sdkMax = Build.VERSION_CODES.LOLLIPOP;
-        MOBILE_DATA.requiredPermissions = new String[]{
-                Manifest.permission.CHANGE_NETWORK_STATE,
-                Manifest.permission.ACCESS_NETWORK_STATE
-        };
-        MOBILE_DATA.titleRes = R.string.control_module_title_mobile_data;
-        MOBILE_DATA.descriptionRes = R.string.control_module_desc_mobile_data;
-        MOBILE_DATA.iconRes = R.drawable.ic_network_cell_grey_700_36dp;
-        //endregion
-
         //region battery
         BATTERY = new Module("battery",
                 new Command[]{
@@ -120,26 +102,7 @@ public abstract class Module
         //endregion
     }
 */
-    public static Module getFromId(String id)
-    {
-        for (Module module : GetAllModules(null))
-        {
-            if (module.getId().equals(id))
-                return module;
-        }
-        return null;
-    }
-
-    public static Module getFromCommand(Command command)
-    {
-        for (Module module : GetAllModules(null))
-        {
-            if (module.getCommands().contains(command))
-                return module;
-        }
-        return null;
-    }
-
+    protected String id = getClass().getName();
     protected int sdkMin = -1;
     protected int sdkMax = -1;
     protected String[] requiredPermissions;
@@ -193,8 +156,8 @@ public abstract class Module
     }
 
     /**
-     * Get all Commands by using reflection.
-     * @return all defined control commands
+     * Get all commands of this module by using reflection.
+     * @return all defined commands in this module
      */
     public List<Command> getCommands()
     {
@@ -203,12 +166,12 @@ public abstract class Module
         for (Field field : this.getClass().getDeclaredFields())
         {
 
-            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
+            if (java.lang.reflect.Modifier.isFinal(field.getModifiers())
                     && Command.class.isAssignableFrom(field.getType()))
             {
                 try
                 {
-                    commands.add((Command) field.get(null));
+                    commands.add((Command) field.get(this));
                 } catch (IllegalAccessException e)
                 {
                     e.printStackTrace();
@@ -219,8 +182,7 @@ public abstract class Module
     }
 
     /**
-     * get required permissions that are not granted so far
-     *
+     * Get required permissions that are not granted so far.
      * @param context app context
      * @return permissions
      */
@@ -265,14 +227,14 @@ public abstract class Module
 
         Module that = (Module) o;
 
-        return id != null ? id.equals(that.id) : that.id == null;
+        return getId().equals(that.getId());
 
     }
 
     @Override
     public int hashCode()
     {
-        return id != null ? id.hashCode() : 0;
+        return getId().hashCode();
     }
 
     /**
@@ -288,51 +250,24 @@ public abstract class Module
         return PermissionUtils.AppHasPermissions(context, requiredPermissions);
     }
 
-    /**
-     * Get all defined modules
-     *
-     * @param sortComparator This comparator is used to sort the list. <br/>
-     *                       Use {@code DefaultComparator} to get default order.
-     * @return (sorted) list of all modules
-     * @see Comparator
-     */
-    public static List<Module> GetAllModules(@Nullable Comparator<Module> sortComparator)
+    public static Module getFromId(String id)
     {
-        List<Module> modules = new ArrayList<>();
-
-        for (Field field : Module.class.getDeclaredFields())
+        for (Module module : Instances.GetAll(null))
         {
-
-            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
-                    && field.getType() == Module.class)
-            {
-                try
-                {
-                    Module module = (Module) field.get(null);
-
-                    boolean inserted = false;
-                    if (sortComparator != null)
-                    {
-                        for (int i = 0; i < modules.size(); i++)
-                        {
-                            int compareResult = sortComparator.compare(modules.get(i), module);
-                            if (compareResult > 0)
-                            {
-                                modules.add(i, module);
-                                inserted = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!inserted) modules.add(module);
-
-                } catch (IllegalAccessException e)
-                {
-                    e.printStackTrace();
-                }
-            }
+            if (module.getId().equals(id))
+                return module;
         }
-        return modules;
+        return null;
+    }
+
+    public static Module getFromCommand(Command command)
+    {
+        for (Module module : Instances.GetAll(null))
+        {
+            if (module.getCommands().contains(command))
+                return module;
+        }
+        return null;
     }
 
     public static Comparator<Module> GetDefaultComparator(final Context context)

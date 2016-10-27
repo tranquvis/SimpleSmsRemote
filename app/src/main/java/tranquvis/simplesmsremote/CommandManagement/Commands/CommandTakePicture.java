@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import org.intellij.lang.annotations.Language;
 
@@ -8,6 +9,7 @@ import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExec;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.R;
@@ -24,8 +26,10 @@ public class CommandTakePicture extends Command
     @Language("RegExp")
     private static final String PATTERN_ROOT = "(?i)^\\s*(take|capture)\\s+(picture|photo)\\s*$";
 
-    public CommandTakePicture() {
-        super();
+    public CommandTakePicture(@NonNull Module module)
+    {
+        super(module);
+
         titleRes = R.string.command_title_take_picture;
         syntaxDescList = new String[]{
                 "take picture"

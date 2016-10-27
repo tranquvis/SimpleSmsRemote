@@ -1,9 +1,19 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import org.intellij.lang.annotations.Language;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
@@ -12,6 +22,7 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
  */
 public abstract class Command
 {
+    private static final List<Command> commands = new ArrayList<>();
 
     @Language("RegExp")
     protected static final String PATTERN_MULTI_PARAMS = "(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*";
@@ -26,28 +37,19 @@ public abstract class Command
                     "(?i)^\\s*(((is\\s+)?(wifi|wlan)\\s+(enabled|disabled|on|off)(\\?)?)" +
                     "|(get\\s+(wifi|wlan)\\s+state))\\s*$";
 
-
-
     protected static String GetPatternFromTemplate(String template,
                                                    @Language("RegExp") String... values)
     {
         return String.format(template, (Object[]) values);
     }
+
     /*
     static
     {
-        MOBILE_DATA_ENABLE = new Command("enable mobile data");
-        MOBILE_DATA_DISABLE = new Command("disable mobile data");
-        MOBILE_DATA_IS_ENABLED = new Command("is mobile data enabled");
-
         BATTERY_LEVEL_GET = new Command("get battery level");
         BATTERY_IS_CHARGING = new Command("is battery charging");
 
         LOCATION_GET = new Command("get location");
-
-        WIFI_ENABLE = new Command("enable wifi");
-        WIFI_DISABLE = new Command("disable wifi");
-        WIFI_IS_ENABLED = new Command("is wifi enabled");
 
         BLUETOOTH_ENABLE = new Command("enable bluetooth");
         BLUETOOTH_DISABLE = new Command("disable bluetooth");
@@ -68,26 +70,49 @@ public abstract class Command
     }
 */
 
+    protected Module module;
+
     @StringRes
     protected int titleRes;
     protected String[] syntaxDescList;
     protected PatternTreeNode patternTree;
 
-
-    protected Command() {}
+    /**
+     * Create and register command.
+     * @param module related module
+     */
+    protected Command(@NonNull Module module) {
+        if(module == null)
+            throw new IllegalArgumentException("module must not be null");
+        this.module = module;
+        commands.add(this);
+    }
 
     public int getTitleRes()
     {
         return titleRes;
     }
 
-    protected abstract void execute(Context context, CommandInstance commandInstance,
-                                    CommandExecResult result)
-            throws Exception;
-
     public Module getModule()
     {
-        return Module.getFromCommand(this);
+        return module;
+    }
+
+    protected abstract void execute(Context context, CommandInstance commandInstance,
+                                    CommandExecResult result) throws Exception;
+
+    /**
+     * Get all registered commands.
+     * @param sortComparator This comparator is used to sort the list.
+     * @return (sorted) list of all commands
+     * @see Comparator
+     */
+    public static List<Command> GetAllCommands(@Nullable Comparator<Command> sortComparator)
+    {
+        List<Command> commandsSorted = new ArrayList<>(commands);
+        if(sortComparator != null)
+            Collections.sort(commandsSorted, sortComparator);
+        return commands;
     }
 }
 

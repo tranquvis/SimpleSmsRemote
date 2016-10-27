@@ -3,3 +3,4 @@ TODO log entry for stopping receiver not saved in apis below 21 (solution: save 
 TODO create modules: wifi (connect to specific network), camera
 TODO option to delete sms from inbox
 TODO create moore specific log entries for errors
+TODO important: move parameter info from module to command info activity

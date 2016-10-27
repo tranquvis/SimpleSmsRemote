@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetWifiState.PARAM_WIFI_STATE;
 
@@ -13,7 +14,7 @@ public class CommandSetWifiStateTest extends CommandTest
 
     public CommandSetWifiStateTest()
     {
-        super(Commands.SET_WIFI_STATE);
+        super(Instances.WIFI.commandSetWifiState);
     }
 
     @Override

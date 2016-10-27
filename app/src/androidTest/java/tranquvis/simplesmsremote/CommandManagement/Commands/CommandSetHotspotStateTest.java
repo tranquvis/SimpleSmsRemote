@@ -2,6 +2,7 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
 import static org.junit.Assert.*;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetHotspotState.PARAM_HOTSPOT_STATE;
@@ -14,7 +15,7 @@ public class CommandSetHotspotStateTest extends CommandTest
 
     public CommandSetHotspotStateTest()
     {
-        super(Commands.SET_HOTSPOT_STATE);
+        super(Instances.WIFI_HOTSPOT.commandSetHotspotState);
     }
 
     @Override
@@ -23,7 +24,7 @@ public class CommandSetHotspotStateTest extends CommandTest
         assertThat("\n enable Wifi hotspot \r").matches().has(PARAM_HOTSPOT_STATE, true);
         assertThat("turn hotspot on").matches().has(PARAM_HOTSPOT_STATE, true);
         assertThat("turn on wlan hotspot").matches().has(PARAM_HOTSPOT_STATE, true);
-        assertThat("set wifi state to on").matches()
+        assertThat("set hotspot state to on").matches()
                 .has(PARAM_HOTSPOT_STATE, true);
 
         assertThat("disable hotspot").matches().has(PARAM_HOTSPOT_STATE, false);

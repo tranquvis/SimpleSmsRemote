@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
 /**
  * Created by Kaltenleitner Andreas on 26.10.2016.
@@ -8,7 +9,7 @@ import tranquvis.simplesmsremote.CommandManagement.CommandTest;
 public class CommandGetWifiStateTest extends CommandTest {
 
     public CommandGetWifiStateTest() {
-        super(Commands.GET_WIFI_STATE);
+        super(Instances.WIFI.commandGetWifiState);
     }
 
     @Override
