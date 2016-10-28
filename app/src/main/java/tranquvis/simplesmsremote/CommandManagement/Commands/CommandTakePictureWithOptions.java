@@ -1,7 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 
@@ -43,7 +43,7 @@ public class CommandTakePictureWithOptions extends Command
             PATTERN_AUTOFOCUS = "(?i)^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
                     "|(?:(no)\\s+autofocus)\\s*$";
 
-    public CommandTakePictureWithOptions(@NonNull Module module)
+    public CommandTakePictureWithOptions(@Nullable Module module)
     {
         super(module);
 

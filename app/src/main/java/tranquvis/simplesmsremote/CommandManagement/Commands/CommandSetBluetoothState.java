@@ -2,7 +2,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 
@@ -12,31 +11,31 @@ import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.R;
-import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
+import tranquvis.simplesmsremote.Utils.Device.BluetoothUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 /**
- * Created by Andreas Kaltenleitner on 27.10.2016.
+ * Created by Andreas Kaltenleitner on 28.10.2016.
  */
-public class CommandSetHotspotState extends Command
+public class CommandSetBluetoothState extends Command
 {
-    static final CommandParamOnOff PARAM_HOTSPOT_STATE = new CommandParamOnOff("hotspot_state");
+    final static CommandParamOnOff PARAM_BLUETOOTH_STATE = new CommandParamOnOff("bluetooth_state");
 
     @Language("RegExp")
-    private static final String PATTERN_ROOT =
-            GetPatternFromTemplate(PATTERN_TEMPLATE_SET_STATE_ON_OFF, "((wifi|wlan)\\s+)?hotspot");
+    private static final String
+            PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_SET_STATE_ON_OFF, "bluetooth");
 
-    public CommandSetHotspotState(@Nullable Module module)
+    public CommandSetBluetoothState(@Nullable Module module)
     {
         super(module);
 
-        this.titleRes = R.string.command_title_set_hotspot_state;
-        this.syntaxDescList =  new String[]{
-                "enable hotspot",
-                "disable hotspot"
+        this.titleRes = R.string.command_title_set_bluetooth_state;
+        this.syntaxDescList = new String[]{
+                "enable bluetooth",
+                "disable bluetooth"
         };
-        this.patternTree = new PatternTreeNode(PARAM_HOTSPOT_STATE.getId(),
+        this.patternTree = new PatternTreeNode(PARAM_BLUETOOTH_STATE.getId(),
                 PATTERN_ROOT,
                 MatchType.DO_NOT_MATCH
         );
@@ -46,6 +45,6 @@ public class CommandSetHotspotState extends Command
     protected void execute(Context context, CommandInstance commandInstance,
                            CommandExecResult result) throws Exception
     {
-        WifiUtils.SetHotspotState(context, commandInstance.getParam(PARAM_HOTSPOT_STATE));
+        BluetoothUtils.SetBluetoothState(commandInstance.getParam(PARAM_BLUETOOTH_STATE));
     }
 }

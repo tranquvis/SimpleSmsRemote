@@ -16,14 +16,8 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePi
  */
 public class CommandTakePictureWithOptionsTest extends CommandTest
 {
-
-    public CommandTakePictureWithOptionsTest()
-    {
-        super(Instances.CAMERA.commandTakePictureWithOptions);
-    }
-
     @Override
-    protected void testPattern() throws Exception
+    public void testPattern() throws Exception
     {
         // test with single option and whitespace
         assertThat("\n take Picture  with front cam \r").matches()
@@ -83,7 +77,7 @@ public class CommandTakePictureWithOptionsTest extends CommandTest
     }
 
     @Override
-    protected void testExecution() throws Exception
+    public void testExecution() throws Exception
     {
         assertThat("take picture with camera 1, autofocus, flash").executes();
         assertThat("take picture with front, no autofocus, no flash").executes();

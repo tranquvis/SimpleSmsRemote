@@ -11,12 +11,8 @@ import static org.junit.Assert.*;
  */
 public class CommandGetMobileDataStateTest extends CommandTest {
 
-    public CommandGetMobileDataStateTest() {
-        super(Instances.MOBILE_DATA.commandGetMobileDataState);
-    }
-
     @Override
-    protected void testPattern() throws Exception {
+    public void testPattern() throws Exception {
         assertThat("\n is  Mobile data enabled \r").matches();
         assertThat("is mobile internet connection on").matches();
         assertThat("is mobile internet disabled").matches();
@@ -28,7 +24,7 @@ public class CommandGetMobileDataStateTest extends CommandTest {
     }
 
     @Override
-    protected void testExecution() throws Exception {
+    public void testExecution() throws Exception {
         assertThat("is mobile data enabled").executes();
     }
 }

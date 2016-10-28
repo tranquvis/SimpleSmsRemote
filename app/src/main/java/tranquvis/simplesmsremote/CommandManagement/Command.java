@@ -81,9 +81,7 @@ public abstract class Command
      * Create and register command.
      * @param module related module
      */
-    protected Command(@NonNull Module module) {
-        if(module == null)
-            throw new IllegalArgumentException("module must not be null");
+    protected Command(@Nullable Module module) {
         this.module = module;
         commands.add(this);
     }

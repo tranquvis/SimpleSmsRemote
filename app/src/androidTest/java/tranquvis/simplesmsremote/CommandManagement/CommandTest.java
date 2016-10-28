@@ -4,6 +4,8 @@ import android.content.Context;
 
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
@@ -22,15 +24,28 @@ public abstract class CommandTest extends AppContextTest
 {
     protected Command command;
 
-    public CommandTest(Command command) {
-        this.command = command;
+    public CommandTest()
+    {
+        String testClassName = getClass().getName();
+        String comClassName = testClassName.replace("Test", "");
+        Class comClass;
+        try
+        {
+            comClass = Class.forName(comClassName);
+            Constructor comConstructor = comClass.getConstructor(Module.class);
+            this.command  = (Command) comConstructor.newInstance((Object) null);
+        } catch (Throwable e)
+        {
+            e.printStackTrace();
+            throw new RuntimeException("command init failed");
+        }
     }
 
     @Test
-    protected abstract void testPattern() throws Exception;
+    public abstract void testPattern() throws Exception;
 
     @Test
-    protected abstract void testExecution() throws Exception;
+    public abstract void testExecution() throws Exception;
 
     protected CommandTester assertThat(String input) throws Exception {
         return new CommandTester(input, command, appContext);

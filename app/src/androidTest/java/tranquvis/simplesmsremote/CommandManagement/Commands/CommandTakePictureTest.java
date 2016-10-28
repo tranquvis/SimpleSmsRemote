@@ -11,14 +11,8 @@ import static org.junit.Assert.*;
  */
 public class CommandTakePictureTest extends CommandTest
 {
-
-    public CommandTakePictureTest()
-    {
-        super(Instances.CAMERA.commandTakePicture);
-    }
-
     @Override
-    protected void testPattern() throws Exception
+    public void testPattern() throws Exception
     {
         assertThat("\n TAKE picture \r").matches();
         assertThat("take photo").matches();
@@ -26,7 +20,7 @@ public class CommandTakePictureTest extends CommandTest
     }
 
     @Override
-    protected void testExecution() throws Exception
+    public void testExecution() throws Exception
     {
         assertThat("take picture").executes();
     }

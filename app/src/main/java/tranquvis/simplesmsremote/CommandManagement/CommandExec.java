@@ -59,14 +59,6 @@ public class CommandExec
                     location.getLatitude(), location.getLongitude()));
             result.setForceSendingResultSmsMessage(true);
         }
-        else if (command == BLUETOOTH_ENABLE)
-        {
-            BluetoothUtils.SetBluetoothState(true);
-        }
-        else if (command == BLUETOOTH_DISABLE)
-        {
-            BluetoothUtils.SetBluetoothState(false);
-        }
         else if (command == BLUETOOTH_IS_ENABLED)
         {
             boolean isBluetoothEnabled = BluetoothUtils.IsBluetoothEnabled();

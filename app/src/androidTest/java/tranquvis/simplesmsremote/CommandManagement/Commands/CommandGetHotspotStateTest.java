@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Test;
+
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
@@ -8,13 +10,9 @@ import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
  */
 public class CommandGetHotspotStateTest extends CommandTest
 {
-    public CommandGetHotspotStateTest()
-    {
-        super(Instances.WIFI_HOTSPOT.commandGetHotspotState);
-    }
-
     @Override
-    protected void testPattern() throws Exception
+    @Test
+    public void testPattern() throws Exception
     {
         assertThat("\n is  Hotspot enabled \r").matches();
         assertThat("is hotspot on").matches();
@@ -27,7 +25,8 @@ public class CommandGetHotspotStateTest extends CommandTest
     }
 
     @Override
-    protected void testExecution() throws Exception
+    @Test
+    public void testExecution() throws Exception
     {
         assertThat("is hotspot enabled").executes();
     }

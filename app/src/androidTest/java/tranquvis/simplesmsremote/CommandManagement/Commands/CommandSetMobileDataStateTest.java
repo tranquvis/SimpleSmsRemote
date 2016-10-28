@@ -11,14 +11,10 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetMob
 /**
  * Created by Kaltenleitner Andreas on 27.10.2016.
  */
-public class CommandSetMobileDataStateTest extends CommandTest {
-
-    public CommandSetMobileDataStateTest() {
-        super(Instances.MOBILE_DATA.commandSetMobileDataState);
-    }
-
+public class CommandSetMobileDataStateTest extends CommandTest
+{
     @Override
-    protected void testPattern() throws Exception {
+    public void testPattern() throws Exception {
         assertThat("\n enable Mobile data \r").matches().has(PARAM_MOBILE_DATA_STATE, true);
         assertThat("turn mobile internet connection on").matches().has(PARAM_MOBILE_DATA_STATE, true);
         assertThat("turn on mobile internet").matches().has(PARAM_MOBILE_DATA_STATE, true);
@@ -33,7 +29,7 @@ public class CommandSetMobileDataStateTest extends CommandTest {
     }
 
     @Override
-    protected void testExecution() throws Exception {
+    public void testExecution() throws Exception {
         assertThat("enable mobile data").executes();
         assertThat("disable mobile data").executes();
     }

@@ -8,12 +8,8 @@ import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
  */
 public class CommandGetWifiStateTest extends CommandTest {
 
-    public CommandGetWifiStateTest() {
-        super(Instances.WIFI.commandGetWifiState);
-    }
-
     @Override
-    protected void testPattern() throws Exception {
+    public void testPattern() throws Exception {
         assertThat("\n is  Wifi enabled \r").matches();
         assertThat("is wifi on").matches();
         assertThat("is wifi disabled").matches();
@@ -25,7 +21,7 @@ public class CommandGetWifiStateTest extends CommandTest {
     }
 
     @Override
-    protected void testExecution() throws Exception {
+    public void testExecution() throws Exception {
         assertThat("is wifi enabled").executes();
     }
 }

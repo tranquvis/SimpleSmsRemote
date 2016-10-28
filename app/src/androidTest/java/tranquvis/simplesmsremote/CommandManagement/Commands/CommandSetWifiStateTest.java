@@ -11,14 +11,8 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetWif
  */
 public class CommandSetWifiStateTest extends CommandTest
 {
-
-    public CommandSetWifiStateTest()
-    {
-        super(Instances.WIFI.commandSetWifiState);
-    }
-
     @Override
-    protected void testPattern() throws Exception
+    public void testPattern() throws Exception
     {
         assertThat("\n enable Wifi \r").matches().has(PARAM_WIFI_STATE, true);
         assertThat("turn wifi on").matches().has(PARAM_WIFI_STATE, true);
@@ -34,7 +28,7 @@ public class CommandSetWifiStateTest extends CommandTest
     }
 
     @Override
-    protected void testExecution() throws Exception
+    public void testExecution() throws Exception
     {
         assertThat("enable wifi").executes();
         assertThat("disable wifi").executes();

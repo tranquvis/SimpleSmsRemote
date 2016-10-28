@@ -1,7 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 
@@ -26,7 +26,7 @@ public class CommandSetWifiState extends Command {
     private static final String PATTERN_ROOT =
             GetPatternFromTemplate(PATTERN_TEMPLATE_SET_STATE_ON_OFF, "wlan|wifi");
 
-    public CommandSetWifiState(@NonNull Module module)
+    public CommandSetWifiState(@Nullable Module module)
     {
         super(module);
 

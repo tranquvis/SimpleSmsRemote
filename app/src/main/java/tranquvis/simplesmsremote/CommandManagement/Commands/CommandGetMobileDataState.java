@@ -1,7 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public class CommandGetMobileDataState extends Command {
             PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_GET_STATE_ON_OFF,
                 "((mobile\\s+data)|(mobile\\s+internet))(\\s+connection)?");
 
-    public CommandGetMobileDataState(@NonNull Module module)
+    public CommandGetMobileDataState(@Nullable Module module)
     {
         super(module);
 

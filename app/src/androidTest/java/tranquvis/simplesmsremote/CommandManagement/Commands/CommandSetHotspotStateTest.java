@@ -12,14 +12,8 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetHot
  */
 public class CommandSetHotspotStateTest extends CommandTest
 {
-
-    public CommandSetHotspotStateTest()
-    {
-        super(Instances.WIFI_HOTSPOT.commandSetHotspotState);
-    }
-
     @Override
-    protected void testPattern() throws Exception
+    public void testPattern() throws Exception
     {
         assertThat("\n enable Wifi hotspot \r").matches().has(PARAM_HOTSPOT_STATE, true);
         assertThat("turn hotspot on").matches().has(PARAM_HOTSPOT_STATE, true);
@@ -35,7 +29,7 @@ public class CommandSetHotspotStateTest extends CommandTest
     }
 
     @Override
-    protected void testExecution() throws Exception
+    public void testExecution() throws Exception
     {
         assertThat("enable hotspot").executes();
         assertThat("disable hotspot").executes();

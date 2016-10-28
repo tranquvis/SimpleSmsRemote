@@ -1,7 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 
@@ -25,7 +25,7 @@ public class CommandGetHotspotState extends Command
             PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_GET_STATE_ON_OFF,
                 "((wifi|wlan)\\s+)?hotspot");
 
-    public CommandGetHotspotState(@NonNull Module module)
+    public CommandGetHotspotState(@Nullable Module module)
     {
         super(module);
 
