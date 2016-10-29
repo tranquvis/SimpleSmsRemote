@@ -24,7 +24,8 @@ public abstract class Command
     private static final List<Command> commands = new ArrayList<>();
 
     @Language("RegExp")
-    protected static final String PATTERN_MULTI_PARAMS = "(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*";
+    protected static final String PATTERN_MULTI_PARAMS =
+            "(?i)^(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*$";
 
     @Language("RegExp")
     protected static final String PATTERN_TEMPLATE_SET_STATE_ON_OFF =
@@ -35,7 +36,7 @@ public abstract class Command
     @Language("RegExp")
     protected static final String PATTERN_TEMPLATE_GET_STATE_ON_OFF =
                     "(?i)^\\s*(((is\\s+)?(%1$s)\\s+(enabled|disabled|on|off)(\\?)?)" +
-                    "|(get\\s+(%1$s)\\s+state))\\s*$";
+                    "|((get|fetch|retrieve)\\s+(%1$s)\\s+state))\\s*$";
 
     protected static String GetPatternFromTemplate(String template,
                                                    @Language("RegExp") String... values)
@@ -43,12 +44,13 @@ public abstract class Command
         return String.format(template, (Object[]) values);
     }
 
+    protected static String AdaptSimplePattern(String pattern)
+    {
+        return "(?i)^\\s*" + pattern.replace(" ", "\\s+") + "\\s*$";
+    }
     /*
     static
     {
-        BATTERY_LEVEL_GET = new Command("get battery level");
-        BATTERY_IS_CHARGING = new Command("is battery charging");
-
         LOCATION_GET = new Command("get location");
 
         AUDIO_SET_VOLUME = new Command("set volume [" + PARAM_AUDIO_TYPE + "] to [" +

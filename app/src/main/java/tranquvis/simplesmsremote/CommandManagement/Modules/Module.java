@@ -25,17 +25,6 @@ public abstract class Module
 
     static
     {
-        //region battery
-        BATTERY = new Module("battery",
-                new Command[]{
-                        Command.BATTERY_LEVEL_GET,
-                        Command.BATTERY_IS_CHARGING
-                });
-        BATTERY.titleRes = R.string.control_module_title_battery;
-        BATTERY.descriptionRes = R.string.control_module_desc_battery;
-        BATTERY.iconRes = R.drawable.ic_battery_50_grey_700_36dp;
-        //endregion
-
         //region location
         LOCATION = new Module("location",
                 new Command[]{

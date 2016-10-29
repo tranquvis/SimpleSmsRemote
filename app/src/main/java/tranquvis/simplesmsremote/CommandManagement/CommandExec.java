@@ -33,22 +33,6 @@ public class CommandExec
     {
         return null;
         /*
-
-        else if (command == BATTERY_LEVEL_GET)
-        {
-            float batteryLevel = BatteryUtils.GetBatteryLevel(context);
-            result.setCustomResultMessage(context.getResources().getString(
-                    R.string.result_msg_battery_level, batteryLevel*100));
-            result.setForceSendingResultSmsMessage(true);
-        }
-        else if (command == BATTERY_IS_CHARGING)
-        {
-            boolean isBatteryCharging = BatteryUtils.IsBatteryCharging(context);
-            result.setCustomResultMessage(context.getString(
-                    isBatteryCharging ? R.string.result_msg_battery_is_charging_true
-                            : R.string.result_msg_battery_is_charging_false));
-            result.setForceSendingResultSmsMessage(true);
-        }
         else if (command == LOCATION_GET)
         {
             Location location = LocationUtils.GetLocation(context, 4000);
