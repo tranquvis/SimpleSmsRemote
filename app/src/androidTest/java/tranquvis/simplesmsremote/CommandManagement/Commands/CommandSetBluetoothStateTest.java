@@ -1,19 +1,18 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
+import org.junit.Test;
+
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
 
-import static org.junit.Assert.*;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetBluetoothState.PARAM_BLUETOOTH_STATE;
 
 /**
  * Created by Andreas Kaltenleitner on 28.10.2016.
  */
-public class CommandSetBluetoothStateTest extends CommandTest
-{
+public class CommandSetBluetoothStateTest extends CommandTest {
     @Override
-    public void testPattern() throws Exception
-    {
+    @Test
+    public void testPattern() throws Exception {
         assertThat("\n enable Bluetooth \r").matches().has(PARAM_BLUETOOTH_STATE, true);
         assertThat("turn bluetooth on").matches().has(PARAM_BLUETOOTH_STATE, true);
         assertThat("turn on bluetooth").matches().has(PARAM_BLUETOOTH_STATE, true);
@@ -28,8 +27,8 @@ public class CommandSetBluetoothStateTest extends CommandTest
     }
 
     @Override
-    public void testExecution() throws Exception
-    {
+    @Test
+    public void testExecution() throws Exception {
         assertThat("enable bluetooth").executes();
         assertThat("disable bluetooth").executes();
     }

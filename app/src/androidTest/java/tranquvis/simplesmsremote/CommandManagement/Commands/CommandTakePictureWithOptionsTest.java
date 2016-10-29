@@ -1,12 +1,11 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
+import org.junit.Test;
+
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
-import static org.junit.Assert.*;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureWithOptions.PARAM_AUTOFOCUS;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureWithOptions.PARAM_CAMERA;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureWithOptions.PARAM_FLASH;
@@ -14,11 +13,10 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePi
 /**
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
-public class CommandTakePictureWithOptionsTest extends CommandTest
-{
+public class CommandTakePictureWithOptionsTest extends CommandTest {
     @Override
-    public void testPattern() throws Exception
-    {
+    @Test
+    public void testPattern() throws Exception {
         // test with single option and whitespace
         assertThat("\n take Picture  with front cam \r").matches()
                 .has(PARAM_CAMERA, CameraUtils.LensFacing.FRONT);
@@ -77,8 +75,8 @@ public class CommandTakePictureWithOptionsTest extends CommandTest
     }
 
     @Override
-    public void testExecution() throws Exception
-    {
+    @Test
+    public void testExecution() throws Exception {
         assertThat("take picture with camera 1, autofocus, flash").executes();
         assertThat("take picture with front, no autofocus, no flash").executes();
     }

@@ -1,10 +1,8 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
-import tranquvis.simplesmsremote.CommandManagement.CommandTest;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import tranquvis.simplesmsremote.CommandManagement.CommandTest;
 
 /**
  * Created by Kaltenleitner Andreas on 27.10.2016.
@@ -12,6 +10,7 @@ import static org.junit.Assert.*;
 public class CommandGetMobileDataStateTest extends CommandTest {
 
     @Override
+    @Test
     public void testPattern() throws Exception {
         assertThat("\n is  Mobile data enabled \r").matches();
         assertThat("is mobile internet connection on").matches();
@@ -24,6 +23,7 @@ public class CommandGetMobileDataStateTest extends CommandTest {
     }
 
     @Override
+    @Test
     public void testExecution() throws Exception {
         assertThat("is mobile data enabled").executes();
     }

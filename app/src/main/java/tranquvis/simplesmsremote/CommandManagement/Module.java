@@ -52,21 +52,6 @@ public abstract class Module
         LOCATION.iconRes = R.drawable.ic_location_on_grey_700_36dp;
         //endregion
 
-        //region bluetooth
-        BLUETOOTH = new Module("bluetooth",
-                new Command[]{
-                        Command.BLUETOOTH_ENABLE,
-                        Command.BLUETOOTH_DISABLE,
-                        Command.BLUETOOTH_IS_ENABLED
-                });
-        BLUETOOTH.requiredPermissions = new String[]{
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.BLUETOOTH_ADMIN
-        };
-        BLUETOOTH.titleRes = R.string.control_module_title_bluetooth;
-        BLUETOOTH.descriptionRes = R.string.control_module_desc_bluetooth;
-        BLUETOOTH.iconRes = R.drawable.ic_bluetooth_grey_700_36dp;
-
         //region audio
         AUDIO = new Module("audio",
                 new Command[]{
@@ -250,21 +235,16 @@ public abstract class Module
         return PermissionUtils.AppHasPermissions(context, requiredPermissions);
     }
 
+    /**
+     * Get module from its id.
+     * @param id the module's id
+     * @return module or null no matching module was found
+     */
     public static Module getFromId(String id)
     {
         for (Module module : Instances.GetAll(null))
         {
             if (module.getId().equals(id))
-                return module;
-        }
-        return null;
-    }
-
-    public static Module getFromCommand(Command command)
-    {
-        for (Module module : Instances.GetAll(null))
-        {
-            if (module.getCommands().contains(command))
                 return module;
         }
         return null;

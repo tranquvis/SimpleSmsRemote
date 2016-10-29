@@ -1,7 +1,8 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Test;
+
 import tranquvis.simplesmsremote.CommandManagement.CommandTest;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 
 /**
  * Created by Kaltenleitner Andreas on 26.10.2016.
@@ -9,6 +10,7 @@ import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 public class CommandGetWifiStateTest extends CommandTest {
 
     @Override
+    @Test
     public void testPattern() throws Exception {
         assertThat("\n is  Wifi enabled \r").matches();
         assertThat("is wifi on").matches();
@@ -21,6 +23,7 @@ public class CommandGetWifiStateTest extends CommandTest {
     }
 
     @Override
+    @Test
     public void testExecution() throws Exception {
         assertThat("is wifi enabled").executes();
     }

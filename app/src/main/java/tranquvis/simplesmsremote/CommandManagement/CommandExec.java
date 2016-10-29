@@ -59,14 +59,6 @@ public class CommandExec
                     location.getLatitude(), location.getLongitude()));
             result.setForceSendingResultSmsMessage(true);
         }
-        else if (command == BLUETOOTH_IS_ENABLED)
-        {
-            boolean isBluetoothEnabled = BluetoothUtils.IsBluetoothEnabled();
-            result.setCustomResultMessage(context.getString(
-                    isBluetoothEnabled ? R.string.result_msg_bluetooth_is_enabled_true
-                            : R.string.result_msg_bluetooth_is_enabled_false));
-            result.setForceSendingResultSmsMessage(true);
-        }
         else if (command == AUDIO_SET_VOLUME)
         {
             String audioTypeStr = commandInstance.getParam(PARAM_AUDIO_TYPE);

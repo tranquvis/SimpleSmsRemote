@@ -1,19 +1,17 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
-import tranquvis.simplesmsremote.CommandManagement.CommandTest;
-import tranquvis.simplesmsremote.CommandManagement.Module;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import tranquvis.simplesmsremote.CommandManagement.CommandTest;
+
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetMobileDataState.PARAM_MOBILE_DATA_STATE;
 
 /**
  * Created by Kaltenleitner Andreas on 27.10.2016.
  */
-public class CommandSetMobileDataStateTest extends CommandTest
-{
+public class CommandSetMobileDataStateTest extends CommandTest {
     @Override
+    @Test
     public void testPattern() throws Exception {
         assertThat("\n enable Mobile data \r").matches().has(PARAM_MOBILE_DATA_STATE, true);
         assertThat("turn mobile internet connection on").matches().has(PARAM_MOBILE_DATA_STATE, true);
@@ -29,6 +27,7 @@ public class CommandSetMobileDataStateTest extends CommandTest
     }
 
     @Override
+    @Test
     public void testExecution() throws Exception {
         assertThat("enable mobile data").executes();
         assertThat("disable mobile data").executes();
