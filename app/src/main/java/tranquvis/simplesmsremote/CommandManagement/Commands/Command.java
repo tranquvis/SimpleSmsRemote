@@ -1,20 +1,19 @@
-package tranquvis.simplesmsremote.CommandManagement;
+package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import org.intellij.lang.annotations.Language;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
+import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
+import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 /**
@@ -28,14 +27,15 @@ public abstract class Command
     protected static final String PATTERN_MULTI_PARAMS = "(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*";
 
     @Language("RegExp")
-    protected static final String
-            PATTERN_TEMPLATE_SET_STATE_ON_OFF =
+    protected static final String PATTERN_TEMPLATE_SET_STATE_ON_OFF =
                 "(?i)^\\s*((enable|disable)\\s+(%1$s))" +
                 "|(turn\\s+(%1$s)\\s+(on|off))|(turn\\s+(on|off)\\s+(%1$s))" +
-                "|(set\\s+(%1$s)\\s+state\\s+to)\\s*(on|off|enabled|disabled)$",
-            PATTERN_TEMPLATE_GET_STATE_ON_OFF =
-                    "(?i)^\\s*(((is\\s+)?(wifi|wlan)\\s+(enabled|disabled|on|off)(\\?)?)" +
-                    "|(get\\s+(wifi|wlan)\\s+state))\\s*$";
+                "|(set\\s+(%1$s)\\s+state\\s+to)\\s*(on|off|enabled|disabled)$";
+
+    @Language("RegExp")
+    protected static final String PATTERN_TEMPLATE_GET_STATE_ON_OFF =
+                    "(?i)^\\s*(((is\\s+)?(%1$s)\\s+(enabled|disabled|on|off)(\\?)?)" +
+                    "|(get\\s+(%1$s)\\s+state))\\s*$";
 
     protected static String GetPatternFromTemplate(String template,
                                                    @Language("RegExp") String... values)
@@ -50,10 +50,6 @@ public abstract class Command
         BATTERY_IS_CHARGING = new Command("is battery charging");
 
         LOCATION_GET = new Command("get location");
-
-        BLUETOOTH_ENABLE = new Command("enable bluetooth");
-        BLUETOOTH_DISABLE = new Command("disable bluetooth");
-        BLUETOOTH_IS_ENABLED = new Command("is bluetooth enabled");
 
         AUDIO_SET_VOLUME = new Command("set volume [" + PARAM_AUDIO_TYPE + "] to [" +
                 PARAM_AUDIO_VOLUME + "]");
@@ -70,12 +66,11 @@ public abstract class Command
     }
 */
 
-    protected Module module;
-
     @StringRes
     protected int titleRes;
     protected String[] syntaxDescList;
     protected PatternTreeNode patternTree;
+    protected Module module;
 
     /**
      * Create and register command.
@@ -91,12 +86,20 @@ public abstract class Command
         return titleRes;
     }
 
+    public String[] getSyntaxDescList() {
+        return syntaxDescList;
+    }
+
+    public PatternTreeNode getPatternTree() {
+        return patternTree;
+    }
+
     public Module getModule()
     {
         return module;
     }
 
-    protected abstract void execute(Context context, CommandInstance commandInstance,
+    public abstract void execute(Context context, CommandInstance commandInstance,
                                     CommandExecResult result) throws Exception;
 
     /**

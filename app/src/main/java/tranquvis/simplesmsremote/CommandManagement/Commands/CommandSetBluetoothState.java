@@ -5,10 +5,9 @@ import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.BluetoothUtils;
@@ -42,7 +41,7 @@ public class CommandSetBluetoothState extends Command
     }
 
     @Override
-    protected void execute(Context context, CommandInstance commandInstance,
+    public void execute(Context context, CommandInstance commandInstance,
                            CommandExecResult result) throws Exception
     {
         BluetoothUtils.SetBluetoothState(commandInstance.getParam(PARAM_BLUETOOTH_STATE));

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
+import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.R;
 
 /**

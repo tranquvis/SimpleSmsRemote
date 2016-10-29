@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.HelpOverlay;

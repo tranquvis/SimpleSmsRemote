@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.Calendar;
 import java.util.Date;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
+import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.R;
 
 /**

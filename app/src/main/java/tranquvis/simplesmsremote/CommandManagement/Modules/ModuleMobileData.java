@@ -3,12 +3,8 @@ package tranquvis.simplesmsremote.CommandManagement.Modules;
 import android.Manifest;
 import android.os.Build;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetMobileDataState;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetWifiState;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetMobileDataState;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetWifiState;
-import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -22,7 +18,7 @@ public class ModuleMobileData extends Module
     public final CommandGetMobileDataState commandGetMobileDataState =
             new CommandGetMobileDataState(this);
 
-    ModuleMobileData()
+    public ModuleMobileData()
     {
         this.sdkMax = Build.VERSION_CODES.LOLLIPOP;
         this.requiredPermissions = new String[]{

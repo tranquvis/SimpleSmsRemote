@@ -4,15 +4,12 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
-import org.jetbrains.annotations.NotNull;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
-import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 

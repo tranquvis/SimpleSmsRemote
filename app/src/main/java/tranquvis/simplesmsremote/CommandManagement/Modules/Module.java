@@ -1,17 +1,15 @@
-package tranquvis.simplesmsremote.CommandManagement;
+package tranquvis.simplesmsremote.CommandManagement.Modules;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
+import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
@@ -228,7 +226,7 @@ public abstract class Module
      * @param context app context
      * @return true if granted
      */
-    boolean checkPermissions(Context context)
+    public boolean checkPermissions(Context context)
     {
         if (requiredPermissions == null)
             return true;

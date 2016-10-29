@@ -7,7 +7,7 @@ public class CommandExecResult
     private String customResultMessage = null;
     private boolean forceSendingResultSmsMessage = false;
 
-    CommandExecResult(CommandInstance commandInstance)
+    public CommandExecResult(CommandInstance commandInstance)
     {
         this.commandInstance = commandInstance;
     }

@@ -25,7 +25,7 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.Adapters.CommandTemplateListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;

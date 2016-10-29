@@ -2,7 +2,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
-import tranquvis.simplesmsremote.CommandManagement.CommandTest;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 

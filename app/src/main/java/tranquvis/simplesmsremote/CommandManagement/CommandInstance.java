@@ -2,6 +2,8 @@ package tranquvis.simplesmsremote.CommandManagement;
 
 import android.content.Context;
 
+import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
@@ -70,7 +72,7 @@ public class CommandInstance {
      */
     public static CommandInstance CreateFromCommand(String commandText) throws Exception {
         for (Command com : Command.GetAllCommands(null)) {
-            MatcherTreeNode matcherTree = com.patternTree.buildMatcherTree();
+            MatcherTreeNode matcherTree = com.getPatternTree().buildMatcherTree();
             if (matcherTree.testInput(commandText)) {
                 return new CommandInstance(com, commandText, matcherTree);
             }

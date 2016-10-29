@@ -3,10 +3,7 @@ package tranquvis.simplesmsremote.CommandManagement.Modules;
 import android.Manifest;
 
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetBluetoothState;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetWifiState;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetBluetoothState;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetWifiState;
-import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -20,7 +17,7 @@ public class ModuleBluetooth extends Module
     public final CommandGetBluetoothState commandGetBluetoothState =
             new CommandGetBluetoothState(this);
 
-    ModuleBluetooth()
+    public ModuleBluetooth()
     {
         this.titleRes = R.string.control_module_title_bluetooth;
         this.descriptionRes = R.string.control_module_desc_bluetooth;

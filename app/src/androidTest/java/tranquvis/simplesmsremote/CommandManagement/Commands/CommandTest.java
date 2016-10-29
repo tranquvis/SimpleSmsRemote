@@ -1,19 +1,20 @@
-package tranquvis.simplesmsremote.CommandManagement;
+package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 
 import tranquvis.simplesmsremote.AppContextTest;
-import tranquvis.simplesmsremote.CommandManagement.Command;
+import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
-import tranquvis.simplesmsremote.Sms.MyCommandMessage;
+import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -22,27 +23,21 @@ import static org.junit.Assert.assertTrue;
 
 public abstract class CommandTest extends AppContextTest
 {
-    private Command command;
+    protected Command command;
 
-    /**
-     * Initialize default command.
-     * The related command class is fetched by the unit test class name.
-     */
-    public CommandTest()
-    {
-        String testClassName = getClass().getName();
-        String comClassName = testClassName.replace("Test", "");
-        Class comClass;
-        try
-        {
-            comClass = Class.forName(comClassName);
-            Constructor comConstructor = comClass.getConstructor(Module.class);
-            this.command  = (Command) comConstructor.newInstance((Object) null);
-        } catch (Throwable e)
-        {
-            e.printStackTrace();
-            throw new RuntimeException("command init failed");
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        if (command == null) {
+            Class<? extends Command> testedClass = UnitTestUtils.GetTestedClassFrom(getClass());
+            Constructor<? extends Command> constructor = testedClass.getConstructor(Module.class);
+            command = constructor.newInstance((Module)null);
         }
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
     @Test

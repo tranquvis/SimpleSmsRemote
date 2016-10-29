@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import tranquvis.simplesmsremote.CommandManagement.Module;
-
 /**
  * Contains all registered Modules
  */

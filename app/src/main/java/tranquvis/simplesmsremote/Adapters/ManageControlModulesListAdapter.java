@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.R;
 
 /**

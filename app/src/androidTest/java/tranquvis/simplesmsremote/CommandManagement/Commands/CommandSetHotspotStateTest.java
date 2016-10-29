@@ -2,8 +2,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
-import tranquvis.simplesmsremote.CommandManagement.CommandTest;
-
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetHotspotState.PARAM_HOTSPOT_STATE;
 
 /**

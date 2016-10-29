@@ -2,14 +2,12 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.annotation.Nullable;
 
 import org.intellij.lang.annotations.Language;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
@@ -45,7 +43,7 @@ public class CommandSetMobileDataState extends Command
     }
 
     @Override
-    protected void execute(Context context, CommandInstance commandInstance,
+    public void execute(Context context, CommandInstance commandInstance,
                            CommandExecResult result) throws Exception
     {
         MobileDataUtils.SetMobileDataState(context,

@@ -2,10 +2,8 @@ package tranquvis.simplesmsremote.CommandManagement.Modules;
 
 import android.Manifest;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetWifiState;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetWifiState;
-import tranquvis.simplesmsremote.CommandManagement.Module;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -17,7 +15,7 @@ public class ModuleWifi extends Module
     public final CommandSetWifiState commandSetWifiState = new CommandSetWifiState(this);
     public final CommandGetWifiState commandGetWifiState = new CommandGetWifiState(this);
 
-    ModuleWifi()
+    public ModuleWifi()
     {
         this.titleRes = R.string.control_module_title_wifi;
         this.descriptionRes = R.string.control_module_desc_wifi;

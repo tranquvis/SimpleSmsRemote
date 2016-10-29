@@ -8,10 +8,9 @@ import org.intellij.lang.annotations.Language;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tranquvis.simplesmsremote.CommandManagement.Command;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
-import tranquvis.simplesmsremote.CommandManagement.Module;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamString;

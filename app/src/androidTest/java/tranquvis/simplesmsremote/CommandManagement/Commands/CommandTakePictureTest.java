@@ -2,8 +2,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
-import tranquvis.simplesmsremote.CommandManagement.CommandTest;
-
 /**
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
