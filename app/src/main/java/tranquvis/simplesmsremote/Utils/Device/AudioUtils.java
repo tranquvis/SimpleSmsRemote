@@ -118,50 +118,28 @@ public class AudioUtils
     }
 
     public enum AudioType{
-        RING(AudioManager.STREAM_RING, "ring", "ringtone"),
-        MUSIC(AudioManager.STREAM_MUSIC, "music"),
-        ALARM(AudioManager.STREAM_ALARM, "alarm", "alarms"),
-        NOTIFICATION(AudioManager.STREAM_NOTIFICATION, "notification", "notifications", "notify"),
-        SYSTEM(AudioManager.STREAM_SYSTEM, "system"), //battery low, usb connected, keyboard press, unlock, boot, ...
-        VOICECALL(AudioManager.STREAM_VOICE_CALL, "phonecall", "voicecall[s]?", "phonecall[s]?", "call[s]?"),
-        DTMF(AudioManager.STREAM_DTMF, "dtmf");
+        RING(AudioManager.STREAM_RING),
+        MUSIC(AudioManager.STREAM_MUSIC),
+        ALARM(AudioManager.STREAM_ALARM),
+        NOTIFICATION(AudioManager.STREAM_NOTIFICATION),
+        SYSTEM(AudioManager.STREAM_SYSTEM),
+        VOICECALL(AudioManager.STREAM_VOICE_CALL),
+        DTMF(AudioManager.STREAM_DTMF);
 
         private int streamType;
-        private String name;
-        private String[] aliases;
 
         /**
-         * create audio type
+         * Create audio type.
          * @param streamType related stream type
-         * @param name audio type default name
-         * @param aliases as regular expressions
          */
-        AudioType(int streamType, String name, String... aliases)
+        AudioType(int streamType)
         {
             this.streamType = streamType;
-            this.name = name;
-            this.aliases = aliases;
         }
 
         public int getStreamType()
         {
             return streamType;
-        }
-
-        public static AudioType GetFromName(String name)
-        {
-            for(AudioType audioType : AudioType.values())
-            {
-                if(audioType.name.equals(name))
-                    return audioType;
-
-                for (String alias : audioType.aliases)
-                {
-                    if(Pattern.matches(alias, name))
-                        return audioType;
-                }
-            }
-            throw new IllegalArgumentException("No audio type found");
         }
     }
 }

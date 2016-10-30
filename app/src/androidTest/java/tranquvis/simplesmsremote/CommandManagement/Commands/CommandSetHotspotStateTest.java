@@ -11,7 +11,7 @@ public class CommandSetHotspotStateTest extends CommandTest {
     @Override
     @Test
     public void testPattern() throws Exception {
-        assertThat("\n enable Wifi hotspot \r").matches().has(PARAM_HOTSPOT_STATE, true);
+        assertThat("\n enable  Wifi hotspot \r").matches().has(PARAM_HOTSPOT_STATE, true);
         assertThat("turn hotspot on").matches().has(PARAM_HOTSPOT_STATE, true);
         assertThat("turn on wlan hotspot").matches().has(PARAM_HOTSPOT_STATE, true);
         assertThat("set hotspot state to on").matches()

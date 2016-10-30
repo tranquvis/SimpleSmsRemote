@@ -36,12 +36,11 @@ public class CommandInstance {
 
     /**
      * Extract param from matcher tree.
-     * @param commandParam the param which schould be retrieved
+     * @param commandParam the param which should be retrieved
      * @param <T> value type
-     * @return the param value or null if the param hasn' been found
+     * @return param value or null if the param hasn't been found or isn't set
      */
-    public <T> T getParam(CommandParam<T> commandParam)
-    {
+    public <T> T getParam(CommandParam<T> commandParam) throws Exception {
         MatcherTreeNode paramNode = matcherTree.getNodeByPatternId(commandParam.getId());
         if(paramNode == null)
             return null;

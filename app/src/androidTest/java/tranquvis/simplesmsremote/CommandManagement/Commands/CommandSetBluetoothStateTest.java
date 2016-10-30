@@ -11,7 +11,7 @@ public class CommandSetBluetoothStateTest extends CommandTest {
     @Override
     @Test
     public void testPattern() throws Exception {
-        assertThat("\n enable Bluetooth \r").matches().has(PARAM_BLUETOOTH_STATE, true);
+        assertThat("\n enable  Bluetooth \r").matches().has(PARAM_BLUETOOTH_STATE, true);
         assertThat("turn bluetooth on").matches().has(PARAM_BLUETOOTH_STATE, true);
         assertThat("turn on bluetooth").matches().has(PARAM_BLUETOOTH_STATE, true);
         assertThat("set bluetooth to on").matches()

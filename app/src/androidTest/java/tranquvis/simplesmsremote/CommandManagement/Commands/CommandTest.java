@@ -109,8 +109,7 @@ public abstract class CommandTest extends AppContextTest
          * Assert that the input has a specific parameter, which is defined in its matching command.
          * @param param the parameter to check
          */
-        public CommandTester has(CommandParam param)
-        {
+        public CommandTester has(CommandParam param) throws Exception {
             assertTrue(ci.getParam(param) != null);
             return this;
         }
@@ -122,8 +121,7 @@ public abstract class CommandTest extends AppContextTest
          * @param value the value, which the parameter should have
          * @param <T> type of the parameter's value
          */
-        public <T> CommandTester has(CommandParam<T> param, T value)
-        {
+        public <T> CommandTester has(CommandParam<T> param, T value) throws Exception {
             Object paramValue = ci.getParam(param);
             assertTrue(paramValue != null && paramValue.equals(value));
             return this;
@@ -153,6 +151,37 @@ public abstract class CommandTest extends AppContextTest
          */
         public CommandExecResult executes() throws Exception {
             return executes(defaultCommand);
+        }
+
+        /**
+         * Assert that a command executes with error with the given input.
+         * Assert before that the input matches the command.
+         * @param command the command
+         * @return the result of the execution
+         * @throws Exception
+         */
+        public CommandExecResult executesWithError(Command command) throws Exception {
+            CommandExecResult result = new CommandExecResult(ci);
+            result.setSuccess(false);
+            try {
+                command.execute(context, ci, result);
+            }
+            catch (Exception ex) {
+                return result;
+            }
+            assertFalse(result.isSuccess());
+            return result;
+        }
+
+        /**
+         * Assert that the default command of the related unit test
+         * executes with error with the given input.
+         * Assert before that the input matches the default command.
+         * @return the result of the execution
+         * @throws Exception
+         */
+        public CommandExecResult executesWithError() throws Exception {
+            return executesWithError(defaultCommand);
         }
     }
 }

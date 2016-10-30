@@ -33,52 +33,6 @@ public class CommandExec
     {
         return null;
         /*
-        else if (command == LOCATION_GET)
-        {
-            Location location = LocationUtils.GetLocation(context, 4000);
-            if(location == null)
-                throw new Exception("Location Request timed out");
-            result.setCustomResultMessage(context.getString(
-                    R.string.result_msg_location_coordinates,
-                    location.getLatitude(), location.getLongitude()));
-            result.setForceSendingResultSmsMessage(true);
-        }
-        else if (command == AUDIO_SET_VOLUME)
-        {
-            String audioTypeStr = commandInstance.getParam(PARAM_AUDIO_TYPE);
-            String volumeStr = commandInstance.getParam(PARAM_AUDIO_VOLUME);
-
-            AudioUtils.AudioType audioType = AudioUtils.AudioType.GetFromName(audioTypeStr);
-
-            if(volumeStr.charAt(volumeStr.length() - 1) == '%')
-            {
-                float volumePercentage =
-                        Float.parseFloat(volumeStr.substring(0, volumeStr.length() - 1));
-                AudioUtils.SetVolumePercentage(context, volumePercentage, audioType);
-            }
-            else
-            {
-                int volumeIndex;
-                switch (volumeStr)
-                {
-                    case "vibrate":
-                        if(audioType != AudioUtils.AudioType.RING)
-                            throw new Exception("vibrate is only possible for type ring");
-                        volumeIndex = AudioUtils.VOLUME_INDEX_RING_VIBRATE;
-                        break;
-                    case "silent":
-                        if(audioType != AudioUtils.AudioType.RING)
-                            throw new Exception("vibrate is only possible for type ring");
-                        volumeIndex = AudioUtils.VOLUME_INDEX_RING_SILENT;
-                        break;
-                    default:
-                        volumeIndex = Integer.parseInt(volumeStr);
-                        break;
-                }
-
-                AudioUtils.SetVolumeIndex(context, volumeIndex, audioType);
-            }
-        }
         else if (command == AUDIO_GET_VOLUME)
         {
             String audioTypeStr = commandInstance.getParam(PARAM_AUDIO_TYPE);

@@ -11,7 +11,7 @@ public class CommandSetMobileDataStateTest extends CommandTest {
     @Override
     @Test
     public void testPattern() throws Exception {
-        assertThat("\n enable Mobile data \r").matches().has(PARAM_MOBILE_DATA_STATE, true);
+        assertThat("\n enable  Mobile data \r").matches().has(PARAM_MOBILE_DATA_STATE, true);
         assertThat("turn mobile internet connection on").matches().has(PARAM_MOBILE_DATA_STATE, true);
         assertThat("turn on mobile internet").matches().has(PARAM_MOBILE_DATA_STATE, true);
         assertThat("set mobile data state to on").matches()

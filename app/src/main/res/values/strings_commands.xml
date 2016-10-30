@@ -10,6 +10,9 @@
     <string name="command_title_get_bluetooth_state">get bluetooth state</string>
     <string name="command_title_get_battery_level">get battery level</string>
     <string name="command_title_get_battery_status">get battery status</string>
+    <string name="command_title_get_location_coordinates">get location</string>
+    <string name="command_title_set_audio_volume">set audio volume</string>
+    <string name="command_title_get_audio_volume">get audio volume</string>
     <string name="command_title_take_picture">take picture</string>
     <string name="command_title_take_picture_with_options">take picture with options</string>
 </resources>

@@ -25,20 +25,6 @@ public abstract class Module
 
     static
     {
-        //region location
-        LOCATION = new Module("location",
-                new Command[]{
-                        Command.LOCATION_GET
-                });
-        LOCATION.requiredPermissions =
-                new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                };
-        LOCATION.titleRes = R.string.control_module_title_location;
-        LOCATION.descriptionRes = R.string.control_module_desc_location;
-        LOCATION.iconRes = R.drawable.ic_location_on_grey_700_36dp;
-        //endregion
-
         //region audio
         AUDIO = new Module("audio",
                 new Command[]{

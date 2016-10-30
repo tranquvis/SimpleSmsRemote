@@ -12,7 +12,7 @@ public class CommandSetWifiStateTest extends CommandTest {
     @Override
     @Test
     public void testPattern() throws Exception {
-        assertThat("\n enable Wifi \r").matches().has(PARAM_WIFI_STATE, true);
+        assertThat("\n enable  Wifi \r").matches().has(PARAM_WIFI_STATE, true);
         assertThat("turn wifi on").matches().has(PARAM_WIFI_STATE, true);
         assertThat("turn on wlan").matches().has(PARAM_WIFI_STATE, true);
         assertThat("set wifi state to on").matches()

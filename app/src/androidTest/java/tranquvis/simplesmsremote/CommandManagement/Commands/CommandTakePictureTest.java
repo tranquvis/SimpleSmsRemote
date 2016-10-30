@@ -9,7 +9,7 @@ public class CommandTakePictureTest extends CommandTest {
     @Override
     @Test
     public void testPattern() throws Exception {
-        assertThat("\n TAKE picture \r").matches();
+        assertThat("\n Take  picture \r").matches();
         assertThat("take photo").matches();
         assertThat("capture photo").matches();
     }

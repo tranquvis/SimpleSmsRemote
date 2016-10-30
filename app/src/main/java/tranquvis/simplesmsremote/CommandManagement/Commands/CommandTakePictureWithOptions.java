@@ -34,13 +34,19 @@ public class CommandTakePictureWithOptions extends Command
 
     @Language("RegExp")
     private static final String
-            PATTERN_ROOT = "(?i)^\\s*(?:take|capture)\\s+(?:picture|photo)\\s+with\\s+(.*)\\s*$",
-            PATTERN_CAMERA = "(?i)^\\s*(\\d+|((back|front|external)(\\s+((cam(era)?)|lens)?))" +
-                    "|(((cam(era)?)|lens)?\\s+(back|front|external|\\d+)))\\s*$",
-            PATTERN_FLASH = "(?i)^\\s*(flash(light)?(\\s+(enabled|disabled|on|off|auto))?)" +
-                    "|(no\\s+flash(light)?)\\s*$",
-            PATTERN_AUTOFOCUS = "(?i)^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
-                    "|(?:(no)\\s+autofocus)\\s*$";
+            PATTERN_ROOT = "(?i)^\\s*(?:take|capture)\\s+(?:picture|photo)\\s+with\\s+(.*)\\s*$";
+    @Language("RegExp")
+    private static final String PATTERN_CAMERA =
+            "(?i)^\\s*(\\d+|((back|front|external)(\\s+((cam(era)?)|lens)?))" +
+            "|(((cam(era)?)|lens)?\\s+(back|front|external|\\d+)))\\s*$";
+    @Language("RegExp")
+    private static final String PATTERN_FLASH =
+            "(?i)^\\s*(flash(light)?(\\s+(enabled|disabled|on|off|auto))?)" +
+            "|(no\\s+flash(light)?)\\s*$";
+    @Language("RegExp")
+    private static final String PATTERN_AUTOFOCUS =
+            "(?i)^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
+            "|(?:(no)\\s+autofocus)\\s*$";
 
     public CommandTakePictureWithOptions(@Nullable Module module)
     {

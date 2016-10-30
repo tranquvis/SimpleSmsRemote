@@ -12,5 +12,5 @@ public abstract class CommandParam<T>
         return id;
     }
 
-    public abstract T getValueFromInput(String input);
+    public abstract T getValueFromInput(String input) throws Exception;
 }

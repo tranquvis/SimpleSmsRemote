@@ -44,17 +44,13 @@ public abstract class Command
         return String.format(template, (Object[]) values);
     }
 
-    protected static String AdaptSimplePattern(String pattern)
+    protected static String AdaptSimplePattern(@Language("RegExp") String pattern)
     {
         return "(?i)^\\s*" + pattern.replace(" ", "\\s+") + "\\s*$";
     }
     /*
     static
     {
-        LOCATION_GET = new Command("get location");
-
-        AUDIO_SET_VOLUME = new Command("set volume [" + PARAM_AUDIO_TYPE + "] to [" +
-                PARAM_AUDIO_VOLUME + "]");
         AUDIO_GET_VOLUME = new Command("get volume for [" + PARAM_AUDIO_TYPE + "]");
         AUDIO_GET_VOLUME_PERCENTAGE = new Command("get volume percentage for [" +
                 PARAM_AUDIO_TYPE + "]");
