@@ -51,10 +51,6 @@ public abstract class Command
     /*
     static
     {
-        AUDIO_GET_VOLUME = new Command("get volume for [" + PARAM_AUDIO_TYPE + "]");
-        AUDIO_GET_VOLUME_PERCENTAGE = new Command("get volume percentage for [" +
-                PARAM_AUDIO_TYPE + "]");
-
         DISPLAY_GET_BRIGHTNESS = new Command("get brightness");
         DISPLAY_SET_BRIGHTNESS = new Command("set brightness to [" + PARAM_BRIGHTNESS + "]");
         DISPLAY_GET_OFF_TIMEOUT = new Command("get display off timeout");

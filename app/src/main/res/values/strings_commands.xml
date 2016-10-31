@@ -2,17 +2,30 @@
 <resources>
     <string name="command_title_set_hotspot_state">set hotspot state</string>
     <string name="command_title_get_hotspot_state">get hotspot state</string>
+
     <string name="command_title_set_mobile_data_state">set mobile data state</string>
     <string name="command_title_get_mobile_data_state">get mobile data state</string>
+
     <string name="command_title_set_wifi_state">set wifi state</string>
     <string name="command_title_get_wifi_state">get wifi state</string>
+
     <string name="command_title_set_bluetooth_state">set bluetooth state</string>
     <string name="command_title_get_bluetooth_state">get bluetooth state</string>
+
     <string name="command_title_get_battery_level">get battery level</string>
     <string name="command_title_get_battery_status">get battery status</string>
+
     <string name="command_title_get_location_coordinates">get location</string>
+
     <string name="command_title_set_audio_volume">set audio volume</string>
     <string name="command_title_get_audio_volume">get audio volume</string>
+
+    <string name="command_title_set_display_brightness">set display brightness</string>
+    <string name="command_title_get_display_brightness">get display brightness</string>
+    <string name="command_title_set_display_off_timeout">set display off timeout</string>
+    <string name="command_title_get_display_off_timeout">get display off timeout</string>
+    <string name="command_title_turn_display_off">turn display off</string>
+
     <string name="command_title_take_picture">take picture</string>
     <string name="command_title_take_picture_with_options">take picture with options</string>
 </resources>

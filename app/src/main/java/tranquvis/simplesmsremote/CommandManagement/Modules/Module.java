@@ -25,22 +25,6 @@ public abstract class Module
 
     static
     {
-        //region audio
-        AUDIO = new Module("audio",
-                new Command[]{
-                        Command.AUDIO_SET_VOLUME,
-                        Command.AUDIO_GET_VOLUME,
-                        Command.AUDIO_GET_VOLUME_PERCENTAGE
-                });
-        AUDIO.requiredPermissions = new String[]{
-                Manifest.permission.ACCESS_NOTIFICATION_POLICY //API requirements can be ignored
-        };
-        AUDIO.titleRes = R.string.control_module_title_audio;
-        AUDIO.descriptionRes = R.string.control_module_desc_audio;
-        AUDIO.iconRes = R.drawable.ic_volume_up_grey_700_36dp;
-        AUDIO.paramInfoRes = R.string.control_module_param_desc_audio;
-        //endregion
-
         //region display
         DISPLAY = new Module("display",
                 new Command[]{

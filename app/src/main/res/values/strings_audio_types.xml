@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="audio_type_name_ring">ring</string>
+    <string name="audio_type_name_music">music</string>
+    <string name="audio_type_name_alarm">alarm</string>
+    <string name="audio_type_name_notification">notification</string>
+    <string name="audio_type_name_system">system</string>
+    <string name="audio_type_name_voicecall">voicecall</string>
+    <string name="audio_type_name_dtmf">dtmf</string>
+</resources>

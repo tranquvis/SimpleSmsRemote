@@ -17,8 +17,21 @@ public class AudioUtils
 {
     public static final int VOLUME_INDEX_RING_VIBRATE = 10001;
     public static final int VOLUME_INDEX_RING_SILENT = 10000;
+
     /**
-     * Set volume as percentage
+     * Get max index of volume.
+     * @param context app context
+     * @param type audio type
+     * @return the max index of the audio type (device dependent)
+     */
+    public static int GetMaxVolumeIndex(Context context, AudioType type)
+    {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        return audioManager.getStreamMaxVolume(type.getStreamType());
+    }
+
+    /**
+     * Set volume as percentage.
      * @param context app context
      * @param volume volume in percent
      * @param type audio type
@@ -33,7 +46,7 @@ public class AudioUtils
     }
 
     /**
-     * Get volume as percentage
+     * Get volume as percentage.
      * @param context app context
      * @param type audio type
      * @return volume in percent
@@ -46,7 +59,7 @@ public class AudioUtils
     }
 
     /**
-     * Set volume as index
+     * Set volume as index.
      * @param context app context
      * @param volumeIndex volume as index (max. is depends on device)
      * @param type audio type
@@ -73,7 +86,7 @@ public class AudioUtils
     }
 
     /**
-     * Get volume as index
+     * Get volume as index.
      * @param context app context
      * @param type audio type
      * @return volume index (device dependent)
@@ -94,7 +107,7 @@ public class AudioUtils
     }
 
     /**
-     * Get volume as index and return no constant values
+     * Get volume as index and return no constant values.
      * @param context app context
      * @param type audio type
      * @return volume index (device dependent)
