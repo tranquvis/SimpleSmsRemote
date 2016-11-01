@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Test;
+
 import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
 
 import static org.junit.Assert.*;
@@ -12,6 +14,7 @@ public class CommandSetDisplayBrightnessTest extends CommandTest
 {
 
     @Override
+    @Test
     public void testPattern() throws Exception
     {
         assertThat("\n set  Display brightness to Auto \r").matches()
@@ -26,6 +29,7 @@ public class CommandSetDisplayBrightnessTest extends CommandTest
     }
 
     @Override
+    @Test
     public void testExecution() throws Exception
     {
         assertThat("set brightness to 0%").executes();

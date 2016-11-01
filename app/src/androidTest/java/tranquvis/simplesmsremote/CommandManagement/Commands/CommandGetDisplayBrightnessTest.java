@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -9,6 +11,7 @@ public class CommandGetDisplayBrightnessTest extends CommandTest
 {
 
     @Override
+    @Test
     public void testPattern() throws Exception
     {
         assertThat("\n get  Brightness \r").matches();
@@ -17,6 +20,7 @@ public class CommandGetDisplayBrightnessTest extends CommandTest
     }
 
     @Override
+    @Test
     public void testExecution() throws Exception
     {
         assertThat("get brightness").executes();

@@ -95,6 +95,8 @@ public class DisplayUtils
 
     /**
      * Turn screen off. <br/>
+     * This is a workaround by setting screen off timeout to a small value
+     * and resetting it after the screen is off. </br>
      * The execution may take up to 4 seconds, because it is required to wait until screen is
      * turned off in order to preserve the current screen off timeout.
      * @param context app context

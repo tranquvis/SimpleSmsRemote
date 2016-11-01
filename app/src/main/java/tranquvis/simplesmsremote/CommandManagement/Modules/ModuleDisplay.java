@@ -1,13 +1,12 @@
 package tranquvis.simplesmsremote.CommandManagement.Modules;
 
 import android.Manifest;
-import android.os.Build;
 
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetAudioVolume;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetDisplayBrightness;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetBluetoothState;
+import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetDisplayOffTimeout;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayBrightness;
+import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayOffTimeout;
+import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTurnDisplayOff;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -20,6 +19,12 @@ public class ModuleDisplay extends Module
             new CommandGetDisplayBrightness(this);
     public final CommandSetDisplayBrightness setDisplayBrightness =
             new CommandSetDisplayBrightness(this);
+    public final CommandSetDisplayOffTimeout setDisplayOffTimeout =
+            new CommandSetDisplayOffTimeout(this);
+    public final CommandGetDisplayOffTimeout getDisplayOffTimeout =
+            new CommandGetDisplayOffTimeout(this);
+    public final CommandTurnDisplayOff turnDisplayOff =
+            new CommandTurnDisplayOff(this);
 
     public ModuleDisplay()
     {
