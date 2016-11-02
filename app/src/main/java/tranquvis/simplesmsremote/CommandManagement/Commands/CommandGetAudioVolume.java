@@ -25,7 +25,7 @@ public class CommandGetAudioVolume extends Command
 
     @Language("RegExp")
     private static final String PATTERN_ROOT = AdaptSimplePattern(
-            "(?:get|fetch|retrieve) (?:(?:(.*) volume)|(?:volume (?:of|for) (.*)))");
+            "(?:get|fetch|retrieve) (?:(?:(.*?) volume)|(?:volume (?:of|for) (.*?)))");
 
     public CommandGetAudioVolume(@NonNull Module module)
     {

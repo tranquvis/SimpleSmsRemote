@@ -34,19 +34,18 @@ public class CommandTakePictureWithOptions extends Command
 
     @Language("RegExp")
     private static final String
-            PATTERN_ROOT = "(?i)^\\s*(?:take|capture)\\s+(?:picture|photo)\\s+with\\s+(.*)\\s*$";
+            PATTERN_ROOT = AdaptSimplePattern("(?:take|capture) (?:picture|photo) with (.*?)");
     @Language("RegExp")
-    private static final String PATTERN_CAMERA =
-            "(?i)^\\s*(\\d+|((back|front|external)(\\s+((cam(era)?)|lens)?))" +
-            "|(((cam(era)?)|lens)?\\s+(back|front|external|\\d+)))\\s*$";
+    private static final String PATTERN_CAMERA = AdaptSimplePattern(
+            "\\d+" +
+            "|(back|front|external)( ((cam(era)?)|lens)?)" +
+            "|((cam(era)?)|lens)? (back|front|external|\\d+)");
     @Language("RegExp")
-    private static final String PATTERN_FLASH =
-            "(?i)^\\s*(flash(light)?(\\s+(enabled|disabled|on|off|auto))?)" +
-            "|(no\\s+flash(light)?)\\s*$";
+    private static final String PATTERN_FLASH = AdaptSimplePattern(
+            "flash(light)?( (enabled|disabled|on|off|auto))?|no flash(light)?");
     @Language("RegExp")
-    private static final String PATTERN_AUTOFOCUS =
-            "(?i)^\\s*autofocus(?:\\s+(on|enabled|off|disabled))?" +
-            "|(?:(no)\\s+autofocus)\\s*$";
+    private static final String PATTERN_AUTOFOCUS = AdaptSimplePattern(
+            "autofocus(?: (on|enabled|off|disabled))?|(no) autofocus");
 
     public CommandTakePictureWithOptions(@Nullable Module module)
     {
@@ -173,9 +172,9 @@ public class CommandTakePictureWithOptions extends Command
 
         @Override
         public CaptureSettings.FlashlightMode getValueFromInput(String input) {
-            if(input.contains("no") || input.contains("off") || input.contains("disabled"))
+            if(input.matches("(?i)no|off|disabled"))
                 return CaptureSettings.FlashlightMode.OFF;
-            if(input.contains("auto"))
+            if(input.matches("(?i)auto"))
                 return CaptureSettings.FlashlightMode.AUTO;
             else
                 return CaptureSettings.FlashlightMode.ON;

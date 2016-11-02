@@ -27,7 +27,7 @@ public class CommandSetHotspotStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("enable hotspot").executes();
-        assertThat("disable hotspot").executes();
+        assertThat("enable hotspot").matches().executes();
+        assertThat("disable hotspot").matches().executes();
     }
 }

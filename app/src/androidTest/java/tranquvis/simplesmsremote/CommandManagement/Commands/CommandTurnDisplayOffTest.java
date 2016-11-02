@@ -15,6 +15,6 @@ public class CommandTurnDisplayOffTest extends CommandTest {
 
     @Override
     public void testExecution() throws Exception {
-        assertThat("turn screen off").executes();
+        assertThat("turn screen off").matches().executes();
     }
 }

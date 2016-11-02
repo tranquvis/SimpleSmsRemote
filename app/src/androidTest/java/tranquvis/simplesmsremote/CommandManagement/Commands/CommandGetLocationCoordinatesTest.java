@@ -17,6 +17,6 @@ public class CommandGetLocationCoordinatesTest extends CommandTest {
 
     @Override
     public void testExecution() throws Exception {
-        assertThat("get location").executes();
+        assertThat("get location").matches().executes();
     }
 }

@@ -23,6 +23,6 @@ public class CommandGetWifiStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("is wifi enabled").executes();
+        assertThat("is wifi enabled").matches().executes();
     }
 }

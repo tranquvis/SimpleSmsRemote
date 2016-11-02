@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Params;
 
+import java.util.regex.Pattern;
+
 import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
 
 public class CommandParamAudioType extends CommandParam<AudioUtils.AudioType>
@@ -22,7 +24,7 @@ public class CommandParamAudioType extends CommandParam<AudioUtils.AudioType>
     @Override
     public AudioUtils.AudioType getValueFromInput(String input) throws Exception {
         for (PatternAssignment assignment : assignments) {
-            if(assignment.pattern.matches(input))
+            if(input.matches(assignment.getAdaptedPattern()))
                 return assignment.audioType;
         }
         throw new IllegalArgumentException("Invalid audio type given.");
@@ -30,7 +32,7 @@ public class CommandParamAudioType extends CommandParam<AudioUtils.AudioType>
 
     public static String GetEntirePattern()
     {
-        String pattern = assignments[0].pattern;
+        String pattern = "(?i)" + assignments[0].pattern;
         for (int i = 1; i < assignments.length; i++) {
             pattern += "|" + assignments[i].pattern;
         }
@@ -45,6 +47,11 @@ public class CommandParamAudioType extends CommandParam<AudioUtils.AudioType>
         private PatternAssignment(String pattern, AudioUtils.AudioType audioType) {
             this.pattern = pattern;
             this.audioType = audioType;
+        }
+
+        private String getAdaptedPattern()
+        {
+            return "(?i)" + pattern;
         }
     }
 }

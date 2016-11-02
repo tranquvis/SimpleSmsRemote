@@ -17,7 +17,8 @@ public class MatcherTreeNode {
 
     private String input;
     private Matcher matcher;
-    private boolean nodeMatchSuccess;
+
+    private MatchResult lastMatchResult;
 
     /**
      * Create regex matcher tree node.
@@ -32,6 +33,16 @@ public class MatcherTreeNode {
 
     public String getInput() {
         return input;
+    }
+
+    public PatternTreeNode getPattern()
+    {
+        return patternTreeNode;
+    }
+
+    public MatchResult getLastMatchResult()
+    {
+        return lastMatchResult;
     }
 
     /**
@@ -94,19 +105,20 @@ public class MatcherTreeNode {
             for (int groupIndex = 1; groupIndex <= matcher.groupCount(); groupIndex++)
             {
                 String group = matcher.group(groupIndex);
-                regexGroups.add(group);
+                if(group != null)
+                    regexGroups.add(group);
             }
         }
 
         if(matchCount == 0)
         {
             // match failed
-            nodeMatchSuccess = false;
+            lastMatchResult = new MatchResult(false, "Pattern does not match.");
             return false;
         }
 
         // at least 1 match has been found
-        nodeMatchSuccess = true;
+        lastMatchResult = new MatchResult(true, null);
 
         // test child nodes
         if(childMatchType != MatchType.DO_NOT_MATCH)
@@ -123,7 +135,9 @@ public class MatcherTreeNode {
                     {
                         if (childMatchType == MatchType.BY_INDEX_STRICT)
                         {
-                            nodeMatchSuccess = false;
+                            lastMatchResult = new MatchResult(false,
+                                    "No child-pattern was found with the group index "
+                                            + String.valueOf(i) + ".");
                             return false;
                         }
                         else
@@ -168,7 +182,9 @@ public class MatcherTreeNode {
                     {
                         if (childMatchType == MatchType.BY_CHILD_PATTERN_STRICT)
                         {
-                            nodeMatchSuccess = false;
+                            lastMatchResult = new MatchResult(false,
+                                    "No child-pattern found that matches this group of input. (index: "
+                                            + String.valueOf(i) + ").");
                             return false;
                         }
                         else
@@ -189,4 +205,22 @@ public class MatcherTreeNode {
 
         return true;
     }
+
+    public List<MatcherTreeNode> getFailedNodesOfLastMatch()
+    {
+        List<MatcherTreeNode> failedNodes = new ArrayList<>();
+
+        if(this.lastMatchResult == null)
+            return failedNodes;
+
+        if(!this.lastMatchResult.success)
+            failedNodes.add(this);
+
+        for (MatcherTreeNode childNode : childNodes)
+        {
+            failedNodes.addAll(childNode.getFailedNodesOfLastMatch());
+        }
+        return failedNodes;
+    }
 }
+

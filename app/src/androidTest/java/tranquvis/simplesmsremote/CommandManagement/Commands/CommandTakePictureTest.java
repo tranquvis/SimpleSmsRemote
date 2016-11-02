@@ -17,6 +17,6 @@ public class CommandTakePictureTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("take picture").executes();
+        assertThat("take picture").matches().executes();
     }
 }

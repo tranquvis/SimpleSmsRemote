@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Test;
+
 import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
 
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetAudioVolume.PARAM_AUDIO_TYPE;
@@ -10,10 +12,11 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetAud
 public class CommandGetAudioVolumeTest extends CommandTest
 {
     @Override
+    @Test
     public void testPattern() throws Exception
     {
         // check special chars and arrangement
-        assertThat("\n get  Volume for ring \r").matches()
+        assertThat("\n get  Volume for Ring \r").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.RING);
         assertThat("fetch music volume").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.MUSIC);
@@ -23,7 +26,7 @@ public class CommandGetAudioVolumeTest extends CommandTest
         // check audio types
         assertThat("fetch ring volume").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.RING);
-        assertThat("fetch rintone volume").matches()
+        assertThat("fetch ringtone volume").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.RING);
 
         assertThat("fetch music volume").matches()
@@ -52,14 +55,15 @@ public class CommandGetAudioVolumeTest extends CommandTest
     }
 
     @Override
+    @Test
     public void testExecution() throws Exception
     {
-        assertThat("get volume for ring").executes();
-        assertThat("get volume for music").executes();
-        assertThat("get volume for alarm").executes();
-        assertThat("get volume for notify").executes();
-        assertThat("get volume for system").executes();
-        assertThat("get volume for call").executes();
-        assertThat("get volume for dtmf").executes();
+        assertThat("get volume for ring").matches().executes();
+        assertThat("get volume for music").matches().executes();
+        assertThat("get volume for alarm").matches().executes();
+        assertThat("get volume for notify").matches().executes();
+        assertThat("get volume for system").matches().executes();
+        assertThat("get volume for call").matches().executes();
+        assertThat("get volume for dtmf").matches().executes();
     }
 }

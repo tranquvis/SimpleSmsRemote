@@ -25,7 +25,7 @@ public abstract class Command
 
     @Language("RegExp")
     protected static final String PATTERN_MULTI_PARAMS =
-            "(?i)^(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*$";
+            "(?i)(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*";
 
     @Language("RegExp")
     protected static final String PATTERN_TEMPLATE_SET_STATE_ON_OFF =
@@ -60,6 +60,7 @@ public abstract class Command
     }
 */
 
+    protected String typeId = getClass().getName();
     @StringRes
     protected int titleRes;
     protected String[] syntaxDescList;
@@ -108,6 +109,24 @@ public abstract class Command
         if(sortComparator != null)
             Collections.sort(commandsSorted, sortComparator);
         return commands;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Command)) return false;
+
+        Command command = (Command) o;
+
+        return typeId != null ? typeId.equals(command.typeId) : command.typeId == null;
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return typeId != null ? typeId.hashCode() : 0;
     }
 }
 

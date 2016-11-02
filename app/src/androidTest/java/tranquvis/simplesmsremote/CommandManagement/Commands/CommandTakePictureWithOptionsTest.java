@@ -76,7 +76,7 @@ public class CommandTakePictureWithOptionsTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("take picture with camera 1, autofocus, flash").executes();
-        assertThat("take picture with front, no autofocus, no flash").executes();
+        assertThat("take picture with camera 1, autofocus, flash").matches().executes();
+        assertThat("take picture with front, no autofocus, no flash").matches().executes();
     }
 }

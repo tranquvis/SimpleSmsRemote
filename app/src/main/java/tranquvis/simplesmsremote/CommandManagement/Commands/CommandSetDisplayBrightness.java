@@ -29,7 +29,7 @@ public class CommandSetDisplayBrightness extends Command
     @Language("RegExp")
     private static final String PATTERN_ROOT = AdaptSimplePattern(
             "set (?:(?:(?:(?:display|screen) )?brightness)" +
-            "|(?:brightness of (?:display|screen))) to (.*)");
+            "|(?:brightness of (?:display|screen))) to (.*?)");
     @Language("RegExp")
     private static final String PATTERN_BRIGHTNESS_VALUE = "[0-9.,]+(%)?";
     @Language("RegExp")

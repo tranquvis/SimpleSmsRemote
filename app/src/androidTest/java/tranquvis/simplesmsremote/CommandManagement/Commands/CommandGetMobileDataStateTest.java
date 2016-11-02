@@ -23,6 +23,6 @@ public class CommandGetMobileDataStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("is mobile data enabled").executes();
+        assertThat("is mobile data enabled").matches().executes();
     }
 }

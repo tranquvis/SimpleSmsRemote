@@ -2,6 +2,8 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
 
+import junit.framework.AssertionFailedError;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +14,7 @@ import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
+import tranquvis.simplesmsremote.Utils.Regex.MatcherTreeNode;
 import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
 import static org.junit.Assert.assertFalse;
@@ -58,14 +61,16 @@ public abstract class CommandTest extends AppContextTest
 
     public static class CommandTester
     {
-        private Command defaultCommand;
+        private String input;
+        private Command command;
         private Context context;
         private CommandInstance ci;
 
-        private CommandTester(String input, Command defaultCommand, Context context)
+        private CommandTester(String input, Command command, Context context)
                 throws Exception {
+            this.input = input;
             ci = CommandInstance.CreateFromCommand(input);
-            this.defaultCommand = defaultCommand;
+            this.command = command;
             this.context = context;
         }
 
@@ -75,7 +80,26 @@ public abstract class CommandTest extends AppContextTest
          * @throws Exception
          */
         public CommandTester matches(Command command) throws Exception {
-            assertTrue(ci != null &&  ci.getCommand() == command);
+            MatcherTreeNode matcherTree = command.getPatternTree().buildMatcherTree();
+            if (!matcherTree.testInput(input)) {
+                String details = "";
+                boolean firstFail = true;
+                for (MatcherTreeNode matcherTreeNode : matcherTree.getFailedNodesOfLastMatch())
+                {
+                    if(!firstFail) details += "\r\n";
+                    else firstFail = false;
+
+                    details += "Match failed at pattern  '" + matcherTreeNode.getPattern().getRegex()
+                            + "'  with input '" + matcherTreeNode.getInput() +
+                            "': \r\n\t" + matcherTreeNode.getLastMatchResult().getFailDetail();
+                }
+                throw new AssertionFailedError("The given input ('" + input +
+                        "') does not match the command. \r\n" + details);
+            }
+            assertTrue("unexpected command retrieved: '" +
+                        context.getString(ci.getCommand().getTitleRes())  + "' except '" +
+                            context.getString(command.getTitleRes()) + "'",
+                    ci != null &&  ci.getCommand().equals(command));
             return this;
         }
 
@@ -84,7 +108,7 @@ public abstract class CommandTest extends AppContextTest
          * @throws Exception
          */
         public CommandTester matches() throws Exception {
-            return matches(defaultCommand);
+            return matches(command);
         }
 
         /**
@@ -102,7 +126,7 @@ public abstract class CommandTest extends AppContextTest
          * @throws Exception
          */
         public CommandTester doesNotMatch() throws Exception {
-            return doesNotMatch(defaultCommand);
+            return doesNotMatch(command);
         }
 
         /**
@@ -136,7 +160,7 @@ public abstract class CommandTest extends AppContextTest
          */
         public CommandExecResult executes(Command command) throws Exception {
             CommandExecResult result = new CommandExecResult(ci);
-            result.setSuccess(false);
+            result.setSuccess(true);
             command.execute(context, ci, result);
             assertTrue(result.isSuccess());
             return result;
@@ -150,7 +174,7 @@ public abstract class CommandTest extends AppContextTest
          * @throws Exception
          */
         public CommandExecResult executes() throws Exception {
-            return executes(defaultCommand);
+            return executes(command);
         }
 
         /**
@@ -181,7 +205,7 @@ public abstract class CommandTest extends AppContextTest
          * @throws Exception
          */
         public CommandExecResult executesWithError() throws Exception {
-            return executesWithError(defaultCommand);
+            return executesWithError(command);
         }
     }
 }

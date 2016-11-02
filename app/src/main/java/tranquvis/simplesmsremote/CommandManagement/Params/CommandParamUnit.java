@@ -2,6 +2,8 @@ package tranquvis.simplesmsremote.CommandManagement.Params;
 
 import org.intellij.lang.annotations.Language;
 
+import java.util.regex.Pattern;
+
 import tranquvis.simplesmsremote.Utils.UnitTools.Unit;
 
 /**
@@ -23,7 +25,7 @@ public class CommandParamUnit extends CommandParam<Unit>
     @Override
     public Unit getValueFromInput(String input) throws Exception {
         for (Unit unit : Unit.values()) {
-            if(unit.getPattern().matches(input))
+            if(input.matches(unit.getPattern()))
                 return unit;
         }
         throw new IllegalArgumentException("unsupported unit");

@@ -20,6 +20,6 @@ public class CommandGetDisplayOffTimeoutTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("fetch display off timeout").executes();
+        assertThat("fetch display off timeout").matches().executes();
     }
 }

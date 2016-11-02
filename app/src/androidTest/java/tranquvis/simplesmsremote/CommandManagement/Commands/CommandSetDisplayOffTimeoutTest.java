@@ -36,7 +36,7 @@ public class CommandSetDisplayOffTimeoutTest extends CommandTest
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("set display off timeout to 10h").executes();
-        assertThat("set display off timeout to 0ms").executes();
+        assertThat("set display off timeout to 10h").matches().executes();
+        assertThat("set display off timeout to 0ms").matches().executes();
     }
 }

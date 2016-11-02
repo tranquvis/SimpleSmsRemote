@@ -28,7 +28,7 @@ public class CommandSetWifiStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("enable wifi").executes();
-        assertThat("disable wifi").executes();
+        assertThat("enable wifi").matches().executes();
+        assertThat("disable wifi").matches().executes();
     }
 }

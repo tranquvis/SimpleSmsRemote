@@ -22,6 +22,6 @@ public class CommandGetBatteryStatusTest extends CommandTest {
 
     @Override
     public void testExecution() throws Exception {
-        assertThat("is battery charging?").executes();
+        assertThat("is battery charging?").matches().executes();
     }
 }

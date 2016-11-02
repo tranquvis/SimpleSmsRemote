@@ -52,6 +52,11 @@ public class PatternTreeNode
         }
     }
 
+    public String getRegex()
+    {
+        return regex;
+    }
+
     Matcher getMatcher(String input) {
         if(pattern == null)
             compile();

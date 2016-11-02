@@ -12,6 +12,6 @@ public class CommandParamOnOff extends CommandParam<Boolean>
 
     @Override
     public Boolean getValueFromInput(String input) {
-        return input.matches("^(?!(.*?\\s*?(no|(disable(d)?)|off)($|\\s+)))");
+        return input.matches("(?i)^(?!(.*?\\s*?(no|(disable(d)?)|off)($|\\s+)))$");
     }
 }

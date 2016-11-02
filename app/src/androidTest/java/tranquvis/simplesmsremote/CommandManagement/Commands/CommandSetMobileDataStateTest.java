@@ -27,7 +27,7 @@ public class CommandSetMobileDataStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("enable mobile data").executes();
-        assertThat("disable mobile data").executes();
+        assertThat("enable mobile data").matches().executes();
+        assertThat("disable mobile data").matches().executes();
     }
 }

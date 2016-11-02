@@ -29,12 +29,12 @@ public class CommandSetAudioVolume extends Command {
 
     @Language("RegExp")
     private static final String PATTERN_ROOT = AdaptSimplePattern(
-            "set (?:(?:volume (?:(index|percentage) )?(?:(?:of|for) )?(.*))" +
-                    "|(?:(.*) volume(?: (index|percentage))?)) to ([^%]+)(%)?");
+            "set (?:(?:volume (?:(index|percentage) )?(?:(?:of|for) )?(.*?))" +
+                    "|(?:(.*?) volume(?: (index|percentage))?)) to ([^%]+)(%)?");
     @Language("RegExp")
-    private static final String PATTERN_UNIT = "%|index|percentage";
+    private static final String PATTERN_UNIT = "(?i)%|index|percentage";
     @Language("RegExp")
-    private static final String PATTERN_RINGER_MODE = "vibrate|vibration|silent|mute";
+    private static final String PATTERN_RINGER_MODE = "(?i)vibrate|vibration|silent|mute";
     @Language("RegExp")
     private static final String PATTERN_VOLUME_VALUE = "[0-9.,]+";
 
@@ -100,9 +100,9 @@ public class CommandSetAudioVolume extends Command {
 
         @Override
         public Integer getValueFromInput(String input) throws Exception {
-            if(input.matches("vibrate|vibration"))
+            if(input.matches("(?i)vibrate|vibration"))
                 return AudioUtils.VOLUME_INDEX_RING_VIBRATE;
-            if(input.matches("silent|mute"))
+            if(input.matches("(?i)silent|mute"))
                 return AudioUtils.VOLUME_INDEX_RING_SILENT;
             throw new IllegalArgumentException("Invalid ringer mode given.");
         }
@@ -116,7 +116,7 @@ public class CommandSetAudioVolume extends Command {
 
         @Override
         public Unit getValueFromInput(String input) throws Exception {
-            if(input.matches("%|percentage"))
+            if(input.matches("(?i)%|percentage"))
                 return Unit.PERCENT;
             else
                 return Unit.INDEX;

@@ -23,6 +23,6 @@ public class CommandGetBluetoothStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("is bluetooth enabled").executes();
+        assertThat("is bluetooth enabled").matches().executes();
     }
 }

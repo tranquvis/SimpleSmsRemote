@@ -27,7 +27,7 @@ public class CommandSetBluetoothStateTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("enable bluetooth").executes();
-        assertThat("disable bluetooth").executes();
+        assertThat("enable bluetooth").matches().executes();
+        assertThat("disable bluetooth").matches().executes();
     }
 }

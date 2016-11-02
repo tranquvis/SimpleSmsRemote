@@ -32,9 +32,9 @@ public class CommandSetDisplayBrightnessTest extends CommandTest
     @Test
     public void testExecution() throws Exception
     {
-        assertThat("set brightness to 0%").executes();
-        assertThat("set brightness to auto").executes();
-        assertThat("set brightness to 100%").executes();
-        assertThat("set brightness to 50,4%").executes();
+        assertThat("set brightness to 0%").matches().executes();
+        assertThat("set brightness to auto").matches().executes();
+        assertThat("set brightness to 100%").matches().executes();
+        assertThat("set brightness to 50.4%").matches().executes();
     }
 }

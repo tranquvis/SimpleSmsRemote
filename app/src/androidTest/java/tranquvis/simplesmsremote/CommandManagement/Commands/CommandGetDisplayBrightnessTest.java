@@ -23,6 +23,6 @@ public class CommandGetDisplayBrightnessTest extends CommandTest
     @Test
     public void testExecution() throws Exception
     {
-        assertThat("get brightness").executes();
+        assertThat("get brightness").matches().executes();
     }
 }

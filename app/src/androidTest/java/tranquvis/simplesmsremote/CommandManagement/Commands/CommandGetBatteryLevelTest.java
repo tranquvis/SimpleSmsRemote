@@ -18,6 +18,6 @@ public class CommandGetBatteryLevelTest extends CommandTest {
 
     @Override
     public void testExecution() throws Exception {
-        assertThat("get battery level").executes();
+        assertThat("get battery level").matches().executes();
     }
 }
