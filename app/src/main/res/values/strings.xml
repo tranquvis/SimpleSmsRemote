@@ -59,7 +59,7 @@
     <string name="camera_facing_back_title">back camera</string>
     <string name="camera_facing_front_title">front camera</string>
     <string name="camera_facing_external_title">external camera</string>
-    <string name="camera_facing_unknown_title">unknown</string>
+    <string name="camera_facing_unknown_title">unknown lens position</string>
     <string name="module_settings_camera_default_title">Default capture settings</string>
     <string name="flashlight_switch_title">Flash</string>
     <string name="output_image_format_switch_title">Output image format</string>

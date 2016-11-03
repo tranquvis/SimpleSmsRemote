@@ -11,6 +11,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.ImageReader;
 import android.os.Build;
@@ -114,7 +115,7 @@ public class CameraUtils {
                     @Override
                     public boolean hasNext()
                     {
-                        return pos < cameraIdList.length - 1;
+                        return pos < cameraIdList.length;
                     }
 
                     @Override
@@ -149,12 +150,9 @@ public class CameraUtils {
     {
         for (MyCameraInfo cameraInfo : GetAllCamerasIterable2(context))
         {
-            if(cameraInfo.getLensFacing() == null)
-                return cameraInfo;
             if(cameraId != null && cameraInfo.getId().equals(cameraId))
                 return cameraInfo;
-            if(cameraInfo.getLensFacing() != null
-                    && cameraInfo.getLensFacing() == LensFacing.BACK)
+            if(lensFacing != null && cameraInfo.getLensFacing() == lensFacing)
                 return cameraInfo;
         }
         return null;
@@ -173,7 +171,7 @@ public class CameraUtils {
 
         //create image surface
         final ImageReader imageReader = ImageReader.newInstance(settings.getResolution()[0],
-                settings.getResolution()[1], PixelFormat.RGBA_8888, 1);
+                settings.getResolution()[1], PixelFormat.RGBA_8888, 2);
         final List<Surface> surfaceList = new ArrayList<>();
         surfaceList.add(imageReader.getSurface());
 
@@ -191,12 +189,24 @@ public class CameraUtils {
             throw new Exception("Failed to configure capture session.");
         }
 
+
+        //TODO test preview effects
+        CaptureRequest.Builder captureRequestPreviewBuilder = cameraDevice.createCaptureRequest(
+                CameraDevice.TEMPLATE_PREVIEW);
+        captureRequestPreviewBuilder.addTarget(surfaceList.get(0));
+        captureRequestPreviewBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+        captureRequestPreviewBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                CaptureRequest.CONTROL_AF_MODE_AUTO);
+        CapturePhotoSync2(context, captureSession, captureRequestPreviewBuilder.build());
+
+
         CaptureRequest.Builder captureRequestBuilder = cameraDevice.createCaptureRequest(
                 CameraDevice.TEMPLATE_STILL_CAPTURE);
         captureRequestBuilder.addTarget(surfaceList.get(0));
+        captureRequestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT,
+                CaptureRequest.CONTROL_CAPTURE_INTENT_STILL_CAPTURE);
 
         //configure capture based on settings
-/*
         if(settings.isAutofocus())
         {
             captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
@@ -213,7 +223,7 @@ public class CameraUtils {
         {
             captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
         }
-*/
+
         CaptureRequest captureRequest = captureRequestBuilder.build();
 
         //capture photo
@@ -244,6 +254,7 @@ public class CameraUtils {
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw new Exception("Failed to create file for image.");
         }
         finally
         {
@@ -295,6 +306,10 @@ public class CameraUtils {
                 result.requestFinished = true;
             }
 
+            @Override
+            public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
+                super.onCaptureProgressed(session, request, partialResult);
+            }
         }, new Handler(context.getMainLooper()));
 
         //wait until photo is captured
@@ -494,12 +509,14 @@ public class CameraUtils {
                 case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
 
                 case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
-
                 case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
                     cameraInfo.setAutofocusSupport(true);
                 case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
+                    // only supports camera 1 api features
                     break;
             }
+
+            int[] ints = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
 
             if(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE).booleanValue())
                 cameraInfo.setFlashlightSupport(true);

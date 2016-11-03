@@ -1,5 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Modules;
 
+import android.support.test.filters.LargeTest;
+
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
@@ -14,6 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Kaltenleitner Andreas on 29.10.2016.
  */
+@LargeTest
 public class ModuleCameraTest extends ModuleTest {
 
     @Test
@@ -28,6 +31,6 @@ public class ModuleCameraTest extends ModuleTest {
     {
         CommandTakePictureWithOptionsTest unitTest =
                 getUnitTestFrom(getCommand(CommandTakePictureWithOptions.class));
-        unitTest.testExecutionWithCustomOptions("back lens and flash and autofocus");
+        unitTest.testExecutionWithCustomOptions("back lens and autofocus");
     }
 }
