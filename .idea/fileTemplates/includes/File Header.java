@@ -1,3 +1,3 @@
 /**
- * Created by Andreas Kaltenleitner on ${DATE}.
+ * Created by Kaltenleitner Andreas on ${DATE}.
  */
