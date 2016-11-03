@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
@@ -41,6 +43,17 @@ public abstract class CommandTest extends AppContextTest
 
     public void setCommand(Command command) {
         this.command = command;
+    }
+
+    /**
+     * Format input string with default locale
+     * @param input input string
+     * @param params string parameters
+     * @return formatted string
+     */
+    protected String format(String input, Object... params)
+    {
+        return String.format(Locale.getDefault(), input, params);
     }
 
     @Test
@@ -81,6 +94,8 @@ public abstract class CommandTest extends AppContextTest
          */
         public CommandTester matches(Command command) throws Exception {
             MatcherTreeNode matcherTree = command.getPatternTree().buildMatcherTree();
+
+            //region build matcher tree once more in order to find fail details
             if (!matcherTree.testInput(input)) {
                 String details = "";
                 boolean firstFail = true;
@@ -96,6 +111,8 @@ public abstract class CommandTest extends AppContextTest
                 throw new AssertionFailedError("The given input ('" + input +
                         "') does not match the command. \r\n" + details);
             }
+            //endregion
+
             assertTrue("unexpected command retrieved: '" +
                         context.getString(ci.getCommand().getTitleRes())  + "' except '" +
                             context.getString(command.getTitleRes()) + "'",
@@ -117,7 +134,7 @@ public abstract class CommandTest extends AppContextTest
          * @throws Exception
          */
         public CommandTester doesNotMatch(Command command) throws Exception {
-            assertFalse(ci == null ||  ci.getCommand() == command);
+            assertFalse(ci != null &&  ci.getCommand() == command);
             return this;
         }
 

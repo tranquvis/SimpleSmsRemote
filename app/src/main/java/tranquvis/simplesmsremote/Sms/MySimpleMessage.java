@@ -51,13 +51,13 @@ public class MySimpleMessage implements MyMessage
             {
                 if(execResult.isSuccess())
                 {
-                    resultMessages.add("(success) " +
-                            execResult.getCommandInstance().getCommand().toString());
+                    resultMessages.add("(success) " + context.getString(
+                            execResult.getCommandInstance().getCommand().getTitleRes()));
                 }
                 else
                 {
-                    resultMessages.add("(failed) " +
-                            execResult.getCommandInstance().getCommand().toString());
+                    resultMessages.add("(failed) " + context.getString(
+                            execResult.getCommandInstance().getCommand().getTitleRes()));
                 }
             }
         }

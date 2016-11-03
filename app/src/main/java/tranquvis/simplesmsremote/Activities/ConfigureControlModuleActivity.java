@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.simplesmsremote.Adapters.CommandTemplateListAdapter;
+import tranquvis.simplesmsremote.Adapters.CommandSyntaxDescListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
@@ -90,7 +90,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         }
 
         ListView commandsListView = (ListView) findViewById(R.id.listView_commands);
-        CommandTemplateListAdapter commandsListAdapter = new CommandTemplateListAdapter(this,
+        CommandSyntaxDescListAdapter commandsListAdapter = new CommandSyntaxDescListAdapter(this,
                 module.getCommands());
         commandsListView.setAdapter(commandsListAdapter);
         UIUtils.SetListViewHeightBasedOnItems(commandsListView);

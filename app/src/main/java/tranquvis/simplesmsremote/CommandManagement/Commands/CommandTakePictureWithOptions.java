@@ -37,15 +37,14 @@ public class CommandTakePictureWithOptions extends Command
             PATTERN_ROOT = AdaptSimplePattern("(?:take|capture) (?:picture|photo) with (.*?)");
     @Language("RegExp")
     private static final String PATTERN_CAMERA = AdaptSimplePattern(
-            "\\d+" +
-            "|(back|front|external)( ((cam(era)?)|lens)?)" +
-            "|((cam(era)?)|lens)? (back|front|external|\\d+)");
+            "(\\d+|back|front|external)( (cam(era)?|lens))?" +
+            "|(cam(era)?|lens) (back|front|external|\\d+)");
     @Language("RegExp")
     private static final String PATTERN_FLASH = AdaptSimplePattern(
             "flash(light)?( (enabled|disabled|on|off|auto))?|no flash(light)?");
     @Language("RegExp")
     private static final String PATTERN_AUTOFOCUS = AdaptSimplePattern(
-            "autofocus(?: (on|enabled|off|disabled))?|(no) autofocus");
+            "autofocus( (on|enabled|off|disabled))?|(no) autofocus");
 
     public CommandTakePictureWithOptions(@Nullable Module module)
     {
@@ -150,16 +149,18 @@ public class CommandTakePictureWithOptions extends Command
          */
         @Override
         public Object getValueFromInput(String input) {
-            if(input.contains("front"))
+            if(input.matches("(?i).*?front.*?"))
                 return CameraUtils.LensFacing.FRONT;
-            if(input.contains("back"))
-                return CameraUtils.LensFacing.FRONT;
+            if(input.matches("(?i).*?back.*?"))
+                return CameraUtils.LensFacing.BACK;
+            if(input.matches("(?i).*?ext(ernal)?.*?"))
+                return CameraUtils.LensFacing.EXTERNAL;
 
             // retrieve camera id
-            Pattern pattern = Pattern.compile("\\d+");
+            Pattern pattern = Pattern.compile(".*?(\\d+).*?");
             Matcher matcher = pattern.matcher(input);
-            if(!matcher.find() || matcher.groupCount() < 2)
-                throw new IllegalArgumentException("unexpected input");
+            if(!matcher.find() || matcher.groupCount() < 1)
+                throw new IllegalArgumentException("unexpected input: '" + input + "'");
             return matcher.group(1);
         }
     }
@@ -172,9 +173,9 @@ public class CommandTakePictureWithOptions extends Command
 
         @Override
         public CaptureSettings.FlashlightMode getValueFromInput(String input) {
-            if(input.matches("(?i)no|off|disabled"))
+            if(input.matches("(?i).*?(no|off|disabled).*?"))
                 return CaptureSettings.FlashlightMode.OFF;
-            if(input.matches("(?i)auto"))
+            if(input.matches("(?i).*?auto.*?"))
                 return CaptureSettings.FlashlightMode.AUTO;
             else
                 return CaptureSettings.FlashlightMode.ON;

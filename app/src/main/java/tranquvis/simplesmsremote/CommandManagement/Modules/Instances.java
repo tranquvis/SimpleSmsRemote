@@ -4,6 +4,7 @@ package tranquvis.simplesmsremote.CommandManagement.Modules;
  * Created by Kaltenleitner Andreas on 27.10.2016.
  */
 
+import android.location.Location;
 import android.support.annotation.Nullable;
 
 import java.lang.reflect.Field;
@@ -19,7 +20,13 @@ public class Instances {
     public static final ModuleWifi WIFI = new ModuleWifi();
     public static final ModuleMobileData MOBILE_DATA = new ModuleMobileData();
     public static final ModuleCamera CAMERA = new ModuleCamera();
+    public static final ModuleAudio AUDIO = new ModuleAudio();
+    public static final ModuleBattery BATTERY = new ModuleBattery();
+    public static final ModuleBluetooth BLUETOOTH = new ModuleBluetooth();
+    public static final ModuleDisplay DISPLAY = new ModuleDisplay();
+    public static final ModuleLocation LOCATION = new ModuleLocation();
 
+    private static boolean commandsInitialized = false;
 
     /**
      * Get all registered modules using system reflection.
@@ -33,7 +40,6 @@ public class Instances {
         List<Module> modules = new ArrayList<>();
         for (Field field : Instances.class.getDeclaredFields())
         {
-
             if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
                     && Module.class.isAssignableFrom(field.getType()))
             {
@@ -64,5 +70,27 @@ public class Instances {
             }
         }
         return modules;
+    }
+
+    public static void InitCommands()
+    {
+        if(commandsInitialized) return;
+        commandsInitialized = true;
+
+        for (Field field : Instances.class.getDeclaredFields())
+        {
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
+                    && Module.class.isAssignableFrom(field.getType()))
+            {
+                try
+                {
+                    Module module = (Module) field.get(null);
+
+                } catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

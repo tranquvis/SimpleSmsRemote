@@ -30,7 +30,7 @@ public class CommandSetAudioVolume extends Command {
     @Language("RegExp")
     private static final String PATTERN_ROOT = AdaptSimplePattern(
             "set (?:(?:volume (?:(index|percentage) )?(?:(?:of|for) )?(.*?))" +
-                    "|(?:(.*?) volume(?: (index|percentage))?)) to ([^%]+)(%)?");
+                    "|(?:(.*?) volume(?: (index|percentage))?)) to ([^%]+?)\\s*(%)?");
     @Language("RegExp")
     private static final String PATTERN_UNIT = "(?i)%|index|percentage";
     @Language("RegExp")

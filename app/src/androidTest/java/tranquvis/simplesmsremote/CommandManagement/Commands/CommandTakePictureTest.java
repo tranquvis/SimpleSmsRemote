@@ -1,11 +1,23 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import tranquvis.simplesmsremote.Data.DataManager;
 
 /**
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
 public class CommandTakePictureTest extends CommandTest {
+
+    @Override
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        DataManager.LoadUserData(appContext);
+    }
+
     @Override
     @Test
     public void testPattern() throws Exception {

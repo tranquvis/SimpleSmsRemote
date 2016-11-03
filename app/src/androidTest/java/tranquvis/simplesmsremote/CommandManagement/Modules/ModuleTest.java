@@ -49,12 +49,26 @@ public abstract class ModuleTest extends AppContextTest
     }
 
     private void execUnitTestOfCom(Command command) throws Exception {
-        Class<? extends CommandTest> unitTestClass =
-                UnitTestUtils.GetUnitTestClassFrom(command.getClass());
-        CommandTest commandTest = unitTestClass.newInstance();
-        commandTest.setCommand(command);
-        commandTest.setUp();
+        CommandTest commandTest = getUnitTestFrom(command);
         commandTest.testPattern();
         commandTest.testExecution();
+    }
+
+    protected <T extends CommandTest> T getUnitTestFrom(Command command) throws Exception
+    {
+        Class<T> unitTestClass = UnitTestUtils.GetUnitTestClassFrom(command.getClass());
+        T commandTest = unitTestClass.newInstance();
+        commandTest.setCommand(command);
+        commandTest.setUp();
+        return commandTest;
+    }
+
+    protected <T extends Command> T getCommand(Class<T> commandType)
+    {
+        for (Command command : commands) {
+            if(command.getClass() == commandType)
+                return (T) command;
+        }
+        return null;
     }
 }

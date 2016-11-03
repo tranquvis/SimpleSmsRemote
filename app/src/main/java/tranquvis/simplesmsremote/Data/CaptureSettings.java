@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Created by Andreas Kaltenleitner on 18.10.2016.
  */
 
-public class CaptureSettings implements Serializable
+public class CaptureSettings implements Serializable, Cloneable
 {
     private String cameraId = null;
     private int[] resolution; // width, height

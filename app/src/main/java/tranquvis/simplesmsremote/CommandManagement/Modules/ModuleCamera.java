@@ -27,6 +27,7 @@ public class ModuleCamera extends Module
         this.paramInfoRes = R.string.control_module_param_desc_camera;
 
         this.requiredPermissions = new String[]{
+                Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
         };
         this.sdkMin = Build.VERSION_CODES.LOLLIPOP;

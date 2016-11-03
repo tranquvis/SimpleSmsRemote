@@ -15,11 +15,11 @@ public class CommandSetAudioVolumeTest extends CommandTest {
         assertThat("\n Set Music  volume to 0 \r").matches();
 
         //region check units
-        assertThat("set volume index of ring to 4.2").matches()
+        assertThat(format("set volume index of ring to %.4f", 4.2d)).matches()
                 .has(PARAM_VOLUME_UNIT, Unit.INDEX);
-        assertThat("set volume percentage of ring to 4").matches()
+        assertThat(format("set volume percentage of ring to %.4f", 4d)).matches()
                 .has(PARAM_VOLUME_UNIT, Unit.PERCENT);
-        assertThat("set volume percentage of ring to 4,5").matches()
+        assertThat(format("set volume percentage of ring to %.4f", 4.5d)).matches()
                 .has(PARAM_VOLUME_UNIT, Unit.PERCENT);
         assertThat("set volume of ring to 4%").matches()
                 .has(PARAM_VOLUME_UNIT, Unit.PERCENT);
@@ -97,7 +97,7 @@ public class CommandSetAudioVolumeTest extends CommandTest {
         assertThat("set volume ring to vibrate").matches().executes();
         assertThat("set volume music to 1").matches().executes();
         assertThat("set volume dtmf to 10%").matches().executes();
-        assertThat("set volume alarm to 50.1%").matches().executes();
+        assertThat(format("set volume alarm to %.4f%%", 50.1d)).matches().executes();
         assertThat("set volume notify to 50").matches().executes();
         assertThat("set volume system to 50").matches().executes();
         assertThat("set volume phonecalls to 10").matches().executes();

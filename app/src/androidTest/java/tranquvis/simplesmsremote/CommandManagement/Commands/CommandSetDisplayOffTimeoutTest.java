@@ -2,6 +2,9 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import tranquvis.simplesmsremote.Utils.UnitTools.Unit;
 
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayOffTimeout.*;
@@ -19,16 +22,17 @@ public class CommandSetDisplayOffTimeoutTest extends CommandTest
                 .has(PARAM_TIMEOUT_VALUE, 0d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.SECONDS);
 
-        assertThat("set display off timeout to 10000ms").matches()
+        assertThat(format("set display off timeout to %,.4fms", 10000d)).matches()
                 .has(PARAM_TIMEOUT_VALUE, 10000d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.MILLISECONDS);
         assertThat("set display off timeout to 10s").matches()
                 .has(PARAM_TIMEOUT_VALUE, 10d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.SECONDS);
-        assertThat("set display off timeout to 21.4min").matches()
+
+        assertThat(format("set display off timeout to %.4f min", 21.4d)).matches()
                 .has(PARAM_TIMEOUT_VALUE, 21.4d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.MINUTES);
-        assertThat("set display off timeout to 1.444h").matches()
+        assertThat(format("set display off timeout to %.4fh", 1.444d)).matches()
                 .has(PARAM_TIMEOUT_VALUE, 1.444d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.HOURS);
     }

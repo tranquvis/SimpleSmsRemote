@@ -13,6 +13,7 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
@@ -25,13 +26,13 @@ public abstract class Command
 
     @Language("RegExp")
     protected static final String PATTERN_MULTI_PARAMS =
-            "(?i)(?!$)(?:\\s*?(.*?)\\s*?(?:and|,|$))\\s*";
+            "(?i)(?<!$)(?:(?:\\s+)?(.*?)(?:\\s+)?(?:and|,|$))";
 
     @Language("RegExp")
     protected static final String PATTERN_TEMPLATE_SET_STATE_ON_OFF =
                 "(?i)^\\s*((enable|disable)\\s+(%1$s))" +
                 "|(turn\\s+(%1$s)\\s+(on|off))|(turn\\s+(on|off)\\s+(%1$s))" +
-                "|(set\\s+(%1$s)\\s+state\\s+to)\\s*(on|off|enabled|disabled)$";
+                "|(set\\s+(%1$s)(\\s+state)?\\s+to)\\s*(on|off|enabled|disabled)$";
 
     @Language("RegExp")
     protected static final String PATTERN_TEMPLATE_GET_STATE_ON_OFF =
@@ -105,6 +106,7 @@ public abstract class Command
      */
     public static List<Command> GetAllCommands(@Nullable Comparator<Command> sortComparator)
     {
+        Instances.InitCommands();
         List<Command> commandsSorted = new ArrayList<>(commands);
         if(sortComparator != null)
             Collections.sort(commandsSorted, sortComparator);

@@ -86,7 +86,7 @@ public class CommandSetDisplayBrightness extends Command
         @Override
         public DisplayUtils.BrightnessMode getValueFromInput(String input) throws Exception
         {
-            if(input.matches("auto"))
+            if(input.matches("(?i)auto"))
                 return DisplayUtils.BrightnessMode.AUTO;
             throw new IllegalArgumentException("unexpected input");
         }

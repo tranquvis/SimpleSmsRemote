@@ -21,9 +21,9 @@ public class CommandGetBatteryStatus extends Command
 {
     @Language("RegExp")
     private static final String PATTERN_ROOT = AdaptSimplePattern(
-            "(is (((battery )?charging)|(battery loading))\\s*(\\?)?)" +
-                    "|((((battery )?charging)|(battery loading))\\s*\\?)" +
-                    "|(get battery status)");
+            "is (((battery )?charging)|(battery loading))\\s*(\\?)?" +
+                    "|(((battery )?charging)|(battery loading))\\s*\\?" +
+                    "|get battery status");
 
     public CommandGetBatteryStatus(@Nullable Module module)
     {

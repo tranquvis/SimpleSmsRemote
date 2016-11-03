@@ -77,7 +77,7 @@ public class LogEntry
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
-                            command.toString()),
+                            context.getString(command.getTitleRes())),
                     context.getString(R.string.log_summary_com_exec_failed_perm_denied),
                     Calendar.getInstance().getTime(), Type.Error
             );
@@ -88,7 +88,7 @@ public class LogEntry
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
-                            command.toString()),
+                            context.getString(command.getTitleRes())),
                     String.format(context.getString(R.string.log_summary_com_exec_failed_phone_not_granted),
                             phone, context.getString(command.getModule().getTitleRes())),
                     Calendar.getInstance().getTime(), Type.Error
@@ -99,7 +99,7 @@ public class LogEntry
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
-                            command.toString()),
+                            context.getString(command.getTitleRes())),
                     String.format(context.getString(
                             R.string.log_summary_com_exec_failed_phone_incompatible),
                             context.getString(command.getModule().getTitleRes())),
@@ -111,7 +111,7 @@ public class LogEntry
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
-                            command.toString()),
+                            context.getString(command.getTitleRes())),
                     String.format(context.getString(
                             R.string.log_summary_com_exec_failed_module_disabled),
                             context.getString(command.getModule().getTitleRes())),
@@ -123,7 +123,7 @@ public class LogEntry
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_failed),
-                            command.toString()),
+                            context.getString(command.getTitleRes())),
                     context.getString(R.string.log_summary_com_exec_failed_unexpected),
                     Calendar.getInstance().getTime(), Type.Error
             );
@@ -133,7 +133,7 @@ public class LogEntry
         {
             return new LogEntry(
                     String.format(context.getString(R.string.log_title_com_exec_success),
-                            command.toString()), null,
+                            context.getString(command.getTitleRes())), null,
                     Calendar.getInstance().getTime(), Type.Success
             );
         }

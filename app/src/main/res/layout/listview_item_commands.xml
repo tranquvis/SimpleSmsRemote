@@ -10,5 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_command_template"
-        tools:text="command template"/>
+        tools:text="command template"
+        android:textIsSelectable="true"/>
 </RelativeLayout>

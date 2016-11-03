@@ -70,7 +70,7 @@ public class MyCommandMessage implements MyMessage
         //retrieve control actions
         String controlCommandsStr = messageContent.substring(KEY.length(),
                 messageContent.length()).trim();
-        String[] commandStrings = controlCommandsStr.split(",");
+        String[] commandStrings = controlCommandsStr.split(";");
         for (String commandStr : commandStrings)
         {
             if(commandStr.length() != 0)

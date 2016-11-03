@@ -48,9 +48,9 @@
     </string>
     <string name="help_how_to_control_syntax_title">Syntax</string>
     <string name="help_how_to_control_syntax_def">
-        rc [command1], [command1], [commandN]
+        rc [command1]; [command1]; [commandN]
     </string>
     <string name="help_how_to_control_syntax_example">
-        Example:\nrc enable hotspot, enable mobile data
+        Example:\nrc enable hotspot; enable mobile data
     </string>
 </resources>

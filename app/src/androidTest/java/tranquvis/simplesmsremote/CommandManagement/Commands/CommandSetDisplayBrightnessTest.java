@@ -35,6 +35,6 @@ public class CommandSetDisplayBrightnessTest extends CommandTest
         assertThat("set brightness to 0%").matches().executes();
         assertThat("set brightness to auto").matches().executes();
         assertThat("set brightness to 100%").matches().executes();
-        assertThat("set brightness to 50.4%").matches().executes();
+        assertThat(format("set brightness to %.4f%%", 50.4d)).matches().executes();
     }
 }

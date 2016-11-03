@@ -1,8 +1,10 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.Data.CaptureSettings;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureWithOptions.PARAM_AUTOFOCUS;
@@ -13,6 +15,15 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePi
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
 public class CommandTakePictureWithOptionsTest extends CommandTest {
+
+    @Override
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        DataManager.LoadUserData(appContext);
+    }
+
     @Override
     @Test
     public void testPattern() throws Exception {
@@ -35,17 +46,17 @@ public class CommandTakePictureWithOptionsTest extends CommandTest {
         // test various option syntax for flash
         assertThat("\n take picture  with Flashlight auto \r").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.AUTO);
-        assertThat("take picture with flash")
+        assertThat("take picture with flash").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.ON);
-        assertThat("take picture with flash enabled")
+        assertThat("take picture with flash enabled").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.ON);
-        assertThat("take picture with flash on")
+        assertThat("take picture with flash on").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.ON);
-        assertThat("take picture with no flash")
+        assertThat("take picture with no flash").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.OFF);
-        assertThat("take picture with flash disabled")
+        assertThat("take picture with flash disabled").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.OFF);
-        assertThat("take picture with flash off")
+        assertThat("take picture with flash off").matches()
                 .has(PARAM_FLASH, CaptureSettings.FlashlightMode.OFF);
 
         // test various option syntax for camera
@@ -53,9 +64,9 @@ public class CommandTakePictureWithOptionsTest extends CommandTest {
                 .has(PARAM_CAMERA, "1");
         assertThat("take picture with 0").matches()
                 .has(PARAM_CAMERA, "0");
-        assertThat("take picture with back lens")
+        assertThat("take picture with back lens").matches()
                 .has(PARAM_CAMERA, CameraUtils.LensFacing.BACK);
-        assertThat("take picture with camera external")
+        assertThat("take picture with camera external").matches()
                 .has(PARAM_CAMERA, CameraUtils.LensFacing.EXTERNAL);
 
         // test various option syntax for autofocus
@@ -68,7 +79,7 @@ public class CommandTakePictureWithOptionsTest extends CommandTest {
         assertThat("take picture with no autofocus").matches()
                 .has(PARAM_AUTOFOCUS, false);
         assertThat("take picture with autofocus disabled").matches()
-                .has(PARAM_AUTOFOCUS, true);
+                .has(PARAM_AUTOFOCUS, false);
         assertThat("take picture with autofocus off").matches()
                 .has(PARAM_AUTOFOCUS, false);
     }
@@ -78,5 +89,10 @@ public class CommandTakePictureWithOptionsTest extends CommandTest {
     public void testExecution() throws Exception {
         assertThat("take picture with camera 1, autofocus, flash").matches().executes();
         assertThat("take picture with front, no autofocus, no flash").matches().executes();
+    }
+
+    public void testExecutionWithCustomOptions(String options) throws Exception
+    {
+        assertThat("take picture with " + options).matches().executes();
     }
 }
