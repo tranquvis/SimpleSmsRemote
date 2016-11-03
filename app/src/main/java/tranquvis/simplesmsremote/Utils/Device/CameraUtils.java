@@ -196,6 +196,7 @@ public class CameraUtils {
         captureRequestBuilder.addTarget(surfaceList.get(0));
 
         //configure capture based on settings
+/*
         if(settings.isAutofocus())
         {
             captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
@@ -212,7 +213,7 @@ public class CameraUtils {
         {
             captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
         }
-
+*/
         CaptureRequest captureRequest = captureRequestBuilder.build();
 
         //capture photo
