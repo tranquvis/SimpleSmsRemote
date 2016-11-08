@@ -5,7 +5,6 @@ import android.os.Build;
 
 import tranquvis.simplesmsremote.Activities.ModuleActivities.CameraModuleActivity;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePicture;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureWithOptions;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -14,9 +13,8 @@ import tranquvis.simplesmsremote.R;
 
 public class ModuleCamera extends Module
 {
-    public final CommandTakePicture commandTakePicture = new CommandTakePicture(this);
-    public final CommandTakePictureWithOptions commandTakePictureWithOptions =
-            new CommandTakePictureWithOptions(this);
+    public final CommandTakePicture commandTakePicture =
+            new CommandTakePicture(this);
 
     public ModuleCamera()
     {
