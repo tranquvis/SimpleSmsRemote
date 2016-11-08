@@ -8,6 +8,7 @@ public enum MatchType
      * If no child is found on the position, a new child will be added.
      */
     BY_INDEX,
+
     /**
      * If no child matches the given string, a new child will be added.
      */
@@ -21,5 +22,11 @@ public enum MatchType
     /**
      * Match fails if no child is found, which matches the given string.
      */
-    BY_CHILD_PATTERN_STRICT
+    BY_CHILD_PATTERN_STRICT,
+
+    /**
+     * Match only if input is not empty.
+     * If no child is found on the position, a new child will be added.
+     */
+    BY_INDEX_IF_NOT_EMPTY
 }

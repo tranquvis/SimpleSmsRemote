@@ -17,6 +17,7 @@ import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.Utils.Regex.MatcherTreeNode;
+import tranquvis.simplesmsremote.Utils.StringUtils;
 import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
 import static org.junit.Assert.assertFalse;
@@ -104,18 +105,21 @@ public abstract class CommandTest extends AppContextTest
                     if(!firstFail) details += "\r\n";
                     else firstFail = false;
 
-                    details += "Match failed at pattern  '" + matcherTreeNode.getPattern().getRegex()
-                            + "'  with input '" + matcherTreeNode.getInput() +
-                            "': \r\n\t" + matcherTreeNode.getLastMatchResult().getFailDetail();
+                    details += "Match failed at pattern  '"
+                            + matcherTreeNode.getPattern().getRegex()
+                            + "'  with input '"
+                            + StringUtils.ConvertWhitespace(matcherTreeNode.getInput())
+                            + "': \r\n\t" + matcherTreeNode.getLastMatchResult().getFailDetail();
                 }
-                throw new AssertionFailedError("The given input ('" + input +
-                        "') does not match the command. \r\n" + details);
+                throw new AssertionFailedError("The given input ('"
+                        + StringUtils.ConvertWhitespace(input)
+                        + "') does not match the command. \r\n" + details);
             }
             //endregion
 
             assertTrue("unexpected command retrieved: '" +
-                        context.getString(ci.getCommand().getTitleRes())  + "' except '" +
-                            context.getString(command.getTitleRes()) + "'",
+                        context.getString(ci.getCommand().getTitleRes())  + "' except '"
+                    + context.getString(command.getTitleRes()) + "'",
                     ci != null &&  ci.getCommand().equals(command));
             return this;
         }
@@ -152,6 +156,16 @@ public abstract class CommandTest extends AppContextTest
          */
         public CommandTester has(CommandParam param) throws Exception {
             assertTrue(ci.getParam(param) != null);
+            return this;
+        }
+
+        /**
+         * Assert that the input does not have a specific parameter,
+         * which is defined in its matching command.
+         * @param param the parameter to check
+         */
+        public CommandTester hasNot(CommandParam param) throws Exception {
+            assertFalse(ci.isParamAssigned(param));
             return this;
         }
 

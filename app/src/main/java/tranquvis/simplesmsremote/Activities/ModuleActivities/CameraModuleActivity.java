@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,71 +32,71 @@ import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 public class CameraModuleActivity extends ConfigureControlModuleActivity
 {
-    private static final int REQUEST_CODE_OUTPUT_PATH_DIR_CHOOSER = 0;
+    List<CameraUtils.MyCameraInfo> cameras = null;
     private CaptureSettings selectedCaptureSettings = null;
 
     private ViewGroup layoutCameraSettingsContent;
     private SwitchCompat switchDefaultCamera;
     private AppCompatSpinner spinnerFlash;
     private TextView textViewImageOutputPath;
+    private SwitchCompat switchAutofocus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        if(!getModule().isEnabled())
-            return;
-
-        //load available cameras
-        List<CameraUtils.MyCameraInfo> cameras = null;
-        try
+        if(isModuleEnabled)
         {
-            cameras = CameraUtils.GetAllCameras(this);
-        } catch (Exception e)
-        {
-            Snackbar.make(getCoordinatorLayout(), R.string.alert_load_cameras_failed,
-                    Snackbar.LENGTH_LONG);
-        }
-
-        if(cameras == null)
-        {
-            Snackbar.make(getCoordinatorLayout(), R.string.alert_no_cameras_found,
-                    Snackbar.LENGTH_INDEFINITE);
-        }
-        else
-        {
-            if(moduleSettings == null)
+            //load available cameras
+            try
             {
-                //create default settings if not available
-                moduleSettings = CameraModuleSettingsData.CreateDefaultSettings(cameras);
+                cameras = CameraUtils.GetAllCameras(this);
+            } catch (Exception e)
+            {
+                Snackbar.make(getCoordinatorLayout(), R.string.alert_load_cameras_failed,
+                        Snackbar.LENGTH_LONG);
+            }
+
+            if (cameras == null)
+            {
+                Snackbar.make(getCoordinatorLayout(), R.string.alert_no_cameras_found,
+                        Snackbar.LENGTH_INDEFINITE);
             }
             else
             {
-                //if settings available, add missing cameras and remove unavailable
-                List<CaptureSettings> captureSettingsList = new ArrayList<>();
-                List<String> cameraIdList = new ArrayList<>();
-                for (CameraUtils.MyCameraInfo camera : cameras)
+                if (moduleSettings != null)
                 {
-                    cameraIdList.add(camera.getId());
-                    if(getSettings().getCaptureSettingsByCameraId(camera.getId()) == null)
-                    {
-                        captureSettingsList.add(camera.getDefaultCaptureSettings());
-                    }
+                    //create default settings if not available
+                    moduleSettings = CameraModuleSettingsData.CreateDefaultSettings(cameras);
                 }
-                if(cameras.size() != captureSettingsList.size())
+                else
                 {
-                    for (CaptureSettings settings : getSettings().getCaptureSettingsList())
+                    //if settings available, add missing cameras and remove unavailable
+                    List<CaptureSettings> captureSettingsList = new ArrayList<>();
+                    List<String> cameraIdList = new ArrayList<>();
+                    for (CameraUtils.MyCameraInfo camera : cameras)
                     {
-                        if(cameraIdList.contains(settings.getCameraId()))
+                        cameraIdList.add(camera.getId());
+                        if (getSettings().getCaptureSettingsByCameraId(camera.getId()) == null)
                         {
-                            captureSettingsList.add(settings);
+                            captureSettingsList.add(camera.getDefaultCaptureSettings());
                         }
                     }
-                }
+                    if (cameras.size() != captureSettingsList.size())
+                    {
+                        for (CaptureSettings settings : getSettings().getCaptureSettingsList())
+                        {
+                            if (cameraIdList.contains(settings.getCameraId()))
+                            {
+                                captureSettingsList.add(settings);
+                            }
+                        }
+                    }
 
-                getSettings().getCaptureSettingsList().clear();
-                getSettings().getCaptureSettingsList().addAll(captureSettingsList);
+                    getSettings().getCaptureSettingsList().clear();
+                    getSettings().getCaptureSettingsList().addAll(captureSettingsList);
+                }
             }
 
             //show camera settings
@@ -155,7 +156,7 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView)
                 {
-
+                    selectedCaptureSettings.setFlashlight(CaptureSettings.FlashlightMode.AUTO);
                 }
             });
 
@@ -183,17 +184,14 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
                 }
             });
 
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REQUEST_CODE_OUTPUT_PATH_DIR_CHOOSER)
-        {
-
+            switchAutofocus = (SwitchCompat) findViewById(R.id.switch_settings_camera_autofocus);
+            switchAutofocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
+                {
+                    selectedCaptureSettings.setAutofocus(checked);
+                }
+            });
         }
     }
 
@@ -213,10 +211,35 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
         spinnerFlash.setSelection(selectedCaptureSettings.getFlashlight().ordinal());
 
         textViewImageOutputPath.setText(selectedCaptureSettings.getOutputPath());
+
+        switchAutofocus.setChecked(selectedCaptureSettings.isAutofocus());
     }
 
     private CameraModuleSettingsData getSettings()
     {
         return (CameraModuleSettingsData) moduleSettings;
+    }
+
+    @Override
+    protected void setupData()
+    {
+        super.setupData();
+
+        //load available cameras
+        try
+        {
+            cameras = CameraUtils.GetAllCameras(this);
+        } catch (Exception e)
+        {
+            Toast.makeText(this, R.string.alert_load_cameras_failed, Toast.LENGTH_LONG).show();
+        }
+        if (cameras == null)
+        {
+            Toast.makeText(this, R.string.alert_no_cameras_found, Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            moduleSettings = CameraModuleSettingsData.CreateDefaultSettings(cameras);
+        }
     }
 }

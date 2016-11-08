@@ -62,6 +62,7 @@
     <string name="camera_facing_unknown_title">unknown lens position</string>
     <string name="module_settings_camera_default_title">Default capture settings</string>
     <string name="flashlight_switch_title">Flash</string>
+    <string name="autofocus_switch_title">Autofocus</string>
     <string name="output_image_format_switch_title">Output image format</string>
     <string name="capture_output_path_title">Output path</string>
     <string name="select_directory">Select</string>

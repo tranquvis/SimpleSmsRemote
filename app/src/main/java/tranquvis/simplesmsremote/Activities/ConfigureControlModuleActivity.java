@@ -37,11 +37,12 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 {
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
-    private Module module;
-    private ControlModuleUserData userData;
+    protected Module module;
+    protected ControlModuleUserData userData;
     protected ModuleSettingsData moduleSettings;
+    protected boolean isModuleEnabled;
+
     private List<String> grantedPhones;
-    private boolean isModuleEnabled;
     private boolean saveOnStop = true;
 
     private String[] remainingPermissionRequests;
@@ -73,6 +74,7 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
             finish();
             return;
         }
+
         userData = module.getUserData();
         isModuleEnabled = module.isEnabled();
 
@@ -129,6 +131,8 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
         if(isModuleEnabled)
         {
+            moduleSettings = userData.getSettings();
+
             findViewById(R.id.card_user_settings).setVisibility(View.VISIBLE);
             findViewById(R.id.textView_user_settings_title).setVisibility(View.VISIBLE);
 
@@ -145,8 +149,6 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
 
             FloatingActionButton addPhoneFab = (FloatingActionButton) findViewById(R.id.fab_add_phone);
             addPhoneFab.setOnClickListener(this);
-
-            moduleSettings = userData.getSettings();
         }
     }
 
@@ -296,13 +298,15 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
         if(isModuleEnabled) {
             updateGrantedPhones();
             updateModuleSettings();
-
             DataManager.getUserData().setControlModule(new ControlModuleUserData(
                     module.getId(), grantedPhones, moduleSettings));
         }
         else
+        {
+            setupData();
             DataManager.getUserData().addControlModule(new ControlModuleUserData(
                     module.getId(), new ArrayList<String>(), moduleSettings));
+        }
 
         try
         {
@@ -359,5 +363,9 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
     protected ControlModuleUserData getUserData()
     {
         return userData;
+    }
+
+    protected void setupData()
+    {
     }
 }

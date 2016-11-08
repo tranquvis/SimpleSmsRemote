@@ -124,7 +124,8 @@ public class MatcherTreeNode {
         if(childMatchType != MatchType.DO_NOT_MATCH)
         {
             if(childMatchType == MatchType.BY_INDEX
-                    || childMatchType == MatchType.BY_INDEX_STRICT)
+                    || childMatchType == MatchType.BY_INDEX_STRICT
+                    || childMatchType == MatchType.BY_INDEX_IF_NOT_EMPTY)
             {
                 for (int i = 0; i < regexGroups.size(); i++)
                 {
@@ -154,8 +155,12 @@ public class MatcherTreeNode {
 
                     //test input
                     matcherChild.input = regexGroup;
-                    if(!matcherChild.testInput())
-                        return false;
+                    if(!(childMatchType == MatchType.BY_INDEX_IF_NOT_EMPTY
+                            && matcherChild.input.isEmpty()))
+                    {
+                        if (!matcherChild.testInput())
+                            return false;
+                    }
                 }
             }
             else if(childMatchType == MatchType.BY_CHILD_PATTERN

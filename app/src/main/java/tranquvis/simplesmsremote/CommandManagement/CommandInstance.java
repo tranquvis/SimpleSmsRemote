@@ -50,6 +50,17 @@ public class CommandInstance {
         return commandParam.getValueFromInput(paramInput);
     }
 
+    /**
+     * Check if param is assigned in matcher tree.
+     * @param commandParam the param, which should be checked
+     * @return if param is assigned
+     */
+    public boolean isParamAssigned(CommandParam commandParam)
+    {
+        MatcherTreeNode paramNode = matcherTree.getNodeByPatternId(commandParam.getId());
+        return paramNode != null && commandParam.isAssigned(paramNode.getInput());
+    }
+
     public Command getCommand() {
         return command;
     }

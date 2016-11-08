@@ -26,11 +26,14 @@ public class ModuleAudio extends Module
         this.iconRes = R.drawable.ic_volume_up_grey_700_36dp;
         this.paramInfoRes = R.string.control_module_param_desc_audio;
 
+        /*
+        TODO check if necessary
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             this.requiredPermissions = new String[]{
                     Manifest.permission.ACCESS_NOTIFICATION_POLICY
             };
         }
+        */
     }
 }

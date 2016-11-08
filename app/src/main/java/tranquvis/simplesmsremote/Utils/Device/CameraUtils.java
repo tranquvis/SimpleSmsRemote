@@ -169,19 +169,19 @@ public class CameraUtils {
         CameraManager cameraManager =
                 (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
-        //create image surface
+        // create image surface
         final ImageReader imageReader = ImageReader.newInstance(settings.getResolution()[0],
                 settings.getResolution()[1], PixelFormat.RGBA_8888, 2);
         final List<Surface> surfaceList = new ArrayList<>();
         surfaceList.add(imageReader.getSurface());
 
-        //open camera
+        // open camera
         CameraDevice cameraDevice = OpenCameraSync2(context, cameraManager, camera);
         if(cameraDevice == null) {
             throw new Exception("Failed to open camera.");
         }
 
-        //open capture session
+        // open capture session
         CameraCaptureSession captureSession = GetCaptureSessionSync2(context, cameraDevice,
                 surfaceList);
         if(captureSession == null) {
@@ -206,7 +206,7 @@ public class CameraUtils {
         captureRequestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT,
                 CaptureRequest.CONTROL_CAPTURE_INTENT_STILL_CAPTURE);
 
-        //configure capture based on settings
+        // configure capture based on settings
         if(settings.isAutofocus())
         {
             captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
@@ -226,7 +226,7 @@ public class CameraUtils {
 
         CaptureRequest captureRequest = captureRequestBuilder.build();
 
-        //capture photo
+        // capture photo
         boolean captureSuccess = CapturePhotoSync2(context, captureSession, captureRequest);
         if(!captureSuccess) {
             captureSession.close();
@@ -236,13 +236,13 @@ public class CameraUtils {
 
         cameraDevice.close();
 
-        //get bitmap from ImageReader
+        // get bitmap from ImageReader
         Bitmap bitmap = ImageUtils.GetBitmapFromImageReader(imageReader);
         imageReader.close();
 
-        //save file
+        // save file
         File file = new File(settings.getFileOutputPath());
-        file.getParentFile().mkdirs(); //create parent directories
+        file.getParentFile().mkdirs(); // create parent directories
         if(!file.createNewFile())
             throw new Exception("Failed to create file for image.");
 

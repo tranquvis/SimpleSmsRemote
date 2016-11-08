@@ -13,4 +13,9 @@ public abstract class CommandParam<T>
     }
 
     public abstract T getValueFromInput(String input) throws Exception;
+
+    public boolean isAssigned(String input)
+    {
+        return input != null && !input.equals("");
+    }
 }
