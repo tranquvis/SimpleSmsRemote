@@ -1,6 +1,5 @@
 package tranquvis.simplesmsremote.Activities.ModuleActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatSpinner;
@@ -19,7 +18,7 @@ import java.util.List;
 import tranquvis.directorypicker.Dialogs.LocalFolderBrowserDialog;
 import tranquvis.directorypicker.Interfaces.LocalFolderBrowserDialogListener;
 
-import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
+import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.Adapters.CameraDeviceSpinnerAdapter;
 import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
@@ -30,16 +29,17 @@ import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
  * Created by Andreas Kaltenleitner on 17.10.2016.
  */
 
-public class CameraModuleActivity extends ConfigureControlModuleActivity
+public class CameraModuleActivity extends ModuleActivity
 {
     List<CameraUtils.MyCameraInfo> cameras = null;
     private CaptureSettings selectedCaptureSettings = null;
 
     private ViewGroup layoutCameraSettingsContent;
     private SwitchCompat switchDefaultCamera;
-    private AppCompatSpinner spinnerFlash;
-    private TextView textViewImageOutputPath;
     private SwitchCompat switchAutofocus;
+    private AppCompatSpinner spinnerFlash;
+    private AppCompatSpinner spinnerOutputImageFormat;
+    private TextView textViewImageOutputPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,7 +65,7 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
             }
             else
             {
-                if (moduleSettings != null)
+                if (moduleSettings == null)
                 {
                     //create default settings if not available
                     moduleSettings = CameraModuleSettingsData.CreateDefaultSettings(cameras);
@@ -160,6 +160,34 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
                 }
             });
 
+            switchAutofocus = (SwitchCompat) findViewById(R.id.switch_settings_camera_autofocus);
+            switchAutofocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
+                {
+                    selectedCaptureSettings.setAutofocus(checked);
+                }
+            });
+
+            spinnerOutputImageFormat = (AppCompatSpinner) findViewById(
+                    R.id.spinner_settings_camera_image_output_format);
+            spinnerOutputImageFormat.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+                {
+                    // make sure that enum and string array res have same order
+                    selectedCaptureSettings.setOutputImageFormat(
+                            CaptureSettings.ImageFormat.values()[i]);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView)
+                {
+                    selectedCaptureSettings.setOutputImageFormat(CaptureSettings.ImageFormat.JPEG);
+                }
+            });
+
             textViewImageOutputPath =
                     (TextView) findViewById(R.id.textView_settings_capture_output_path);
             findViewById(R.id.layout_settings_capture_output_path).setOnClickListener(
@@ -183,15 +211,6 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
                     dialog.show();
                 }
             });
-
-            switchAutofocus = (SwitchCompat) findViewById(R.id.switch_settings_camera_autofocus);
-            switchAutofocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
-                {
-                    selectedCaptureSettings.setAutofocus(checked);
-                }
-            });
         }
     }
 
@@ -204,20 +223,24 @@ public class CameraModuleActivity extends ConfigureControlModuleActivity
         }
 
         layoutCameraSettingsContent.setVisibility(View.VISIBLE);
-
         switchDefaultCamera.setChecked(getSettings().getDefaultCameraId() != null
                 && selectedCaptureSettings.getCameraId().equals(getSettings().getDefaultCameraId()));
-
         spinnerFlash.setSelection(selectedCaptureSettings.getFlashlight().ordinal());
-
-        textViewImageOutputPath.setText(selectedCaptureSettings.getOutputPath());
-
         switchAutofocus.setChecked(selectedCaptureSettings.isAutofocus());
+        spinnerOutputImageFormat.setSelection(
+                selectedCaptureSettings.getOutputImageFormat().ordinal());
+        textViewImageOutputPath.setText(selectedCaptureSettings.getOutputPath());
     }
 
     private CameraModuleSettingsData getSettings()
     {
         return (CameraModuleSettingsData) moduleSettings;
+    }
+
+    @Override
+    protected void updateModuleSettings()
+    {
+        super.updateModuleSettings();
     }
 
     @Override

@@ -77,18 +77,18 @@ public class CommandSetAudioVolumeTest extends CommandTest {
         assertThat("set volume of music to 30%").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.MUSIC)
                 .has(PARAM_VOLUME_UNIT, Unit.PERCENT)
-                .has(PARAM_RINGER_MODE, null)
+                .hasNot(PARAM_RINGER_MODE)
                 .has(PARAM_VOLUME_VALUE, 30d);
         assertThat("set volume of dtmf to 10").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.DTMF)
-                .has(PARAM_VOLUME_UNIT, null)
-                .has(PARAM_RINGER_MODE, null)
+                .hasNot(PARAM_VOLUME_UNIT)
+                .hasNot(PARAM_RINGER_MODE)
                 .has(PARAM_VOLUME_VALUE, 10d);
         assertThat("set ring volume to silent").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.RING)
-                .has(PARAM_VOLUME_UNIT, null)
+                .hasNot(PARAM_VOLUME_UNIT)
                 .has(PARAM_RINGER_MODE, AudioUtils.VOLUME_INDEX_RING_SILENT)
-                .has(PARAM_VOLUME_VALUE, null);
+                .hasNot(PARAM_VOLUME_VALUE);
     }
 
     @Override

@@ -111,7 +111,7 @@ public class DisplayUtils
         SetScreenOffTimeout(context, 0);
 
         //wait until screen is turned off
-        final int maxWaitTime = 6000; //milliseconds
+        final int maxWaitTime = 10000; //milliseconds
         final int checkingTimeout = 200;
 
         long startTime = System.currentTimeMillis();

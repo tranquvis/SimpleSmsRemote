@@ -178,7 +178,7 @@ public abstract class CommandTest extends AppContextTest
          */
         public <T> CommandTester has(CommandParam<T> param, T value) throws Exception {
             Object paramValue = ci.getParam(param);
-            assertTrue(paramValue != null && paramValue.equals(value));
+            assertTrue(paramValue == value || (paramValue != null && paramValue.equals(value)));
             return this;
         }
 

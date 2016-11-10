@@ -33,7 +33,7 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.UI.UIUtils;
 
-public class ConfigureControlModuleActivity extends AppCompatActivity implements View.OnClickListener
+public class ModuleActivity extends AppCompatActivity implements View.OnClickListener
 {
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
@@ -218,12 +218,12 @@ public class ConfigureControlModuleActivity extends AppCompatActivity implements
                                 isModuleEnabled = false;
                                 try
                                 {
-                                    DataManager.SaveUserData(ConfigureControlModuleActivity.this);
-                                    Toast.makeText(ConfigureControlModuleActivity.this,
+                                    DataManager.SaveUserData(ModuleActivity.this);
+                                    Toast.makeText(ModuleActivity.this,
                                             R.string.control_module_disabled_successful,
                                             Toast.LENGTH_SHORT).show();
                                 } catch (IOException e){
-                                    Toast.makeText(ConfigureControlModuleActivity.this,
+                                    Toast.makeText(ModuleActivity.this,
                                             R.string.alert_save_data_failed,
                                             Toast.LENGTH_SHORT).show();
                                 }

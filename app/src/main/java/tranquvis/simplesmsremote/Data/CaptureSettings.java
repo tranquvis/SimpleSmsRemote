@@ -16,7 +16,7 @@ public class CaptureSettings implements Serializable, Cloneable
 {
     private String cameraId = null;
     private int[] resolution; // width, height
-    private ImageFormat outputImageFormat;
+    private ImageFormat outputImageFormat = ImageFormat.JPEG;
     private String outputPath;
     private boolean autofocus = false;
     private FlashlightMode flashlight = FlashlightMode.AUTO;
@@ -62,7 +62,8 @@ public class CaptureSettings implements Serializable, Cloneable
 
     public String getFileOutputPath()
     {
-        String filename = "remotely_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        String filename = "remotely_" + String.valueOf(System.currentTimeMillis()) + "."
+                + outputImageFormat.getFileExtension();
         return outputPath + File.separator + filename;
     }
 
@@ -95,32 +96,31 @@ public class CaptureSettings implements Serializable, Cloneable
 
     public enum ImageFormat
     {
-        JPEG, PNG;
+        JPEG(Bitmap.CompressFormat.JPEG, "jpg"),
+        PNG(Bitmap.CompressFormat.PNG, "png");
+
+        private Bitmap.CompressFormat bitmapCompressFormat;
+        private String fileExtension;
+
+        ImageFormat(Bitmap.CompressFormat bitmapCompressFormat, String fileExtension)
+        {
+            this.bitmapCompressFormat = bitmapCompressFormat;
+            this.fileExtension = fileExtension;
+        }
 
         public Bitmap.CompressFormat getBitmapCompressFormat()
         {
-            switch (this)
-            {
-                case JPEG:
-                    return Bitmap.CompressFormat.JPEG;
-                case PNG:
-                    return Bitmap.CompressFormat.PNG;
-                default:
-                    throw new NotImplementedException("Image format not implemented");
-            }
+            return bitmapCompressFormat;
+        }
+
+        public String getFileExtension()
+        {
+            return fileExtension;
         }
     }
 
     public CaptureSettings clone() throws CloneNotSupportedException
     {
         return (CaptureSettings) super.clone();
-        /*
-        CaptureSettings settings =
-                new CaptureSettings(cameraId, resolution, outputImageFormat, outputPath);
-        settings.autofocus = autofocus;
-        settings.flashlight = flashlight;
-
-        return settings;
-        */
     }
 }

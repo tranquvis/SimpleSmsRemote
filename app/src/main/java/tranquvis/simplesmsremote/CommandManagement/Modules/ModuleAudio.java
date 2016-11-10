@@ -1,13 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Modules;
 
-import android.Manifest;
-import android.content.Context;
-import android.os.Build;
-
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetAudioVolume;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetBluetoothState;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume;
-import tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetBluetoothState;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -25,15 +19,5 @@ public class ModuleAudio extends Module
         this.descriptionRes = R.string.control_module_desc_audio;
         this.iconRes = R.drawable.ic_volume_up_grey_700_36dp;
         this.paramInfoRes = R.string.control_module_param_desc_audio;
-
-        /*
-        TODO check if necessary
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            this.requiredPermissions = new String[]{
-                    Manifest.permission.ACCESS_NOTIFICATION_POLICY
-            };
-        }
-        */
     }
 }

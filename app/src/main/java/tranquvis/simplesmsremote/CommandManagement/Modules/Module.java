@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import tranquvis.simplesmsremote.Activities.ConfigureControlModuleActivity;
+import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
@@ -54,8 +54,8 @@ public abstract class Module
     protected int iconRes = -1;
     protected int paramInfoRes = -1;
 
-    protected Class<? extends ConfigureControlModuleActivity> configurationActivityType =
-            ConfigureControlModuleActivity.class;
+    protected Class<? extends ModuleActivity> configurationActivityType =
+            ModuleActivity.class;
 
     public String getId()
     {
@@ -92,7 +92,7 @@ public abstract class Module
         return paramInfoRes;
     }
 
-    public Class<? extends ConfigureControlModuleActivity> getConfigurationActivityType()
+    public Class<? extends ModuleActivity> getConfigurationActivityType()
     {
         return configurationActivityType;
     }

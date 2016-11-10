@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.ConfigureControlModuleActivity"
+            android:name=".Activities.ModuleActivity"
             android:label="@string/title_activity_configure_control_action"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
