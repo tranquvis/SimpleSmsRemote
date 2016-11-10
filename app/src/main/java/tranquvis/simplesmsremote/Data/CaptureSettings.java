@@ -18,7 +18,7 @@ public class CaptureSettings implements Serializable, Cloneable
     private int[] resolution; // width, height
     private ImageFormat outputImageFormat = ImageFormat.JPEG;
     private String outputPath;
-    private boolean autofocus = false;
+    private boolean autofocus = true;
     private FlashlightMode flashlight = FlashlightMode.AUTO;
 
     public CaptureSettings(@Nullable String cameraId, int[] resolution, ImageFormat outputImageFormat,
@@ -96,8 +96,7 @@ public class CaptureSettings implements Serializable, Cloneable
 
     public enum ImageFormat
     {
-        JPEG(Bitmap.CompressFormat.JPEG, "jpg"),
-        PNG(Bitmap.CompressFormat.PNG, "png");
+        JPEG(Bitmap.CompressFormat.JPEG, "jpg");
 
         private Bitmap.CompressFormat bitmapCompressFormat;
         private String fileExtension;

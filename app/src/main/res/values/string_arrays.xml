@@ -8,6 +8,5 @@
 
     <string-array name="image_formats">
         <item>JPEG</item>
-        <item>PNG</item>
     </string-array>
 </resources>

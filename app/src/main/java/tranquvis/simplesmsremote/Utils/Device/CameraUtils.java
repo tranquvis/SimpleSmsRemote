@@ -2,8 +2,7 @@ package tranquvis.simplesmsremote.Utils.Device;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.PixelFormat;
+import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -13,6 +12,8 @@ import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Environment;
@@ -30,12 +31,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import tranquvis.simplesmsremote.Data.CaptureSettings;
-import tranquvis.simplesmsremote.Utils.Graphic.ImageUtils;
 
 /**
  * Created by Andi on 15.10.2016.
@@ -171,7 +172,8 @@ public class CameraUtils {
 
         // create image surface
         final ImageReader imageReader = ImageReader.newInstance(settings.getResolution()[0],
-                settings.getResolution()[1], PixelFormat.RGBA_8888, 2);
+                settings.getResolution()[1], ImageFormat.JPEG, 4);
+
         final List<Surface> surfaceList = new ArrayList<>();
         surfaceList.add(imageReader.getSurface());
 
@@ -236,9 +238,11 @@ public class CameraUtils {
 
         cameraDevice.close();
 
+        /*
         // get bitmap from ImageReader
         Bitmap bitmap = ImageUtils.GetBitmapFromImageReader(imageReader);
         imageReader.close();
+        */
 
         // save file
         File file = new File(settings.getFileOutputPath());
@@ -249,7 +253,15 @@ public class CameraUtils {
         FileOutputStream os = null;
         try {
             os = new FileOutputStream(file);
-            bitmap.compress(settings.getOutputImageFormat().getBitmapCompressFormat(), 100, os);
+
+            Image image = imageReader.acquireLatestImage();
+            final Image.Plane[] planes = image.getPlanes();
+            final ByteBuffer buffer = planes[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            image.close();
+            os.write(bytes);
+
             Log.i(TAG, "image saved successfully");
         }
         catch (FileNotFoundException e) {
@@ -435,22 +447,36 @@ public class CameraUtils {
     public static class MyCameraInfo
     {
         private String id;
-        private int[] resolution;
+        private List<int[]> outputResolutions;
         private LensFacing lensFacing = null;
         private boolean autofocusSupport = false;
         private boolean flashlightSupport = false;
 
-        public MyCameraInfo(String id, int[] resolution) {
+        public MyCameraInfo(String id, List<int[]> outputResolutions) {
             this.id = id;
-            this.resolution = resolution;
+            this.outputResolutions = outputResolutions;
         }
 
         public String getId() {
             return id;
         }
 
-        public int[] getResolution() {
-            return resolution;
+        public List<int[]> getOutputResolutions()
+        {
+            return outputResolutions;
+        }
+
+        public int[] getBiggestOutputSize()
+        {
+            int[] biggest = null;
+            for (int[] outputSize : outputResolutions)
+            {
+                if(biggest == null || (outputSize[0] > biggest[0]
+                        && outputSize[1] > biggest[1]))
+                    biggest = outputSize;
+            }
+
+            return biggest;
         }
 
         public boolean isAutofocusSupport() {
@@ -486,7 +512,7 @@ public class CameraUtils {
             String defaultPhotosPath = Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DCIM).getAbsolutePath();
 
-            CaptureSettings captureSettings = new CaptureSettings(id, resolution,
+            CaptureSettings captureSettings = new CaptureSettings(id, getBiggestOutputSize(),
                     CaptureSettings.ImageFormat.JPEG, defaultPhotosPath);
             captureSettings.setAutofocus(autofocusSupport);
             captureSettings.setFlashlight(CaptureSettings.FlashlightMode.AUTO);
@@ -497,11 +523,16 @@ public class CameraUtils {
         public static MyCameraInfo CreateFromCameraCharacteristics(String cameraId,
                 CameraCharacteristics characteristics)
         {
-            Size resolutionSize =
-                    characteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE);
-            int[] resolution = new int[]{resolutionSize.getWidth(), resolutionSize.getHeight()};
+            StreamConfigurationMap configMap =
+                    characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            Size[] outputSizes = configMap.getOutputSizes(ImageFormat.JPEG);
+            List<int[]> outputResolutions = new ArrayList<>();
+            for (Size outputSize : outputSizes)
+            {
+                outputResolutions.add(new int[]{outputSize.getWidth(), outputSize.getHeight()});
+            }
 
-            MyCameraInfo cameraInfo = new MyCameraInfo(cameraId, resolution);
+            MyCameraInfo cameraInfo = new MyCameraInfo(cameraId, outputResolutions);
 
             // supported functionality depends on the supported hardware level
             switch (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL))
@@ -518,7 +549,7 @@ public class CameraUtils {
 
             int[] ints = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
 
-            if(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE).booleanValue())
+            if(characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
                 cameraInfo.setFlashlightSupport(true);
 
             Integer lensFacing = characteristics.get(CameraCharacteristics.LENS_FACING);
@@ -531,6 +562,12 @@ public class CameraUtils {
                 else if(lensFacing == CameraCharacteristics.LENS_FACING_EXTERNAL)
                     cameraInfo.setLensFacing(LensFacing.EXTERNAL);
             }
+
+            /*
+            check if jpeg is supported
+            StreamConfigurationMap configMap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            boolean isSupported = configMap.isOutputSupportedFor(0x100); //jpeg
+             */
 
             //TODO add more info
 
