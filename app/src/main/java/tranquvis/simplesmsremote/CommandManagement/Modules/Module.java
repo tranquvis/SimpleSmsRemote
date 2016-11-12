@@ -59,7 +59,7 @@ public abstract class Module
 
     public String getId()
     {
-        return getClass().getName();
+        return getClass().getSimpleName();
     }
 
     public int getSdkMin()

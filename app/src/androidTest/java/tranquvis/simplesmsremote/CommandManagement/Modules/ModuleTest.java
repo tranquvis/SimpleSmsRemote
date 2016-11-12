@@ -1,14 +1,21 @@
 package tranquvis.simplesmsremote.CommandManagement.Modules;
 
+import android.util.Log;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTest;
+import tranquvis.simplesmsremote.Utils.PermissionUtils;
+import tranquvis.simplesmsremote.Utils.StringUtils;
 import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
 import static org.junit.Assert.assertTrue;
@@ -25,7 +32,10 @@ public abstract class ModuleTest extends AppContextTest
     protected Module module;
     protected List<Command> commands;
 
-    protected boolean assertCompatibility = false;
+    protected boolean assertCompatibility = true;
+
+    private static List<String> successfulModuleTests = new ArrayList<>();
+    private static List<String> failedModuleTests = new ArrayList<>();
 
     @Override
     @Before
@@ -38,14 +48,23 @@ public abstract class ModuleTest extends AppContextTest
         this.commands = module.getCommands();
 
         if(assertCompatibility)
-            assertTrue(module.isCompatible());
+            assertTrue("module incompatible", module.isCompatible());
     }
 
     @Test
     public void testCommands() throws Exception {
+        failedModuleTests.add(this.getClass().getSimpleName());
+
         for (Command command : commands) {
             execUnitTestOfCom(command);
         }
+
+        failedModuleTests.remove(this.getClass().getSimpleName());
+        successfulModuleTests.add(this.getClass().getSimpleName());
+        Log.i("Successful Module Tests", org.apache.commons.lang3.StringUtils.join(
+                successfulModuleTests, ", "));
+        Log.e("Failed Module Tests", org.apache.commons.lang3.StringUtils.join(
+                failedModuleTests, ", "));
     }
 
     private void execUnitTestOfCom(Command command) throws Exception {

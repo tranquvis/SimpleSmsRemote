@@ -10,7 +10,6 @@ import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePictureTe
 /**
  * Created by Kaltenleitner Andreas on 29.10.2016.
  */
-@LargeTest
 public class ModuleCameraTest extends ModuleTest {
 
     @Test

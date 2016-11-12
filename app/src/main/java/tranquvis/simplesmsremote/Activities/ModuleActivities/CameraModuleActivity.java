@@ -58,7 +58,7 @@ public class CameraModuleActivity extends ModuleActivity
                         Snackbar.LENGTH_LONG);
             }
 
-            if (cameras == null)
+            if (cameras.isEmpty())
             {
                 Snackbar.make(getCoordinatorLayout(), R.string.alert_no_cameras_found,
                         Snackbar.LENGTH_INDEFINITE);
@@ -128,6 +128,8 @@ public class CameraModuleActivity extends ModuleActivity
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
                 {
+                    if(selectedCaptureSettings == null) return;
+
                     if(checked)
                     {
                         getSettings().setDefaultCameraId(selectedCaptureSettings.getCameraId());
@@ -149,13 +151,17 @@ public class CameraModuleActivity extends ModuleActivity
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
                 {
                     // make sure that enum and string array res have same order
+                    if(selectedCaptureSettings == null) return;
+
                     selectedCaptureSettings.setFlashlight(
-                            CaptureSettings.FlashlightMode.values()[i]);
+                                CaptureSettings.FlashlightMode.values()[i]);
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView)
                 {
+                    if(selectedCaptureSettings == null) return;
+
                     selectedCaptureSettings.setFlashlight(CaptureSettings.FlashlightMode.AUTO);
                 }
             });
@@ -165,6 +171,8 @@ public class CameraModuleActivity extends ModuleActivity
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
                 {
+                    if(selectedCaptureSettings == null) return;
+
                     selectedCaptureSettings.setAutofocus(checked);
                 }
             });
@@ -177,13 +185,17 @@ public class CameraModuleActivity extends ModuleActivity
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
                 {
                     // make sure that enum and string array res have same order
+                    if(selectedCaptureSettings == null) return;
+
                     selectedCaptureSettings.setOutputImageFormat(
-                            CaptureSettings.ImageFormat.values()[i]);
+                                CaptureSettings.ImageFormat.values()[i]);
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView)
                 {
+                    if(selectedCaptureSettings == null) return;
+
                     selectedCaptureSettings.setOutputImageFormat(CaptureSettings.ImageFormat.JPEG);
                 }
             });
@@ -195,6 +207,8 @@ public class CameraModuleActivity extends ModuleActivity
                 @Override
                 public void onClick(View view)
                 {
+                    if(selectedCaptureSettings == null) return;
+
                     File folder = selectedCaptureSettings.getOutputPath() != null
                             ? new File(selectedCaptureSettings.getOutputPath()) : null;
                     LocalFolderBrowserDialog dialog = new LocalFolderBrowserDialog(
@@ -202,8 +216,8 @@ public class CameraModuleActivity extends ModuleActivity
                     dialog.setFolderBrowserDialogListener(new LocalFolderBrowserDialogListener() {
                         @Override
                         public void onFolderSelected(File folder) {
-                            if(selectedCaptureSettings == null)
-                                return;
+                            if(selectedCaptureSettings == null) return;
+
                             selectedCaptureSettings.setOutputPath(folder.getAbsolutePath());
                             textViewImageOutputPath.setText(selectedCaptureSettings.getOutputPath());
                         }

@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.Utils.Device;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -166,7 +167,7 @@ public class CameraUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static void TakePicture2(final Context context, MyCameraInfo camera,
-                                   final CaptureSettings settings) throws Exception, SecurityException {
+                                   final CaptureSettings settings) throws Exception {
         CameraManager cameraManager =
                 (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
@@ -199,6 +200,7 @@ public class CameraUtils {
         captureRequestPreviewBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
         captureRequestPreviewBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                 CaptureRequest.CONTROL_AF_MODE_AUTO);
+
         CapturePhotoSync2(context, captureSession, captureRequestPreviewBuilder.build());
 
 
@@ -237,12 +239,6 @@ public class CameraUtils {
         }
 
         cameraDevice.close();
-
-        /*
-        // get bitmap from ImageReader
-        Bitmap bitmap = ImageUtils.GetBitmapFromImageReader(imageReader);
-        imageReader.close();
-        */
 
         // save file
         File file = new File(settings.getFileOutputPath());
@@ -564,10 +560,10 @@ public class CameraUtils {
             }
 
             /*
-            check if jpeg is supported
-            StreamConfigurationMap configMap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-            boolean isSupported = configMap.isOutputSupportedFor(0x100); //jpeg
-             */
+            jpeg is always supported
+            boolean isSupported = configMap.isOutputSupportedFor(0x100);
+            */
+
 
             //TODO add more info
 
