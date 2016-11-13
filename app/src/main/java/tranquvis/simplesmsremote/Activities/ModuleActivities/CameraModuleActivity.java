@@ -15,9 +15,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import tranquvis.directorypicker.Dialogs.LocalFolderBrowserDialog;
-import tranquvis.directorypicker.Interfaces.LocalFolderBrowserDialogListener;
+import tranquvis.directorypicker.Dialogs.DirectoryPickerDialog;
 
+import tranquvis.directorypicker.Interfaces.DirectoryPickerListener;
 import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.Adapters.CameraDeviceSpinnerAdapter;
 import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
@@ -211,11 +211,11 @@ public class CameraModuleActivity extends ModuleActivity
 
                     File folder = selectedCaptureSettings.getOutputPath() != null
                             ? new File(selectedCaptureSettings.getOutputPath()) : null;
-                    LocalFolderBrowserDialog dialog = new LocalFolderBrowserDialog(
+                    DirectoryPickerDialog dialog = new DirectoryPickerDialog(
                             CameraModuleActivity.this, folder);
-                    dialog.setFolderBrowserDialogListener(new LocalFolderBrowserDialogListener() {
+                    dialog.setDirectoryPickerListener(new DirectoryPickerListener() {
                         @Override
-                        public void onFolderSelected(File folder) {
+                        public void onDirPicked(File folder) {
                             if(selectedCaptureSettings == null) return;
 
                             selectedCaptureSettings.setOutputPath(folder.getAbsolutePath());

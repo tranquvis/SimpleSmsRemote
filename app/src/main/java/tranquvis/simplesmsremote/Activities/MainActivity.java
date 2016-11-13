@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import tranquvis.directorypicker.Dialogs.DirectoryPickerDialog;
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
@@ -148,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     recreate();
                 }
             });
-
         }
         else
         {
