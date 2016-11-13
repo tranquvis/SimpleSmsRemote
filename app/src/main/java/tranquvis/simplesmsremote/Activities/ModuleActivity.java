@@ -126,7 +126,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         {
             compatibilityTextView.setText(R.string.incompatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorError));
-            buttonChangeEnabled.setEnabled(false);
+            buttonChangeEnabled.setVisibility(View.INVISIBLE);
         }
 
         if(isModuleEnabled)

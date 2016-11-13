@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="63dp"
+        android:layout_marginTop="66dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         android:id="@+id/layout_help_receiver"
@@ -24,10 +24,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:background="@drawable/bg_help_frame"
-            android:id="@+id/layout_help_receiver_frame">
+            android:id="@+id/layout_help_receiver_frame"
+            android:layout_height="80dp">
         </RelativeLayout>
 
         <RelativeLayout
@@ -57,9 +57,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/layout_help_module"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="157dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="10dp"
         android:visibility="invisible"
         tools:visibility="visible">
 
@@ -122,26 +122,26 @@
                 android:layout_below="@+id/textView_help_info_title"
                 style="@style/CardContentTextStyle"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
+                style="?buttonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_help_next"
                 android:layout_below="@+id/textView_help_info_content"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="@color/color_state_list_primary"
-                android:textColor="#fff"
                 android:text="@string/help_take_a_tour"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true" />
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
+                style="?borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/simple_abort"
                 android:id="@+id/button_help_abort"
                 android:layout_alignParentBottom="false"
-                android:layout_alignBaseline="@+id/button_help_next"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+                android:layout_alignBaseline="@+id/button_help_next" />
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

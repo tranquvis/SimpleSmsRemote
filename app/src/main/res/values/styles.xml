@@ -1,13 +1,14 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:listDivider">@drawable/list_divider</item>
+
+        <item name="buttonStyle">@style/PrimaryButtonStyle</item>
+        <item name="borderlessButtonStyle">@style/SecondaryButtonStyle</item>
+        <item name="android:textAppearanceButton">@style/ButtonTextAppearance</item>
     </style>
 
     <style name="SettingsTheme" parent="AppTheme.NoActionBar">
@@ -35,13 +36,17 @@
         <item name="android:textColor">#222</item>
     </style>
 
-    <style name="PrimaryButtonStyle" parent="@android:style/Widget.Button">
-        <item name="android:textSize">16sp</item>
+    <style name="PrimaryButtonStyle" parent="@style/Widget.AppCompat.Button">
         <item name="android:textColor">#fff</item>
-        <item name="android:gravity">center</item>
-        <item  name="android:background">@drawable/button_selector_primary</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:minHeight">0dp</item>
+        <item name="backgroundTint">@color/color_state_list_primary</item>
+    </style>
+    <style name="SecondaryButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">#555</item>
+    </style>
+
+    <style name="ButtonTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Button">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="HeaderPrimaryStyle">
