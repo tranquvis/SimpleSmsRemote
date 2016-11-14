@@ -28,6 +28,7 @@ Install the app on a device, which should be controlled, and send control comman
 * Location: get current device coordinates
 * Audio Volume: set and get volume of all audio types (ringtone, music, ...)
 * Display: set and get brightness, set and get display off timeout, turn display off
+* Camera: take photo with default settings or custom options (flash, autofocus and more)
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
