@@ -3,8 +3,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import org.intellij.lang.annotations.Language;
-
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
@@ -27,19 +25,18 @@ public class CommandSetAudioVolume extends Command {
     static final CommandParamRingerMode PARAM_RINGER_MODE =
             new CommandParamRingerMode("ringer_mode");
 
-    @Language("RegExp")
+
     private static final String PATTERN_ROOT = AdaptSimplePattern(
             "set (?:(?:volume (?:(index|percentage) )?(?:(?:of|for) )?(.*?))" +
                     "|(?:(.*?) volume(?: (index|percentage))?)) to ([^%]+?)\\s*(%)?");
-    @Language("RegExp")
+
     private static final String PATTERN_UNIT = "(?i)%|index|percentage";
-    @Language("RegExp")
+
     private static final String PATTERN_RINGER_MODE = "(?i)vibrate|vibration|silent|mute";
-    @Language("RegExp")
+
     private static final String PATTERN_VOLUME_VALUE = "[0-9.,]+";
 
-    public CommandSetAudioVolume(@Nullable Module module)
-    {
+    public CommandSetAudioVolume(@Nullable Module module) {
         super(module);
 
         this.titleRes = R.string.command_title_set_audio_volume;
@@ -70,61 +67,57 @@ public class CommandSetAudioVolume extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
-            throws Exception
-    {
+            throws Exception {
         // get params
         AudioUtils.AudioType audioType = commandInstance.getParam(PARAM_AUDIO_TYPE);
         Unit unit = commandInstance.getParam(PARAM_VOLUME_UNIT);
         Double value = commandInstance.getParam(PARAM_VOLUME_VALUE);
-        if(value == null) {
-            if(audioType != AudioUtils.AudioType.RING)
+        if (value == null) {
+            if (audioType != AudioUtils.AudioType.RING)
                 throw new Exception("Ringer modes like silent or vibrate can only be set for audio type ring.");
             value = commandInstance.getParam(PARAM_RINGER_MODE).doubleValue();
             unit = Unit.INDEX;
         }
-        if(unit == null)
+        if (unit == null)
             unit = Unit.INDEX;
 
         // set volume
-        if(unit == Unit.INDEX)
+        if (unit == Unit.INDEX)
             AudioUtils.SetVolumeIndex(context, value.intValue(), audioType);
         else
             AudioUtils.SetVolumePercentage(context, value.floatValue(), audioType);
     }
 
-    private static class CommandParamRingerMode extends CommandParam<Integer>
-    {
+    enum Unit {
+        PERCENT, INDEX
+    }
+
+    private static class CommandParamRingerMode extends CommandParam<Integer> {
         private CommandParamRingerMode(String id) {
             super(id);
         }
 
         @Override
         public Integer getValueFromInput(String input) throws Exception {
-            if(input.matches("(?i)vibrate|vibration"))
+            if (input.matches("(?i)vibrate|vibration"))
                 return AudioUtils.VOLUME_INDEX_RING_VIBRATE;
-            if(input.matches("(?i)silent|mute"))
+            if (input.matches("(?i)silent|mute"))
                 return AudioUtils.VOLUME_INDEX_RING_SILENT;
             throw new IllegalArgumentException("Invalid ringer mode given.");
         }
     }
 
-    private static class CommandParamUnit extends CommandParam<Unit>
-    {
+    private static class CommandParamUnit extends CommandParam<Unit> {
         private CommandParamUnit(String id) {
             super(id);
         }
 
         @Override
         public Unit getValueFromInput(String input) throws Exception {
-            if(input.matches("(?i)%|percentage"))
+            if (input.matches("(?i)%|percentage"))
                 return Unit.PERCENT;
             else
                 return Unit.INDEX;
         }
-    }
-
-    enum Unit
-    {
-        PERCENT, INDEX
     }
 }

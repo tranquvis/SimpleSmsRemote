@@ -2,8 +2,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Kaltenleitner Andreas on 01.11.2016.
  */

@@ -10,47 +10,39 @@ import android.telephony.SmsManager;
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
-public class MySmsService
-{
+public class MySmsService {
     private static final String CODE_SENT = "SMS_SENT";
     private static final String CODE_DELIVERED = "SMS_DELIVERED";
 
     private Context context;
     private SmsServiceListener smsServiceListener;
 
-    public MySmsService(Context context)
-    {
+    public MySmsService(Context context) {
         this.context = context;
     }
 
-    public void setSmsServiceListener(SmsServiceListener smsServiceListener)
-    {
+    public void setSmsServiceListener(SmsServiceListener smsServiceListener) {
         this.smsServiceListener = smsServiceListener;
     }
 
-    public void sendSMS(final MyMessage sms)
-    {
+    public void sendSMS(final MyMessage sms) {
         PendingIntent sentPI = PendingIntent.getBroadcast(context, 0, new Intent(CODE_SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
                 new Intent(CODE_DELIVERED), 0);
 
         //TODO set timeout
-        context.registerReceiver(new BroadcastReceiver()
-        {
+        context.registerReceiver(new BroadcastReceiver() {
             @Override
-            public void onReceive(Context arg0, Intent arg1)
-            {
-                if(smsServiceListener != null)
+            public void onReceive(Context arg0, Intent arg1) {
+                if (smsServiceListener != null)
                     smsServiceListener.OnSmsSent(sms, getResultCode());
             }
         }, new IntentFilter(CODE_SENT));
 
-        context.registerReceiver(new BroadcastReceiver()
-        {
+        context.registerReceiver(new BroadcastReceiver() {
             @Override
-            public void onReceive(Context arg0, Intent arg1)
-            {
-                if(smsServiceListener != null)
+            public void onReceive(Context arg0, Intent arg1) {
+                if (smsServiceListener != null)
                     smsServiceListener.OnSmsDelivered(sms, getResultCode());
             }
         }, new IntentFilter(CODE_DELIVERED));

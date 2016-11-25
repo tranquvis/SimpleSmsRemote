@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:left="-2dp"  android:right="-2dp" android:top="-2dp">
+    <item
+        android:left="-2dp"
+        android:right="-2dp"
+        android:top="-2dp">
         <shape android:shape="rectangle">
-            <stroke android:width="@dimen/divider_height" android:color="@color/colorDivider" />
+            <stroke
+                android:width="@dimen/divider_height"
+                android:color="@color/colorDivider" />
             <solid android:color="@null" />
         </shape>
     </item>

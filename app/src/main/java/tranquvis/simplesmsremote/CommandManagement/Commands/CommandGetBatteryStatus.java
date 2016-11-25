@@ -3,8 +3,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import org.intellij.lang.annotations.Language;
-
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
@@ -17,20 +15,18 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
 
-public class CommandGetBatteryStatus extends Command
-{
-    @Language("RegExp")
+public class CommandGetBatteryStatus extends Command {
+
     private static final String PATTERN_ROOT = AdaptSimplePattern(
             "is (((battery )?charging)|(battery loading))\\s*(\\?)?" +
                     "|(((battery )?charging)|(battery loading))\\s*\\?" +
                     "|get battery status");
 
-    public CommandGetBatteryStatus(@Nullable Module module)
-    {
+    public CommandGetBatteryStatus(@Nullable Module module) {
         super(module);
 
         this.titleRes = R.string.command_title_get_battery_status;
-        this.syntaxDescList =  new String[]{
+        this.syntaxDescList = new String[]{
                 "is battery charging"
         };
         this.patternTree = new PatternTreeNode("root",
@@ -42,8 +38,7 @@ public class CommandGetBatteryStatus extends Command
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                           CommandExecResult result) throws Exception
-    {
+                        CommandExecResult result) throws Exception {
         boolean isBatteryCharging = BatteryUtils.IsBatteryCharging(context);
         result.setCustomResultMessage(context.getString(
                 isBatteryCharging ? R.string.result_msg_battery_is_charging_true

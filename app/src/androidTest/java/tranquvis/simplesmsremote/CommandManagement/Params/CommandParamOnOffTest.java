@@ -2,16 +2,15 @@ package tranquvis.simplesmsremote.CommandManagement.Params;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Andreas Kaltenleitner on 03.11.2016.
  */
-public class CommandParamOnOffTest
-{
+public class CommandParamOnOffTest {
     @Test
-    public void getValueFromInput() throws Exception
-    {
+    public void getValueFromInput() throws Exception {
         CommandParamOnOff param = new CommandParamOnOff("");
         assertTrue(param.getValueFromInput("  enable test "));
         assertTrue(param.getValueFromInput("on test "));

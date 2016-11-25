@@ -2,7 +2,11 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
 
-import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume.*;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume.PARAM_AUDIO_TYPE;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume.PARAM_RINGER_MODE;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume.PARAM_VOLUME_UNIT;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume.PARAM_VOLUME_VALUE;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetAudioVolume.Unit;
 
 /**
  * Created by Kaltenleitner Andreas on 30.10.2016.
@@ -56,10 +60,10 @@ public class CommandSetAudioVolumeTest extends CommandTest {
 
         assertThat("set phonecall volume to 6").matches()
                 .has(PARAM_AUDIO_TYPE,
-                AudioUtils.AudioType.VOICECALL);
+                        AudioUtils.AudioType.VOICECALL);
         assertThat("set voicecall volume to 6").matches()
                 .has(PARAM_AUDIO_TYPE,
-                AudioUtils.AudioType.VOICECALL);
+                        AudioUtils.AudioType.VOICECALL);
         assertThat("set calls volume to 6").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.VOICECALL);
 

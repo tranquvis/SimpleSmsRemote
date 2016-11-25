@@ -9,13 +9,13 @@ import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
 import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Andi on 04.10.2016.
  */
-public class WifiUtilsTest extends AppContextTest
-{
+public class WifiUtilsTest extends AppContextTest {
     @Test
     @ExecSequentially("wifi")
     public void testSetHotspotStateEnabled() throws Exception {
@@ -50,15 +50,13 @@ public class WifiUtilsTest extends AppContextTest
 
     @Test
     @ExecSequentially("wifi")
-    public void testIsHotspotEnabled() throws Exception
-    {
+    public void testIsHotspotEnabled() throws Exception {
         WifiUtils.IsHotspotEnabled(appContext);
     }
 
     @Test
     @ExecSequentially("wifi")
-    public void testSetWifiStateEnabled() throws Exception
-    {
+    public void testSetWifiStateEnabled() throws Exception {
         WifiUtils.SetWifiState(appContext, true);
 
         boolean enabled = TryUntil(new TryMethod<Boolean>() {
@@ -72,8 +70,7 @@ public class WifiUtilsTest extends AppContextTest
 
     @Test
     @ExecSequentially("wifi")
-    public void testSetWifiStateDisabled() throws Exception
-    {
+    public void testSetWifiStateDisabled() throws Exception {
         WifiUtils.SetWifiState(appContext, false);
 
         boolean enabled = TryUntil(new TryMethod<Boolean>() {
@@ -87,8 +84,7 @@ public class WifiUtilsTest extends AppContextTest
 
     @Test
     @ExecSequentially("wifi")
-    public void testIsWifiEnabled() throws Exception
-    {
+    public void testIsWifiEnabled() throws Exception {
         WifiUtils.IsWifiEnabled(appContext);
     }
 

@@ -7,39 +7,31 @@ import java.util.List;
 /**
  * Created by Andreas Kaltenleitner on 30.08.2016.
  */
-public class UserData implements Serializable
-{
+public class UserData implements Serializable {
     private List<ControlModuleUserData> controlModules;
     private UserSettings userSettings;
 
-    public UserData(List<ControlModuleUserData> controlModules, UserSettings userSettings)
-    {
+    public UserData(List<ControlModuleUserData> controlModules, UserSettings userSettings) {
         this.controlModules = controlModules;
         this.userSettings = userSettings;
     }
 
-    public List<ControlModuleUserData> getControlModules()
-    {
+    public List<ControlModuleUserData> getControlModules() {
         return controlModules;
     }
 
-    public UserSettings getUserSettings()
-    {
+    public UserSettings getUserSettings() {
         return userSettings;
     }
 
-    public void addControlModule(ControlModuleUserData userData)
-    {
+    public void addControlModule(ControlModuleUserData userData) {
         controlModules.add(userData);
     }
 
-    public void setControlModule(ControlModuleUserData moduleUserData)
-    {
+    public void setControlModule(ControlModuleUserData moduleUserData) {
         int i = 0;
-        for (ControlModuleUserData userData : controlModules)
-        {
-            if(userData.getControlModuleId().equals(moduleUserData.getControlModuleId()))
-            {
+        for (ControlModuleUserData userData : controlModules) {
+            if (userData.getControlModuleId().equals(moduleUserData.getControlModuleId())) {
                 controlModules.set(i, moduleUserData);
                 break;
             }
@@ -47,26 +39,20 @@ public class UserData implements Serializable
         }
     }
 
-    public void removeControlModule(String moduleId)
-    {
-        for (ControlModuleUserData userData : controlModules)
-        {
-            if(userData.getControlModuleId().equals(moduleId))
-            {
+    public void removeControlModule(String moduleId) {
+        for (ControlModuleUserData userData : controlModules) {
+            if (userData.getControlModuleId().equals(moduleId)) {
                 controlModules.remove(userData);
                 break;
             }
         }
     }
 
-    public List<String> getAllUsedPhones()
-    {
+    public List<String> getAllUsedPhones() {
         List<String> phones = new ArrayList<>();
-        for(ControlModuleUserData moduleUserData : controlModules)
-        {
-            for(String phone : moduleUserData.getGrantedPhones())
-            {
-                if(phone != null && phone.length() > 0 && !phones.contains(phone))
+        for (ControlModuleUserData moduleUserData : controlModules) {
+            for (String phone : moduleUserData.getGrantedPhones()) {
+                if (phone != null && phone.length() > 0 && !phones.contains(phone))
                     phones.add(phone);
             }
         }

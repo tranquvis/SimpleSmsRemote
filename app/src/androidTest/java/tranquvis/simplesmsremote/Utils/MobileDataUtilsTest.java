@@ -6,13 +6,13 @@ import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
 import tranquvis.simplesmsremote.Utils.Device.MobileDataUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Andi on 03.09.2016.
  */
-public class MobileDataUtilsTest extends AppContextTest
-{
+public class MobileDataUtilsTest extends AppContextTest {
     @Test
     @ExecSequentially("mobile data")
     public void testSetMobileDataStateEnabled() throws Exception {

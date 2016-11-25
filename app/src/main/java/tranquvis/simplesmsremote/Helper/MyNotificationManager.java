@@ -23,33 +23,26 @@ import tranquvis.simplesmsremote.Sms.MyCommandMessage;
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
-public class MyNotificationManager
-{
+public class MyNotificationManager {
+    private static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
+    private static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
+    private static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
     private static MyNotificationManager ourInstance;
+    private Context context;
+    private NotificationManager nm;
+    private MyNotificationManager(Context context) {
+        this.context = context;
+        nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 
-    public static MyNotificationManager getInstance(Context context)
-    {
+    public static MyNotificationManager getInstance(Context context) {
         if (ourInstance == null)
             ourInstance = new MyNotificationManager(context);
         return ourInstance;
     }
 
-    private MyNotificationManager(Context context)
-    {
-        this.context = context;
-        nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-    }
-
-    private Context context;
-    private NotificationManager nm;
-
-    private static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
-    private static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
-    private static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
-
     public void notifySmsCommandsExecuted(MyCommandMessage commandMessage,
-                                          List<CommandExecResult> executionResults)
-    {
+                                          List<CommandExecResult> executionResults) {
         final Resources res = context.getResources();
 
         final String tag = "SmsCommandsReceived";
@@ -57,18 +50,12 @@ public class MyNotificationManager
 
 
         List<String> resultMessages = new ArrayList<>();
-        for (CommandExecResult execResult : executionResults)
-        {
-            if(execResult.getCustomResultMessage() != null)
-            {
+        for (CommandExecResult execResult : executionResults) {
+            if (execResult.getCustomResultMessage() != null) {
                 resultMessages.add("[info] " + execResult.getCustomResultMessage());
-            }
-            else if(execResult.isSuccess())
-            {
+            } else if (execResult.isSuccess()) {
                 resultMessages.add("[success] " + execResult.getCommandInstance().getCommandText());
-            }
-            else
-            {
+            } else {
                 resultMessages.add("[failed] " + execResult.getCommandInstance().getCommandText());
             }
         }
@@ -91,8 +78,7 @@ public class MyNotificationManager
         notify(builder.build(), tag);
     }
 
-    public void notifyStartReceiverAfterBootFailed()
-    {
+    public void notifyStartReceiverAfterBootFailed() {
         final Resources res = context.getResources();
 
         final String tag = "StartSmsReceiverAfterBootFailed";
@@ -112,8 +98,7 @@ public class MyNotificationManager
         notify(builder.build(), tag);
     }
 
-    public Notification PermanentStatusNotification()
-    {
+    public Notification PermanentStatusNotification() {
         final Resources res = context.getResources();
 
         final String title = res.getString(R.string.notification_title_permanent_status);
@@ -134,14 +119,10 @@ public class MyNotificationManager
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     private void notify(final Notification notification,
-                        final String notificationTag)
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
-        {
+                        final String notificationTag) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
             nm.notify(notificationTag, 0, notification);
-        }
-        else
-        {
+        } else {
             nm.notify(notificationTag.hashCode(), notification);
         }
     }
@@ -150,14 +131,10 @@ public class MyNotificationManager
      * Cancels any notifications with notificationTag
      */
     @TargetApi(Build.VERSION_CODES.ECLAIR)
-    public void cancel(final String notificationTag)
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
-        {
+    public void cancel(final String notificationTag) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
             nm.cancel(notificationTag, 0);
-        }
-        else
-        {
+        } else {
             nm.cancel(notificationTag.hashCode());
         }
     }

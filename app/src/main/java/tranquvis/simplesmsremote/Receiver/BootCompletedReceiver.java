@@ -18,7 +18,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             DataManager.LoadUserData(context);
-            if(DataManager.getUserData().getUserSettings().isStartReceiverOnSystemStart()) {
+            if (DataManager.getUserData().getUserSettings().isStartReceiverOnSystemStart()) {
                 SMSReceiverService.start(context,
                         DataManager.getUserData().getUserSettings().isReceiverStartForeground());
                 Log.i("receiver", "service started successful");
@@ -27,7 +27,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
             Log.e("bootCompletedReceiver", "failed to start service");
             e.printStackTrace();
             DataManager.addLogEntry(LogEntry.Predefined.AfterBootReceiverStartFailedUnexpected(
-                    context),context);
+                    context), context);
             MyNotificationManager.getInstance(context).notifyStartReceiverAfterBootFailed();
         }
     }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:showIn="@layout/activity_help_how_to_control"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:showIn="@layout/activity_help_how_to_control">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -35,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/enum_margin_top"
                     android:text="1. "
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/textView_step_1"
@@ -47,7 +46,7 @@
                     android:layout_marginStart="@dimen/enum_char_margin_left"
                     android:layout_toEndOf="@+id/textView_step_1_pre"
                     android:layout_toRightOf="@+id/textView_step_1_pre"
-                    android:text="@string/help_how_to_control_step_1"/>
+                    android:text="@string/help_how_to_control_step_1" />
 
                 <TextView
                     android:id="@+id/textView_step_2_pre"
@@ -57,7 +56,7 @@
                     android:layout_below="@id/textView_step_1"
                     android:layout_marginTop="@dimen/enum_margin_top"
                     android:text="2. "
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/textView_step_2"
@@ -69,7 +68,7 @@
                     android:layout_marginStart="@dimen/enum_char_margin_left"
                     android:layout_toEndOf="@+id/textView_step_2_pre"
                     android:layout_toRightOf="@+id/textView_step_2_pre"
-                    android:text="@string/help_how_to_control_step_2"/>
+                    android:text="@string/help_how_to_control_step_2" />
 
                 <TextView
                     android:id="@+id/textView_step_3_pre"
@@ -79,7 +78,7 @@
                     android:layout_below="@id/textView_step_2"
                     android:layout_marginTop="@dimen/enum_margin_top"
                     android:text="3. "
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/textView_step_3"
@@ -91,7 +90,7 @@
                     android:layout_marginStart="@dimen/enum_char_margin_left"
                     android:layout_toEndOf="@+id/textView_step_3_pre"
                     android:layout_toRightOf="@+id/textView_step_3_pre"
-                    android:text="@string/help_how_to_control_step_3"/>
+                    android:text="@string/help_how_to_control_step_3" />
 
                 <TextView
                     android:id="@+id/textView_step_4_pre"
@@ -101,7 +100,7 @@
                     android:layout_below="@id/textView_step_3"
                     android:layout_marginTop="@dimen/enum_margin_top"
                     android:text="4. "
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/textView_step_4"
@@ -113,7 +112,7 @@
                     android:layout_marginStart="@dimen/enum_char_margin_left"
                     android:layout_toEndOf="@+id/textView_step_4_pre"
                     android:layout_toRightOf="@+id/textView_step_4_pre"
-                    android:text="@string/help_how_to_control_step_4"/>
+                    android:text="@string/help_how_to_control_step_4" />
 
                 <TextView
                     android:id="@+id/textView_step_5_pre"
@@ -123,7 +122,7 @@
                     android:layout_below="@id/textView_step_4"
                     android:layout_marginTop="@dimen/enum_margin_top"
                     android:text="5. "
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/textView_step_5"
@@ -135,7 +134,7 @@
                     android:layout_marginStart="@dimen/enum_char_margin_left"
                     android:layout_toEndOf="@+id/textView_step_5_pre"
                     android:layout_toRightOf="@+id/textView_step_5_pre"
-                    android:text="@string/help_how_to_control_step_5"/>
+                    android:text="@string/help_how_to_control_step_5" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -144,7 +143,7 @@
             style="@style/CardHeaderStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/help_how_to_control_syntax_title"/>
+            android:text="@string/help_how_to_control_syntax_title" />
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -162,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/help_how_to_control_syntax_def"
-                    android:textColor="@color/colorAccent"/>
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -171,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView_command_syntax"
                     android:layout_marginTop="10dp"
-                    android:text="@string/help_how_to_control_syntax_example"/>
+                    android:text="@string/help_how_to_control_syntax_example" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 

@@ -6,12 +6,10 @@ import android.support.v7.widget.Toolbar;
 
 import tranquvis.simplesmsremote.R;
 
-public class HelpHowToControlActivity extends AppCompatActivity
-{
+public class HelpHowToControlActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_how_to_control);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

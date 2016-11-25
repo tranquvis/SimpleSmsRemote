@@ -17,33 +17,28 @@ import tranquvis.simplesmsremote.Adapters.LogListAdapter;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 
-public class LogActivity extends AppCompatActivity
-{
+public class LogActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        try
-        {
+        try {
             DataManager.LoadLog(this);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             Toast.makeText(this, R.string.alert_load_log_failed, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_clear);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(LogActivity.this)

@@ -19,8 +19,7 @@ public class CommandTakePictureTest extends CommandTest {
 
     @Override
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
         DataManager.LoadUserData(appContext);
     }
@@ -97,10 +96,9 @@ public class CommandTakePictureTest extends CommandTest {
         assertThat("take picture with front, no autofocus, no flash").matches().executes();
     }
 
-    public void testCustomExecutionWith(String options) throws Exception
-    {
+    public void testCustomExecutionWith(String options) throws Exception {
         String input = "take picture";
-        if(options != null)
+        if (options != null)
             input += " with " + options;
 
         assertThat(input).matches().executes();

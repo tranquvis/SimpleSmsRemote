@@ -3,8 +3,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import org.intellij.lang.annotations.Language;
-
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
@@ -17,18 +15,16 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 /**
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
-public class CommandSetMobileDataState extends Command
-{
+public class CommandSetMobileDataState extends Command {
     static final CommandParamOnOff PARAM_MOBILE_DATA_STATE =
             new CommandParamOnOff("mobile_data_state");
 
-    @Language("RegExp")
+
     private static final String
             PATTERN_ROOT = GetPatternFromTemplate(PATTERN_TEMPLATE_SET_STATE_ON_OFF,
-                "((mobile\\s+data)|(mobile\\s+internet))(\\s+connection)?");
+            "((mobile\\s+data)|(mobile\\s+internet))(\\s+connection)?");
 
-    public CommandSetMobileDataState(@Nullable Module module)
-    {
+    public CommandSetMobileDataState(@Nullable Module module) {
         super(module);
 
         this.titleRes = R.string.command_title_set_mobile_data_state;
@@ -44,8 +40,7 @@ public class CommandSetMobileDataState extends Command
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                           CommandExecResult result) throws Exception
-    {
+                        CommandExecResult result) throws Exception {
         MobileDataUtils.SetMobileDataState(context,
                 commandInstance.getParam(PARAM_MOBILE_DATA_STATE));
     }

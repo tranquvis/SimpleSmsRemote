@@ -2,18 +2,15 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import tranquvis.simplesmsremote.Utils.UnitTools.Unit;
 
-import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayOffTimeout.*;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayOffTimeout.PARAM_TIMEOUT_UNIT;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayOffTimeout.PARAM_TIMEOUT_VALUE;
 
 /**
  * Created by Kaltenleitner Andreas on 01.11.2016.
  */
-public class CommandSetDisplayOffTimeoutTest extends CommandTest
-{
+public class CommandSetDisplayOffTimeoutTest extends CommandTest {
 
     @Override
     @Test

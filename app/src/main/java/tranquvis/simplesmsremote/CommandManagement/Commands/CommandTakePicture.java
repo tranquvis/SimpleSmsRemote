@@ -3,8 +3,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import org.intellij.lang.annotations.Language;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +24,7 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
  * Created by Andreas Kaltenleitner on 25.10.2016.
  */
 
-public class CommandTakePicture extends Command
-{
+public class CommandTakePicture extends Command {
     static final CommandParamString PARAM_OPTIONS = new CommandParamString("options");
     static final CommandParamEmpty PARAM_OPTIONS_WRAPPER =
             new CommandParamEmpty("options_wrapper");
@@ -35,25 +32,24 @@ public class CommandTakePicture extends Command
     static final CommandParamFlash PARAM_OPTION_FLASH = new CommandParamFlash("flash");
     static final CommandParamOnOff PARAM_OPTION_AUTOFOCUS = new CommandParamOnOff("autofocus");
 
-    @Language("RegExp")
+
     private static final String
             PATTERN_ROOT = AdaptSimplePattern("(?:take|capture) (?:picture|photo)((?: with (.*?))?)");
-    @Language("RegExp")
+
     private static final String
             PATTERN_OPTIONS_WRAPPER = AdaptSimplePattern(" with (.*?)");
-    @Language("RegExp")
+
     private static final String PATTERN_CAMERA = AdaptSimplePattern(
             "(\\d+|back|front|external)( (cam(era)?|lens))?" +
-            "|(cam(era)?|lens) (back|front|external|\\d+)");
-    @Language("RegExp")
+                    "|(cam(era)?|lens) (back|front|external|\\d+)");
+
     private static final String PATTERN_FLASH = AdaptSimplePattern(
             "flash(light)?( (enabled|disabled|on|off|auto))?|no flash(light)?");
-    @Language("RegExp")
+
     private static final String PATTERN_AUTOFOCUS = AdaptSimplePattern(
             "autofocus( (on|enabled|off|disabled))?|(no) autofocus");
 
-    public CommandTakePicture(@Nullable Module module)
-    {
+    public CommandTakePicture(@Nullable Module module) {
         super(module);
 
         titleRes = R.string.command_title_take_picture;
@@ -89,16 +85,14 @@ public class CommandTakePicture extends Command
 
     @Override
     public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
-            throws Exception
-    {
+            throws Exception {
         //region retrieve given capture settings
         String cameraId = null;
         CameraUtils.LensFacing lensFacing = null;
         CaptureSettings.FlashlightMode flashMode = null;
         Boolean autofocus = null;
 
-        if(commandInstance.isParamAssigned(PARAM_OPTIONS_WRAPPER))
-        {
+        if (commandInstance.isParamAssigned(PARAM_OPTIONS_WRAPPER)) {
             Object camera = commandInstance.getParam(PARAM_OPTION_CAMERA);
             if (camera instanceof String)
                 cameraId = (String) camera;
@@ -116,82 +110,74 @@ public class CommandTakePicture extends Command
         //region get corresponding camera
         CameraUtils.MyCameraInfo cameraInfo;
 
-        if(cameraId != null)
-        {
+        if (cameraId != null) {
             cameraInfo = CameraUtils.GetCamera(context, cameraId, null);
-        }
-        else if(lensFacing != null)
-        {
+        } else if (lensFacing != null) {
             cameraInfo = CameraUtils.GetCamera(context, null, lensFacing);
-        }
-        else if(moduleSettings != null && moduleSettings.getDefaultCameraId() != null)
-        {
+        } else if (moduleSettings != null && moduleSettings.getDefaultCameraId() != null) {
             cameraInfo = CameraUtils.GetCamera(context,
                     moduleSettings.getDefaultCameraId(), null);
-        }
-        else
-        {
+        } else {
             throw new Exception("Default camera not set.");
         }
 
-        if(cameraInfo == null)
+        if (cameraInfo == null)
             throw new Exception("Default camera not found on device.");
         //endregion
 
         //region create capture settings
         CaptureSettings captureSettings = moduleSettings.getCaptureSettingsByCameraId(
                 cameraInfo.getId()).clone();
-        if(captureSettings == null)
+        if (captureSettings == null)
             captureSettings = cameraInfo.getDefaultCaptureSettings();
 
-        if(flashMode != null)
+        if (flashMode != null)
             captureSettings.setFlashlight(flashMode);
-        if(autofocus != null)
+        if (autofocus != null)
             captureSettings.setAutofocus(autofocus);
         //endregion
 
         CameraUtils.TakePicture(context, cameraInfo, captureSettings);
     }
 
-    private static class CommandParamCamera extends CommandParam<Object>
-    {
+    private static class CommandParamCamera extends CommandParam<Object> {
         CommandParamCamera(String id) {
             super(id);
         }
 
         /**
          * Get parameter value from input.
+         *
          * @return either the id as {@code String} or lens facing as {@code CameraUtils.LensFacing}
          */
         @Override
         public Object getValueFromInput(String input) {
-            if(input.matches("(?i).*?front.*?"))
+            if (input.matches("(?i).*?front.*?"))
                 return CameraUtils.LensFacing.FRONT;
-            if(input.matches("(?i).*?back.*?"))
+            if (input.matches("(?i).*?back.*?"))
                 return CameraUtils.LensFacing.BACK;
-            if(input.matches("(?i).*?ext(ernal)?.*?"))
+            if (input.matches("(?i).*?ext(ernal)?.*?"))
                 return CameraUtils.LensFacing.EXTERNAL;
 
             // retrieve camera id
             Pattern pattern = Pattern.compile(".*?(\\d+).*?");
             Matcher matcher = pattern.matcher(input);
-            if(!matcher.find() || matcher.groupCount() < 1)
+            if (!matcher.find() || matcher.groupCount() < 1)
                 throw new IllegalArgumentException("unexpected input: '" + input + "'");
             return matcher.group(1);
         }
     }
 
-    private static class CommandParamFlash extends CommandParam<CaptureSettings.FlashlightMode>
-    {
+    private static class CommandParamFlash extends CommandParam<CaptureSettings.FlashlightMode> {
         CommandParamFlash(String id) {
             super(id);
         }
 
         @Override
         public CaptureSettings.FlashlightMode getValueFromInput(String input) {
-            if(input.matches("(?i).*?(no|off|disabled).*?"))
+            if (input.matches("(?i).*?(no|off|disabled).*?"))
                 return CaptureSettings.FlashlightMode.OFF;
-            if(input.matches("(?i).*?auto.*?"))
+            if (input.matches("(?i).*?auto.*?"))
                 return CaptureSettings.FlashlightMode.AUTO;
             else
                 return CaptureSettings.FlashlightMode.ON;

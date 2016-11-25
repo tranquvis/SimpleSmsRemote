@@ -12,12 +12,27 @@ import org.aspectj.lang.reflect.MethodSignature;
  */
 
 @Aspect
-public class ExecSequentiallyAspect
-{
+public class ExecSequentiallyAspect {
     private static String[] currentlyExecutedSequences = new String[100];
 
+    /**
+     * @param id sequence id
+     * @return position in array
+     */
+    private static int addCurrentlyExecutedSequence(String id) throws Exception {
+        for (int i = 0; i < currentlyExecutedSequences.length; i++) {
+            if (currentlyExecutedSequences[i] == null) {
+                currentlyExecutedSequences[i] = id;
+                return i;
+            }
+        }
+
+        throw new Exception("currentlyExecutedSequences is full");
+    }
+
     @Pointcut("execution(@tranquvis.simplesmsremote.Helper.ExecSequentially * *(..))")
-    public void methodAnnotatedWithExecSequentially() {}
+    public void methodAnnotatedWithExecSequentially() {
+    }
 
     @Around("methodAnnotatedWithExecSequentially()")
     public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -31,11 +46,10 @@ public class ExecSequentiallyAspect
         int timeout = 10;
         int maxWaitingTime = 10000;
         int i = 0;
-        while(ArrayUtils.contains(currentlyExecutedSequences, id))
-        {
+        while (ArrayUtils.contains(currentlyExecutedSequences, id)) {
             Thread.sleep(timeout);
 
-            if(timeout * i > maxWaitingTime)
+            if (timeout * i > maxWaitingTime)
                 throw new Exception("method reached max waiting time");
         }
 
@@ -46,24 +60,5 @@ public class ExecSequentiallyAspect
         currentlyExecutedSequences[pos] = null;
 
         return result;
-    }
-
-    /**
-     *
-     * @param id sequence id
-     * @return position in array
-     */
-    private static int addCurrentlyExecutedSequence(String id) throws Exception
-    {
-        for(int i = 0; i < currentlyExecutedSequences.length; i++)
-        {
-            if(currentlyExecutedSequences[i] == null)
-            {
-                currentlyExecutedSequences[i] = id;
-                return i;
-            }
-        }
-
-        throw new Exception("currentlyExecutedSequences is full");
     }
 }

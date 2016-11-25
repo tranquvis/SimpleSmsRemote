@@ -13,16 +13,16 @@ import java.lang.reflect.Method;
 /**
  * Created by Andreas Kaltenleitner on 26.08.2016.
  */
-public class MobileDataUtils
-{
+public class MobileDataUtils {
     /**
      * set state of mobile data connection
+     *
      * @param context app context
      * @param enabled state of connection
      * @throws Exception
      */
     public static void SetMobileDataState(Context context, boolean enabled) throws Exception {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             SetMobileDataState2(context, enabled);
         else
             SetMobileDataState1(context, enabled);
@@ -30,12 +30,13 @@ public class MobileDataUtils
 
     /**
      * check if mobile data connection is enabled
+     *
      * @param context app context
      * @return true if mobile data connection is enabled
      * @throws Exception
      */
     public static boolean IsMobileDataEnabled(Context context) throws Exception {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             return IsMobileDataEnabled2(context);
         else
             return IsMobileDataEnabled1(context);
@@ -44,8 +45,7 @@ public class MobileDataUtils
     /**
      * For android versions 2.3 to 4.4
      */
-    private static void SetMobileDataState1(Context context, boolean enabled) throws Exception
-    {
+    private static void SetMobileDataState1(Context context, boolean enabled) throws Exception {
         final ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final Class cmClass = Class.forName(cm.getClass().getName());
@@ -63,8 +63,7 @@ public class MobileDataUtils
     /**
      * For android versions 2.3 to 4.4
      */
-    private static boolean IsMobileDataEnabled1(Context context) throws Exception
-    {
+    private static boolean IsMobileDataEnabled1(Context context) throws Exception {
         final ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         Class cmClass = Class.forName(cm.getClass().getName());
@@ -77,8 +76,7 @@ public class MobileDataUtils
      * For android versions 5 and above
      * Needs root access!
      */
-    private static void SetMobileDataState2(Context context, boolean enabled) throws Exception
-    {
+    private static void SetMobileDataState2(Context context, boolean enabled) throws Exception {
         throw new NotImplementedException("not tested so far");
         /*
         TelephonyManager telephonyService =
@@ -95,8 +93,7 @@ public class MobileDataUtils
      * For android versions 5 and above
      * Needs root access!
      */
-    private static boolean IsMobileDataEnabled2(Context context) throws Exception
-    {
+    private static boolean IsMobileDataEnabled2(Context context) throws Exception {
         TelephonyManager telephonyService =
                 (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         Method getMobileDataEnabledMethod = telephonyService.getClass().

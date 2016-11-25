@@ -17,38 +17,34 @@ import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
  * Created by Andreas Kaltenleitner on 18.10.2016.
  */
 
-public class CameraDeviceSpinnerAdapter extends ArrayAdapter<CameraUtils.MyCameraInfo>
-{
+public class CameraDeviceSpinnerAdapter extends ArrayAdapter<CameraUtils.MyCameraInfo> {
     private static final int LAYOUT_RES = R.layout.spinner_item_camera_device;
 
-    public CameraDeviceSpinnerAdapter(Context context, List<CameraUtils.MyCameraInfo> objects)
-    {
+    public CameraDeviceSpinnerAdapter(Context context, List<CameraUtils.MyCameraInfo> objects) {
         super(context, LAYOUT_RES, objects);
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent)
-    {
-        if(convertView == null)
-        {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
         }
 
         CameraUtils.MyCameraInfo cameraInfo = getItem(position);
-        if(cameraInfo == null)
+        if (cameraInfo == null)
             return convertView;
 
         int lensFacingDescRes = -1;
-        if(cameraInfo.getLensFacing() == null)
+        if (cameraInfo.getLensFacing() == null)
             lensFacingDescRes = R.string.camera_facing_unknown_title;
-        else if(cameraInfo.getLensFacing() == CameraUtils.LensFacing.BACK)
+        else if (cameraInfo.getLensFacing() == CameraUtils.LensFacing.BACK)
             lensFacingDescRes = R.string.camera_facing_back_title;
-        else if(cameraInfo.getLensFacing() == CameraUtils.LensFacing.FRONT)
+        else if (cameraInfo.getLensFacing() == CameraUtils.LensFacing.FRONT)
             lensFacingDescRes = R.string.camera_facing_front_title;
-        else if(cameraInfo.getLensFacing() == CameraUtils.LensFacing.EXTERNAL)
+        else if (cameraInfo.getLensFacing() == CameraUtils.LensFacing.EXTERNAL)
             lensFacingDescRes = R.string.camera_facing_external_title;
 
         String title = "Camera " + cameraInfo.getId() + " ("
@@ -61,8 +57,7 @@ public class CameraDeviceSpinnerAdapter extends ArrayAdapter<CameraUtils.MyCamer
 
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent)
-    {
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return getView(position, convertView, parent);
     }
 }

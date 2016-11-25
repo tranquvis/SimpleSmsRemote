@@ -4,19 +4,17 @@ import org.junit.Test;
 
 import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
 
-import static org.junit.Assert.*;
-import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayBrightness.*;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayBrightness.PARAM_BRIGHTNESS_MODE;
+import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayBrightness.PARAM_BRIGHTNESS_VALUE;
 
 /**
  * Created by Andreas Kaltenleitner on 31.10.2016.
  */
-public class CommandSetDisplayBrightnessTest extends CommandTest
-{
+public class CommandSetDisplayBrightnessTest extends CommandTest {
 
     @Override
     @Test
-    public void testPattern() throws Exception
-    {
+    public void testPattern() throws Exception {
         assertThat("\n set  Display brightness to Auto \r").matches()
                 .has(PARAM_BRIGHTNESS_MODE, DisplayUtils.BrightnessMode.AUTO);
         assertThat("set brightness to 10%").matches()
@@ -30,8 +28,7 @@ public class CommandSetDisplayBrightnessTest extends CommandTest
 
     @Override
     @Test
-    public void testExecution() throws Exception
-    {
+    public void testExecution() throws Exception {
         assertThat("set brightness to 0%").matches().executes();
         assertThat("set brightness to auto").matches().executes();
         assertThat("set brightness to 100%").matches().executes();

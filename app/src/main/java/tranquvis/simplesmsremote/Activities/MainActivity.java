@@ -24,17 +24,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.HelpOverlay;
-import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Services.SMSReceiverService;
+import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener
-{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private static final int CODE_PERM_REQUEST_RECEIVE_SMS = 1;
     private final String TAG = getClass().getName();
 
@@ -101,33 +100,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startUpdatingReceiverStatusAsync();
 
         //region show help overlay on first start
-        if(DataManager.isFirstStart())
+        if (DataManager.isFirstStart())
             showHelpOverlay = true;
-        if(getIntent().getBooleanExtra("showHelpOverlay", false))
-        {
+        if (getIntent().getBooleanExtra("showHelpOverlay", false)) {
             showHelpOverlay = true;
             getIntent().removeExtra("showHelpOverlay");
         }
 
-        if(showHelpOverlay)
-        {
+        if (showHelpOverlay) {
             helpInfoTitleTextView = (TextView) findViewById(R.id.textView_help_info_title);
             helpInfoDescTextView = (TextView) findViewById(R.id.textView_help_info_content);
             helpNextButton = (Button) findViewById(R.id.button_help_next);
 
             helpOverlayView = findViewById(R.id.layout_help_overlay);
             helpOverlayView.setVisibility(View.VISIBLE);
-            helpOverlayView.setOnTouchListener(new OnSwipeTouchListener(this){
+            helpOverlayView.setOnTouchListener(new OnSwipeTouchListener(this) {
                 @Override
-                public void onSwipeLeft()
-                {
-                    if(helpViewPos < helpOverlay.getHelpViewCount() - 1)
+                public void onSwipeLeft() {
+                    if (helpViewPos < helpOverlay.getHelpViewCount() - 1)
                         showNextHelpView();
                 }
 
                 @Override
-                public void onSwipeRight()
-                {
+                public void onSwipeRight() {
                     showPreviousHelpView();
                 }
             });
@@ -136,21 +131,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             showNextHelpView();
             helpNextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
-                {
+                public void onClick(View view) {
                     showNextHelpView();
                 }
             });
             findViewById(R.id.button_help_abort).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
-                {
+                public void onClick(View view) {
                     recreate();
                 }
             });
-        }
-        else
-        {
+        } else {
             findViewById(R.id.layout_help_overlay).setVisibility(View.INVISIBLE);
         }
         //endregion
@@ -159,12 +150,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * goto next step of help overlay
      */
-    private void showNextHelpView()
-    {
+    private void showNextHelpView() {
         helpViewPos++;
         HelpOverlay.View helpView = helpOverlay.getView(helpViewPos);
-        if(helpView == null)
-        {
+        if (helpView == null) {
             //goto how to control
             helpOverlayView.setVisibility(View.GONE);
             startActivity(new Intent(this, HelpHowToControlActivity.class));
@@ -172,8 +161,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         updateHelpView(helpView);
-        if(helpViewPos > 0)
-        {
+        if (helpViewPos > 0) {
             HelpOverlay.View previousHelpView = helpOverlay.getView(helpViewPos - 1);
             if (previousHelpView.getHintContainerResId() >= 0)
                 findViewById(previousHelpView.getHintContainerResId())
@@ -184,9 +172,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * goto previous step of help overlay
      */
-    private void showPreviousHelpView()
-    {
-        if(helpViewPos - 1 < 0)
+    private void showPreviousHelpView() {
+        if (helpViewPos - 1 < 0)
             return;
         helpViewPos--;
         HelpOverlay.View helpView = helpOverlay.getView(helpViewPos);
@@ -200,35 +187,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     /**
      * update visible information of help overlay
+     *
      * @param helpView current help view
      */
-    private void updateHelpView(HelpOverlay.View helpView)
-    {
+    private void updateHelpView(HelpOverlay.View helpView) {
         helpInfoTitleTextView.setText(helpView.getTitleRes());
         helpInfoDescTextView.setText(helpView.getDescRes());
-        if(helpView.getHintContainerResId() >= 0)
+        if (helpView.getHintContainerResId() >= 0)
             findViewById(helpView.getHintContainerResId()).setVisibility(View.VISIBLE);
-        if(helpViewPos == 0)
-        {
+        if (helpViewPos == 0) {
             //first
             helpNextButton.setText(R.string.help_take_a_tour);
-        }
-        else
-        {
-            if(helpViewPos == helpOverlay.getHelpViewCount() - 1)
-            {
+        } else {
+            if (helpViewPos == helpOverlay.getHelpViewCount() - 1) {
                 //last help view
                 helpNextButton.setText(R.string.help_how_to_control_title);
-            }
-            else
+            } else
                 helpNextButton.setText(R.string.help_next);
 
-            if(helpView.getTitleRes() == R.string.help_other_title)
-            {
+            if (helpView.getTitleRes() == R.string.help_other_title) {
                 toolbar.showOverflowMenu();
-            }
-            else
-            {
+            } else {
                 toolbar.hideOverflowMenu();
             }
         }
@@ -237,27 +216,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * start updating receiver status in background until activity finishes
      */
-    private void startUpdatingReceiverStatusAsync()
-    {
+    private void startUpdatingReceiverStatusAsync() {
         receiverStatusUpdateThread = new Thread(new Runnable() {
             @Override
-            public void run()
-            {
-                try
-                {
-                    while(!MainActivity.this.isFinishing())
-                    {
+            public void run() {
+                try {
+                    while (!MainActivity.this.isFinishing()) {
                         runOnUiThread(new Runnable() {
                             @Override
-                            public void run()
-                            {
+                            public void run() {
                                 updateReceiverStatus();
                             }
                         });
                         Thread.sleep(2000);
                     }
-                } catch (InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                 }
             }
         });
@@ -267,10 +240,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * Update all views, which show information about the receiver's status
      */
-    private void updateReceiverStatus()
-    {
-        if (SMSReceiverService.isRunning(this))
-        {
+    private void updateReceiverStatus() {
+        if (SMSReceiverService.isRunning(this)) {
             receiverChangeStateFab.setImageResource(R.drawable.ic_stop_white_24dp);
 
             //region get time string
@@ -291,9 +262,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             receiverLifeInfoTextView.setTextColor(getResources().getColor(R.color.colorSuccess));
             receiverLifeInfoTextView.setText(getResources().getString(
                     R.string.receiver_life_info_running, elapsedTimeStr));
-        }
-        else
-        {
+        } else {
             receiverChangeStateFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
 
             receiverLifeInfoTextView.setTextColor(getResources().getColor(R.color.colorError));
@@ -301,13 +270,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void startSMSReceiverService()
-    {
-        if(!PermissionUtils.AppHasPermission(this, Manifest.permission.RECEIVE_SMS))
-        {
+    private void startSMSReceiverService() {
+        if (!PermissionUtils.AppHasPermission(this, Manifest.permission.RECEIVE_SMS)) {
             startReceiverAfterPermRequest = true;
             PermissionUtils.RequestCommonPermissions(this,
-                    new String[]{ Manifest.permission.RECEIVE_SMS}, CODE_PERM_REQUEST_RECEIVE_SMS);
+                    new String[]{Manifest.permission.RECEIVE_SMS}, CODE_PERM_REQUEST_RECEIVE_SMS);
             return;
         }
         SMSReceiverService.start(getBaseContext(),
@@ -315,8 +282,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         updateReceiverStatus();
     }
 
-    private void stopSMSReceiverService()
-    {
+    private void stopSMSReceiverService() {
         SMSReceiverService.stop(getBaseContext());
         updateReceiverStatus();
     }
@@ -331,11 +297,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(showHelpOverlay)
+        if (showHelpOverlay)
             return false;
 
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
@@ -356,10 +321,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-    {
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Module module = listAdapter.getItem(i);
-        if(module == null)
+        if (module == null)
             return;
 
         Intent intent = new Intent(this, module.getConfigurationActivityType());
@@ -368,37 +332,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    protected void onPostResume()
-    {
+    protected void onPostResume() {
         super.onPostResume();
         listAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        switch (requestCode)
-        {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
             case CODE_PERM_REQUEST_RECEIVE_SMS:
                 boolean permissionGranted = grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                if(permissionGranted)
-                {
-                    if(startReceiverAfterPermRequest)
-                    {
+                if (permissionGranted) {
+                    if (startReceiverAfterPermRequest) {
                         startSMSReceiverService();
                         startReceiverAfterPermRequest = false;
                     }
-                }
-                else
-                {
+                } else {
                     Snackbar.make(coordinatorLayout, R.string.permission_receive_sms_not_granted,
                             Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.simple_request_again, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     PermissionUtils.RequestCommonPermissions(MainActivity.this,
-                                            new String[]{ Manifest.permission.RECEIVE_SMS},
+                                            new String[]{Manifest.permission.RECEIVE_SMS},
                                             CODE_PERM_REQUEST_RECEIVE_SMS);
                                 }
                             })
@@ -410,12 +367,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.fab_receiver_change_state:
-                if(SMSReceiverService.isRunning(this))
+                if (SMSReceiverService.isRunning(this))
                     stopSMSReceiverService();
                 else
                     startSMSReceiverService();

@@ -4,7 +4,6 @@ package tranquvis.simplesmsremote.CommandManagement.Modules;
  * Created by Kaltenleitner Andreas on 27.10.2016.
  */
 
-import android.location.Location;
 import android.support.annotation.Nullable;
 
 import java.lang.reflect.Field;
@@ -30,31 +29,25 @@ public class Instances {
 
     /**
      * Get all registered modules using system reflection.
+     *
      * @param sortComparator This comparator is used to sort the list. <br/>
      *                       Use {@code DefaultComparator} to get default order.
      * @return (sorted) list of all modules
      * @see Comparator
      */
-    public static List<Module> GetAll(@Nullable Comparator<Module> sortComparator)
-    {
+    public static List<Module> GetAll(@Nullable Comparator<Module> sortComparator) {
         List<Module> modules = new ArrayList<>();
-        for (Field field : Instances.class.getDeclaredFields())
-        {
+        for (Field field : Instances.class.getDeclaredFields()) {
             if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
-                    && Module.class.isAssignableFrom(field.getType()))
-            {
-                try
-                {
+                    && Module.class.isAssignableFrom(field.getType())) {
+                try {
                     Module module = (Module) field.get(null);
 
                     boolean inserted = false;
-                    if (sortComparator != null)
-                    {
-                        for (int i = 0; i < modules.size(); i++)
-                        {
+                    if (sortComparator != null) {
+                        for (int i = 0; i < modules.size(); i++) {
                             int compareResult = sortComparator.compare(modules.get(i), module);
-                            if (compareResult > 0)
-                            {
+                            if (compareResult > 0) {
                                 modules.add(i, module);
                                 inserted = true;
                                 break;
@@ -63,8 +56,7 @@ public class Instances {
                     }
                     if (!inserted) modules.add(module);
 
-                } catch (IllegalAccessException e)
-                {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
@@ -72,22 +64,17 @@ public class Instances {
         return modules;
     }
 
-    public static void InitCommands()
-    {
-        if(commandsInitialized) return;
+    public static void InitCommands() {
+        if (commandsInitialized) return;
         commandsInitialized = true;
 
-        for (Field field : Instances.class.getDeclaredFields())
-        {
+        for (Field field : Instances.class.getDeclaredFields()) {
             if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
-                    && Module.class.isAssignableFrom(field.getType()))
-            {
-                try
-                {
+                    && Module.class.isAssignableFrom(field.getType())) {
+                try {
                     Module module = (Module) field.get(null);
 
-                } catch (IllegalAccessException e)
-                {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }

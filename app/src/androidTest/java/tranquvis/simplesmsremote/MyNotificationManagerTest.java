@@ -21,21 +21,18 @@ import tranquvis.simplesmsremote.Sms.MyCommandMessage;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MyNotificationManagerTest extends AppContextTest
-{
+public class MyNotificationManagerTest extends AppContextTest {
     private MyNotificationManager notificationManager;
 
     @Override
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
         notificationManager = MyNotificationManager.getInstance(appContext);
     }
 
     @Test
-    public void testNotifySmsCommandsReceived() throws Exception
-    {
+    public void testNotifySmsCommandsReceived() throws Exception {
         CommandInstance ci1 = CommandInstance.CreateFromCommand("enable wifi");
         CommandInstance ci2 = CommandInstance.CreateFromCommand("disable hotspot");
 
@@ -54,14 +51,12 @@ public class MyNotificationManagerTest extends AppContextTest
     }
 
     @Test
-    public void testNotifyStartReceiverAfterBootFailed() throws Exception
-    {
+    public void testNotifyStartReceiverAfterBootFailed() throws Exception {
         notificationManager.notifyStartReceiverAfterBootFailed();
     }
 
     @After
-    public void beforeEnd() throws InterruptedException
-    {
+    public void beforeEnd() throws InterruptedException {
         //Thread.sleep(20000);
     }
 }

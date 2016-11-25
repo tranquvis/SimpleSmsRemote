@@ -7,12 +7,9 @@ import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
  * Created by Andreas Kaltenleitner on 31.10.2016.
  */
 
-public class AudioTypeHelper
-{
-    public static int GetNameResFromAudioType(AudioUtils.AudioType audioType)
-    {
-        switch (audioType)
-        {
+public class AudioTypeHelper {
+    public static int GetNameResFromAudioType(AudioUtils.AudioType audioType) {
+        switch (audioType) {
             case RING:
                 return R.string.audio_type_name_ring;
             case MUSIC:

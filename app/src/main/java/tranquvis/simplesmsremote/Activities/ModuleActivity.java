@@ -29,12 +29,11 @@ import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.ControlModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
-import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.R;
+import tranquvis.simplesmsremote.Utils.PermissionUtils;
 import tranquvis.simplesmsremote.Utils.UI.UIUtils;
 
-public class ModuleActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class ModuleActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
     protected Module module;
@@ -56,8 +55,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     private ViewStub settingsViewStub;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure_control_module);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
@@ -69,8 +67,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
         String controlModuleId = getIntent().getStringExtra("controlActionId");
         module = Module.getFromId(controlModuleId);
-        if(module == null)
-        {
+        if (module == null) {
             finish();
             return;
         }
@@ -80,13 +77,11 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
 
-        if(module.getTitleRes() != -1)
-        {
+        if (module.getTitleRes() != -1) {
             toolbar.setSubtitle(module.getTitleRes());
         }
 
-        if(module.getDescriptionRes() != -1)
-        {
+        if (module.getDescriptionRes() != -1) {
             ((TextView) findViewById(R.id.textView_description)).setText(
                     module.getDescriptionRes());
         }
@@ -97,40 +92,33 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         commandsListView.setAdapter(commandsListAdapter);
         UIUtils.SetListViewHeightBasedOnItems(commandsListView);
 
-        if(module.getParamInfoRes() != -1)
-        {
-            ((TextView)findViewById(R.id.textView_command_parameter_info))
+        if (module.getParamInfoRes() != -1) {
+            ((TextView) findViewById(R.id.textView_command_parameter_info))
                     .setText(module.getParamInfoRes());
-        }
-        else
-        {
+        } else {
             findViewById(R.id.textView_command_parameter_info_title).setVisibility(View.GONE);
             findViewById(R.id.textView_command_parameter_info).setVisibility(View.GONE);
         }
 
-        TextView compatibilityTextView = (TextView)findViewById(R.id.textView_compatibility_info);
-        Button buttonChangeEnabled = (Button)findViewById(R.id.button_change_enabled);
+        TextView compatibilityTextView = (TextView) findViewById(R.id.textView_compatibility_info);
+        Button buttonChangeEnabled = (Button) findViewById(R.id.button_change_enabled);
 
         buttonChangeEnabled.setText(!isModuleEnabled ? R.string.enable_module
                 : R.string.disable_module);
 
         findViewById(R.id.imageButton_command_info).setOnClickListener(this);
 
-        if(module.isCompatible())
-        {
+        if (module.isCompatible()) {
             compatibilityTextView.setText(R.string.compatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorSuccess));
             buttonChangeEnabled.setOnClickListener(this);
-        }
-        else
-        {
+        } else {
             compatibilityTextView.setText(R.string.incompatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorError));
             buttonChangeEnabled.setVisibility(View.INVISIBLE);
         }
 
-        if(isModuleEnabled)
-        {
+        if (isModuleEnabled) {
             moduleSettings = userData.getSettings();
 
             findViewById(R.id.card_user_settings).setVisibility(View.VISIBLE);
@@ -154,11 +142,9 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                if(isModuleEnabled && saveOnStop)
-                {
+                if (isModuleEnabled && saveOnStop) {
                     saveUserData();
                     saveOnStop = false;
                 }
@@ -168,12 +154,10 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.button_change_enabled:
-                if(isModuleEnabled)
+                if (isModuleEnabled)
                     disableModule();
                 else
                     enableModule();
@@ -187,42 +171,38 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void enableModule()
-    {
+    private void enableModule() {
         if (!PermissionUtils.AppHasPermissions(this,
                 module.getRequiredPermissions(this)))
             requestPermissions(module.getRequiredPermissions(this));
-        else
-        {
+        else {
             saveUserData();
             recreate();
         }
     }
 
-    private void disableModule()
-    {
+    private void disableModule() {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.alert_sure_to_disable_module)
                 .setNegativeButton(R.string.simple_no,
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i){}
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
                         })
                 .setPositiveButton(R.string.simple_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i)
-                            {
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 DataManager.getUserData().removeControlModule(
                                         module.getId());
                                 isModuleEnabled = false;
-                                try
-                                {
+                                try {
                                     DataManager.SaveUserData(ModuleActivity.this);
                                     Toast.makeText(ModuleActivity.this,
                                             R.string.control_module_disabled_successful,
                                             Toast.LENGTH_SHORT).show();
-                                } catch (IOException e){
+                                } catch (IOException e) {
                                     Toast.makeText(ModuleActivity.this,
                                             R.string.alert_save_data_failed,
                                             Toast.LENGTH_SHORT).show();
@@ -234,21 +214,18 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
                 .show();
     }
 
-    private void requestPermissions(String[] permissions)
-    {
+    private void requestPermissions(String[] permissions) {
         PermissionUtils.RequestResult result = PermissionUtils.RequestNextPermissions(this,
                 permissions, REQUEST_CODE_PERM_MODULE_REQUIREMENTS);
         remainingPermissionRequests = result.getRemainingPermissions();
         lastPermissionRequests = result.getRequestPermissions();
-        if(result.getRequestType() == PermissionUtils.RequestType.INDEPENDENT_ACTIVITY)
+        if (result.getRequestType() == PermissionUtils.RequestType.INDEPENDENT_ACTIVITY)
             processPermissionRequestOnResume = true;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        switch (requestCode)
-        {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
             case REQUEST_CODE_PERM_MODULE_REQUIREMENTS:
                 onModuleRequiredPermissionRequestFinished();
                 break;
@@ -256,73 +233,59 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onPostResume()
-    {
+    protected void onPostResume() {
         super.onPostResume();
 
-        if(processPermissionRequestOnResume)
-        {
+        if (processPermissionRequestOnResume) {
             processPermissionRequestOnResume = false;
             onModuleRequiredPermissionRequestFinished();
         }
     }
 
-    private void onModuleRequiredPermissionRequestFinished()
-    {
-        if(PermissionUtils.AppHasPermissions(this, lastPermissionRequests))
-        {
-            if(remainingPermissionRequests != null && remainingPermissionRequests.length > 0)
+    private void onModuleRequiredPermissionRequestFinished() {
+        if (PermissionUtils.AppHasPermissions(this, lastPermissionRequests)) {
+            if (remainingPermissionRequests != null && remainingPermissionRequests.length > 0)
                 requestPermissions(remainingPermissionRequests);
-            else
-            {
+            else {
                 //all permissions granted
                 enableModule();
             }
-        }
-        else
-        {
+        } else {
             Snackbar.make(coordinatorLayout, R.string.permissions_denied, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    protected void onStop()
-    {
-        if(isModuleEnabled && saveOnStop)
+    protected void onStop() {
+        if (isModuleEnabled && saveOnStop)
             saveUserData();
         super.onStop();
     }
 
-    private void saveUserData()
-    {
-        if(isModuleEnabled) {
+    private void saveUserData() {
+        if (isModuleEnabled) {
             updateGrantedPhones();
             updateModuleSettings();
             DataManager.getUserData().setControlModule(new ControlModuleUserData(
                     module.getId(), grantedPhones, moduleSettings));
-        }
-        else
-        {
+        } else {
             setupData();
             DataManager.getUserData().addControlModule(new ControlModuleUserData(
                     module.getId(), new ArrayList<String>(), moduleSettings));
         }
 
-        try
-        {
+        try {
             DataManager.SaveUserData(this);
-            if(!isModuleEnabled)
+            if (!isModuleEnabled)
                 Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
-                    .show();
-        } catch (IOException e)
-        {
+                        .show();
+        } catch (IOException e) {
             Toast.makeText(this, R.string.alert_save_data_failed,
                     Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void setSettingsContentLayout(int layoutId)
-    {
+    protected void setSettingsContentLayout(int layoutId) {
         findViewById(R.id.card_module_settings).setVisibility(View.VISIBLE);
         findViewById(R.id.textView_module_settings_title).setVisibility(View.VISIBLE);
 
@@ -331,41 +294,34 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         settingsViewStub.inflate();
     }
 
-    private void updateGrantedPhones()
-    {
+    private void updateGrantedPhones() {
         grantedPhonesListAdapter.updateData();
         List<String> filteredPhones = new ArrayList<>();
-        for(String phone : grantedPhones)
-        {
+        for (String phone : grantedPhones) {
             phone = phone.trim();
-            if(!phone.isEmpty() && !filteredPhones.contains(phone))
+            if (!phone.isEmpty() && !filteredPhones.contains(phone))
                 filteredPhones.add(phone);
         }
         grantedPhones.clear();
         grantedPhones.addAll(filteredPhones);
     }
 
-    protected void updateModuleSettings()
-    {
+    protected void updateModuleSettings() {
 
     }
 
-    protected CoordinatorLayout getCoordinatorLayout()
-    {
+    protected CoordinatorLayout getCoordinatorLayout() {
         return coordinatorLayout;
     }
 
-    protected Module getModule()
-    {
+    protected Module getModule() {
         return module;
     }
 
-    protected ControlModuleUserData getUserData()
-    {
+    protected ControlModuleUserData getUserData() {
         return userData;
     }
 
-    protected void setupData()
-    {
+    protected void setupData() {
     }
 }

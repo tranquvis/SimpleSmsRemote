@@ -29,36 +29,30 @@ public class DataManager {
 
     private static boolean firstStart;
 
-    public static ControlModuleUserData getUserDataForControlModule(Module module)
-    {
+    public static ControlModuleUserData getUserDataForControlModule(Module module) {
         for (ControlModuleUserData moduleUserData : userData.getControlModules()) {
-            if(moduleUserData.getControlModuleId().equals(module.getId()))
+            if (moduleUserData.getControlModuleId().equals(module.getId()))
                 return moduleUserData;
         }
         return null;
     }
 
-    public static UserData getUserData()
-    {
+    public static UserData getUserData() {
         return userData;
     }
 
-    public static List<LogEntry> getLog()
-    {
+    public static List<LogEntry> getLog() {
         return log;
     }
 
-    public static boolean isFirstStart()
-    {
+    public static boolean isFirstStart() {
         return firstStart;
     }
 
-    public static void LoadLog(Context context) throws IOException
-    {
+    public static void LoadLog(Context context) throws IOException {
         log = new ArrayList<>();
         FileInputStream fis;
-        try
-        {
+        try {
             fis = context.openFileInput(FILENAME_LOG);
         } catch (FileNotFoundException e) {
             return;
@@ -68,10 +62,9 @@ public class DataManager {
         BufferedReader br = new BufferedReader(isr);
 
         String line;
-        while((line = br.readLine()) != null)
-        {
+        while ((line = br.readLine()) != null) {
             LogEntry logEntry = LogEntry.parseFromTextLine(line);
-            if(logEntry != null) log.add(logEntry);
+            if (logEntry != null) log.add(logEntry);
         }
 
         br.close();
@@ -81,8 +74,7 @@ public class DataManager {
 
     public static void LoadUserData(Context context) throws IOException {
         FileInputStream fis;
-        try
-        {
+        try {
             fis = context.openFileInput(FILENAME_USER_DATA);
         } catch (FileNotFoundException e) {
             //apply default values
@@ -93,15 +85,11 @@ public class DataManager {
         }
 
         ObjectInputStream os = new ObjectInputStream(fis);
-        try
-        {
+        try {
             userData = (UserData) os.readObject();
-        } catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (ClassCastException|InvalidClassException cce)
-        {
+        } catch (ClassCastException | InvalidClassException cce) {
             userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
         }
         os.close();
@@ -120,41 +108,37 @@ public class DataManager {
 
     /**
      * add log entry and save to file
+     *
      * @param logEntry log entry
-     * @param context file context
+     * @param context  file context
      */
-    public static void addLogEntry(LogEntry logEntry, Context context)
-    {
-        if(log != null) log.add(0, logEntry);
-        try
-        {
+    public static void addLogEntry(LogEntry logEntry, Context context) {
+        if (log != null) log.add(0, logEntry);
+        try {
             FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_APPEND);
             PrintWriter writer = new PrintWriter(fos);
             writer.println(logEntry.toTextLine());
             writer.close();
             fos.close();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * clear log and save to file
+     *
      * @param context file context
      */
-    public static void clearLog(Context context)
-    {
-        if(log != null) log.clear();
-        try
-        {
+    public static void clearLog(Context context) {
+        if (log != null) log.clear();
+        try {
             FileOutputStream fos = context.openFileOutput(FILENAME_LOG, Context.MODE_PRIVATE);
             PrintWriter writer = new PrintWriter(fos);
             writer.print("");
             writer.close();
             fos.close();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -11,15 +11,13 @@ import tranquvis.simplesmsremote.R;
  * Created by Andreas Kaltenleitner on 27.10.2016.
  */
 
-public class ModuleMobileData extends Module
-{
+public class ModuleMobileData extends Module {
     public final CommandSetMobileDataState commandSetMobileDataState =
             new CommandSetMobileDataState(this);
     public final CommandGetMobileDataState commandGetMobileDataState =
             new CommandGetMobileDataState(this);
 
-    public ModuleMobileData()
-    {
+    public ModuleMobileData() {
         this.sdkMax = Build.VERSION_CODES.LOLLIPOP;
         this.requiredPermissions = new String[]{
                 Manifest.permission.CHANGE_NETWORK_STATE,

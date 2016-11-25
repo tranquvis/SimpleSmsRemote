@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="10dp">
 
     <ImageView
+        android:id="@+id/imageView_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView_type"
         android:layout_centerVertical="true"
-        tools:src="@drawable/ic_local_phone_grey_700_24dp"/>
+        tools:src="@drawable/ic_local_phone_grey_700_24dp" />
 
     <TextView
+        android:id="@+id/textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textView_title"
-        android:layout_toLeftOf="@+id/imageView_state"
-        android:layout_toStartOf="@+id/imageView_state"
-        android:layout_toRightOf="@+id/imageView_type"
-        android:layout_toEndOf="@+id/imageView_type"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
-        android:layout_centerVertical="true"
-        tools:text="module title"/>
+        android:layout_toEndOf="@+id/imageView_type"
+        android:layout_toLeftOf="@+id/imageView_state"
+        android:layout_toRightOf="@+id/imageView_type"
+        android:layout_toStartOf="@+id/imageView_state"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="module title" />
 
     <ImageView
+        android:id="@+id/imageView_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView_state"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        tools:src="@drawable/ic_check_circle_green_400_24dp"/>
+        tools:src="@drawable/ic_check_circle_green_400_24dp" />
 
 </RelativeLayout>

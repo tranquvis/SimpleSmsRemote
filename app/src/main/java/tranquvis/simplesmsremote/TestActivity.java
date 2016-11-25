@@ -1,22 +1,15 @@
 package tranquvis.simplesmsremote;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.Date;
-
-public class TestActivity extends AppCompatActivity implements LocationListener
-{
+public class TestActivity extends AppCompatActivity implements LocationListener {
     private final String TAG = getClass().getName();
 
     private long startTime;
@@ -35,9 +28,7 @@ public class TestActivity extends AppCompatActivity implements LocationListener
         startTime = System.currentTimeMillis();
         try {
             locationManager.requestSingleUpdate(criteria, this, null);
-        }
-        catch (SecurityException e)
-        {
+        } catch (SecurityException e) {
             Log.e(TAG, "permission not granted");
         }
     }

@@ -9,12 +9,10 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetAud
 /**
  * Created by Andreas Kaltenleitner on 31.10.2016.
  */
-public class CommandGetAudioVolumeTest extends CommandTest
-{
+public class CommandGetAudioVolumeTest extends CommandTest {
     @Override
     @Test
-    public void testPattern() throws Exception
-    {
+    public void testPattern() throws Exception {
         // check special chars and arrangement
         assertThat("\n get  Volume for Ring \r").matches()
                 .has(PARAM_AUDIO_TYPE, AudioUtils.AudioType.RING);
@@ -56,8 +54,7 @@ public class CommandGetAudioVolumeTest extends CommandTest
 
     @Override
     @Test
-    public void testExecution() throws Exception
-    {
+    public void testExecution() throws Exception {
         assertThat("get volume for ring").matches().executes();
         assertThat("get volume for music").matches().executes();
         assertThat("get volume for alarm").matches().executes();

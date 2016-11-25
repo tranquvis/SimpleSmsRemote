@@ -3,8 +3,6 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import org.intellij.lang.annotations.Language;
-
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
@@ -16,14 +14,12 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 /**
  * Created by Andreas Kaltenleitner on 31.10.2016.
  */
-public class CommandGetDisplayOffTimeout extends Command
-{
-    @Language("RegExp")
+public class CommandGetDisplayOffTimeout extends Command {
+
     private static final String PATTERN_ROOT = AdaptSimplePattern(
             "(get|fetch|retrieve) (?:display|screen) off timeout");
 
-    public CommandGetDisplayOffTimeout(@NonNull Module module)
-    {
+    public CommandGetDisplayOffTimeout(@NonNull Module module) {
         super(module);
 
         this.titleRes = R.string.command_title_get_display_off_timeout;
@@ -38,15 +34,14 @@ public class CommandGetDisplayOffTimeout extends Command
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception
-    {
+                        CommandExecResult result) throws Exception {
         float screenOffTimeout = DisplayUtils.GetScreenOffTimeout(context);
 
         // retrieve most comfortable reading unit
         String timeoutStr;
-        if(screenOffTimeout < 900)
+        if (screenOffTimeout < 900)
             timeoutStr = String.format("%.0fms", screenOffTimeout);
-        else if(screenOffTimeout < 60000)
+        else if (screenOffTimeout < 60000)
             timeoutStr = String.format("%ds", Math.round(screenOffTimeout / 1000f));
         else
             timeoutStr = String.format("%.1fmin", screenOffTimeout / 60000f);

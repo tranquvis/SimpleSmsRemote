@@ -3,12 +3,9 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import org.intellij.lang.annotations.Language;
-
-import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -17,15 +14,13 @@ import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 /**
  * Created by Andreas Kaltenleitner on 31.10.2016.
  */
-public class CommandGetDisplayBrightness extends Command
-{
-    @Language("RegExp")
+public class CommandGetDisplayBrightness extends Command {
+
     private static final String PATTERN_ROOT = AdaptSimplePattern(
             "(get|fetch|retrieve) ((((?:display|screen) )?brightness)" +
-            "|(brightness of (?:display|screen)))");
+                    "|(brightness of (?:display|screen)))");
 
-    public CommandGetDisplayBrightness(@NonNull Module module)
-    {
+    public CommandGetDisplayBrightness(@NonNull Module module) {
         super(module);
 
         this.titleRes = R.string.command_title_get_display_brightness;
@@ -40,8 +35,7 @@ public class CommandGetDisplayBrightness extends Command
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception
-    {
+                        CommandExecResult result) throws Exception {
         float brightnessPercentage = DisplayUtils.GetBrightness(context);
         DisplayUtils.BrightnessMode brightnessMode = DisplayUtils.GetBrightnessMode(context);
         String brightnessModeStr = brightnessMode == DisplayUtils.BrightnessMode.AUTO

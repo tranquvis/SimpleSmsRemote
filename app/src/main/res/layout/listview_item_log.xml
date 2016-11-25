@@ -25,40 +25,40 @@
 
         <TextView
             android:id="@+id/textView_title"
+            style="@style/CardContentTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/imageView_type"
             android:layout_toRightOf="@+id/imageView_type"
-            tools:text="title"
-            style="@style/CardContentTextStyle"/>
+            tools:text="title" />
 
         <TextView
             android:id="@+id/textView_time"
+            style="@style/CardContentTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/textView_title"
-            tools:text="2016/11/15 15:10"
             android:textSize="12sp"
-            style="@style/CardContentTextStyle"/>
+            tools:text="2016/11/15 15:10" />
 
         <TextView
             android:id="@+id/textView_summary"
+            style="@style/CardContentTextSmallStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView_title"
             android:layout_below="@+id/imageButton_toggle"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_border_top_grey"
-            tools:text="optional description"
+            android:paddingTop="5dp"
             android:visibility="gone"
-            tools:visibility="visible"
-            style="@style/CardContentTextSmallStyle"
-            android:paddingTop="5dp"/>
+            tools:text="optional description"
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/imageButton_toggle"
@@ -67,9 +67,9 @@
             android:layout_alignStart="@+id/textView_title"
             android:layout_below="@+id/textView_title"
             android:background="@null"
-            android:src="@drawable/ic_more_horiz_grey_700_18dp"
             android:contentDescription="..."
-            tools:ignore="HardcodedText"/>
+            android:src="@drawable/ic_more_horiz_grey_700_18dp"
+            tools:ignore="HardcodedText" />
 
         <RelativeLayout
             android:id="@+id/layout_toggle_overlay"
@@ -77,7 +77,7 @@
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/imageButton_toggle"
             android:layout_alignTop="@+id/imageView_type"
-            android:clickable="true"/>
+            android:clickable="true" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

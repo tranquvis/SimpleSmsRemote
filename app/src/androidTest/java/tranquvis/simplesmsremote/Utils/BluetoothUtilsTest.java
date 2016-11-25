@@ -6,17 +6,16 @@ import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.Aspects.ExecSequentially.ExecSequentially;
 import tranquvis.simplesmsremote.Utils.Device.BluetoothUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Andreas Kaltenleitner on 06.10.2016.
  */
-public class BluetoothUtilsTest extends AppContextTest
-{
+public class BluetoothUtilsTest extends AppContextTest {
     @Test
     @ExecSequentially("bluetooth")
-    public void setBluetoothStateEnabled() throws Exception
-    {
+    public void setBluetoothStateEnabled() throws Exception {
         BluetoothUtils.SetBluetoothState(true);
 
         boolean enabled = TryUntil(new TryMethod<Boolean>() {
@@ -30,8 +29,7 @@ public class BluetoothUtilsTest extends AppContextTest
 
     @Test
     @ExecSequentially("bluetooth")
-    public void setBluetoothStateDisabled() throws Exception
-    {
+    public void setBluetoothStateDisabled() throws Exception {
         BluetoothUtils.SetBluetoothState(false);
 
         boolean enabled = TryUntil(new TryMethod<Boolean>() {
@@ -45,8 +43,7 @@ public class BluetoothUtilsTest extends AppContextTest
 
     @Test
     @ExecSequentially("bluetooth")
-    public void isBluetoothEnabled() throws Exception
-    {
+    public void isBluetoothEnabled() throws Exception {
         BluetoothUtils.IsBluetoothEnabled();
     }
 }

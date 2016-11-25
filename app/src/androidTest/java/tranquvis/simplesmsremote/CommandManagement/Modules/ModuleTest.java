@@ -2,20 +2,15 @@ package tranquvis.simplesmsremote.CommandManagement.Modules;
 
 import android.util.Log;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.CommandManagement.Commands.CommandTest;
-import tranquvis.simplesmsremote.Utils.PermissionUtils;
-import tranquvis.simplesmsremote.Utils.StringUtils;
 import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
 import static org.junit.Assert.assertTrue;
@@ -27,27 +22,24 @@ import static org.junit.Assert.assertTrue;
 /**
  * Commands are tested automatically in all inherited classes.
  */
-public abstract class ModuleTest extends AppContextTest
-{
-    protected Module module;
-    protected List<Command> commands;
-
-    protected boolean assertCompatibility = true;
-
+public abstract class ModuleTest extends AppContextTest {
     private static List<String> successfulModuleTests = new ArrayList<>();
     private static List<String> failedModuleTests = new ArrayList<>();
+    protected Module module;
+    protected List<Command> commands;
+    protected boolean assertCompatibility = true;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        if(module == null) {
+        if (module == null) {
             Class<? extends Module> testedClass = UnitTestUtils.GetTestedClassFrom(getClass());
             module = testedClass.newInstance();
         }
         this.commands = module.getCommands();
 
-        if(assertCompatibility)
+        if (assertCompatibility)
             assertTrue("module incompatible", module.isCompatible());
     }
 
@@ -73,8 +65,7 @@ public abstract class ModuleTest extends AppContextTest
         commandTest.testExecution();
     }
 
-    protected <T extends CommandTest> T getUnitTestFrom(Command command) throws Exception
-    {
+    protected <T extends CommandTest> T getUnitTestFrom(Command command) throws Exception {
         Class<T> unitTestClass = UnitTestUtils.GetUnitTestClassFrom(command.getClass());
         T commandTest = unitTestClass.newInstance();
         commandTest.setCommand(command);
@@ -82,10 +73,9 @@ public abstract class ModuleTest extends AppContextTest
         return commandTest;
     }
 
-    protected <T extends Command> T getCommand(Class<T> commandType)
-    {
+    protected <T extends Command> T getCommand(Class<T> commandType) {
         for (Command command : commands) {
-            if(command.getClass() == commandType)
+            if (command.getClass() == commandType)
                 return (T) command;
         }
         return null;

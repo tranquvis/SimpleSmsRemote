@@ -26,10 +26,8 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<Module> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent)
-    {
-        if(convertView == null)
-        {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
@@ -42,24 +40,21 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<Module> {
                 findViewById(R.id.imageView_state);
         ImageView moduleIconImageView = (ImageView) convertView.findViewById(R.id.imageView_type);
 
-        if(module.getIconRes() != -1)
-        {
+        if (module.getIconRes() != -1) {
             moduleIconImageView.setImageResource(module.getIconRes());
         }
 
-        if(module.getTitleRes() != -1)
+        if (module.getTitleRes() != -1)
             titleTextView.setText(module.getTitleRes());
         else
             titleTextView.setText(module.getId());
 
         //changeStateButton.setImageDrawable();
-        if(!module.isCompatible()) {
+        if (!module.isCompatible()) {
             stateImageView.setImageResource(R.drawable.ic_remove_circle_red_400_24dp);
-        }
-        else if(!module.isEnabled()) {
+        } else if (!module.isEnabled()) {
             stateImageView.setImageResource(R.drawable.ic_add_circle_indigo_400_24dp);
-        }
-        else {
+        } else {
             stateImageView.setImageResource(R.drawable.ic_check_circle_green_400_24dp);
         }
 

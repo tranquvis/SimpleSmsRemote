@@ -9,16 +9,15 @@ import java.lang.reflect.Method;
 /**
  * Created by Andreas Kaltenleitner on 24.08.2016.
  */
-public class WifiUtils
-{
+public class WifiUtils {
     /**
      * check if hotspot is enabled
+     *
      * @param context app context
      * @return true if hotspot is enabled
      * @throws Exception
      */
-    public static boolean IsHotspotEnabled(Context context) throws Exception
-    {
+    public static boolean IsHotspotEnabled(Context context) throws Exception {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         Method method = wifimanager.getClass().getDeclaredMethod("isWifiApEnabled");
         method.setAccessible(true);
@@ -27,12 +26,13 @@ public class WifiUtils
 
     /**
      * set state of hotspot to enabled or disabled
+     *
      * @param context app context
      * @param enabled hotspot state
      */
     public static void SetHotspotState(Context context, boolean enabled) throws Exception {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if(enabled)
+        if (enabled)
             wifimanager.setWifiEnabled(false);
         Method method = wifimanager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
         method.invoke(wifimanager, null, enabled);
@@ -40,17 +40,18 @@ public class WifiUtils
 
     /**
      * check if wifi is enabled
+     *
      * @param context app context
      * @return true if wifi is enabled
      */
-    public static boolean IsWifiEnabled(Context context)
-    {
+    public static boolean IsWifiEnabled(Context context) {
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         return wifimanager.isWifiEnabled();
     }
 
     /**
      * enable or disable wifi
+     *
      * @param context app context
      * @param enabled wifi state
      * @throws Exception
@@ -59,7 +60,7 @@ public class WifiUtils
         SetHotspotState(context, false);
 
         WifiManager wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if(!wifimanager.setWifiEnabled(enabled))
+        if (!wifimanager.setWifiEnabled(enabled))
             throw new Exception("failed to set wifi state");
     }
 }

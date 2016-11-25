@@ -1,7 +1,6 @@
 package tranquvis.simplesmsremote.CommandManagement.Params;
 
-public abstract class CommandParam<T>
-{
+public abstract class CommandParam<T> {
     private String id;
 
     public CommandParam(String id) {
@@ -14,8 +13,7 @@ public abstract class CommandParam<T>
 
     public abstract T getValueFromInput(String input) throws Exception;
 
-    public boolean isAssigned(String input)
-    {
+    public boolean isAssigned(String input) {
         return input != null && !input.equals("");
     }
 }

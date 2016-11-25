@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-public class TestService extends Service
-{
+public class TestService extends Service {
     private final IBinder binder = new LocalBinder();
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
 
     /**
      * Class used for the client Binder.  Because we know this service always
@@ -18,10 +22,5 @@ public class TestService extends Service
             // Return this instance of LocalService so clients can call public methods
             return TestService.this;
         }
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
     }
 }

@@ -1,7 +1,6 @@
 package tranquvis.simplesmsremote.Utils.Regex;
 
-public enum MatchType
-{
+public enum MatchType {
     DO_NOT_MATCH,
 
     /**

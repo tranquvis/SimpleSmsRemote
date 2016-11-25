@@ -20,8 +20,7 @@ import tranquvis.simplesmsremote.Utils.UI.UIUtils;
 /**
  * Created by Andreas Kaltenleitner on 30.08.2016.
  */
-public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
-{
+public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String> {
     private static final int LAYOUT_RES = R.layout.listview_item_granted_phones_editable;
 
     private List<String> phones;
@@ -30,8 +29,7 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
     private List<String> usedNumbers;
     private ArrayAdapter phoneListAdapter;
 
-    public GrantedPhonesEditableListAdapter(Context context, List<String> phones, ListView listView)
-    {
+    public GrantedPhonesEditableListAdapter(Context context, List<String> phones, ListView listView) {
         super(context, LAYOUT_RES, phones);
         this.phones = phones;
         this.listView = listView;
@@ -43,10 +41,8 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull ViewGroup parent)
-    {
-        if(convertView == null)
-        {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(LAYOUT_RES, parent, false);
@@ -59,13 +55,12 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
         ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.imageButton_delete);
 
         phoneEditText.setText(phone);
-        if(phoneListAdapter != null)
+        if (phoneListAdapter != null)
             phoneEditText.setAdapter(phoneListAdapter);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 removePhone(position);
             }
         });
@@ -73,30 +68,26 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String>
         return convertView;
     }
 
-    private void removePhone(int position)
-    {
+    private void removePhone(int position) {
         updateData();
         phones.remove(position);
         notifyDataSetChanged();
     }
 
-    public void addPhone(String phone)
-    {
+    public void addPhone(String phone) {
         updateData();
         phones.add(phone);
         notifyDataSetChanged();
     }
 
     @Override
-    public void notifyDataSetChanged()
-    {
+    public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         UIUtils.SetListViewHeightBasedOnItems(listView);
     }
 
-    public void updateData()
-    {
-        for(int i = 0; i < listView.getChildCount(); i++) {
+    public void updateData() {
+        for (int i = 0; i < listView.getChildCount(); i++) {
             View view = listView.getChildAt(i);
             EditText editText = (EditText) view.findViewById(R.id.edittext_phonenumber);
             phones.set(i, editText.getText().toString());

@@ -11,13 +11,11 @@ import java.io.IOException;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 
-public class SettingsActivity extends AppCompatActivity
-{
+public class SettingsActivity extends AppCompatActivity {
     private boolean saveOnStop = true;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -28,8 +26,7 @@ public class SettingsActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 saveUserData();
                 saveOnStop = false;
@@ -38,19 +35,15 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStop()
-    {
-        if(saveOnStop) saveUserData();
+    protected void onStop() {
+        if (saveOnStop) saveUserData();
         super.onStop();
     }
 
-    private void saveUserData()
-    {
-        try
-        {
+    private void saveUserData() {
+        try {
             DataManager.SaveUserData(this);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             Toast.makeText(this, R.string.alert_save_data_failed, Toast.LENGTH_SHORT).show();
         }
     }

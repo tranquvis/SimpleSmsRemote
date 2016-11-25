@@ -1,95 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/layout_help_overlay"
-                android:clickable="true"
-                android:background="#77000000"
-                tools:context="tranquvis.simplesmsremote.Activities.MainActivity"
-                tools:showIn="@layout/activity_main"
-                android:visibility="gone"
-                tools:visibility="visible">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_help_overlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#77000000"
+    android:clickable="true"
+    android:visibility="gone"
+    tools:context="tranquvis.simplesmsremote.Activities.MainActivity"
+    tools:showIn="@layout/activity_main"
+    tools:visibility="visible">
 
     <RelativeLayout
+        android:id="@+id/layout_help_receiver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="66dp"
-        android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        android:id="@+id/layout_help_receiver"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="66dp"
         android:visibility="invisible"
         tools:visibility="visible">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/bg_help_frame"
             android:id="@+id/layout_help_receiver_frame"
-            android:layout_height="80dp">
-        </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_help_frame"></RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_help_receiver_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:background="#fff"
             android:layout_below="@+id/layout_help_receiver_frame"
             android:layout_marginLeft="4dp"
-            android:id="@+id/layout_help_receiver_desc">
+            android:background="#fff"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
 
             <TextView
+                android:id="@+id/textView_help_receiver_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help_receiver_title"
-                android:id="@+id/textView_help_receiver_desc"
-                android:textSize="16sp"
-                android:textColor="?attr/colorPrimary"/>
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp" />
         </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_help_module"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_help_module"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="157dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="157dp"
         android:visibility="invisible"
         tools:visibility="visible">
 
         <RelativeLayout
+            android:id="@+id/layout_help_module_frame"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_alignParentTop="false"
-            android:background="@drawable/bg_help_frame"
-            android:id="@+id/layout_help_module_frame"
-            android:layout_below="@+id/layout_help_module_desc"/>
+            android:layout_below="@+id/layout_help_module_desc"
+            android:background="@drawable/bg_help_frame" />
 
         <RelativeLayout
+            android:id="@+id/layout_help_module_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:background="#fff"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
-            android:id="@+id/layout_help_module_desc">
+            android:background="#fff"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
 
             <TextView
+                android:id="@+id/textView_help_module_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help_module_title"
-                android:id="@+id/textView_help_module_desc"
-                android:textSize="16sp"
-                android:textColor="?attr/colorPrimary"/>
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp" />
 
         </RelativeLayout>
     </RelativeLayout>
@@ -97,50 +96,50 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
         app:contentPadding="@dimen/card_padding">
 
         <RelativeLayout
+            android:id="@+id/layout_help_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layout_help_info">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/help_start_title"
                 android:id="@+id/textView_help_info_title"
-                android:layout_marginTop="0dp"
-                style="@style/HeaderPrimaryStyle"/>
-
-            <TextView
+                style="@style/HeaderPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/help_start_content"
+                android:layout_marginTop="0dp"
+                android:text="@string/help_start_title" />
+
+            <TextView
                 android:id="@+id/textView_help_info_content"
+                style="@style/CardContentTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_help_info_title"
-                style="@style/CardContentTextStyle"/>
+                android:text="@string/help_start_content" />
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_help_next"
                 style="?buttonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_help_next"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/textView_help_info_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/help_take_a_tour"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
+                android:text="@string/help_take_a_tour" />
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_help_abort"
                 style="?borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/simple_abort"
-                android:id="@+id/button_help_abort"
+                android:layout_alignBaseline="@+id/button_help_next"
                 android:layout_alignParentBottom="false"
-                android:layout_alignBaseline="@+id/button_help_next" />
+                android:text="@string/simple_abort" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

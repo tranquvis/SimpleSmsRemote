@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
-import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 import tranquvis.simplesmsremote.AppContextTest;
@@ -27,8 +26,7 @@ import static org.junit.Assert.assertTrue;
  * Created by Kaltenleitner Andreas on 26.10.2016.
  */
 
-public abstract class CommandTest extends AppContextTest
-{
+public abstract class CommandTest extends AppContextTest {
     protected Command command;
 
     @Override
@@ -38,7 +36,7 @@ public abstract class CommandTest extends AppContextTest
         if (command == null) {
             Class<? extends Command> testedClass = UnitTestUtils.GetTestedClassFrom(getClass());
             Constructor<? extends Command> constructor = testedClass.getConstructor(Module.class);
-            command = constructor.newInstance((Module)null);
+            command = constructor.newInstance((Module) null);
         }
     }
 
@@ -48,12 +46,12 @@ public abstract class CommandTest extends AppContextTest
 
     /**
      * Format input string with default locale
-     * @param input input string
+     *
+     * @param input  input string
      * @param params string parameters
      * @return formatted string
      */
-    protected String format(String input, Object... params)
-    {
+    protected String format(String input, Object... params) {
         return String.format(Locale.getDefault(), input, params);
     }
 
@@ -65,6 +63,7 @@ public abstract class CommandTest extends AppContextTest
 
     /**
      * Make assertions about a user input.
+     *
      * @param input the user input
      * @return the Test class, with which assertions can be made
      * @throws Exception
@@ -73,8 +72,7 @@ public abstract class CommandTest extends AppContextTest
         return new CommandTester(input, command, appContext);
     }
 
-    public static class CommandTester
-    {
+    public static class CommandTester {
         private String input;
         private Command command;
         private Context context;
@@ -90,6 +88,7 @@ public abstract class CommandTest extends AppContextTest
 
         /**
          * Assert that the input matches a specific command.
+         *
          * @param command the command
          * @throws Exception
          */
@@ -100,9 +99,8 @@ public abstract class CommandTest extends AppContextTest
             if (!matcherTree.testInput(input)) {
                 String details = "";
                 boolean firstFail = true;
-                for (MatcherTreeNode matcherTreeNode : matcherTree.getFailedNodesOfLastMatch())
-                {
-                    if(!firstFail) details += "\r\n";
+                for (MatcherTreeNode matcherTreeNode : matcherTree.getFailedNodesOfLastMatch()) {
+                    if (!firstFail) details += "\r\n";
                     else firstFail = false;
 
                     details += "Match failed at pattern  '"
@@ -118,14 +116,15 @@ public abstract class CommandTest extends AppContextTest
             //endregion
 
             assertTrue("unexpected command retrieved: '" +
-                        context.getString(ci.getCommand().getTitleRes())  + "' except '"
-                    + context.getString(command.getTitleRes()) + "'",
-                    ci != null &&  ci.getCommand().equals(command));
+                            context.getString(ci.getCommand().getTitleRes()) + "' except '"
+                            + context.getString(command.getTitleRes()) + "'",
+                    ci != null && ci.getCommand().equals(command));
             return this;
         }
 
         /**
          * Assert that the input matches the default command of the related unit test.
+         *
          * @throws Exception
          */
         public CommandTester matches() throws Exception {
@@ -134,16 +133,18 @@ public abstract class CommandTest extends AppContextTest
 
         /**
          * Assert that the input does not match a specific command.
+         *
          * @param command the command
          * @throws Exception
          */
         public CommandTester doesNotMatch(Command command) throws Exception {
-            assertFalse(ci != null &&  ci.getCommand() == command);
+            assertFalse(ci != null && ci.getCommand() == command);
             return this;
         }
 
         /**
          * Assert that the input does not match the default command of the related unit test.
+         *
          * @throws Exception
          */
         public CommandTester doesNotMatch() throws Exception {
@@ -152,6 +153,7 @@ public abstract class CommandTest extends AppContextTest
 
         /**
          * Assert that the input has a specific parameter, which is defined in its matching command.
+         *
          * @param param the parameter to check
          */
         public CommandTester has(CommandParam param) throws Exception {
@@ -162,6 +164,7 @@ public abstract class CommandTest extends AppContextTest
         /**
          * Assert that the input does not have a specific parameter,
          * which is defined in its matching command.
+         *
          * @param param the parameter to check
          */
         public CommandTester hasNot(CommandParam param) throws Exception {
@@ -172,9 +175,10 @@ public abstract class CommandTest extends AppContextTest
         /**
          * Assert that the input has a specific parameter, which is defined in its matching command.
          * Moreover the value of the parameter is expected to equal the given {@code value}.
+         *
          * @param param the parameter to check
          * @param value the value, which the parameter should have
-         * @param <T> type of the parameter's value
+         * @param <T>   type of the parameter's value
          */
         public <T> CommandTester has(CommandParam<T> param, T value) throws Exception {
             Object paramValue = ci.getParam(param);
@@ -185,6 +189,7 @@ public abstract class CommandTest extends AppContextTest
         /**
          * Assert that a command executes successful with the given input.
          * Assert before that the input matches the command.
+         *
          * @param command the command
          * @return the result of the execution
          * @throws Exception
@@ -201,6 +206,7 @@ public abstract class CommandTest extends AppContextTest
          * Assert that the default command of the related unit test
          * executes successful with the given input.
          * Assert before that the input matches the default command.
+         *
          * @return the result of the execution
          * @throws Exception
          */
@@ -211,6 +217,7 @@ public abstract class CommandTest extends AppContextTest
         /**
          * Assert that a command executes with error with the given input.
          * Assert before that the input matches the command.
+         *
          * @param command the command
          * @return the result of the execution
          * @throws Exception
@@ -220,8 +227,7 @@ public abstract class CommandTest extends AppContextTest
             result.setSuccess(false);
             try {
                 command.execute(context, ci, result);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 return result;
             }
             assertFalse(result.isSuccess());
@@ -232,6 +238,7 @@ public abstract class CommandTest extends AppContextTest
          * Assert that the default command of the related unit test
          * executes with error with the given input.
          * Assert before that the input matches the default command.
+         *
          * @return the result of the execution
          * @throws Exception
          */

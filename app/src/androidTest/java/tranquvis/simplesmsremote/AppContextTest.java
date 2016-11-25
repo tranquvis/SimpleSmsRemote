@@ -1,20 +1,11 @@
 package tranquvis.simplesmsremote;
 
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.os.IBinder;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.core.deps.guava.util.concurrent.ExecutionError;
-import android.support.test.rule.ServiceTestRule;
 import android.util.Log;
 
 import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Andi on 04.09.2016.
@@ -29,6 +20,7 @@ public abstract class AppContextTest {
 
     /**
      * Run method until its return value equals {@code successValue}
+     *
      * @return latest return value of method
      */
     protected <T> T TryUntil(TryMethod<T> method, T successValue) throws Exception {
@@ -37,19 +29,18 @@ public abstract class AppContextTest {
 
     /**
      * Run method until its return value equals {@code successValue}
+     *
      * @param timeout timeout between tries in milliseconds
      * @param maxTime max time to tryin milliseconds
      * @return latest return value of method
      */
     protected <T> T TryUntil(TryMethod<T> method, T successValue, int timeout, int maxTime)
-            throws Exception
-    {
+            throws Exception {
         long startTime = System.currentTimeMillis();
         T returnValue;
-        do
-        {
+        do {
             returnValue = method.run();
-            if(returnValue == successValue)
+            if (returnValue == successValue)
                 break;
 
             try {
@@ -59,19 +50,17 @@ public abstract class AppContextTest {
                 return returnValue;
             }
         }
-        while((System.currentTimeMillis() - startTime) < maxTime);
+        while ((System.currentTimeMillis() - startTime) < maxTime);
 
         return returnValue;
     }
 
-    protected interface TryMethod<T>
-    {
-        T run() throws Exception;
-    }
-
-    protected boolean isEmulator()
-    {
+    protected boolean isEmulator() {
         Log.i("fingerprint", Build.FINGERPRINT);
         return Build.FINGERPRINT.contains("generic");
+    }
+
+    protected interface TryMethod<T> {
+        T run() throws Exception;
     }
 }

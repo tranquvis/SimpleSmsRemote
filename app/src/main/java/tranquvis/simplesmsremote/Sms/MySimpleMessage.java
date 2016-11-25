@@ -12,50 +12,28 @@ import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 /**
  * Created by Andreas Kaltenleitner on 02.09.2016.
  */
-public class MySimpleMessage implements MyMessage
-{
+public class MySimpleMessage implements MyMessage {
     private String phoneNumber;
     private String message;
 
-    public MySimpleMessage(String phoneNumber, String message)
-    {
+    public MySimpleMessage(String phoneNumber, String message) {
         this.phoneNumber = phoneNumber;
         this.message = message;
     }
 
-    @Override
-    public String getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-
-    @Override
-    public String getMessage()
-    {
-        return message;
-    }
-
     public static MySimpleMessage CreateResultReplyMessage(
             Context context, MyCommandMessage receivedMsg,
-            List<CommandExecResult> executionResults, boolean replyWithDefaultResult)
-    {
+            List<CommandExecResult> executionResults, boolean replyWithDefaultResult) {
         List<String> resultMessages = new ArrayList<>();
 
-        for (CommandExecResult execResult : executionResults)
-        {
-            if(execResult.getCustomResultMessage() != null)
-            {
+        for (CommandExecResult execResult : executionResults) {
+            if (execResult.getCustomResultMessage() != null) {
                 resultMessages.add("(info) " + execResult.getCustomResultMessage());
-            }
-            else if(replyWithDefaultResult)
-            {
-                if(execResult.isSuccess())
-                {
+            } else if (replyWithDefaultResult) {
+                if (execResult.isSuccess()) {
                     resultMessages.add("(success) " + context.getString(
                             execResult.getCommandInstance().getCommand().getTitleRes()));
-                }
-                else
-                {
+                } else {
                     resultMessages.add("(failed) " + context.getString(
                             execResult.getCommandInstance().getCommand().getTitleRes()));
                 }
@@ -66,5 +44,15 @@ public class MySimpleMessage implements MyMessage
         String message = "rc-result\r\n" + text;
 
         return new MySimpleMessage(receivedMsg.getPhoneNumber(), message);
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

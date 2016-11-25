@@ -1,14 +1,12 @@
 package tranquvis.simplesmsremote.CommandManagement;
 
-public class CommandExecResult
-{
+public class CommandExecResult {
     private CommandInstance commandInstance;
     private boolean success = true;
     private String customResultMessage = null;
     private boolean forceSendingResultSmsMessage = false;
 
-    public CommandExecResult(CommandInstance commandInstance)
-    {
+    public CommandExecResult(CommandInstance commandInstance) {
         this.commandInstance = commandInstance;
     }
 

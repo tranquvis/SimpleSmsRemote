@@ -19,28 +19,24 @@ import tranquvis.simplesmsremote.R;
 /**
  * Created by Andreas Kaltenleitner on 31.08.2016.
  */
-public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntryViewHolder>
-{
+public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntryViewHolder> {
     private static final int LAYOUT_RES = R.layout.listview_item_log;
 
     private Context context;
     private List<LogEntry> logEntries;
 
-    public LogListAdapter(Context context, List<LogEntry> logEntries)
-    {
+    public LogListAdapter(Context context, List<LogEntry> logEntries) {
         this.context = context;
         this.logEntries = logEntries;
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return logEntries.size();
     }
 
     @Override
-    public void onBindViewHolder(final LogEntryViewHolder viewHolder, int position)
-    {
+    public void onBindViewHolder(final LogEntryViewHolder viewHolder, int position) {
         LogEntry logEntry = logEntries.get(position);
 
         viewHolder.vTitle.setText(logEntry.getTitle());
@@ -49,7 +45,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
         viewHolder.vTime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(logEntry.getTime()));
         viewHolder.vType.setImageResource(logEntry.getType().getIconRes());
 
-        if(logEntry.getSummary() != null) {
+        if (logEntry.getSummary() != null) {
             viewHolder.vSummary.setText(logEntry.getSummary());
             View.OnClickListener onToggleClick = new View.OnClickListener() {
                 @Override
@@ -65,21 +61,18 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
             };
             viewHolder.vToggleOverlay.setOnClickListener(onToggleClick);
             viewHolder.vToggle.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             viewHolder.vToggle.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public LogEntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public LogEntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(LAYOUT_RES, parent, false);
         return new LogEntryViewHolder(itemView);
     }
 
-    public static class LogEntryViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class LogEntryViewHolder extends RecyclerView.ViewHolder {
         TextView vTitle;
         TextView vSummary;
         TextView vTime;
@@ -87,8 +80,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.LogEntry
         ImageView vType;
         RelativeLayout vToggleOverlay;
 
-        public LogEntryViewHolder(View itemView)
-        {
+        public LogEntryViewHolder(View itemView) {
             super(itemView);
             vTitle = (TextView) itemView.findViewById(R.id.textView_title);
             vSummary = (TextView) itemView.findViewById(R.id.textView_summary);

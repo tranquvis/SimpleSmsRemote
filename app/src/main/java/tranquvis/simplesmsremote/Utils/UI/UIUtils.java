@@ -9,13 +9,14 @@ public class UIUtils {
 
     /**
      * Set ListView height dynamically based on the height of the items.
+     *
      * @param listView to be resized
      * @see <a href="http://stackoverflow.com/questions/1778485/android-listview-display-all-available-items-without-scroll-with-static-header">stackoverflow answer</a>
      */
     public static void SetListViewHeightBasedOnItems(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();
-        if(listAdapter == null)
+        if (listAdapter == null)
             throw new RuntimeException("an adapter must be set before list view can be resized");
 
         int numberOfItems = listAdapter.getCount();

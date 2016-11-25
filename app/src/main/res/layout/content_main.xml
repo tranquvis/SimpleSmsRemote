@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"
-              tools:context=".Activities.MainActivity"
-              tools:showIn="@layout/activity_main"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.MainActivity"
+    tools:showIn="@layout/activity_main">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -19,70 +19,70 @@
         app:contentPadding="@dimen/card_padding">
 
         <RelativeLayout
+            android:id="@+id/layout_receiver"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layout_receiver">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/receiver_service_title"
                 android:id="@+id/textView_receiver_title"
-                android:layout_alignTop="@+id/imageView_receiver_icon"
-                android:layout_toRightOf="@+id/imageView_receiver_icon"
-                android:layout_toEndOf="@+id/imageView_receiver_icon"/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                tools:text="life info"
-                android:id="@+id/textView_receiver_life_info"
-                android:layout_below="@+id/textView_receiver_title"
+                android:layout_alignTop="@+id/imageView_receiver_icon"
+                android:layout_toEndOf="@+id/imageView_receiver_icon"
                 android:layout_toRightOf="@+id/imageView_receiver_icon"
-                android:layout_toEndOf="@+id/imageView_receiver_icon"/>
+                android:text="@string/receiver_service_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/textView_receiver_life_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_receiver_title"
+                android:layout_toEndOf="@+id/imageView_receiver_icon"
+                android:layout_toRightOf="@+id/imageView_receiver_icon"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="life info" />
 
             <ImageView
+                android:id="@+id/imageView_receiver_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:id="@+id/imageView_receiver_icon"
-                android:src="@drawable/ic_app_light"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:scaleType="fitStart"/>
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_app_light" />
 
             <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_receiver_change_state"
+                style="@style/FloatingActionButtonFewMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fabSize="mini"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/fab_receiver_change_state"
-                android:src="@drawable/ic_play_arrow_white_24dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:src="@drawable/ic_play_arrow_white_24dp"
                 app:elevation="4dp"
-                style="@style/FloatingActionButtonFewMargin"/>
+                app:fabSize="mini" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
     <TextView
+        android:id="@+id/textView"
+        style="@style/CardHeaderStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/control_modules_title"
-        android:id="@+id/textView"
-        style="@style/CardHeaderStyle"/>
+        android:text="@string/control_modules_title" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ListView
+            android:id="@+id/listView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/listView"
             android:layout_below="@+id/textView" />
     </android.support.v7.widget.CardView>
 

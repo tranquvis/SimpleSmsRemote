@@ -17,8 +17,7 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
 /**
  * Created by Andreas Kaltenleitner on 23.08.2016.
  */
-public abstract class Module
-{
+public abstract class Module {
     /*
     public static final Module
             WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY, CAMERA;
@@ -57,65 +56,83 @@ public abstract class Module
     protected Class<? extends ModuleActivity> configurationActivityType =
             ModuleActivity.class;
 
-    public String getId()
-    {
+    /**
+     * Get module from its id.
+     *
+     * @param id the module's id
+     * @return module or null no matching module was found
+     */
+    public static Module getFromId(String id) {
+        for (Module module : Instances.GetAll(null)) {
+            if (module.getId().equals(id))
+                return module;
+        }
+        return null;
+    }
+
+    public static Comparator<Module> GetDefaultComparator(final Context context) {
+        return new Comparator<Module>() {
+            @Override
+            public int compare(Module module1, Module module2) {
+                if ((module2.isEnabled() && !module1.isEnabled())
+                        || (module2.isCompatible() && !module1.isCompatible()))
+                    return 1;
+                if (module1.getTitleRes() != -1 && module2.getTitleRes() != -1) {
+                    return context.getString(module1.getTitleRes())
+                            .compareTo(context.getString(module2.getTitleRes()));
+                }
+                return module1.getId().compareTo(module2.getId());
+            }
+        };
+    }
+
+    public String getId() {
         return getClass().getSimpleName();
     }
 
-    public int getSdkMin()
-    {
+    public int getSdkMin() {
         return sdkMin;
     }
 
-    public int getSdkMax()
-    {
+    public int getSdkMax() {
         return sdkMax;
     }
 
-    public int getTitleRes()
-    {
+    public int getTitleRes() {
         return titleRes;
     }
 
-    public int getDescriptionRes()
-    {
+    public int getDescriptionRes() {
         return descriptionRes;
     }
 
-    public int getIconRes()
-    {
+    public int getIconRes() {
         return iconRes;
     }
 
-    public int getParamInfoRes()
-    {
+    public int getParamInfoRes() {
         return paramInfoRes;
     }
 
-    public Class<? extends ModuleActivity> getConfigurationActivityType()
-    {
+    public Class<? extends ModuleActivity> getConfigurationActivityType() {
         return configurationActivityType;
     }
 
     /**
      * Get all commands of this module by using reflection.
+     *
      * @return all defined commands in this module
      */
-    public List<Command> getCommands()
-    {
+    public List<Command> getCommands() {
         List<Command> commands = new ArrayList<>();
 
-        for (Field field : this.getClass().getDeclaredFields())
-        {
+        for (Field field : this.getClass().getDeclaredFields()) {
 
             if (java.lang.reflect.Modifier.isFinal(field.getModifiers())
-                    && Command.class.isAssignableFrom(field.getType()))
-            {
-                try
-                {
+                    && Command.class.isAssignableFrom(field.getType())) {
+                try {
                     commands.add((Command) field.get(this));
-                } catch (IllegalAccessException e)
-                {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
@@ -125,28 +142,27 @@ public abstract class Module
 
     /**
      * Get required permissions that are not granted so far.
+     *
      * @param context app context
      * @return permissions
      */
-    public String[] getRequiredPermissions(Context context)
-    {
+    public String[] getRequiredPermissions(Context context) {
         if (requiredPermissions == null)
             return new String[]{};
         return PermissionUtils.FilterAppPermissions(context, requiredPermissions);
     }
 
-    public ControlModuleUserData getUserData()
-    {
+    public ControlModuleUserData getUserData() {
         return DataManager.getUserDataForControlModule(this);
     }
 
     /**
      * Check if control module is compatible with the executing android system.
+     *
      * @return true if compatible
      */
-    public boolean isCompatible()
-    {
-        if(!(Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax)))
+    public boolean isCompatible() {
+        if (!(Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax)))
             return false;
         return true;
     }
@@ -156,14 +172,12 @@ public abstract class Module
      *
      * @return if module is enabled
      */
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return getUserData() != null;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -174,8 +188,7 @@ public abstract class Module
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return getId().hashCode();
     }
 
@@ -185,45 +198,9 @@ public abstract class Module
      * @param context app context
      * @return true if granted
      */
-    public boolean checkPermissions(Context context)
-    {
+    public boolean checkPermissions(Context context) {
         if (requiredPermissions == null)
             return true;
         return PermissionUtils.AppHasPermissions(context, requiredPermissions);
-    }
-
-    /**
-     * Get module from its id.
-     * @param id the module's id
-     * @return module or null no matching module was found
-     */
-    public static Module getFromId(String id)
-    {
-        for (Module module : Instances.GetAll(null))
-        {
-            if (module.getId().equals(id))
-                return module;
-        }
-        return null;
-    }
-
-    public static Comparator<Module> GetDefaultComparator(final Context context)
-    {
-        return new Comparator<Module>()
-        {
-            @Override
-            public int compare(Module module1, Module module2)
-            {
-                if ((module2.isEnabled() && !module1.isEnabled())
-                        || (module2.isCompatible() && !module1.isCompatible()))
-                    return 1;
-                if(module1.getTitleRes() != -1 && module2.getTitleRes() != -1)
-                {
-                    return context.getString(module1.getTitleRes())
-                            .compareTo(context.getString(module2.getTitleRes()));
-                }
-                return module1.getId().compareTo(module2.getId());
-            }
-        };
     }
 }
