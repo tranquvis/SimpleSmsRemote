@@ -1,15 +1,15 @@
-# Simple sms remote 
+# Simple sms remote
+
 Android app for remotely controlling a phone through sms messages.
 Install the app on a device, which should be controlled, and send control commands from any messenger to it.
 
-**compatible android versions:** 4.0.3 (Ice Cream Sandwich) and higher
+**compatible android versions:** 4.1 (Jelly Bean) and higher
 
 ![Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
 
-#### Will be available in Play Store soon!
-**status:** under development
+**Get the installer directly from [Github](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/app/app-release-beta-1.0.0.apk) or on [Google Play](https://play.google.com/store/apps/details?id=tranquvis.simplesmsremote&hl=de).**
 
-[download beta](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/app/app-release-beta-1.0.0.apk)
+<a href='https://play.google.com/store/apps/details?id=tranquvis.simplesmsremote&hl=de&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="200px" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
 ## Features
 * specify which modules are accessible and which phones are granted
@@ -28,6 +28,7 @@ Install the app on a device, which should be controlled, and send control comman
 * Location: get current device coordinates
 * Audio Volume: set and get volume of all audio types (ringtone, music, ...)
 * Display: set and get brightness, set and get display off timeout, turn display off
+* Camera: take photo with default settings or custom options (flash, autofocus and more)
 
 ## Security
 Granted phones are required to be set for each module, so not everyone can control the device.
