@@ -10,7 +10,7 @@ Install the app on a device, which should be controlled, and send control comman
 **Get the installer directly from [Github](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/app/app-release-beta-1.0.1.apk), on [Google Play](https://play.google.com/store/apps/details?id=tranquvis.simplesmsremote&hl=de) or [F-Droid](https://f-droid.org/repository/browse/?fdid=tranquvis.simplesmsremote).**
 
 <a href='https://play.google.com/store/apps/details?id=tranquvis.simplesmsremote&hl=de&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="200px" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
-<a title="By Robert Martinez [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AF-Droid_Logo_3.svg"><img width="64" alt="F-Droid Logo 3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/F-Droid_Logo_3.svg/64px-F-Droid_Logo_3.svg.png"/></a>
+<a title="By Robert Martinez [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons" href="https://f-droid.org/repository/browse/?fdid=tranquvis.simplesmsremote"><img width="64" alt="F-Droid Logo 3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/F-Droid_Logo_3.svg/64px-F-Droid_Logo_3.svg.png"/></a>
 
 ## Features
 * specify which modules are accessible and which phones are granted
