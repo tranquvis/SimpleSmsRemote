@@ -31,18 +31,34 @@ public class LocationUtils {
         LocationManager locationManager = (LocationManager)
                 context.getSystemService(Context.LOCATION_SERVICE);
 
-        Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location networkLocation =
+        // Fetch cached gps and network location
+        Location lastGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location lastNetworkLocation =
                 locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location bestCachedLocation = null;
 
-        if (gpsLocation != null && (networkLocation == null
-                || gpsLocation.getTime() > networkLocation.getTime())) {
-            lastLocation = gpsLocation;
-        } else if (networkLocation != null) {
-            lastLocation = networkLocation;
-        } else {
+        // Set last location from cached gps location
+        if(lastGpsLocation != null)
+        {
+            bestCachedLocation = lastGpsLocation;
+        }
+        // Set last location from cached network location, if better than gps location.
+        if(lastNetworkLocation != null && (lastGpsLocation == null
+                || isBetterLocation(lastNetworkLocation, bestCachedLocation)))
+        {
+            bestCachedLocation = lastNetworkLocation;
+        }
+
+        // Try to request new location, if no cached location was found
+        // or the cached location is older than 30s.
+        if(bestCachedLocation == null || (System.currentTimeMillis() - bestCachedLocation.getTime() > 30E+3))
+        {
             lastLocation = RequestNewLocation(context, maxTimeMilliseconds);
         }
+
+        if(bestCachedLocation != null && (lastLocation == null
+                || isBetterLocation(bestCachedLocation, lastLocation)))
+            lastLocation = bestCachedLocation;
 
         return lastLocation;
     }
@@ -72,17 +88,17 @@ public class LocationUtils {
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-                Log.e(TAG, s);
+                Log.i(TAG, "status changed: " + s);
             }
 
             @Override
             public void onProviderEnabled(String s) {
-                Log.e(TAG, s);
+                Log.i(TAG, "provider enabled: " + s);
             }
 
             @Override
             public void onProviderDisabled(String s) {
-                Log.e(TAG, s);
+                Log.e(TAG, "provider disabled: " + s);
             }
         };
 
@@ -111,5 +127,62 @@ public class LocationUtils {
         }
 
         return null;
+    }
+
+
+    private static final int TWO_MINUTES = 1000 * 60 * 2;
+
+    /** Determines whether one Location reading is better than the current Location fix
+     * @param location  The new Location that you want to evaluate
+     * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+     */
+    private static boolean isBetterLocation(Location location, Location currentBestLocation) {
+        if (currentBestLocation == null) {
+            // A new location is always better than no location
+            return true;
+        }
+
+        // Check whether the new location fix is newer or older
+        long timeDelta = location.getTime() - currentBestLocation.getTime();
+        boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
+        boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
+        boolean isNewer = timeDelta > 0;
+
+        // If it's been more than two minutes since the current location, use the new location
+        // because the user has likely moved
+        if (isSignificantlyNewer) {
+            return true;
+            // If the new location is more than two minutes older, it must be worse
+        } else if (isSignificantlyOlder) {
+            return false;
+        }
+
+        // Check whether the new location fix is more or less accurate
+        int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
+        boolean isLessAccurate = accuracyDelta > 0;
+        boolean isMoreAccurate = accuracyDelta < 0;
+        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+        // Check if the old and new location are from the same provider
+        boolean isFromSameProvider = isSameProvider(location.getProvider(),
+                currentBestLocation.getProvider());
+
+        // Determine location quality using a combination of timeliness and accuracy
+        if (isMoreAccurate) {
+            return true;
+        } else if (isNewer && !isLessAccurate) {
+            return true;
+        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Checks whether two providers are the same */
+    private static boolean isSameProvider(String provider1, String provider2) {
+        if (provider1 == null) {
+            return provider2 == null;
+        }
+        return provider1.equals(provider2);
     }
 }

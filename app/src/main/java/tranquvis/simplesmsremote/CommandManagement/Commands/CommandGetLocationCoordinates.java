@@ -37,7 +37,7 @@ public class CommandGetLocationCoordinates extends Command {
     @Override
     public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
             throws Exception {
-        Location location = LocationUtils.GetLocation(context, 4000);
+        Location location = LocationUtils.GetLocation(context, 20000);
         if (location == null)
             throw new Exception("Location Request timed out");
         result.setCustomResultMessage(context.getString(
