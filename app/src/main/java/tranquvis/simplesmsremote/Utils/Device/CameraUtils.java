@@ -369,23 +369,33 @@ public class CameraUtils {
     private static CameraDevice OpenCameraSync2(Context context, CameraManager cameraManager,
                                                 MyCameraInfo cameraInfo) throws Exception, SecurityException {
         final CameraOpenRequestResult result = new CameraOpenRequestResult();
-        cameraManager.openCamera(cameraInfo.getId(), new CameraDevice.StateCallback() {
-            @Override
-            public void onOpened(@NonNull final CameraDevice cameraDevice) {
-                result.cameraDevice = cameraDevice;
-                result.requestFinished = true;
-            }
+        try {
+            cameraManager.openCamera(cameraInfo.getId(), new CameraDevice.StateCallback() {
+                @Override
+                public void onOpened(@NonNull final CameraDevice cameraDevice) {
+                    result.cameraDevice = cameraDevice;
+                    result.requestFinished = true;
+                }
 
-            @Override
-            public void onDisconnected(@NonNull CameraDevice cameraDevice) {
-                result.requestFinished = true;
-            }
+                @Override
+                public void onClosed(@NonNull CameraDevice cameraDevice) {
+                    result.requestFinished = true;
+                }
 
-            @Override
-            public void onError(@NonNull CameraDevice cameraDevice, int i) {
-                result.requestFinished = true;
-            }
-        }, new Handler(context.getMainLooper()));
+                @Override
+                public void onDisconnected(@NonNull CameraDevice cameraDevice) {
+                    result.requestFinished = true;
+                }
+
+                @Override
+                public void onError(@NonNull CameraDevice cameraDevice, int i) {
+                    result.requestFinished = true;
+                }
+            }, new Handler(context.getMainLooper()));
+        }
+        catch (CameraAccessException e) {
+            return null;
+        }
 
         //wait until camera is opened
         final int maxWaitTime = 3000; //milliseconds
