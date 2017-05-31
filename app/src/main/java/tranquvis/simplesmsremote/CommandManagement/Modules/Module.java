@@ -162,9 +162,7 @@ public abstract class Module {
      * @return true if compatible
      */
     public boolean isCompatible() {
-        if (!(Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax)))
-            return false;
-        return true;
+        return Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax);
     }
 
     /**
@@ -199,8 +197,7 @@ public abstract class Module {
      * @return true if granted
      */
     public boolean checkPermissions(Context context) {
-        if (requiredPermissions == null)
-            return true;
-        return PermissionUtils.AppHasPermissions(context, requiredPermissions);
+        return requiredPermissions == null
+                || PermissionUtils.AppHasPermissions(context, requiredPermissions);
     }
 }

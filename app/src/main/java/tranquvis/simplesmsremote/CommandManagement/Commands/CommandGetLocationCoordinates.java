@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Location;
 import android.support.annotation.Nullable;
 
+import java.util.Locale;
+
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
@@ -40,9 +42,10 @@ public class CommandGetLocationCoordinates extends Command {
         Location location = LocationUtils.GetLocation(context, 20000);
         if (location == null)
             throw new Exception("Location Request timed out");
+        String locationDescription = String.format(Locale.ENGLISH, "%1$.4f %2$.4f",
+                location.getLatitude(), location.getLongitude());
         result.setCustomResultMessage(context.getString(
-                R.string.result_msg_location_coordinates,
-                location.getLatitude(), location.getLongitude()));
+                R.string.result_msg_location_coordinates, locationDescription));
         result.setForceSendingResultSmsMessage(true);
     }
 }
