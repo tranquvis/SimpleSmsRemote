@@ -90,7 +90,8 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String> {
         for (int i = 0; i < listView.getChildCount(); i++) {
             View view = listView.getChildAt(i);
             EditText editText = (EditText) view.findViewById(R.id.edittext_phonenumber);
-            phones.set(i, editText.getText().toString());
+            if(phones.size() > i)
+                phones.set(i, editText.getText().toString());
         }
     }
 }

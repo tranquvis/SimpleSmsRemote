@@ -85,7 +85,7 @@ public class SMSReceiverService extends Service {
         if (!RUNNING) {
             Toast.makeText(this, R.string.receiver_started, Toast.LENGTH_SHORT).show();
 
-            if (intent.hasExtra(EXTRA_START_FOREGROUND))
+            if (intent != null && intent.hasExtra(EXTRA_START_FOREGROUND))
                 startForeground(ID,
                         MyNotificationManager.getInstance(this).PermanentStatusNotification());
             registerSMSReceiver();
@@ -100,7 +100,7 @@ public class SMSReceiverService extends Service {
     public void onDestroy() {
         try {
             unregisterSMSReceiver();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         Log.i(TAG, getString(R.string.receiver_stopped));

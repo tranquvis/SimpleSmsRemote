@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SimpleSmsRemoteRepo.iml" filepath="$PROJECT_DIR$/SimpleSmsRemoteRepo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AppRepo.iml" filepath="$PROJECT_DIR$/AppRepo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/tranquvis.directorypicker/tranquvis.directorypicker.iml" filepath="$PROJECT_DIR$/tranquvis.directorypicker/tranquvis.directorypicker.iml" />
     </modules>

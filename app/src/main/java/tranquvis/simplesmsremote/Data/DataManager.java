@@ -30,6 +30,7 @@ public class DataManager {
     private static boolean firstStart;
 
     public static ControlModuleUserData getUserDataForControlModule(Module module) {
+        if(userData == null) return null;
         for (ControlModuleUserData moduleUserData : userData.getControlModules()) {
             if (moduleUserData.getControlModuleId().equals(module.getId()))
                 return moduleUserData;

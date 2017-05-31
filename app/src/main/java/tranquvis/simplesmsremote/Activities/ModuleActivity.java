@@ -73,6 +73,11 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         userData = module.getUserData();
+        if(userData == null)
+        {
+            // Return to main activity.
+            startActivity(new Intent(this, MainActivity.class));
+        }
         isModuleEnabled = module.isEnabled();
 
         toolbar.setTitle(R.string.title_activity_configure_control_action);
