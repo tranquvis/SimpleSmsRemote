@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 public class LocationUtilsTest extends AppContextTest {
     @Test
     public void fetchLocation() throws Exception {
-        Location location = LocationUtils.GetLocation(appContext, 4000);
+        Location location = LocationUtils.GetLocation(appContext, 20000);
         assertTrue(location != null);
     }
 }

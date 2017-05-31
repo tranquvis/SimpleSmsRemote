@@ -4,7 +4,7 @@
     <string name="result_msg_battery_is_charging_false">battery is not charging</string>
     <string name="result_msg_battery_is_charging_true">battery is charging</string>
 
-    <string name="result_msg_location_coordinates">location: %1$.4f,%2$.4f</string>
+    <string name="result_msg_location_coordinates">location: %1$.4f %2$.4f</string>
 
     <string name="result_msg_hotspot_is_enabled_false">hotspot is not enabled</string>
     <string name="result_msg_hotspot_is_enabled_true">hotspot is enabled</string>
