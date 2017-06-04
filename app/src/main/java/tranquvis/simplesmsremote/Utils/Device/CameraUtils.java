@@ -156,6 +156,21 @@ public class CameraUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static void ApplyCaptureSettings2(CaptureSettings settings, CaptureRequest.Builder captureRequestBuilder) {
+        if (settings.getFlashlight() == CaptureSettings.FlashlightMode.ON) {
+            captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_SINGLE);
+        } else if (settings.getFlashlight() == CaptureSettings.FlashlightMode.OFF) {
+            captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+        }
+        if (settings.isAutofocus()) {
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                    CaptureRequest.CONTROL_AF_MODE_AUTO);
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CaptureRequest.CONTROL_AF_TRIGGER_START);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static void TakePicture2(final Context context, MyCameraInfo camera,
                                      final CaptureSettings settings) throws Exception {
         CameraManager cameraManager =
@@ -184,41 +199,23 @@ public class CameraUtils {
             throw new Exception("Failed to configure capture session.");
         }
 
-        //TODO test preview effects
+        // Capture preview
+        // TODO test preview effects
         CaptureRequest.Builder captureRequestPreviewBuilder = cameraDevice.createCaptureRequest(
                 CameraDevice.TEMPLATE_PREVIEW);
         captureRequestPreviewBuilder.addTarget(surfaceList.get(0));
-        captureRequestPreviewBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
-        captureRequestPreviewBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                CaptureRequest.CONTROL_AF_MODE_AUTO);
-
+        ApplyCaptureSettings2(settings, captureRequestPreviewBuilder);
         CapturePhotoSync2(context, captureSession, captureRequestPreviewBuilder.build());
 
-
+        // Capture final photo.
         CaptureRequest.Builder captureRequestBuilder = cameraDevice.createCaptureRequest(
                 CameraDevice.TEMPLATE_STILL_CAPTURE);
         captureRequestBuilder.addTarget(surfaceList.get(0));
         captureRequestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT,
                 CaptureRequest.CONTROL_CAPTURE_INTENT_STILL_CAPTURE);
+        ApplyCaptureSettings2(settings, captureRequestPreviewBuilder);
 
-        // configure capture based on settings
-        if (settings.isAutofocus()) {
-            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                    CaptureRequest.CONTROL_AF_MODE_AUTO);
-            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CaptureRequest.CONTROL_AF_TRIGGER_START);
-        }
-
-        if (settings.getFlashlight() == CaptureSettings.FlashlightMode.ON) {
-            captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_SINGLE);
-        } else if (settings.getFlashlight() == CaptureSettings.FlashlightMode.OFF) {
-            captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
-        }
-
-        CaptureRequest captureRequest = captureRequestBuilder.build();
-
-        // capture photo
-        CaptureRequestResult captureResult = CapturePhotoSync2(context, captureSession, captureRequest);
+        CaptureRequestResult captureResult = CapturePhotoSync2(context, captureSession, captureRequestBuilder.build());
         if (captureResult.state != CaptureRequestState.Success) {
             captureSession.close();
             cameraDevice.close();
