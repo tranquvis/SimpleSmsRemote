@@ -18,6 +18,8 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -167,19 +169,20 @@ public class CameraUtils {
         surfaceList.add(imageReader.getSurface());
 
         // open camera
-        CameraDevice cameraDevice = OpenCameraSync2(context, cameraManager, camera);
+        CameraOpenRequestResult cameraOpenResult = OpenCameraSync2(context, cameraManager, camera);
+        CameraDevice cameraDevice = cameraOpenResult.cameraDevice;
         if (cameraDevice == null) {
             throw new Exception("Failed to open camera.");
         }
 
         // open capture session
-        CameraCaptureSession captureSession = GetCaptureSessionSync2(context, cameraDevice,
+        CaptureSessionRequestResult captureSessionRequestResult = GetCaptureSessionSync2(context, cameraDevice,
                 surfaceList);
+        CameraCaptureSession captureSession = captureSessionRequestResult.cameraCaptureSession;
         if (captureSession == null) {
             cameraDevice.close();
             throw new Exception("Failed to configure capture session.");
         }
-
 
         //TODO test preview effects
         CaptureRequest.Builder captureRequestPreviewBuilder = cameraDevice.createCaptureRequest(
@@ -215,8 +218,8 @@ public class CameraUtils {
         CaptureRequest captureRequest = captureRequestBuilder.build();
 
         // capture photo
-        boolean captureSuccess = CapturePhotoSync2(context, captureSession, captureRequest);
-        if (!captureSuccess) {
+        CaptureRequestResult captureResult = CapturePhotoSync2(context, captureSession, captureRequest);
+        if (captureResult.state != CaptureRequestState.Success) {
             captureSession.close();
             cameraDevice.close();
             throw new Exception("Failed to capture photo with camera.");
@@ -273,17 +276,18 @@ public class CameraUtils {
      * @throws Exception
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static boolean CapturePhotoSync2(Context context, CameraCaptureSession captureSession,
+    private static CaptureRequestResult CapturePhotoSync2(Context context, CameraCaptureSession captureSession,
                                              CaptureRequest captureRequest) throws Exception {
         final CaptureRequestResult result = new CaptureRequestResult();
+        HandlerThread captureThread = new HandlerThread("captureRequest");
+        captureThread.start();
         captureSession.capture(captureRequest, new CameraCaptureSession.CaptureCallback() {
             @Override
             public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                            @NonNull CaptureRequest request,
                                            @NonNull TotalCaptureResult captureResult) {
                 super.onCaptureCompleted(session, request, captureResult);
-                result.captureSuccess = true;
-                result.requestFinished = true;
+                result.state = CaptureRequestState.Success;
             }
 
             @Override
@@ -291,26 +295,26 @@ public class CameraUtils {
                                         @NonNull CaptureRequest request,
                                         @NonNull CaptureFailure failure) {
                 super.onCaptureFailed(session, request, failure);
-                result.requestFinished = true;
+                result.state = CaptureRequestState.Failed;
             }
 
             @Override
             public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
                 super.onCaptureProgressed(session, request, partialResult);
             }
-        }, new Handler(context.getMainLooper()));
+        }, new Handler(captureThread.getLooper()));
 
         //wait until photo is captured
         final int maxWaitTime = 5000; //milliseconds
         final int timeout = 10;
 
         long startTime = System.currentTimeMillis();
-        while (!result.requestFinished && (System.currentTimeMillis() - startTime) < maxWaitTime) {
+        while (result.state == CaptureRequestState.Running && (System.currentTimeMillis() - startTime) < maxWaitTime) {
             Thread.sleep(timeout);
         }
         captureSession.abortCaptures();
 
-        return result.captureSuccess;
+        return result;
     }
 
     /**
@@ -325,32 +329,40 @@ public class CameraUtils {
      * @throws Exception
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static CameraCaptureSession GetCaptureSessionSync2(Context context,
+    private static CaptureSessionRequestResult GetCaptureSessionSync2(Context context,
                                                                CameraDevice cameraDevice, List<Surface> surfaceList) throws Exception {
         final CaptureSessionRequestResult result = new CaptureSessionRequestResult();
+        HandlerThread captureSessionThread = new HandlerThread("captureSession");
+        captureSessionThread.start();
         cameraDevice.createCaptureSession(surfaceList, new CameraCaptureSession.StateCallback() {
             @Override
             public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                 result.cameraCaptureSession = cameraCaptureSession;
-                result.requestFinished = true;
+                result.state = CaptureSessionRequestState.Success;
             }
 
             @Override
             public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                result.requestFinished = true;
+                result.state = CaptureSessionRequestState.Failed;
             }
-        }, new Handler(context.getMainLooper()));
+        }, new Handler(captureSessionThread.getLooper()));
 
         //wait until camera session is configured
         final int maxWaitTime = 3000; //milliseconds
         final int timeout = 10;
 
         long startTime = System.currentTimeMillis();
-        while (!result.requestFinished && (System.currentTimeMillis() - startTime) < maxWaitTime) {
+        while (result.state == CaptureSessionRequestState.Running && (System.currentTimeMillis() - startTime) < maxWaitTime) {
             Thread.sleep(timeout);
         }
 
-        return result.cameraCaptureSession;
+        if(result.state == CaptureSessionRequestState.Running)
+        {
+            captureSessionThread.quit();
+            result.state = CaptureSessionRequestState.TimedOut;
+        }
+
+        return result;
     }
 
     /**
@@ -363,50 +375,57 @@ public class CameraUtils {
      * @param cameraInfo    camera information
      * @return the camera device
      * @throws Exception
-     * @throws SecurityException
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static CameraDevice OpenCameraSync2(Context context, CameraManager cameraManager,
-                                                MyCameraInfo cameraInfo) throws Exception, SecurityException {
+    private static CameraOpenRequestResult OpenCameraSync2(Context context, final CameraManager cameraManager,
+                                                final MyCameraInfo cameraInfo) throws Exception {
         final CameraOpenRequestResult result = new CameraOpenRequestResult();
+
+        HandlerThread cameraOpenThread = new HandlerThread("openCamera");
+        cameraOpenThread.start();
         try {
             cameraManager.openCamera(cameraInfo.getId(), new CameraDevice.StateCallback() {
                 @Override
                 public void onOpened(@NonNull final CameraDevice cameraDevice) {
                     result.cameraDevice = cameraDevice;
-                    result.requestFinished = true;
+                    result.state = CameraOpenRequestState.Success;
                 }
 
                 @Override
                 public void onClosed(@NonNull CameraDevice cameraDevice) {
-                    result.requestFinished = true;
                 }
 
                 @Override
                 public void onDisconnected(@NonNull CameraDevice cameraDevice) {
-                    result.requestFinished = true;
                 }
 
                 @Override
                 public void onError(@NonNull CameraDevice cameraDevice, int i) {
-                    result.requestFinished = true;
                 }
-            }, new Handler(context.getMainLooper()));
+            }, new Handler(cameraOpenThread.getLooper()));
         }
         catch (CameraAccessException e) {
-            return null;
+            result.state = CameraOpenRequestState.AccessFailed;
+        }
+        catch (SecurityException e) {
+            result.state = CameraOpenRequestState.SecurityException;
         }
 
-        //wait until camera is opened
-        final int maxWaitTime = 3000; //milliseconds
+        // Wait until camera is open.
+        final int maxWaitTime = 4000;
         final int timeout = 10;
-
         long startTime = System.currentTimeMillis();
-        while (!result.requestFinished && (System.currentTimeMillis() - startTime) < maxWaitTime) {
+        while (result.state == CameraOpenRequestState.Running && (System.currentTimeMillis() - startTime) < maxWaitTime) {
             Thread.sleep(timeout);
         }
 
-        return result.cameraDevice;
+        if(result.state == CameraOpenRequestState.Running)
+        {
+            cameraOpenThread.quit();
+            result.state = CameraOpenRequestState.TimedOut;
+        }
+
+        return result;
     }
 
     public enum LensFacing {
@@ -414,18 +433,29 @@ public class CameraUtils {
     }
 
     private static class CameraOpenRequestResult {
-        private boolean requestFinished = false;
+        private CameraOpenRequestState state = CameraOpenRequestState.Running;
         private CameraDevice cameraDevice = null;
     }
 
+    private enum CameraOpenRequestState {
+        Running, Success, AccessFailed, SecurityException, TimedOut
+    }
+
     private static class CaptureSessionRequestResult {
-        private boolean requestFinished = false;
+        private CaptureSessionRequestState state = CaptureSessionRequestState.Running;
         private CameraCaptureSession cameraCaptureSession = null;
     }
 
+    private enum CaptureSessionRequestState {
+        Running, Success, Failed, TimedOut
+    }
+
     private static class CaptureRequestResult {
-        private boolean requestFinished = false;
-        private boolean captureSuccess = false;
+        private CaptureRequestState state = CaptureRequestState.Running;
+    }
+
+    private enum CaptureRequestState {
+        Running, Success, Failed, TimedOut
     }
 
     public static class MyCameraInfo {
