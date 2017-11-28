@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import org.junit.Before;
 import org.junit.Test;
 
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
@@ -20,6 +21,7 @@ public class CommandTakePictureTest extends CommandTest {
     @Override
     @Before
     public void setUp() throws Exception {
+        command = Instances.CAMERA.commandTakePicture;
         super.setUp();
         DataManager.LoadUserData(appContext);
     }

@@ -25,11 +25,12 @@ public class LocationUtils {
      * @param maxTimeMilliseconds max. time, which the location request may take
      * @return location
      * @throws SecurityException
-     * @// TODO: use new google play services api (see https://developer.android.com/training/location/index.html)
+     * TODO: use new google play services api (see https://developer.android.com/training/location/index.html)
      */
     public static Location GetLocation(Context context, int maxTimeMilliseconds) throws SecurityException {
         LocationManager locationManager = (LocationManager)
                 context.getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager == null) return null;
 
         // Fetch cached gps and network location
         Location lastGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);

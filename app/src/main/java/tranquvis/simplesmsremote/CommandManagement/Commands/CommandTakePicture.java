@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.regex.Matcher;
@@ -49,7 +50,7 @@ public class CommandTakePicture extends Command {
     private static final String PATTERN_AUTOFOCUS = AdaptSimplePattern(
             "autofocus( (on|enabled|off|disabled))?|(no) autofocus");
 
-    public CommandTakePicture(@Nullable Module module) {
+    public CommandTakePicture(@NonNull Module module) {
         super(module);
 
         titleRes = R.string.command_title_take_picture;

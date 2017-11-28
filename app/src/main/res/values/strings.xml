@@ -43,6 +43,7 @@
     <string name="control_module_enabled_successful">The control module has been successfully enabled.</string>
     <string name="control_module_disabled_successful">The control module has been successfully disabled.</string>
     <string name="title_module_section_settings">Settings</string>
+    <string name="unknown_accuracy">unknown</string>
 
     <string name="receiver_started">service for receiving sms commands started</string>
     <string name="receiver_stopped">receiver service stopped</string>

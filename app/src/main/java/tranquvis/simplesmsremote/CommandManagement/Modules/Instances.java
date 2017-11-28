@@ -66,7 +66,6 @@ public class Instances {
 
     public static void InitCommands() {
         if (commandsInitialized) return;
-        commandsInitialized = true;
 
         for (Field field : Instances.class.getDeclaredFields()) {
             if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
@@ -79,5 +78,7 @@ public class Instances {
                 }
             }
         }
+
+        commandsInitialized = true;
     }
 }

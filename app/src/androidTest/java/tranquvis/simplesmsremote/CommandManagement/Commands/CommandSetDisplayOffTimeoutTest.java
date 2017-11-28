@@ -2,6 +2,8 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import org.junit.Test;
 
+import java.util.Locale;
+
 import tranquvis.simplesmsremote.Utils.UnitTools.Unit;
 
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandSetDisplayOffTimeout.PARAM_TIMEOUT_UNIT;
@@ -19,7 +21,7 @@ public class CommandSetDisplayOffTimeoutTest extends CommandTest {
                 .has(PARAM_TIMEOUT_VALUE, 0d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.SECONDS);
 
-        assertThat(format("set display off timeout to %,.4fms", 10000d)).matches()
+        assertThat(String.format(Locale.ENGLISH, "set display off timeout to %,.4fms", 10000d)).matches()
                 .has(PARAM_TIMEOUT_VALUE, 10000d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.MILLISECONDS);
         assertThat("set display off timeout to 10s").matches()

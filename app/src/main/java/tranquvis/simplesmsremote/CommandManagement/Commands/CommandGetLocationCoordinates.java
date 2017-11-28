@@ -15,7 +15,7 @@ import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 /**
- * Created by Andreas Kaltenleitner on 26.10.2016.
+ * Created by Kaltenleitner Andreas on 26.10.2016.
  */
 
 public class CommandGetLocationCoordinates extends Command {
@@ -42,10 +42,18 @@ public class CommandGetLocationCoordinates extends Command {
         Location location = LocationUtils.GetLocation(context, 20000);
         if (location == null)
             throw new Exception("Location Request timed out");
+
         String locationDescription = String.format(Locale.ENGLISH, "%1$.4f %2$.4f",
                 location.getLatitude(), location.getLongitude());
+        String mapsLinkParam = String.format(Locale.ENGLISH, "%1$.4f,%2$.4f",
+                location.getLatitude(), location.getLongitude());
+        String mapsLink = "https://www.google.com/maps?q=" + mapsLinkParam;
+        String accuracy = location.hasAccuracy()
+                ? String.format(Locale.getDefault(), "%1$.0fm radius (68%% probability)", location.getAccuracy())
+                : context.getString(R.string.unknown_accuracy);
+        // see https://developer.android.com/reference/android/location/Location.html#getAccuracy()
         result.setCustomResultMessage(context.getString(
-                R.string.result_msg_location_coordinates, locationDescription));
+                R.string.result_msg_location_coordinates, locationDescription, accuracy, mapsLink));
         result.setForceSendingResultSmsMessage(true);
     }
 }
