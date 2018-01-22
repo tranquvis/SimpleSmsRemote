@@ -75,7 +75,7 @@ public abstract class Module {
             @Override
             public int compare(Module module1, Module module2) {
                 if ((module2.isEnabled() && !module1.isEnabled())
-                        || (module2.isCompatible() && !module1.isCompatible()))
+                        || (module2.isCompatible(context) && !module1.isCompatible(context)))
                     return 1;
                 if (module1.getTitleRes() != -1 && module2.getTitleRes() != -1) {
                     return context.getString(module1.getTitleRes())
@@ -161,7 +161,7 @@ public abstract class Module {
      *
      * @return true if compatible
      */
-    public boolean isCompatible() {
+    public boolean isCompatible(Context context) {
         return Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax);
     }
 

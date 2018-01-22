@@ -24,6 +24,7 @@ public class Instances {
     public static final ModuleBluetooth BLUETOOTH = new ModuleBluetooth();
     public static final ModuleDisplay DISPLAY = new ModuleDisplay();
     public static final ModuleLocation LOCATION = new ModuleLocation();
+    public static final ModuleAudioRecording AUDIO_RECORDING = new ModuleAudioRecording();
 
     private static boolean commandsInitialized = false;
 

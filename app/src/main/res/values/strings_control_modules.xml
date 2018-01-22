@@ -40,6 +40,15 @@
         \nvolume: index (e.g. 6), percentage (e.g. 90%), vibrate or silent (only for audio type ring)
     </string>
 
+    <string name="control_module_title_audio_recording">Audio Recording</string>
+    <string name="control_module_desc_audio_recording">
+        Record audio with axet\'s audio recorder app.
+        \nRequires com.github.axet.audiorecorder app.
+        \n
+        \nThe app can be downloaded from Google Play or F-Droid.
+        https://f-droid.org/packages/com.github.axet.audiorecorder
+    </string>
+
     <string name="control_module_title_display">Display</string>
     <string name="control_module_desc_display">
         Manage the display\'s brightness and state (on or off). Set time, after which the display

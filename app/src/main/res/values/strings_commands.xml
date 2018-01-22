@@ -20,6 +20,9 @@
     <string name="command_title_set_audio_volume">set audio volume</string>
     <string name="command_title_get_audio_volume">get audio volume</string>
 
+    <string name="command_title_start_audio_recording">start audio recording</string>
+    <string name="command_title_stop_audio_recording">stop audio recording</string>
+
     <string name="command_title_set_display_brightness">set display brightness</string>
     <string name="command_title_get_display_brightness">get display brightness</string>
     <string name="command_title_set_display_off_timeout">set display off timeout</string>

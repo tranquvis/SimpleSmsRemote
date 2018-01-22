@@ -77,6 +77,8 @@
                         style="@style/CardContentTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:textIsSelectable="true"
                         tools:text="description" />
 
                     <RelativeLayout

@@ -113,7 +113,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
         findViewById(R.id.imageButton_command_info).setOnClickListener(this);
 
-        if (module.isCompatible()) {
+        if (module.isCompatible(this)) {
             compatibilityTextView.setText(R.string.compatible);
             compatibilityTextView.setTextColor(res.getColor(R.color.colorSuccess));
             buttonChangeEnabled.setOnClickListener(this);

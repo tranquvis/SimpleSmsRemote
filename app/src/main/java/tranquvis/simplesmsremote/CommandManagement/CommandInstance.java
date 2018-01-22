@@ -97,7 +97,7 @@ public class CommandInstance {
         Module module = getCommand().getModule();
         ControlModuleUserData moduleUserData = module.getUserData();
 
-        if (!module.isCompatible()) {
+        if (!module.isCompatible(context)) {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
                     getCommand()), context);
             return false;

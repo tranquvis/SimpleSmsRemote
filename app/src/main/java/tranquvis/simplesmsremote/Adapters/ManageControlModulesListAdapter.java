@@ -50,7 +50,7 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<Module> {
             titleTextView.setText(module.getId());
 
         //changeStateButton.setImageDrawable();
-        if (!module.isCompatible()) {
+        if (!module.isCompatible(getContext())) {
             stateImageView.setImageResource(R.drawable.ic_remove_circle_red_400_24dp);
         } else if (!module.isEnabled()) {
             stateImageView.setImageResource(R.drawable.ic_add_circle_indigo_400_24dp);

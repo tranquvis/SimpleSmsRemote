@@ -40,7 +40,7 @@ public abstract class ModuleTest extends AppContextTest {
         this.commands = module.getCommands();
 
         if (assertCompatibility)
-            assertTrue("module incompatible", module.isCompatible());
+            assertTrue("module incompatible", module.isCompatible(appContext));
     }
 
     @Test
