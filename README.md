@@ -38,7 +38,7 @@ Granted phones are required to be set for each module, so not everyone can contr
 However, if someone fakes his phone number he is able to use all enabled modules. (Note that this might be a complicated and illegal procedure. Moreover also common antitheft apps like avast trust the sender's phone number.
 
 ### Donations
-If you like the project or want to support my work, you can donate using bitcoin or paypal. Then I know that you would like further development of this project.
+If you like the project or want to support my work, you can donate using paypal. Then I know that you would like further development of this project.
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KNJL5UTYFBGYC">
   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" width="150">
