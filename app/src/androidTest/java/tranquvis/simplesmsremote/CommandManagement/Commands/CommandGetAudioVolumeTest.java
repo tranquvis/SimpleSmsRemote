@@ -9,6 +9,7 @@ import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandGetAud
 /**
  * Created by Andreas Kaltenleitner on 31.10.2016.
  */
+
 public class CommandGetAudioVolumeTest extends CommandTest {
     @Override
     @Test
