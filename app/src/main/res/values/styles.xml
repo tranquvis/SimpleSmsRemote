@@ -7,8 +7,6 @@
 
         <item name="android:listDivider">@drawable/list_divider</item>
 
-        <item name="buttonStyle">@style/PrimaryButtonStyle</item>
-        <item name="borderlessButtonStyle">@style/SecondaryButtonStyle</item>
         <item name="android:textAppearanceButton">@style/ButtonTextAppearance</item>
     </style>
 
@@ -16,7 +14,7 @@
         <item name="android:textAppearanceMedium">@style/SettingsTitleTextAppearance</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

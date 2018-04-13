@@ -10,7 +10,8 @@
     android:visibility="gone"
     tools:context="tranquvis.simplesmsremote.Activities.MainActivity"
     tools:showIn="@layout/activity_main"
-    tools:visibility="visible">
+    tools:visibility="visible"
+    android:focusable="true">
 
     <RelativeLayout
         android:id="@+id/layout_help_receiver"
@@ -27,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_alignParentTop="true"
-            android:background="@drawable/bg_help_frame"></RelativeLayout>
+            android:background="@drawable/bg_help_frame" />
 
         <RelativeLayout
             android:id="@+id/layout_help_receiver_desc"
@@ -39,7 +40,8 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:layout_marginStart="4dp">
 
             <TextView
                 android:id="@+id/textView_help_receiver_desc"
@@ -60,7 +62,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="157dp"
         android:visibility="invisible"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="8dp">
 
         <RelativeLayout
             android:id="@+id/layout_help_module_frame"
@@ -123,7 +127,7 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_help_next"
-                style="?buttonStyle"
+                style="@style/PrimaryButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -134,7 +138,7 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_help_abort"
-                style="?borderlessButtonStyle"
+                style="@style/SecondaryButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/button_help_next"

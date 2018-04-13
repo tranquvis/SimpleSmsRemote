@@ -101,7 +101,7 @@
 
         <service
             android:name=".Services.SMSCommandHandlerService"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>
