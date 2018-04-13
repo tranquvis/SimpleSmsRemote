@@ -147,6 +147,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //endregion
     }
 
+    @Override
+    public void onBackPressed() {
+        if(showHelpOverlay)
+            recreate();
+        else
+            super.onBackPressed();
+    }
+
     /**
      * goto next step of help overlay
      */
@@ -155,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         HelpOverlay.View helpView = helpOverlay.getView(helpViewPos);
         if (helpView == null) {
             //goto how to control
+            showHelpOverlay = false;
             helpOverlayView.setVisibility(View.GONE);
             startActivity(new Intent(this, HelpHowToControlActivity.class));
             return;
@@ -310,7 +319,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_help_tour:
                 Intent intent = new Intent(this, this.getClass());
                 intent.putExtra("showHelpOverlay", true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
                 break;
             case R.id.action_help_how_to_control:
                 startActivity(new Intent(this, HelpHowToControlActivity.class));
