@@ -248,6 +248,8 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void onModuleRequiredPermissionRequestFinished() {
+        if(lastPermissionRequests == null)
+            return;
         if (PermissionUtils.AppHasPermissions(this, lastPermissionRequests)) {
             if (remainingPermissionRequests != null && remainingPermissionRequests.length > 0)
                 requestPermissions(remainingPermissionRequests);
