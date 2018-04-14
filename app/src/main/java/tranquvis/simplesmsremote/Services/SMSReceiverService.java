@@ -87,7 +87,7 @@ public class SMSReceiverService extends Service {
 
             if (intent != null && intent.hasExtra(EXTRA_START_FOREGROUND))
                 startForeground(ID,
-                        MyNotificationManager.getInstance(this).PermanentStatusNotification());
+                        MyNotificationManager.getInstance(this).getPermanentStatusNotification());
             registerSMSReceiver();
 
             RUNNING = true;

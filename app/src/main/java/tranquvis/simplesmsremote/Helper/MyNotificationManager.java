@@ -1,19 +1,21 @@
 package tranquvis.simplesmsremote.Helper;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import tranquvis.simplesmsremote.Activities.MainActivity;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
@@ -27,9 +29,50 @@ public class MyNotificationManager {
     private static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
     private static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
     private static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
+
+    private static final int NOTIFICATION_ID_START_RECEIVER_AFTER_BOOT_FAILED = 1;
+
     private static MyNotificationManager ourInstance;
+
     private Context context;
     private NotificationManager nm;
+
+    public static class DefaultNotificationChannel
+    {
+        static final String ID = "Default";
+        static final String NAME = "Default";
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        static NotificationChannel Create() {
+            return new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_HIGH);
+        }
+
+        static void Init(NotificationManager manager)
+        {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+                return;
+            manager.createNotificationChannel(Create());
+        }
+    }
+
+    public static class ReceiverNotificationChannel
+    {
+        static final String ID = "Receiver";
+        static final String NAME = "Sms Receiver";
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        static NotificationChannel Create() {
+            return new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_MIN);
+        }
+
+        static void Init(NotificationManager manager)
+        {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+                return;
+            manager.createNotificationChannel(Create());
+        }
+    }
+
     private MyNotificationManager(Context context) {
         this.context = context;
         nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -39,6 +82,19 @@ public class MyNotificationManager {
         if (ourInstance == null)
             ourInstance = new MyNotificationManager(context);
         return ourInstance;
+    }
+
+    public void initChannels()
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            return;
+        DefaultNotificationChannel.Init(nm);
+        ReceiverNotificationChannel.Init(nm);
+    }
+
+    private int getNextNotificationId(){
+        final int startId = 100;
+        return new Random().nextInt(Integer.MAX_VALUE - startId) + startId;
     }
 
     public void notifySmsCommandsExecuted(MyCommandMessage commandMessage,
@@ -62,9 +118,12 @@ public class MyNotificationManager {
 
         String text = StringUtils.join(resultMessages, "\r\n");
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        DefaultNotificationChannel.Init(nm);
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                DefaultNotificationChannel.ID)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_app_notification)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setColor(res.getColor(R.color.colorPrimary))
                 .setContentTitle(title)
                 .setContentText(text)
@@ -75,7 +134,7 @@ public class MyNotificationManager {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text)
                         .setBigContentTitle(title));
 
-        notify(builder.build(), tag);
+        nm.notify(tag, getNextNotificationId(), builder.build());
     }
 
     public void notifyStartReceiverAfterBootFailed() {
@@ -85,9 +144,13 @@ public class MyNotificationManager {
         final String title = res.getString(R.string.notification_title_start_receiver_after_boot_failed);
         String text = res.getString(R.string.notification_content_start_receiver_after_boot_failed);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        DefaultNotificationChannel.Init(nm);
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                DefaultNotificationChannel.ID)
                 .setDefaults(0)
-                .setSmallIcon(R.drawable.ic_app_notification)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setColor(res.getColor(R.color.colorPrimary))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -95,47 +158,30 @@ public class MyNotificationManager {
                         CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT,
                         new Intent(context, MainActivity.class), 0));
 
-        notify(builder.build(), tag);
+        nm.notify(tag, NOTIFICATION_ID_START_RECEIVER_AFTER_BOOT_FAILED, builder.build());
     }
 
-    public Notification PermanentStatusNotification() {
+    public Notification getPermanentStatusNotification() {
         final Resources res = context.getResources();
 
         final String title = res.getString(R.string.notification_title_permanent_status);
         String text = res.getString(R.string.notification_content_permanent_status);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        ReceiverNotificationChannel.Init(nm);
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                ReceiverNotificationChannel.ID)
                 .setDefaults(0)
-                .setSmallIcon(R.drawable.ic_app_notification)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setColor(res.getColor(R.color.colorPrimary))
                 .setContentTitle(title)
                 .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setOngoing(true)
                 .setContentIntent(PendingIntent.getActivity(context,
                         CODE_NOTIFICATION_CLICK_PERMANENT_STATUS,
                         new Intent(context, MainActivity.class), 0));
 
         return builder.build();
-    }
-
-    @TargetApi(Build.VERSION_CODES.ECLAIR)
-    private void notify(final Notification notification,
-                        final String notificationTag) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-            nm.notify(notificationTag, 0, notification);
-        } else {
-            nm.notify(notificationTag.hashCode(), notification);
-        }
-    }
-
-    /**
-     * Cancels any notifications with notificationTag
-     */
-    @TargetApi(Build.VERSION_CODES.ECLAIR)
-    public void cancel(final String notificationTag) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-            nm.cancel(notificationTag, 0);
-        } else {
-            nm.cancel(notificationTag.hashCode());
-        }
     }
 }

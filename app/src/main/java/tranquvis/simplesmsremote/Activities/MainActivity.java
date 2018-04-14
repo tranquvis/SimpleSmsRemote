@@ -28,6 +28,7 @@ import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.HelpOverlay;
+import tranquvis.simplesmsremote.Helper.MyNotificationManager;
 import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Services.SMSReceiverService;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyNotificationManager.getInstance(this).initChannels();
         setContentView(R.layout.activity_main);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

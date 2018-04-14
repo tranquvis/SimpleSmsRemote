@@ -51,7 +51,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
                 android:scaleType="fitStart"
-                android:src="@drawable/ic_app_light" />
+                android:src="@mipmap/ic_launcher" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_receiver_change_state"
