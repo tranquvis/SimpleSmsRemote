@@ -61,14 +61,14 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements Sha
     public void onResume() {
         SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
         preferences.registerOnSharedPreferenceChangeListener(this);
-        super.onPause();
+        super.onResume();
     }
 
     @Override
     public void onPause() {
         SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
         preferences.unregisterOnSharedPreferenceChangeListener(this);
-        super.onResume();
+        super.onPause();
     }
 
     @Override
