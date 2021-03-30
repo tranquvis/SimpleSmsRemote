@@ -5,7 +5,7 @@ Install the app on a device, which should be controlled, and send control comman
 
 **compatible android versions:** 4.1 (Jelly Bean) and higher
 
-![Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
+![Logo](https://github.com/tranquvis/SimpleSmsRemote/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 **Get the installer directly from [Github](https://github.com/tranquvis/SimpleSmsRemote/releases) or [F-Droid](https://f-droid.org/packages/tranquvis.simplesmsremote/).**
 
