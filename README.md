@@ -7,12 +7,10 @@ Install the app on a device, which should be controlled, and send control comman
 
 ![Logo](https://raw.githubusercontent.com/tranquvis/SimpleSmsRemote/master/.github/logo.png)
 
-**Get the installer directly from [Github](https://github.com/tranquvis/SimpleSmsRemote/releases), on [Google Play](https://play.google.com/store/apps/details?id=tranquvis.simplesmsremote) or [F-Droid](https://f-droid.org/packages/tranquvis.simplesmsremote/).**
+**Get the installer directly from [Github](https://github.com/tranquvis/SimpleSmsRemote/releases) or [F-Droid](https://f-droid.org/packages/tranquvis.simplesmsremote/).**
 
 <a href="https://f-droid.org/packages/tranquvis.simplesmsremote/" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
-<a href="https://play.google.com/store/apps/details?id=tranquvis.simplesmsremote" target="_blank">
-<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
 
 ## Features
 * specify which modules are accessible and which phones are granted
