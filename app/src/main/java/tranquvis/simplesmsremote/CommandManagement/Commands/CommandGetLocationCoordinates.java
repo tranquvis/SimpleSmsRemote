@@ -47,9 +47,6 @@ public class CommandGetLocationCoordinates extends Command {
 
         String locationDescription = String.format(Locale.ENGLISH, "%1$.4f %2$.4f",
                 location.getLatitude(), location.getLongitude());
-        String mapsLinkParam = String.format(Locale.ENGLISH, "%1$.4f,%2$.4f",
-                location.getLatitude(), location.getLongitude());
-        String mapsLink = "https://www.google.com/maps?q=" + mapsLinkParam;
         // get timestamp in RFC3339 format
         String timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ")
                 .format(new Date(location.getTime()));
@@ -58,7 +55,7 @@ public class CommandGetLocationCoordinates extends Command {
                 : context.getString(R.string.unknown_accuracy);
         // see https://developer.android.com/reference/android/location/Location.html#getAccuracy()
         result.setCustomResultMessage(context.getString(
-                R.string.result_msg_location_coordinates, locationDescription, timestamp, accuracy, mapsLink));
+                R.string.result_msg_location_coordinates, locationDescription, timestamp, accuracy));
         result.setForceSendingResultSmsMessage(true);
     }
 }
