@@ -35,7 +35,7 @@ import tranquvis.simplesmsremote.Services.SMSReceiverService;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    private static final int CODE_PERM_REQUEST_RECEIVE_SMS = 1;
+    private static final int CODE_PERM_REQUEST_SMS = 1;
     private final String TAG = getClass().getName();
 
     private CoordinatorLayout coordinatorLayout;
@@ -282,10 +282,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void startSMSReceiverService() {
-        if (!PermissionUtils.AppHasPermission(this, Manifest.permission.RECEIVE_SMS)) {
+        if (!PermissionUtils.AppHasPermissions(this, new String[]{
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.SEND_SMS
+        })) {
             startReceiverAfterPermRequest = true;
             PermissionUtils.RequestCommonPermissions(this,
-                    new String[]{Manifest.permission.RECEIVE_SMS}, CODE_PERM_REQUEST_RECEIVE_SMS);
+                    new String[]{
+                            Manifest.permission.RECEIVE_SMS,
+                            Manifest.permission.SEND_SMS
+                    }, CODE_PERM_REQUEST_SMS);
             return;
         }
         SMSReceiverService.start(getBaseContext(),
@@ -353,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case CODE_PERM_REQUEST_RECEIVE_SMS:
+            case CODE_PERM_REQUEST_SMS:
                 boolean permissionGranted = grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 if (permissionGranted) {
@@ -368,8 +374,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 @Override
                                 public void onClick(View view) {
                                     PermissionUtils.RequestCommonPermissions(MainActivity.this,
-                                            new String[]{Manifest.permission.RECEIVE_SMS},
-                                            CODE_PERM_REQUEST_RECEIVE_SMS);
+                                            new String[]{
+                                                    Manifest.permission.RECEIVE_SMS,
+                                                    Manifest.permission.SEND_SMS
+                                            },
+                                            CODE_PERM_REQUEST_SMS);
                                 }
                             })
                             .show();
