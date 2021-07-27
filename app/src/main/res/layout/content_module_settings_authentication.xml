@@ -1,145 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_authentication_settings_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/card_padding"
+    android:layout_marginLeft="@dimen/card_padding"
+    android:layout_marginRight="@dimen/card_padding"
+    android:layout_marginStart="@dimen/card_padding"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/layout_spinner_settings_camera_device_bg"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_user_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_border_bottom_grey">
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner_settings_camera_device"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dropDownWidth="match_parent" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_camera_settings_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/card_padding"
-        android:layout_marginLeft="@dimen/card_padding"
-        android:layout_marginRight="@dimen/card_padding"
-        android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch_settings_is_default"
-            style="@style/CardContentTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/is_default_camera_device" />
-
-        <TextView
-            android:id="@+id/textView4"
-            style="@style/Header2PrimaryStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/module_settings_camera_default_title" />
+        android:layout_marginBottom="10dp"
+        app:contentPadding="@dimen/card_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/card_pref_vertical_margin"
-            android:layout_marginTop="@dimen/card_pref_vertical_margin"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView7"
-                style="@style/CardContentTextStyle"
+                android:id="@+id/textView_granted_phones_title"
+                style="@style/HeaderPrimaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:text="@string/flashlight_switch_title" />
+                android:layout_marginTop="0dp"
+                android:text="@string/module_authentication_settings_password_title" />
 
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/spinner_settings_camera_flash"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/relativeLayout_item_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:entries="@array/flash_options" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView_type"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_lock_36" />
+
+                <EditText
+                    android:id="@+id/editText_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/imageView_type"
+                    android:layout_toRightOf="@+id/imageView_type"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
-        <view
-            android:id="@+id/switch_settings_camera_autofocus"
-            style="@style/CardContentTextStyle"
-            class="android.support.v7.widget.SwitchCompat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="@string/autofocus_switch_title" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/card_pref_vertical_margin"
-            android:layout_marginTop="@dimen/card_pref_vertical_margin"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView8"
-                style="@style/CardContentTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:text="@string/output_image_format_switch_title" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/spinner_settings_camera_image_output_format"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:entries="@array/image_formats" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_settings_capture_output_path"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/card_pref_vertical_margin"
-            android:layout_marginTop="@dimen/card_pref_vertical_margin"
-            android:clickable="true">
-
-            <TextView
-                android:id="@+id/textView9"
-                style="@style/CardContentTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/capture_output_path_title" />
-
-            <TextView
-                android:id="@+id/textView_settings_capture_output_path"
-                style="@style/CardContentTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView9"
-                android:textColor="#000"
-                tools:text="path/foo" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                android:contentDescription="@string/simple_choose"
-                app:srcCompat="@drawable/ic_more_horiz_black_24dp" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
