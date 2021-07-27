@@ -40,6 +40,13 @@
         \nvolume: index (e.g. 6), percentage (e.g. 90%), vibrate or silent (only for audio type ring)
     </string>
 
+    <string name="control_module_title_authentication">Authentication</string>
+    <string name="control_module_desc_authentication">Authenticate phone numbers remotely</string>
+<!--    TODO: Fill password description -->
+    <string name="control_module_param_desc_authentication">
+        password: TODO
+    </string>
+
     <string name="control_module_title_audio_recording">Audio Recording</string>
     <string name="control_module_desc_audio_recording">
         Record audio with axet\'s audio recorder app.

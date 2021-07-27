@@ -25,6 +25,7 @@ public class Instances {
     public static final ModuleDisplay DISPLAY = new ModuleDisplay();
     public static final ModuleLocation LOCATION = new ModuleLocation();
     public static final ModuleAudioRecording AUDIO_RECORDING = new ModuleAudioRecording();
+    public static final ModuleAuthentication AUTHENTICATION = new ModuleAuthentication();
 
     private static boolean commandsInitialized = false;
 

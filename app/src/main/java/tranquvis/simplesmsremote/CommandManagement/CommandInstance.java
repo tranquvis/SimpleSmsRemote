@@ -107,7 +107,7 @@ public class CommandInstance {
                     getCommand()), context);
             return false;
         }
-        if (!moduleUserData.isPhoneGranted(phone)) {
+        if (!command.isPhoneGranted(phone)) {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(context,
                     getCommand(), phone), context);
             return false;
