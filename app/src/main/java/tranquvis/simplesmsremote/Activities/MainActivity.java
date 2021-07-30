@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //load user data
         try {
             DataManager.LoadUserData(this);
-            Log.v("AAA", "Loaded user data");
         } catch (IOException e) {
             Toast.makeText(this, R.string.alert_load_data_failed, Toast.LENGTH_LONG).show();
             finish();
