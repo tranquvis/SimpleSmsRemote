@@ -10,8 +10,9 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
-import tranquvis.simplesmsremote.Data.ControlModuleUserData;
+import tranquvis.simplesmsremote.Data.ModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
 /**
@@ -152,7 +153,7 @@ public abstract class Module {
         return PermissionUtils.FilterAppPermissions(context, requiredPermissions);
     }
 
-    public ControlModuleUserData getUserData() {
+    public ModuleUserData getUserData() {
         return DataManager.getUserDataForControlModule(this);
     }
 

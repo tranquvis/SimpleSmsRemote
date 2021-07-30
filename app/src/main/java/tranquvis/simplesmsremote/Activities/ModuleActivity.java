@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -26,7 +27,8 @@ import java.util.List;
 import tranquvis.simplesmsremote.Adapters.CommandSyntaxDescListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
-import tranquvis.simplesmsremote.Data.ControlModuleUserData;
+import tranquvis.simplesmsremote.Data.ModuleUserData;
+import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.R;
@@ -37,7 +39,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     private static final int REQUEST_CODE_PERM_MODULE_REQUIREMENTS = 1;
 
     protected Module module;
-    protected ControlModuleUserData userData;
+    protected ModuleUserData userData;
     protected ModuleSettingsData moduleSettings;
     protected boolean isModuleEnabled;
 
@@ -125,23 +127,29 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
         if (isModuleEnabled) {
             moduleSettings = userData.getSettings();
+            View userSettingsSection = findViewById(R.id.section_user_settings);
 
-            findViewById(R.id.card_user_settings).setVisibility(View.VISIBLE);
-            findViewById(R.id.textView_user_settings_title).setVisibility(View.VISIBLE);
+            Log.v("AAA", "Checking if module " + module.getId() + " has PhoneWhiteListUserData");
+            if (userData instanceof PhoneWhitelistModuleUserData) {
+                userSettingsSection.setVisibility(View.VISIBLE);
 
-            grantedPhones = userData.getGrantedPhones();
-            if (grantedPhones.isEmpty())
-                grantedPhones.add("");
+                PhoneWhitelistModuleUserData phonesUserData = (PhoneWhitelistModuleUserData) userData;
 
-            grantedPhonesListView = (ListView) findViewById(R.id.listView_granted_phones);
-            grantedPhonesListAdapter = new GrantedPhonesEditableListAdapter(this, grantedPhones,
-                    grantedPhonesListView);
-            grantedPhonesListView.setScrollContainer(false);
-            grantedPhonesListView.setAdapter(grantedPhonesListAdapter);
-            UIUtils.SetListViewHeightBasedOnItems(grantedPhonesListView);
+                grantedPhones = new ArrayList<>(phonesUserData.getGrantedPhones());
+                if (grantedPhones.isEmpty())
+                    grantedPhones.add("");
 
-            FloatingActionButton addPhoneFab = (FloatingActionButton) findViewById(R.id.fab_add_phone);
-            addPhoneFab.setOnClickListener(this);
+                grantedPhonesListView = findViewById(R.id.listView_granted_phones);
+                grantedPhonesListAdapter = new GrantedPhonesEditableListAdapter(
+                        this, grantedPhones, grantedPhonesListView
+                );
+                grantedPhonesListView.setScrollContainer(false);
+                grantedPhonesListView.setAdapter(grantedPhonesListAdapter);
+                UIUtils.SetListViewHeightBasedOnItems(grantedPhonesListView);
+
+                FloatingActionButton addPhoneFab = findViewById(R.id.fab_add_phone);
+                addPhoneFab.setOnClickListener(this);
+            }
         }
     }
 
@@ -271,14 +279,19 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
     private void saveUserData() {
         if (isModuleEnabled) {
-            updateGrantedPhones();
+            if (userData instanceof PhoneWhitelistModuleUserData) {
+                updateGrantedPhones();
+                userData = ((PhoneWhitelistModuleUserData) userData).withGrantedPhones(grantedPhones);
+            }
+
             updateModuleSettings();
-            DataManager.getUserData().setControlModule(new ControlModuleUserData(
-                    module.getId(), grantedPhones, moduleSettings));
+            userData = userData.withSettings(moduleSettings);
+
+            DataManager.getUserData().setControlModule(userData);
         } else {
-            setupData();
-            DataManager.getUserData().addControlModule(new ControlModuleUserData(
-                    module.getId(), new ArrayList<String>(), moduleSettings));
+            setupModuleUserData();
+            setupModuleSettings();
+            DataManager.getUserData().addControlModule(userData);
         }
 
         try {
@@ -325,10 +338,18 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         return module;
     }
 
-    protected ControlModuleUserData getUserData() {
+    protected ModuleUserData getUserData() {
         return userData;
     }
 
-    protected void setupData() {
+    public void setupModuleUserData() {
+        if (userData != null) return;
+
+        userData = new PhoneWhitelistModuleUserData(
+                module.getId(), new ArrayList<>(), moduleSettings
+        );
+    }
+
+    protected void setupModuleSettings() {
     }
 }
