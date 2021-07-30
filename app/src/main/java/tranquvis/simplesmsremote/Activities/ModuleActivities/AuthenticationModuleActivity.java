@@ -5,12 +5,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-
 import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.Data.AuthenticationModuleSettingsData;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
-import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
 import tranquvis.simplesmsremote.R;
 
 public class AuthenticationModuleActivity extends ModuleActivity {

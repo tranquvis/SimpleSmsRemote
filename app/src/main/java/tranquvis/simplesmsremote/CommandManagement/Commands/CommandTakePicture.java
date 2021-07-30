@@ -56,7 +56,7 @@ public class CommandTakePicture extends Command {
         titleRes = R.string.command_title_take_picture;
         syntaxDescList = new String[]{
                 "take picture",
-                "take picture with [" + PARAM_OPTIONS.getId() + "]"
+                "take picture with [" + PARAM_OPTIONS.getId() + "...]"
         };
         patternTree = new PatternTreeNode("root",
                 PATTERN_ROOT,

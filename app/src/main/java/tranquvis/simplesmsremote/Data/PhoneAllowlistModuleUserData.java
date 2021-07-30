@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by Andreas Kaltenleitner on 29.08.2016.
  */
-public class PhoneWhitelistModuleUserData extends ModuleUserData {
+public class PhoneAllowlistModuleUserData extends ModuleUserData {
     private final List<String> grantedPhones;
 
-    public PhoneWhitelistModuleUserData(String controlModuleId, @Nullable List<String> grantedPhones,
+    public PhoneAllowlistModuleUserData(String controlModuleId, @Nullable List<String> grantedPhones,
                                         @Nullable ModuleSettingsData settings) {
         super(controlModuleId, settings);
         this.grantedPhones = grantedPhones != null ? grantedPhones : new ArrayList<String>();
@@ -31,24 +31,24 @@ public class PhoneWhitelistModuleUserData extends ModuleUserData {
         return false;
     }
 
-    public PhoneWhitelistModuleUserData withGrantedPhone(String phone) {
+    public PhoneAllowlistModuleUserData withGrantedPhone(String phone) {
         if (isPhoneGranted(phone)) {
             return this;
         } else {
             List<String> newGrantedPhones = new ArrayList<>(grantedPhones);
             newGrantedPhones.add(phone);
-            return new PhoneWhitelistModuleUserData(getControlModuleId(), newGrantedPhones, getSettings());
+            return new PhoneAllowlistModuleUserData(getControlModuleId(), newGrantedPhones, getSettings());
         }
     }
 
-    public PhoneWhitelistModuleUserData withGrantedPhones(List<String> phones) {
-        return new PhoneWhitelistModuleUserData(
+    public PhoneAllowlistModuleUserData withGrantedPhones(List<String> phones) {
+        return new PhoneAllowlistModuleUserData(
                 getControlModuleId(), new ArrayList<>(phones), getSettings()
         );
     }
 
     @Override
     public ModuleUserData withSettings(ModuleSettingsData settings) {
-        return new PhoneWhitelistModuleUserData(getControlModuleId(), getGrantedPhones(), settings);
+        return new PhoneAllowlistModuleUserData(getControlModuleId(), getGrantedPhones(), settings);
     }
 }

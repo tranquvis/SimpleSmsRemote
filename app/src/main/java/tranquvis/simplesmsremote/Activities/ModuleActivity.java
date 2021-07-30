@@ -3,6 +3,7 @@ package tranquvis.simplesmsremote.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +31,7 @@ import tranquvis.simplesmsremote.Adapters.CommandSyntaxDescListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
-import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
+import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.R;
@@ -100,8 +103,15 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         UIUtils.SetListViewHeightBasedOnItems(commandsListView);
 
         if (module.getParamInfoRes() != -1) {
+            String html = getString(module.getParamInfoRes());
+            Spanned htmlSpanned;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                htmlSpanned = Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT);
+            } else {
+                htmlSpanned = Html.fromHtml(html);
+            }
             ((TextView) findViewById(R.id.textView_command_parameter_info))
-                    .setText(module.getParamInfoRes());
+                    .setText(htmlSpanned);
         } else {
             findViewById(R.id.textView_command_parameter_info_title).setVisibility(View.GONE);
             findViewById(R.id.textView_command_parameter_info).setVisibility(View.GONE);
@@ -129,11 +139,10 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
             moduleSettings = userData.getSettings();
             View userSettingsSection = findViewById(R.id.section_user_settings);
 
-            Log.v("AAA", "Checking if module " + module.getId() + " has PhoneWhiteListUserData");
-            if (userData instanceof PhoneWhitelistModuleUserData) {
+            if (userData instanceof PhoneAllowlistModuleUserData) {
                 userSettingsSection.setVisibility(View.VISIBLE);
 
-                PhoneWhitelistModuleUserData phonesUserData = (PhoneWhitelistModuleUserData) userData;
+                PhoneAllowlistModuleUserData phonesUserData = (PhoneAllowlistModuleUserData) userData;
 
                 grantedPhones = new ArrayList<>(phonesUserData.getGrantedPhones());
                 if (grantedPhones.isEmpty())
@@ -279,9 +288,9 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
     private void saveUserData() {
         if (isModuleEnabled) {
-            if (userData instanceof PhoneWhitelistModuleUserData) {
+            if (userData instanceof PhoneAllowlistModuleUserData) {
                 updateGrantedPhones();
-                userData = ((PhoneWhitelistModuleUserData) userData).withGrantedPhones(grantedPhones);
+                userData = ((PhoneAllowlistModuleUserData) userData).withGrantedPhones(grantedPhones);
             }
 
             updateModuleSettings();
@@ -345,7 +354,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     public void setupModuleUserData() {
         if (userData != null) return;
 
-        userData = new PhoneWhitelistModuleUserData(
+        userData = new PhoneAllowlistModuleUserData(
                 module.getId(), new ArrayList<>(), moduleSettings
         );
     }

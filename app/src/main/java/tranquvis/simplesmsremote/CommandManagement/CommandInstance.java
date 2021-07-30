@@ -7,7 +7,7 @@ import tranquvis.simplesmsremote.CommandManagement.Commands.PhoneDependentComman
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
-import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
+import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Sms.MyCommandMessage;
@@ -109,8 +109,8 @@ public class CommandInstance {
                     getCommand()), context);
             return false;
         }
-        if (userData instanceof PhoneWhitelistModuleUserData) {
-            if (!((PhoneWhitelistModuleUserData) userData).isPhoneGranted(phone)) {
+        if (userData instanceof PhoneAllowlistModuleUserData) {
+            if (!((PhoneAllowlistModuleUserData) userData).isPhoneGranted(phone)) {
                 DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(
                         context, getCommand(), phone
                 ), context);

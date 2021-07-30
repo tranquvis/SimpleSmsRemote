@@ -12,7 +12,6 @@ import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
-import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
 /**
