@@ -35,17 +35,25 @@
     <string name="control_module_desc_audio">
         Manage volume of ringtone, music and more.
     </string>
-    <string name="control_module_param_desc_audio">
-        audio types: ring, music, alarm, notification, system, phonecall, dtmf
-        \nvolume: index (e.g. 6), percentage (e.g. 90%), vibrate or silent (only for audio type ring)
-    </string>
+    <string name="control_module_param_desc_audio"><![CDATA[
+        <h6>audio types:</h6>
+        <p>ring, music, alarm, notification, system, phonecall, dtmf</p><br>
+        <h6>volume:</h6>
+        <p>index (e.g. 6), percentage (e.g. 90%), vibrate or silent (only for audio type ring)</p>
+    ]]></string>
 
     <string name="control_module_title_authentication">Authentication</string>
     <string name="control_module_desc_authentication">Authenticate phone numbers remotely</string>
-<!--    TODO: Fill password description -->
-    <string name="control_module_param_desc_authentication">
-        password: TODO
-    </string>
+    <string name="control_module_param_desc_authentication"><![CDATA[
+        <h6>module name:</h6>
+        <p>The name of the module which you want the phone sending the command to be allowed to access.</p><br>
+        <p>Spaces are not allowed. Dashes (-), and underscores (_) are ignored.</p><br>
+        <p>To for example allow access to the WiFi Hotspot module, you can use any of the names "WiFi-Hotspot", "wifihotspot" or "wifi_hotspot".</p><br>
+        <br>
+        <h6>password:</h6>
+        <p>Any word or phrase used to authenticate, can be chosen below.</p><br>
+        <p>Can contain latin letters (lower and capital), numbers, dashes and underscores.</p>
+    ]]></string>
 
     <string name="control_module_title_audio_recording">Audio Recording</string>
     <string name="control_module_desc_audio_recording">
@@ -61,17 +69,23 @@
         Manage the display\'s brightness and state (on or off). Set time, after which the display
         is turned off when the user is not interacting with the phone.
     </string>
-    <string name="control_module_param_desc_display">
-        brightness: percentage (e.g. 50%) or auto
-        \ntimeout: time, after which the display is turned off (e.g. 30min, 10.5s, 500ms)
-    </string>
+    <string name="control_module_param_desc_display"><![CDATA[
+        <h6>brightness:</h6>
+        <p>percentage (e.g. 50%) or auto</p><br>
+        <h6>timeout:</h6>
+        <p>time, after which the display is turned off (e.g. 30min, 10.5s, 500ms)</p>
+    ]]></string>
 
     <string name="control_module_title_camera">Camera</string>
     <string name="control_module_desc_camera">
         Take picture with predefined or individual settings.
     </string>
-    <string name="control_module_param_desc_camera">
-        settings: individual settings for this capture
-        possible options: front cam, back cam, cam [index], flash on, flash off, flash auto
-    </string>
+    <string name="control_module_param_desc_camera"><![CDATA[
+        <h6>settings:</h6>
+        <p>individual settings for this capture</p><br>
+        <h6>options:<h6>
+        <p>A combination of:</p>
+        <p>- front cam, back cam, cam [index]</p>
+        <p>- flash on, flash off, flash auto</p>
+    ]]></string>
 </resources>

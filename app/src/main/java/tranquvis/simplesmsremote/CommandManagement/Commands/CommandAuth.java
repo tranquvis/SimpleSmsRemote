@@ -14,7 +14,7 @@ import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamString;
 import tranquvis.simplesmsremote.Data.AuthenticationModuleSettingsData;
-import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
+import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -28,7 +28,7 @@ public class CommandAuth extends PhoneDependentCommand {
     );
     private static final String PATTERN_ROOT = AdaptSimplePattern("auth ([a-zA-Z-_]*) (.*)");
     private static final String PATTERN_MODULE_NAME = "[a-zA-Z-_]*";
-    private static final String PATTERN_PASSWORD = ".*";
+    private static final String PATTERN_PASSWORD = "[a-zA-Z0-9-_]*";
 
     public CommandAuth(@NonNull Module module) {
         super(module);
@@ -68,12 +68,12 @@ public class CommandAuth extends PhoneDependentCommand {
             return;
         }
 
-        List<Module> modules = getEnabledPhoneWhitelistModules();
+        List<Module> modules = getEnabledPhoneAllowlistModules();
 
         if (allModuleKeywords.contains(moduleSearchName)) {
             for (Module moduleToGrant : modules) {
-                PhoneWhitelistModuleUserData userData =
-                        (PhoneWhitelistModuleUserData) moduleToGrant.getUserData();
+                PhoneAllowlistModuleUserData userData =
+                        (PhoneAllowlistModuleUserData) moduleToGrant.getUserData();
                 DataManager.getUserData().setControlModule(userData.withGrantedPhone(phone));
             }
 
@@ -93,8 +93,8 @@ public class CommandAuth extends PhoneDependentCommand {
                 return;
             }
 
-            PhoneWhitelistModuleUserData userData =
-                    (PhoneWhitelistModuleUserData) moduleToGrant.getUserData();
+            PhoneAllowlistModuleUserData userData =
+                    (PhoneAllowlistModuleUserData) moduleToGrant.getUserData();
             DataManager.getUserData().setControlModule(userData.withGrantedPhone(phone));
 
             String moduleTitle = context.getString(moduleToGrant.getTitleRes());
@@ -112,13 +112,13 @@ public class CommandAuth extends PhoneDependentCommand {
         return (AuthenticationModuleSettingsData) module.getUserData().getSettings();
     }
 
-    private List<Module> getEnabledPhoneWhitelistModules() {
+    private List<Module> getEnabledPhoneAllowlistModules() {
         ArrayList<Module> enabledModules = new ArrayList<>();
         Collection<Module> modules = Instances.GetAll(null);
 
         for (Module module : modules) {
             if (!module.isEnabled()) continue;
-            if (!(module.getUserData() instanceof PhoneWhitelistModuleUserData)) continue;
+            if (!(module.getUserData() instanceof PhoneAllowlistModuleUserData)) continue;
             enabledModules.add(module);
         }
 

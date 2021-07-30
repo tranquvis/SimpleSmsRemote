@@ -1,6 +1,7 @@
 package tranquvis.simplesmsremote.Data;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -88,6 +89,9 @@ public class DataManager {
         ObjectInputStream os = new ObjectInputStream(fis);
         try {
             userData = (UserData) os.readObject();
+            if (userData == null) {
+                userData = new UserData(new ArrayList<>(), new UserSettings());
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (ClassCastException | InvalidClassException cce) {

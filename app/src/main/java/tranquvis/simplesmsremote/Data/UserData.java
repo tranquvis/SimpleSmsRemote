@@ -51,8 +51,8 @@ public class UserData implements Serializable {
     public List<String> getAllUsedPhones() {
         List<String> phones = new ArrayList<>();
         for (ModuleUserData moduleUserData : controlModules) {
-            if (!(moduleUserData instanceof PhoneWhitelistModuleUserData)) continue;
-            PhoneWhitelistModuleUserData phonesUserData = (PhoneWhitelistModuleUserData) moduleUserData;
+            if (!(moduleUserData instanceof PhoneAllowlistModuleUserData)) continue;
+            PhoneAllowlistModuleUserData phonesUserData = (PhoneAllowlistModuleUserData) moduleUserData;
             for (String phone : phonesUserData.getGrantedPhones()) {
                 if (phone != null && phone.length() > 0 && !phones.contains(phone))
                     phones.add(phone);
