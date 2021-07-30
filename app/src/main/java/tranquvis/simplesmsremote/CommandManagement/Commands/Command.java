@@ -100,10 +100,6 @@ public abstract class Command {
     public abstract void execute(Context context, CommandInstance commandInstance,
                                  CommandExecResult result) throws Exception;
 
-    public boolean isPhoneGranted(String phone) {
-        return module.getUserData().isPhoneGranted(phone);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

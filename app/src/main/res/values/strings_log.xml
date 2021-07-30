@@ -16,6 +16,9 @@
     <string name="log_summary_com_exec_failed_module_disabled">
         module (%1$s) is disabled
     </string>
+    <string name="log_summary_com_exec_failed_phone_dependent">
+        module (%1$s) is phone number dependent
+    </string>
     <string name="log_summary_com_exec_failed_phone_not_granted">
         phone (%1$s) is not allowed to use the module (%2$s)
     </string>

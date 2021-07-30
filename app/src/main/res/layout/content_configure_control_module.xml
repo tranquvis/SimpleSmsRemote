@@ -137,56 +137,62 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/textView_user_settings_title"
-                style="@style/CardHeaderStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_data_title"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/card_user_settings"
+            <LinearLayout
+                android:id="@+id/section_user_settings"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:visibility="gone"
-                app:contentPadding="@dimen/card_padding"
                 tools:visibility="visible">
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/textView_user_settings_title"
+                    style="@style/CardHeaderStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_data_title" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_user_settings"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    app:contentPadding="@dimen/card_padding">
 
-                    <TextView
-                        android:id="@+id/textView_granted_phones_title"
-                        style="@style/HeaderPrimaryStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="@string/granted_phones_title" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <ListView
-                        android:id="@+id/listView_granted_phones"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView_granted_phones_title"
-                        android:descendantFocusability="afterDescendants"
-                        android:divider="@null"
-                        android:dividerHeight="0dp" />
+                        <TextView
+                            android:id="@+id/textView_granted_phones_title"
+                            style="@style/HeaderPrimaryStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:text="@string/granted_phones_title" />
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_add_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/listView_granted_phones"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/ic_add_white"
-                        app:backgroundTint="@color/colorAccentSecondary"
-                        app:fabSize="mini" />
+                        <ListView
+                            android:id="@+id/listView_granted_phones"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView_granted_phones_title"
+                            android:descendantFocusability="afterDescendants"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
 
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/fab_add_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/listView_granted_phones"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/ic_add_white"
+                            app:backgroundTint="@color/colorAccentSecondary"
+                            app:fabSize="mini" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView_module_settings_title"

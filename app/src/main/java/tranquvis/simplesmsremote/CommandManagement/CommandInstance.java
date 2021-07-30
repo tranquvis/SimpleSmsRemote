@@ -3,9 +3,11 @@ package tranquvis.simplesmsremote.CommandManagement;
 import android.content.Context;
 
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
+import tranquvis.simplesmsremote.CommandManagement.Commands.PhoneDependentCommand;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
-import tranquvis.simplesmsremote.Data.ControlModuleUserData;
+import tranquvis.simplesmsremote.Data.ModuleUserData;
+import tranquvis.simplesmsremote.Data.PhoneWhitelistModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Sms.MyCommandMessage;
@@ -95,22 +97,25 @@ public class CommandInstance {
 
     public boolean isExecutionGranted(Context context, String phone) {
         Module module = getCommand().getModule();
-        ControlModuleUserData moduleUserData = module.getUserData();
+        ModuleUserData userData = module.getUserData();
 
         if (!module.isCompatible(context)) {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
                     getCommand()), context);
             return false;
         }
-        if (moduleUserData == null) {
+        if (userData == null) {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context,
                     getCommand()), context);
             return false;
         }
-        if (!command.isPhoneGranted(phone)) {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(context,
-                    getCommand(), phone), context);
-            return false;
+        if (userData instanceof PhoneWhitelistModuleUserData) {
+            if (!((PhoneWhitelistModuleUserData) userData).isPhoneGranted(phone)) {
+                DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(
+                        context, getCommand(), phone
+                ), context);
+                return false;
+            }
         }
         if (!module.checkPermissions(context)) {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
@@ -132,20 +137,27 @@ public class CommandInstance {
         CommandExecResult result = new CommandExecResult(this);
         Command command = getCommand();
 
-        if (!isExecutionGranted(context, controlSms.getPhoneNumber()))
+        if (!isExecutionGranted(context, controlSms.getPhoneNumber())) {
             result.setSuccess(false);
-        else {
-            try {
-                command.execute(context, this, result);
-                DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
-                result.setSuccess(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-                DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, command),
-                        context);
-                result.setSuccess(false);
-            }
+            return result;
         }
+
+        try {
+            if (command instanceof PhoneDependentCommand) {
+                PhoneDependentCommand dependentCommand = (PhoneDependentCommand) command;
+                dependentCommand.execute(context, this, controlSms.getPhoneNumber(), result);
+            } else {
+                command.execute(context, this, result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, command),
+                    context);
+            result.setSuccess(false);
+        }
+
+        DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
+        result.setSuccess(true);
 
         return result;
     }

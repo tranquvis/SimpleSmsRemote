@@ -29,9 +29,9 @@ public class DataManager {
 
     private static boolean firstStart;
 
-    public static ControlModuleUserData getUserDataForControlModule(Module module) {
+    public static ModuleUserData getUserDataForControlModule(Module module) {
         if(userData == null) return null;
-        for (ControlModuleUserData moduleUserData : userData.getControlModules()) {
+        for (ModuleUserData moduleUserData : userData.getControlModules()) {
             if (moduleUserData.getControlModuleId().equals(module.getId()))
                 return moduleUserData;
         }
@@ -80,7 +80,7 @@ public class DataManager {
         } catch (FileNotFoundException e) {
             //apply default values
             firstStart = true;
-            userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
+            userData = new UserData(new ArrayList<>(), new UserSettings());
             SaveUserData(context);
             return;
         }
@@ -91,7 +91,7 @@ public class DataManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (ClassCastException | InvalidClassException cce) {
-            userData = new UserData(new ArrayList<ControlModuleUserData>(), new UserSettings());
+            userData = new UserData(new ArrayList<>(), new UserSettings());
         }
         os.close();
         fis.close();

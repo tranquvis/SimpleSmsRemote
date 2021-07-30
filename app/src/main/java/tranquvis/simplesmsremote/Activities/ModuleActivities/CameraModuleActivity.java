@@ -225,8 +225,8 @@ public class CameraModuleActivity extends ModuleActivity {
     }
 
     @Override
-    protected void setupData() {
-        super.setupData();
+    protected void setupModuleSettings() {
+        super.setupModuleSettings();
 
         //load available cameras
         try {

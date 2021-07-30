@@ -8,15 +8,15 @@ import java.util.List;
  * Created by Andreas Kaltenleitner on 30.08.2016.
  */
 public class UserData implements Serializable {
-    private List<ControlModuleUserData> controlModules;
+    private List<ModuleUserData> controlModules;
     private UserSettings userSettings;
 
-    public UserData(List<ControlModuleUserData> controlModules, UserSettings userSettings) {
+    public UserData(List<ModuleUserData> controlModules, UserSettings userSettings) {
         this.controlModules = controlModules;
         this.userSettings = userSettings;
     }
 
-    public List<ControlModuleUserData> getControlModules() {
+    public List<ModuleUserData> getControlModules() {
         return controlModules;
     }
 
@@ -24,13 +24,13 @@ public class UserData implements Serializable {
         return userSettings;
     }
 
-    public void addControlModule(ControlModuleUserData userData) {
+    public void addControlModule(ModuleUserData userData) {
         controlModules.add(userData);
     }
 
-    public void setControlModule(ControlModuleUserData moduleUserData) {
+    public void setControlModule(ModuleUserData moduleUserData) {
         int i = 0;
-        for (ControlModuleUserData userData : controlModules) {
+        for (ModuleUserData userData : controlModules) {
             if (userData.getControlModuleId().equals(moduleUserData.getControlModuleId())) {
                 controlModules.set(i, moduleUserData);
                 break;
@@ -40,7 +40,7 @@ public class UserData implements Serializable {
     }
 
     public void removeControlModule(String moduleId) {
-        for (ControlModuleUserData userData : controlModules) {
+        for (ModuleUserData userData : controlModules) {
             if (userData.getControlModuleId().equals(moduleId)) {
                 controlModules.remove(userData);
                 break;
@@ -50,8 +50,10 @@ public class UserData implements Serializable {
 
     public List<String> getAllUsedPhones() {
         List<String> phones = new ArrayList<>();
-        for (ControlModuleUserData moduleUserData : controlModules) {
-            for (String phone : moduleUserData.getGrantedPhones()) {
+        for (ModuleUserData moduleUserData : controlModules) {
+            if (!(moduleUserData instanceof PhoneWhitelistModuleUserData)) continue;
+            PhoneWhitelistModuleUserData phonesUserData = (PhoneWhitelistModuleUserData) moduleUserData;
+            for (String phone : phonesUserData.getGrantedPhones()) {
                 if (phone != null && phone.length() > 0 && !phones.contains(phone))
                     phones.add(phone);
             }
