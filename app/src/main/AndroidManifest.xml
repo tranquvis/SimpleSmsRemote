@@ -55,7 +55,7 @@
                 android:value="tranquvis.simplesmsremote.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.ModuleActivities.AuthenticationModuleActivity"
+            android:name=".Activities.ModuleActivities.GrantPhoneRemotelyModuleActivity"
             android:label="@string/title_activity_configure_control_action"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

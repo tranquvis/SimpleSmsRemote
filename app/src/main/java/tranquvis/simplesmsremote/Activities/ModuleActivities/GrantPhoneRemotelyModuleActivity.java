@@ -6,22 +6,22 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import tranquvis.simplesmsremote.Activities.ModuleActivity;
-import tranquvis.simplesmsremote.Data.AuthenticationModuleSettingsData;
+import tranquvis.simplesmsremote.Data.GrantModuleSettingsData;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
 import tranquvis.simplesmsremote.R;
 
-public class AuthenticationModuleActivity extends ModuleActivity {
+public class GrantPhoneRemotelyModuleActivity extends ModuleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (isModuleEnabled) {
             if (moduleSettings == null) {
-                this.moduleSettings = new AuthenticationModuleSettingsData();
+                this.moduleSettings = new GrantModuleSettingsData();
             }
 
-            final AuthenticationModuleSettingsData settings = getSettings();
+            final GrantModuleSettingsData settings = getSettings();
 
-            setSettingsContentLayout(R.layout.content_module_settings_authentication);
+            setSettingsContentLayout(R.layout.content_module_settings_grant_phone_remotely);
 
             EditText passwordEditText = findViewById(R.id.editText_password);
             passwordEditText.setText(settings.getPassword());
@@ -42,8 +42,8 @@ public class AuthenticationModuleActivity extends ModuleActivity {
         }
     }
 
-    private AuthenticationModuleSettingsData getSettings() {
-        return (AuthenticationModuleSettingsData) moduleSettings;
+    private GrantModuleSettingsData getSettings() {
+        return (GrantModuleSettingsData) moduleSettings;
     }
 
     @Override

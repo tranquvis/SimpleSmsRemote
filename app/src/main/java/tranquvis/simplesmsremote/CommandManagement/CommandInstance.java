@@ -154,6 +154,7 @@ public class CommandInstance {
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, command),
                     context);
             result.setSuccess(false);
+            return result;
         }
 
         DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
