@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_authentication_settings_content"
+    android:id="@+id/layout_grant_phone_remotely_settings_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/card_padding"
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="@string/module_authentication_settings_password_title" />
+                android:text="@string/module_grant_phone_remotely_settings_password_title" />
 
             <RelativeLayout
                 android:id="@+id/relativeLayout_item_content"

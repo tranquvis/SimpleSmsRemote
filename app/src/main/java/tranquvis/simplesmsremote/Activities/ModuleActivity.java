@@ -351,7 +351,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         return userData;
     }
 
-    public void setupModuleUserData() {
+    protected void setupModuleUserData() {
         if (userData != null) return;
 
         userData = new PhoneAllowlistModuleUserData(

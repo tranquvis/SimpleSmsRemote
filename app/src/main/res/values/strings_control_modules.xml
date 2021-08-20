@@ -42,17 +42,23 @@
         <p>index (e.g. 6), percentage (e.g. 90%), vibrate or silent (only for audio type ring)</p>
     ]]></string>
 
-    <string name="control_module_title_authentication">Authentication</string>
-    <string name="control_module_desc_authentication">Authenticate phone numbers remotely</string>
-    <string name="control_module_param_desc_authentication"><![CDATA[
+    <string name="control_module_title_grant_phone_remotely">Grant Phone Remotely</string>
+    <string name="control_module_desc_grant_phone_remotely">
+        Grant a phone number access remotely.
+        The phone number sending the grant command will be added to the list of granted
+        phones for the specified module (or all modules when using the "all" keyword).
+        If access is no longer necessary afterwards, you can remove the phone number from
+        the list of granted phones in the relevant module(s).
+    </string>
+    <string name="control_module_param_desc_grant_phone_remotely"><![CDATA[
         <h6>module name:</h6>
         <p>The name of the module which you want the phone sending the command to be allowed to access.</p><br>
         <p>Spaces are not allowed. Dashes (-), and underscores (_) are ignored.</p><br>
         <p>To for example allow access to the WiFi Hotspot module, you can use any of the names "WiFi-Hotspot", "wifihotspot" or "wifi_hotspot".</p><br>
         <br>
         <h6>password:</h6>
-        <p>Any word or phrase used to authenticate, can be chosen below.</p><br>
-        <p>Can contain latin letters (lower and capital), numbers, dashes and underscores.</p>
+        <p>Any word or phrase to authenticate.</p><br>
+        <p>Can be chosen below and can contain latin letters (lower and capital), numbers, dashes and underscores.</p>
     ]]></string>
 
     <string name="control_module_title_audio_recording">Audio Recording</string>

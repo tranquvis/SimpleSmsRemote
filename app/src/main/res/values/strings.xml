@@ -68,5 +68,5 @@
     <string name="capture_output_path_title">Output path</string>
     <string name="select_directory">Select</string>
 
-    <string name="module_authentication_settings_password_title">Password</string>
+    <string name="module_grant_phone_remotely_settings_password_title">Password</string>
 </resources>
