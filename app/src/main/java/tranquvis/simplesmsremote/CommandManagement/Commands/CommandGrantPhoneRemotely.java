@@ -23,8 +23,8 @@ import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
 
 public class CommandGrantPhoneRemotely extends PhoneDependentCommand {
-    static final CommandParamString PARAM_MODULE_NAMES = new CommandParamString("module name(s)");
-    static final CommandParamString PARAM_PASSWORD = new CommandParamString("password");
+    public static final CommandParamString PARAM_MODULE_NAMES = new CommandParamString("module name(s)");
+    public static final CommandParamString PARAM_PASSWORD = new CommandParamString("password");
     private static final Collection<String> allModuleKeywords = Arrays.asList(
             "all", "every", "allmodules", "each"
     );
@@ -166,6 +166,7 @@ public class CommandGrantPhoneRemotely extends PhoneDependentCommand {
 
     private static String normalizeModuleName(String moduleName) {
         return moduleName.toLowerCase()
-                .replaceAll("[-_]", "");
+                .replaceAll("[ -_]", "")
+                .replaceAll("module", "");
     }
 }

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.util.Locale;
+import java.util.Objects;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
@@ -19,6 +20,7 @@ import tranquvis.simplesmsremote.Utils.Regex.MatcherTreeNode;
 import tranquvis.simplesmsremote.Utils.StringUtils;
 import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -27,6 +29,7 @@ import static org.junit.Assert.assertTrue;
  */
 
 public abstract class CommandTest extends AppContextTest {
+    protected String sendingPhone = "0"; // Number "executing" for phone-dependent commands
     protected Command command;
 
     @Override
@@ -69,20 +72,22 @@ public abstract class CommandTest extends AppContextTest {
      * @throws Exception
      */
     protected CommandTester assertThat(String input) throws Exception {
-        return new CommandTester(input, command, appContext);
+        return new CommandTester(input, command, sendingPhone, appContext);
     }
 
     public static class CommandTester {
         private String input;
         private Command command;
         private Context context;
+        private String sendingPhone;
         private CommandInstance ci;
 
-        private CommandTester(String input, Command command, Context context)
+        private CommandTester(String input, Command command, String sendingPhone, Context context)
                 throws Exception {
             this.input = input;
             ci = CommandInstance.CreateFromCommand(input);
             this.command = command;
+            this.sendingPhone = sendingPhone;
             this.context = context;
         }
 
@@ -182,7 +187,7 @@ public abstract class CommandTest extends AppContextTest {
          */
         public <T> CommandTester has(CommandParam<T> param, T value) throws Exception {
             Object paramValue = ci.getParam(param);
-            assertTrue(paramValue == value || (paramValue != null && paramValue.equals(value)));
+            assertEquals(paramValue, value);
             return this;
         }
 
@@ -197,8 +202,12 @@ public abstract class CommandTest extends AppContextTest {
         public CommandExecResult executes(Command command) throws Exception {
             CommandExecResult result = new CommandExecResult(ci);
             result.setSuccess(true);
-            command.execute(context, ci, result);
-            assertTrue(result.isSuccess());
+            command.execute(context, ci, sendingPhone, result);
+            String assertionMsg = String.format(
+                    "Expect that command execution result is success (customResultMessage=\"%s\")",
+                    result.getCustomResultMessage()
+            );
+            assertTrue(assertionMsg, result.isSuccess());
             return result;
         }
 
