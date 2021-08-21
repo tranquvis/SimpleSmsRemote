@@ -100,6 +100,11 @@ public abstract class Command {
     public abstract void execute(Context context, CommandInstance commandInstance,
                                  CommandExecResult result) throws Exception;
 
+    public void execute(Context context, CommandInstance commandInstance,
+                                 String phone, CommandExecResult result) throws Exception {
+        execute(context, commandInstance, result);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

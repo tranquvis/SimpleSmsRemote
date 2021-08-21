@@ -143,12 +143,7 @@ public class CommandInstance {
         }
 
         try {
-            if (command instanceof PhoneDependentCommand) {
-                PhoneDependentCommand dependentCommand = (PhoneDependentCommand) command;
-                dependentCommand.execute(context, this, controlSms.getPhoneNumber(), result);
-            } else {
-                command.execute(context, this, result);
-            }
+            command.execute(context, this, controlSms.getPhoneNumber(), result);
         } catch (Exception e) {
             e.printStackTrace();
             DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, command),

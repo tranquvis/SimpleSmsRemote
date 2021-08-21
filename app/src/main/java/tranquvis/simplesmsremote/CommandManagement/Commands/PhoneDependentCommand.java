@@ -20,6 +20,7 @@ public abstract class PhoneDependentCommand extends Command {
         throw new NotImplementedException("Phone dependent command cannot be executed without a phone");
     }
 
+    @Override
     abstract public void execute(Context context, CommandInstance commandInstance,
                         String phone, CommandExecResult result) throws Exception;
 }
