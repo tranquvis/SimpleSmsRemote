@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.MyNotificationManager;
 import tranquvis.simplesmsremote.Sms.MyCommandMessage;
@@ -41,6 +42,7 @@ public class SMSCommandHandlerService extends IntentService {
         boolean hasExecResultWithForceSendingResult = false;
         if (bundle != null) {
             //retrieve the SMS message received
+            AppDataManager dataManager = AppDataManager.getDefault();
             try {
                 Object[] pdus = (Object[]) bundle.get("pdus");
                 if (pdus == null || pdus.length == 0)
@@ -55,30 +57,31 @@ public class SMSCommandHandlerService extends IntentService {
                 if (comMsg == null)
                     return;
 
-                DataManager.LoadUserData(this);
+                dataManager.LoadUserData(this);
 
                 //execute commands
                 executionResults = new ArrayList<>();
                 for (CommandInstance command : comMsg.getCommandInstances()) {
-                    CommandExecResult result = command.executeCommand(this, comMsg);
+                    CommandExecResult result = command.executeCommand(this, comMsg,
+                            dataManager);
                     executionResults.add(result);
                     if (result.isForceSendingResultSmsMessage())
                         hasExecResultWithForceSendingResult = true;
                 }
 
-                if (DataManager.getUserData().getUserSettings().isNotifyCommandsExecuted())
+                if (dataManager.getUserData().getUserSettings().isNotifyCommandsExecuted())
                     MyNotificationManager.getInstance(this).notifySmsCommandsExecuted(
                             comMsg, executionResults);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                DataManager.addLogEntry(LogEntry.Predefined.SmsProcessingFailed(this),
+                dataManager.tryAddLogEntry(LogEntry.Predefined.SmsProcessingFailed(this),
                         this);
                 return;
             }
 
             try {
-                boolean replyWithDefaultResult = DataManager.getUserData().getUserSettings().
+                boolean replyWithDefaultResult = dataManager.getUserData().getUserSettings().
                         isReplyWithResult();
                 MySmsService smsService;
                 if (replyWithDefaultResult || hasExecResultWithForceSendingResult) {
@@ -86,8 +89,9 @@ public class SMSCommandHandlerService extends IntentService {
                     smsService.setSmsServiceListener(new SmsServiceListener() {
                         @Override
                         public void OnSmsSent(MyMessage sms, int resultCode) {
-                            DataManager.addLogEntry(LogEntry.Predefined.ReplyExecResultSent(
-                                    SMSCommandHandlerService.this, comMsg.getPhoneNumber()), SMSCommandHandlerService.this);
+                            dataManager.tryAddLogEntry(LogEntry.Predefined.ReplyExecResultSent(
+                                    SMSCommandHandlerService.this, comMsg.getPhoneNumber()
+                            ), SMSCommandHandlerService.this);
                         }
 
                         @Override
@@ -101,7 +105,7 @@ public class SMSCommandHandlerService extends IntentService {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                DataManager.addLogEntry(LogEntry.Predefined.ReplyExecResultFailedUnexpected(
+                dataManager.tryAddLogEntry(LogEntry.Predefined.ReplyExecResultFailedUnexpected(
                         this), this);
             }
         }

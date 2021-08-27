@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.R;
 
 /**
@@ -52,7 +53,7 @@ public class ManageControlModulesListAdapter extends ArrayAdapter<Module> {
         //changeStateButton.setImageDrawable();
         if (!module.isCompatible(getContext())) {
             stateImageView.setImageResource(R.drawable.ic_remove_circle_red_400_24dp);
-        } else if (!module.isEnabled()) {
+        } else if (!AppDataManager.getDefault().isModuleEnabled(module)) {
             stateImageView.setImageResource(R.drawable.ic_add_circle_indigo_400_24dp);
         } else {
             stateImageView.setImageResource(R.drawable.ic_check_circle_green_400_24dp);

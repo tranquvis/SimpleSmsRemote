@@ -23,8 +23,8 @@ import static org.junit.Assert.assertTrue;
  * Commands are tested automatically in all inherited classes.
  */
 public abstract class ModuleTest extends AppContextTest {
-    private static List<String> successfulModuleTests = new ArrayList<>();
-    private static List<String> failedModuleTests = new ArrayList<>();
+    private static final List<String> successfulModuleTests = new ArrayList<>();
+    private static final List<String> failedModuleTests = new ArrayList<>();
     protected Module module;
     protected List<Command> commands;
     protected boolean assertCompatibility = true;

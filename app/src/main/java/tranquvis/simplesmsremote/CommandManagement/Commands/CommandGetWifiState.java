@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -34,7 +35,8 @@ public class CommandGetWifiState extends Command {
     }
 
     @Override
-    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
+    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result,
+            DataManager dataManager)
             throws Exception {
         boolean isWifiEnabled = WifiUtils.IsWifiEnabled(context);
 

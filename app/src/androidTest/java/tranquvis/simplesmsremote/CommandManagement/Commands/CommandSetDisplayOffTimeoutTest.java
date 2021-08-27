@@ -17,17 +17,17 @@ public class CommandSetDisplayOffTimeoutTest extends CommandTest {
     @Override
     @Test
     public void testPattern() throws Exception {
+        Locale.setDefault(Locale.ENGLISH);
+
         assertThat("\n set  screen Off timeout to 0 S").matches()
                 .has(PARAM_TIMEOUT_VALUE, 0d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.SECONDS);
-
-        assertThat(String.format(Locale.ENGLISH, "set display off timeout to %,.4fms", 10000d)).matches()
+        assertThat(String.format("set display off timeout to %,.4fms", 10000d)).matches()
                 .has(PARAM_TIMEOUT_VALUE, 10000d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.MILLISECONDS);
         assertThat("set display off timeout to 10s").matches()
                 .has(PARAM_TIMEOUT_VALUE, 10d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.SECONDS);
-
         assertThat(format("set display off timeout to %.4f min", 21.4d)).matches()
                 .has(PARAM_TIMEOUT_VALUE, 21.4d)
                 .has(PARAM_TIMEOUT_UNIT, Unit.MINUTES);

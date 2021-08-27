@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamNumber;
@@ -54,7 +55,7 @@ public class CommandSetDisplayBrightness extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         DisplayUtils.BrightnessMode brightnessMode =
                 commandInstance.getParam(PARAM_BRIGHTNESS_MODE);
         if (brightnessMode != null) {

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.BatteryUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -36,7 +37,7 @@ public class CommandGetBatteryLevel extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         float batteryLevel = BatteryUtils.GetBatteryLevel(context);
         result.setCustomResultMessage(context.getResources().getString(
                 R.string.result_msg_battery_level, batteryLevel * 100));

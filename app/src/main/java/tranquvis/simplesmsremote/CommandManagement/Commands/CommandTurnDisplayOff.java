@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
@@ -33,7 +34,7 @@ public class CommandTurnDisplayOff extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         DisplayUtils.TurnScreenOff(context);
         Thread.sleep(2000); // otherwise the notification forces the screen to turn on again
     }

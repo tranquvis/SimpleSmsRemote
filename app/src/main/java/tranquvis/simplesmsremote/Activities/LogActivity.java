@@ -1,5 +1,6 @@
 package tranquvis.simplesmsremote.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,15 +13,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import tranquvis.simplesmsremote.Adapters.LogListAdapter;
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.R;
 
 public class LogActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LogListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class LogActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         try {
-            DataManager.LoadLog(this);
+            AppDataManager.getDefault().LoadLog(this);
         } catch (IOException e) {
             Toast.makeText(this, R.string.alert_load_log_failed, Toast.LENGTH_SHORT).show();
             finish();
@@ -44,22 +44,27 @@ public class LogActivity extends AppCompatActivity {
                 new AlertDialog.Builder(LogActivity.this)
                         .setMessage(R.string.alert_sure_to_clear_log)
                         .setPositiveButton(R.string.simple_yes, new DialogInterface.OnClickListener() {
+                            @SuppressLint("NotifyDataSetChanged")
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                DataManager.clearLog(LogActivity.this);
+                                try {
+                                    AppDataManager.getDefault().clearLog(LogActivity.this);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 mAdapter.notifyDataSetChanged();
                             }
                         })
                         .setNegativeButton(R.string.simple_no, null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycle_view_log);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycle_view_log);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new LogListAdapter(this, DataManager.getLog());
+        mAdapter = new LogListAdapter(this, AppDataManager.getDefault().getLog());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

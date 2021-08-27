@@ -12,12 +12,11 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
-import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamString;
 import tranquvis.simplesmsremote.Data.GrantModuleSettingsData;
 import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
-import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
@@ -58,9 +57,13 @@ public class CommandGrantPhoneRemotely extends PhoneDependentCommand {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        String phone, CommandExecResult result) throws Exception {
+                        String phone, CommandExecResult result, DataManager dataManager)
+            throws Exception {
         String providedPassword = commandInstance.getParam(PARAM_PASSWORD);
-        String savedPassword = getSettings().getPassword();
+
+        GrantModuleSettingsData settings = (GrantModuleSettingsData) dataManager.getModuleUserData(
+                getModule()).getSettings();
+        String savedPassword = settings.getPassword();
 
         if (!savedPassword.equals(providedPassword)) {
             result.setSuccess(false);
@@ -71,14 +74,14 @@ public class CommandGrantPhoneRemotely extends PhoneDependentCommand {
         String moduleSearchNamesConcat = commandInstance.getParam(PARAM_MODULE_NAMES);
         String[] moduleSearchNames = moduleSearchNamesConcat.split(" ");
 
-        List<Module> modules = getEnabledPhoneAllowlistModules();
+        List<Module> modules = dataManager.getEnabledPhoneAllowlistModules();
 
         String firstModuleSearchName = moduleSearchNames[0];
         if (moduleSearchNames.length == 1 && allModuleKeywords.contains(firstModuleSearchName)) {
             for (Module moduleToGrant : modules) {
                 PhoneAllowlistModuleUserData userData =
-                        (PhoneAllowlistModuleUserData) moduleToGrant.getUserData();
-                DataManager.getUserData().setControlModule(userData.withGrantedPhone(phone));
+                        (PhoneAllowlistModuleUserData) dataManager.getModuleUserData(moduleToGrant);
+                dataManager.getUserData().updateModule(userData.withGrantedPhone(phone));
             }
 
             result.setCustomResultMessage(String.format(
@@ -106,8 +109,8 @@ public class CommandGrantPhoneRemotely extends PhoneDependentCommand {
             List<String> moduleTitles = new ArrayList<>(modulesToGrant.size());
             for (Module moduleToGrant : modulesToGrant) {
                 PhoneAllowlistModuleUserData userData =
-                        (PhoneAllowlistModuleUserData) moduleToGrant.getUserData();
-                DataManager.getUserData().setControlModule(userData.withGrantedPhone(phone));
+                        (PhoneAllowlistModuleUserData) dataManager.getModuleUserData(moduleToGrant);
+                dataManager.getUserData().updateModule(userData.withGrantedPhone(phone));
 
                 String moduleTitle = context.getString(moduleToGrant.getTitleRes());
                 moduleTitles.add(String.format("\"%s\"", moduleTitle));
@@ -119,25 +122,8 @@ public class CommandGrantPhoneRemotely extends PhoneDependentCommand {
             ));
         }
 
-        DataManager.SaveUserData(context);
+        dataManager.SaveUserData(context);
         result.setForceSendingResultSmsMessage(true);
-    }
-
-    private GrantModuleSettingsData getSettings() {
-        return (GrantModuleSettingsData) module.getUserData().getSettings();
-    }
-
-    private List<Module> getEnabledPhoneAllowlistModules() {
-        ArrayList<Module> enabledModules = new ArrayList<>();
-        Collection<Module> modules = Instances.GetAll(null);
-
-        for (Module module : modules) {
-            if (!module.isEnabled()) continue;
-            if (!(module.getUserData() instanceof PhoneAllowlistModuleUserData)) continue;
-            enabledModules.add(module);
-        }
-
-        return enabledModules;
     }
 
     private static Module findModule(

@@ -12,6 +12,7 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Utils.Regex.PatternTreeNode;
@@ -33,17 +34,6 @@ public abstract class Command {
     protected String typeId = getClass().getName();
     @StringRes
     protected int titleRes;
-    /*
-    static
-    {
-        DISPLAY_GET_BRIGHTNESS = new Command("get brightness");
-        DISPLAY_SET_BRIGHTNESS = new Command("set brightness to [" + PARAM_BRIGHTNESS + "]");
-        DISPLAY_GET_OFF_TIMEOUT = new Command("get display off timeout");
-        DISPLAY_SET_OFF_TIMEOUT = new Command("set display off timeout to ["
-                + PARAM_DISPLAY_OFF_TIMEOUT + "]");
-        DISPLAY_TURN_OFF = new Command("turn display off");
-    }
-*/
     protected String[] syntaxDescList;
     protected PatternTreeNode patternTree;
     protected Module module;
@@ -78,7 +68,7 @@ public abstract class Command {
         List<Command> commandsSorted = new ArrayList<>(commands);
         if (sortComparator != null)
             Collections.sort(commandsSorted, sortComparator);
-        return commands;
+        return commandsSorted;
     }
 
     public int getTitleRes() {
@@ -98,11 +88,12 @@ public abstract class Command {
     }
 
     public abstract void execute(Context context, CommandInstance commandInstance,
-                                 CommandExecResult result) throws Exception;
+                                 CommandExecResult result, DataManager dataManager)
+            throws Exception;
 
-    public void execute(Context context, CommandInstance commandInstance,
-                                 String phone, CommandExecResult result) throws Exception {
-        execute(context, commandInstance, result);
+    public void execute(Context context, CommandInstance commandInstance, String phone,
+            CommandExecResult result, DataManager dataManager) throws Exception {
+        execute(context, commandInstance, result, dataManager);
     }
 
     @Override

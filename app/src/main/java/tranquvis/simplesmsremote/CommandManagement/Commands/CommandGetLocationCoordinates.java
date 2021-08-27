@@ -11,6 +11,7 @@ import java.util.Locale;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.LocationUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -39,7 +40,8 @@ public class CommandGetLocationCoordinates extends Command {
     }
 
     @Override
-    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
+    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result,
+            DataManager dataManager)
             throws Exception {
         Location location = LocationUtils.GetLocation(context, 20000);
         if (location == null)

@@ -7,6 +7,7 @@ import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamAudioType;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Helper.AudioTypeHelper;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.AudioUtils;
@@ -42,7 +43,7 @@ public class CommandGetAudioVolume extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         AudioUtils.AudioType audioType = commandInstance.getParam(PARAM_AUDIO_TYPE);
         String audioTypeStr = context.getString(AudioTypeHelper.GetNameResFromAudioType(audioType));
 

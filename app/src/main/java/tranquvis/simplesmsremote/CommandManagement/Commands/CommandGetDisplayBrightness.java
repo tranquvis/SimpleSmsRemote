@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -35,7 +36,7 @@ public class CommandGetDisplayBrightness extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         float brightnessPercentage = DisplayUtils.GetBrightness(context);
         DisplayUtils.BrightnessMode brightnessMode = DisplayUtils.GetBrightnessMode(context);
         String brightnessModeStr = brightnessMode == DisplayUtils.BrightnessMode.AUTO

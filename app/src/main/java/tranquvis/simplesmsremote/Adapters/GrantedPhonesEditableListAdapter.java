@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.UI.UIUtils;
 
@@ -34,7 +34,7 @@ public class GrantedPhonesEditableListAdapter extends ArrayAdapter<String> {
         this.phones = phones;
         this.listView = listView;
 
-        this.usedNumbers = DataManager.getUserData().getAllUsedPhones();
+        this.usedNumbers = AppDataManager.getDefault().getUserData().getAllUsedPhones();
         phoneListAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item_phone,
                 R.id.textView_phone, usedNumbers);
     }

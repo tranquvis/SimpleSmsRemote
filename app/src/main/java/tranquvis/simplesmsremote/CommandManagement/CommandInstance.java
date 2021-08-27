@@ -3,12 +3,11 @@ package tranquvis.simplesmsremote.CommandManagement;
 import android.content.Context;
 
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
-import tranquvis.simplesmsremote.CommandManagement.Commands.PhoneDependentCommand;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
 import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
-import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Sms.MyCommandMessage;
 import tranquvis.simplesmsremote.Utils.Regex.MatcherTreeNode;
@@ -42,9 +41,8 @@ public class CommandInstance {
      *
      * @param commandText command text
      * @return control command instance
-     * @throws Exception
      */
-    public static CommandInstance CreateFromCommand(String commandText) throws Exception {
+    public static CommandInstance CreateFromCommand(String commandText) {
         for (Command com : Command.GetAllCommands(null)) {
             MatcherTreeNode matcherTree = com.getPatternTree().buildMatcherTree();
             if (matcherTree.testInput(commandText)) {
@@ -77,7 +75,7 @@ public class CommandInstance {
      * @param commandParam the param, which should be checked
      * @return if param is assigned
      */
-    public boolean isParamAssigned(CommandParam commandParam) {
+    public <T> boolean isParamAssigned(CommandParam<T> commandParam) {
         MatcherTreeNode paramNode = matcherTree.getNodeByPatternId(commandParam.getId());
         return paramNode != null && commandParam.isAssigned(paramNode.getInput());
     }
@@ -95,30 +93,30 @@ public class CommandInstance {
         return getCommandText();
     }
 
-    public boolean isExecutionGranted(Context context, String phone) {
+    public boolean isExecutionGranted(Context context, String phone, DataManager dataManager) {
         Module module = getCommand().getModule();
-        ModuleUserData userData = module.getUserData();
+        ModuleUserData userData = dataManager.getModuleUserData(module);
 
         if (!module.isCompatible(context)) {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
+            dataManager.tryAddLogEntry(LogEntry.Predefined.ComExecFailedPhoneIncompatible(context,
                     getCommand()), context);
             return false;
         }
         if (userData == null) {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context,
+            dataManager.tryAddLogEntry(LogEntry.Predefined.ComExecFailedModuleDisabled(context,
                     getCommand()), context);
             return false;
         }
         if (userData instanceof PhoneAllowlistModuleUserData) {
             if (!((PhoneAllowlistModuleUserData) userData).isPhoneGranted(phone)) {
-                DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(
+                dataManager.tryAddLogEntry(LogEntry.Predefined.ComExecFailedPhoneNotGranted(
                         context, getCommand(), phone
                 ), context);
                 return false;
             }
         }
         if (!module.checkPermissions(context)) {
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
+            dataManager.tryAddLogEntry(LogEntry.Predefined.ComExecFailedPermissionDenied(context,
                     getCommand()), context);
             return false;
         }
@@ -133,26 +131,28 @@ public class CommandInstance {
      * @param controlSms command message
      * @return execution result
      */
-    public CommandExecResult executeCommand(Context context, MyCommandMessage controlSms) {
+    public CommandExecResult executeCommand(Context context, MyCommandMessage controlSms,
+            DataManager dataManager) {
         CommandExecResult result = new CommandExecResult(this);
         Command command = getCommand();
 
-        if (!isExecutionGranted(context, controlSms.getPhoneNumber())) {
+        if (!isExecutionGranted(context, controlSms.getPhoneNumber(), dataManager)) {
             result.setSuccess(false);
             return result;
         }
 
         try {
-            command.execute(context, this, controlSms.getPhoneNumber(), result);
+            command.execute(context, this, controlSms.getPhoneNumber(), result,
+                    dataManager);
         } catch (Exception e) {
             e.printStackTrace();
-            DataManager.addLogEntry(LogEntry.Predefined.ComExecFailedUnexpected(context, command),
-                    context);
+            dataManager.tryAddLogEntry(
+                    LogEntry.Predefined.ComExecFailedUnexpected(context, command), context);
             result.setSuccess(false);
             return result;
         }
 
-        DataManager.addLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
+        dataManager.tryAddLogEntry(LogEntry.Predefined.ComExecSuccess(context, command), context);
         result.setSuccess(true);
 
         return result;

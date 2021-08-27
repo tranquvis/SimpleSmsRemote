@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.BluetoothUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -36,7 +37,7 @@ public class CommandGetBluetoothState extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         boolean isBluetoothEnabled = BluetoothUtils.IsBluetoothEnabled();
         result.setCustomResultMessage(context.getString(
                 isBluetoothEnabled ? R.string.result_msg_bluetooth_is_enabled_true

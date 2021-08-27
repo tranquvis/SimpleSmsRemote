@@ -2,13 +2,13 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamEmpty;
@@ -85,7 +85,8 @@ public class CommandTakePicture extends Command {
     }
 
     @Override
-    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
+    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result,
+            DataManager dataManager)
             throws Exception {
         //region retrieve given capture settings
         String cameraId = null;
@@ -106,7 +107,7 @@ public class CommandTakePicture extends Command {
         //endregion
 
         CameraModuleSettingsData moduleSettings = (CameraModuleSettingsData)
-                getModule().getUserData().getSettings();
+                dataManager.getModuleUserData(getModule()).getSettings();
 
         //region get corresponding camera
         CameraUtils.MyCameraInfo cameraInfo;

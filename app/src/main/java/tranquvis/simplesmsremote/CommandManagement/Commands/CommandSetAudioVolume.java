@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamAudioType;
@@ -66,7 +67,8 @@ public class CommandSetAudioVolume extends Command {
     }
 
     @Override
-    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
+    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result,
+            DataManager dataManager)
             throws Exception {
         // get params
         AudioUtils.AudioType audioType = commandInstance.getParam(PARAM_AUDIO_TYPE);

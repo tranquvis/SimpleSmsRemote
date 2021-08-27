@@ -26,7 +26,8 @@ import java.util.concurrent.TimeUnit;
 import tranquvis.simplesmsremote.Adapters.ManageControlModulesListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
+import tranquvis.simplesmsremote.Data.UserSettings;
 import tranquvis.simplesmsremote.Helper.HelpOverlay;
 import tranquvis.simplesmsremote.Helper.MyNotificationManager;
 import tranquvis.simplesmsremote.Listeners.OnSwipeTouchListener;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //load user data
         try {
-            DataManager.LoadUserData(this);
+            AppDataManager.getDefault().LoadUserData(this);
         } catch (IOException e) {
             Toast.makeText(this, R.string.alert_load_data_failed, Toast.LENGTH_LONG).show();
             finish();
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //save user data
         try {
-            DataManager.SaveUserData(this);
+            AppDataManager.getDefault().SaveUserData(this);
         } catch (IOException e) {
             Toast.makeText(this, R.string.alert_load_data_failed, Toast.LENGTH_LONG).show();
             finish();
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //region init list view
-        List<Module> moduleList = Instances.GetAll(Module.GetDefaultComparator(this));
+        List<Module> moduleList = Instances.GetAll(Module.GetDefaultComparator(this,
+                AppDataManager.getDefault()));
         listView = (ListView) findViewById(R.id.listView);
         listAdapter = new ManageControlModulesListAdapter(this, moduleList);
         listView.setAdapter(listAdapter);
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startUpdatingReceiverStatusAsync();
 
         //region show help overlay on first start
-        if (DataManager.isFirstStart())
+        if (AppDataManager.getDefault().isFirstStart())
             showHelpOverlay = true;
         if (getIntent().getBooleanExtra("showHelpOverlay", false)) {
             showHelpOverlay = true;
@@ -294,8 +296,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }, CODE_PERM_REQUEST_SMS);
             return;
         }
-        SMSReceiverService.start(getBaseContext(),
-                DataManager.getUserData().getUserSettings().isReceiverStartForeground());
+
+        UserSettings userSettings = AppDataManager.getDefault().getUserData().getUserSettings();
+        SMSReceiverService.start(getBaseContext(), userSettings.isReceiverStartForeground());
         updateReceiverStatus();
     }
 
@@ -358,45 +361,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case CODE_PERM_REQUEST_SMS:
-                boolean permissionGranted = grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                if (permissionGranted) {
-                    if (startReceiverAfterPermRequest) {
-                        startSMSReceiverService();
-                        startReceiverAfterPermRequest = false;
-                    }
-                } else {
-                    Snackbar.make(coordinatorLayout, R.string.permission_receive_sms_not_granted,
-                            Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.simple_request_again, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    PermissionUtils.RequestCommonPermissions(MainActivity.this,
-                                            new String[]{
-                                                    Manifest.permission.RECEIVE_SMS,
-                                                    Manifest.permission.SEND_SMS
-                                            },
-                                            CODE_PERM_REQUEST_SMS);
-                                }
-                            })
-                            .show();
+        if (requestCode == CODE_PERM_REQUEST_SMS) {
+            boolean permissionGranted = grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            if (permissionGranted) {
+                if (startReceiverAfterPermRequest) {
+                    startSMSReceiverService();
+                    startReceiverAfterPermRequest = false;
                 }
-                break;
+            } else {
+                Snackbar.make(coordinatorLayout, R.string.permission_receive_sms_not_granted,
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.simple_request_again, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                PermissionUtils.RequestCommonPermissions(MainActivity.this,
+                                        new String[]{
+                                                Manifest.permission.RECEIVE_SMS,
+                                                Manifest.permission.SEND_SMS
+                                        },
+                                        CODE_PERM_REQUEST_SMS);
+                            }
+                        })
+                        .show();
+            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab_receiver_change_state:
-                if (SMSReceiverService.isRunning(this))
-                    stopSMSReceiverService();
-                else
-                    startSMSReceiverService();
-                break;
+        if (view.getId() == R.id.fab_receiver_change_state) {
+            if (SMSReceiverService.isRunning(this))
+                stopSMSReceiverService();
+            else
+                startSMSReceiverService();
         }
     }
 }

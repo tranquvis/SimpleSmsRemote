@@ -8,41 +8,41 @@ import java.util.List;
  * Created by Andreas Kaltenleitner on 30.08.2016.
  */
 public class UserData implements Serializable {
-    private List<ModuleUserData> controlModules;
-    private UserSettings userSettings;
+    private final List<ModuleUserData> modules;
+    private final UserSettings userSettings;
 
-    public UserData(List<ModuleUserData> controlModules, UserSettings userSettings) {
-        this.controlModules = controlModules;
+    public UserData(List<ModuleUserData> modules, UserSettings userSettings) {
+        this.modules = modules;
         this.userSettings = userSettings;
     }
 
-    public List<ModuleUserData> getControlModules() {
-        return controlModules;
+    public List<ModuleUserData> getModules() {
+        return modules;
     }
 
     public UserSettings getUserSettings() {
         return userSettings;
     }
 
-    public void addControlModule(ModuleUserData userData) {
-        controlModules.add(userData);
+    public void addModule(ModuleUserData userData) {
+        modules.add(userData);
     }
 
-    public void setControlModule(ModuleUserData moduleUserData) {
+    public void updateModule(ModuleUserData moduleUserData) {
         int i = 0;
-        for (ModuleUserData userData : controlModules) {
-            if (userData.getControlModuleId().equals(moduleUserData.getControlModuleId())) {
-                controlModules.set(i, moduleUserData);
+        for (ModuleUserData userData : modules) {
+            if (userData.getModuleId().equals(moduleUserData.getModuleId())) {
+                modules.set(i, moduleUserData);
                 break;
             }
             i++;
         }
     }
 
-    public void removeControlModule(String moduleId) {
-        for (ModuleUserData userData : controlModules) {
-            if (userData.getControlModuleId().equals(moduleId)) {
-                controlModules.remove(userData);
+    public void removeModule(String moduleId) {
+        for (ModuleUserData userData : modules) {
+            if (userData.getModuleId().equals(moduleId)) {
+                modules.remove(userData);
                 break;
             }
         }
@@ -50,7 +50,7 @@ public class UserData implements Serializable {
 
     public List<String> getAllUsedPhones() {
         List<String> phones = new ArrayList<>();
-        for (ModuleUserData moduleUserData : controlModules) {
+        for (ModuleUserData moduleUserData : modules) {
             if (!(moduleUserData instanceof PhoneAllowlistModuleUserData)) continue;
             PhoneAllowlistModuleUserData phonesUserData = (PhoneAllowlistModuleUserData) moduleUserData;
             for (String phone : phonesUserData.getGrantedPhones()) {

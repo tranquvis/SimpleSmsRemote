@@ -11,7 +11,7 @@ import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 public class CameraModuleSettingsData extends ModuleSettingsData {
     private String defaultCameraId = null;
-    private List<CaptureSettings> captureSettingsList = new ArrayList<>();
+    private final List<CaptureSettings> captureSettingsList = new ArrayList<>();
 
     public CameraModuleSettingsData() {
     }

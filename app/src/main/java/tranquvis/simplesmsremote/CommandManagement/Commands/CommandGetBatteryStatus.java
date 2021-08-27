@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.BatteryUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -38,7 +39,7 @@ public class CommandGetBatteryStatus extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         boolean isBatteryCharging = BatteryUtils.IsBatteryCharging(context);
         result.setCustomResultMessage(context.getString(
                 isBatteryCharging ? R.string.result_msg_battery_is_charging_true

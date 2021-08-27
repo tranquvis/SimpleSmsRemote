@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamOnOff;
 import tranquvis.simplesmsremote.R;
@@ -38,7 +39,8 @@ public class CommandSetWifiState extends Command {
     }
 
     @Override
-    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result)
+    public void execute(Context context, CommandInstance commandInstance, CommandExecResult result,
+            DataManager dataManager)
             throws Exception {
         WifiUtils.SetWifiState(context, commandInstance.getParam(PARAM_WIFI_STATE));
     }

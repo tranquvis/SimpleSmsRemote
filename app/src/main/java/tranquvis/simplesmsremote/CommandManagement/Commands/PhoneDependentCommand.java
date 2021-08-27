@@ -7,6 +7,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 
 public abstract class PhoneDependentCommand extends Command {
@@ -16,11 +17,11 @@ public abstract class PhoneDependentCommand extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         throw new NotImplementedException("Phone dependent command cannot be executed without a phone");
     }
 
     @Override
     abstract public void execute(Context context, CommandInstance commandInstance,
-                        String phone, CommandExecResult result) throws Exception;
+                        String phone, CommandExecResult result, DataManager dataManager) throws Exception;
 }

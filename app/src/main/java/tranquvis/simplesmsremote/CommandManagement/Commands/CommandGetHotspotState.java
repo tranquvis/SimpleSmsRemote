@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.WifiUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -37,7 +38,8 @@ public class CommandGetHotspotState extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager)
+            throws Exception {
         boolean isHotspotEnabled = WifiUtils.IsHotspotEnabled(context);
         result.setCustomResultMessage(context.getString(
                 isHotspotEnabled ? R.string.result_msg_hotspot_is_enabled_true

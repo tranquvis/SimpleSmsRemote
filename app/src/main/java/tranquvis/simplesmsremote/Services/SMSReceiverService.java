@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.Data.LogEntry;
 import tranquvis.simplesmsremote.Helper.MyNotificationManager;
 import tranquvis.simplesmsremote.R;
@@ -112,7 +112,8 @@ public class SMSReceiverService extends Service {
 
     private void registerSMSReceiver() {
         setStartTime(this, Calendar.getInstance().getTime());
-        DataManager.addLogEntry(LogEntry.Predefined.SmsReceiverStarted(this), this);
+        AppDataManager.getDefault().tryAddLogEntry(
+                LogEntry.Predefined.SmsReceiverStarted(this), this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.setPriority(2147483647);
         intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
@@ -121,6 +122,7 @@ public class SMSReceiverService extends Service {
 
     private void unregisterSMSReceiver() {
         unregisterReceiver(smsReceiver);
-        DataManager.addLogEntry(LogEntry.Predefined.SmsReceiverStopped(this), this);
+        AppDataManager.getDefault().tryAddLogEntry(
+                LogEntry.Predefined.SmsReceiverStopped(this), this);
     }
 }

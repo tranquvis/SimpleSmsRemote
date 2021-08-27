@@ -40,8 +40,10 @@ public class MyNotificationManagerTest extends AppContextTest {
         smsCommandMessage.addCommandInstance(ci1);
         smsCommandMessage.addCommandInstance(ci2);
 
-        CommandExecResult result1 = ci1.executeCommand(appContext, smsCommandMessage);
-        CommandExecResult result2 = ci2.executeCommand(appContext, smsCommandMessage);
+        TestDataManager dataManager = new TestDataManager();
+
+        CommandExecResult result1 = ci1.executeCommand(appContext, smsCommandMessage, dataManager);
+        CommandExecResult result2 = ci2.executeCommand(appContext, smsCommandMessage, dataManager);
 
         List<CommandExecResult> executionResults = new ArrayList<>();
         executionResults.add(result1);

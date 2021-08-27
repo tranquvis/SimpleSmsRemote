@@ -3,20 +3,15 @@ package tranquvis.simplesmsremote.CommandManagement.Commands;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandGrantPhoneRemotely.PARAM_MODULE_NAMES;
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandGrantPhoneRemotely.PARAM_PASSWORD;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-
-import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
-import tranquvis.simplesmsremote.CommandManagement.Modules.ModuleGrantPhoneRemotely;
+import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Data.GrantModuleSettingsData;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
-import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
-import tranquvis.simplesmsremote.Data.UserData;
-import tranquvis.simplesmsremote.Utils.UnitTestUtils;
+import tranquvis.simplesmsremote.TestDataManager;
 
 public class CommandGrantPhoneRemotelyTest extends CommandTest {
     private static final String password = "pwd";
@@ -24,12 +19,7 @@ public class CommandGrantPhoneRemotelyTest extends CommandTest {
     @Override
     @Before
     public void setUp() throws Exception {
-        Module module = new ModuleGrantPhoneRemotely();
-        GrantModuleSettingsData settings = new GrantModuleSettingsData(password);
-        ModuleUserData userData = new ModuleUserData(module.getId(), settings);
-        DataManager.getUserData().setControlModule(userData);
-        command = new CommandGrantPhoneRemotely(module);
-
+        command = Instances.GRANT_PHONE_REMOTELY.commandGrantPhoneRemotely;
         super.setUp();
     }
 
@@ -46,8 +36,58 @@ public class CommandGrantPhoneRemotelyTest extends CommandTest {
 
     @Override
     @Test
-    public void testExecution() throws Exception {
-        assertThat("grant pwd all").matches().executes();
-        assertThat("grant pwd audio wifi-hotspot").matches().executes();
+    public void testExecution() throws Exception { }
+
+    @Test
+    public void testExecutionGrantAll() throws Exception {
+        String phone = "123";
+
+        TestDataManager dataManager = new TestDataManager();
+        dataManager.enableModule(command.getModule(), new GrantModuleSettingsData(password));
+        dataManager.enableModule(Instances.AUDIO);
+        dataManager.enableModule(Instances.WIFI_HOTSPOT);
+        dataManager.enableModule(Instances.BATTERY);
+
+        assertThat("grant pwd all").matches().fromPhone(phone).executes(dataManager);
+
+        Assert.assertTrue(dataManager.isPhoneGranted(Instances.AUDIO, phone));
+        Assert.assertTrue(dataManager.isPhoneGranted(Instances.WIFI_HOTSPOT, phone));
+        Assert.assertTrue(dataManager.isPhoneGranted(Instances.BATTERY, phone));
+    }
+
+    @Test
+    public void testExecutionGrantSpecific() throws Exception {
+        String phone = "123";
+
+        TestDataManager dataManager = new TestDataManager();
+        dataManager.enableModule(command.getModule(), new GrantModuleSettingsData(password));
+        dataManager.enableModule(Instances.AUDIO);
+        dataManager.enableModule(Instances.WIFI_HOTSPOT);
+        dataManager.enableModule(Instances.BATTERY);
+
+        assertThat("grant pwd audio wifi-hotspot").matches().fromPhone(phone)
+                .executes(dataManager);
+
+        Assert.assertTrue(dataManager.isPhoneGranted(Instances.AUDIO, phone));
+        Assert.assertTrue(dataManager.isPhoneGranted(Instances.WIFI_HOTSPOT, phone));
+        Assert.assertFalse(dataManager.isPhoneGranted(Instances.BATTERY, phone));
+    }
+
+    @Test
+    public void testExecutionWrongPassword() throws Exception {
+        String phone = "123";
+
+        TestDataManager dataManager = new TestDataManager();
+        dataManager.enableModule(command.getModule(), new GrantModuleSettingsData(password));
+        dataManager.enableModule(Instances.AUDIO);
+        dataManager.enableModule(Instances.WIFI_HOTSPOT);
+        dataManager.enableModule(Instances.BATTERY);
+
+        assertThat("grant pwd-wrong audio wifi-hotspot").matches().fromPhone(phone)
+                .executesWithError(dataManager);
+
+        Assert.assertFalse(dataManager.isPhoneGranted(Instances.AUDIO, phone));
+        Assert.assertFalse(dataManager.isPhoneGranted(Instances.WIFI_HOTSPOT, phone));
+        Assert.assertFalse(dataManager.isPhoneGranted(Instances.BATTERY, phone));
     }
 }

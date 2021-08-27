@@ -10,7 +10,6 @@ import java.util.List;
 
 import tranquvis.simplesmsremote.Activities.ModuleActivity;
 import tranquvis.simplesmsremote.CommandManagement.Commands.Command;
-import tranquvis.simplesmsremote.Data.ModuleUserData;
 import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
 
@@ -18,31 +17,6 @@ import tranquvis.simplesmsremote.Utils.PermissionUtils;
  * Created by Andreas Kaltenleitner on 23.08.2016.
  */
 public abstract class Module {
-    /*
-    public static final Module
-            WIFI_HOTSPOT, MOBILE_DATA, BATTERY, LOCATION, WIFI, BLUETOOTH, AUDIO, DISPLAY, CAMERA;
-
-    static
-    {
-        //region display
-        DISPLAY = new Module("display",
-                new Command[]{
-                        Command.DISPLAY_GET_BRIGHTNESS,
-                        Command.DISPLAY_SET_BRIGHTNESS,
-                        Command.DISPLAY_GET_OFF_TIMEOUT,
-                        Command.DISPLAY_SET_OFF_TIMEOUT,
-                        Command.DISPLAY_TURN_OFF
-                });
-        DISPLAY.requiredPermissions = new String[]{
-                Manifest.permission.WRITE_SETTINGS
-        };
-        DISPLAY.titleRes = R.string.control_module_title_display;
-        DISPLAY.descriptionRes = R.string.control_module_desc_display;
-        DISPLAY.iconRes = R.drawable.ic_settings_brightness_grey_700_36dp;
-        DISPLAY.paramInfoRes = R.string.control_module_param_desc_display;
-        //endregion
-    }
-*/
     protected String id = getClass().getName();
     protected int sdkMin = -1;
     protected int sdkMax = -1;
@@ -70,12 +44,14 @@ public abstract class Module {
         return null;
     }
 
-    public static Comparator<Module> GetDefaultComparator(final Context context) {
+    public static Comparator<Module> GetDefaultComparator(final Context context,
+            final DataManager userDataProvider) {
         return new Comparator<Module>() {
             @Override
             public int compare(Module module1, Module module2) {
-                if ((module2.isEnabled() && !module1.isEnabled())
-                        || (module2.isCompatible(context) && !module1.isCompatible(context)))
+                if ((userDataProvider.isModuleEnabled(module2)
+                        && !userDataProvider.isModuleEnabled(module1)
+                    ) || (module2.isCompatible(context) && !module1.isCompatible(context)))
                     return 1;
                 if (module1.getTitleRes() != -1 && module2.getTitleRes() != -1) {
                     return context.getString(module1.getTitleRes())
@@ -152,10 +128,6 @@ public abstract class Module {
         return PermissionUtils.FilterAppPermissions(context, requiredPermissions);
     }
 
-    public ModuleUserData getUserData() {
-        return DataManager.getUserDataForControlModule(this);
-    }
-
     /**
      * Check if control module is compatible with the executing android system.
      *
@@ -163,15 +135,6 @@ public abstract class Module {
      */
     public boolean isCompatible(Context context) {
         return Build.VERSION.SDK_INT >= sdkMin && (sdkMax == -1 || Build.VERSION.SDK_INT <= sdkMax);
-    }
-
-    /**
-     * Check if this control module is enabled. Make sure to load userdata before.
-     *
-     * @return if module is enabled
-     */
-    public boolean isEnabled() {
-        return getUserData() != null;
     }
 
     @Override

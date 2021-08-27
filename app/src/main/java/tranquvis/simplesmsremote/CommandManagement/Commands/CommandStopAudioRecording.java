@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -33,7 +34,7 @@ public class CommandStopAudioRecording extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         Intent stopIntent = new Intent("com.github.axet.audiorecorder.STOP_RECORDING");
         context.sendBroadcast(stopIntent);
     }

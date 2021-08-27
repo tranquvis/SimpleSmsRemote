@@ -3,8 +3,6 @@ package tranquvis.simplesmsremote.Data;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ModuleUserData implements Serializable {
     private final String controlModuleId;
@@ -15,7 +13,7 @@ public class ModuleUserData implements Serializable {
         this.settings = settings;
     }
 
-    public String getControlModuleId() {
+    public String getModuleId() {
         return controlModuleId;
     }
 
@@ -24,6 +22,6 @@ public class ModuleUserData implements Serializable {
     }
 
     public ModuleUserData withSettings(ModuleSettingsData settings) {
-        return new ModuleUserData(getControlModuleId(), settings);
+        return new ModuleUserData(getModuleId(), settings);
     }
 }

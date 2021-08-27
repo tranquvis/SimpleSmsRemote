@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamNumber;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParamUnit;
@@ -50,7 +51,7 @@ public class CommandSetDisplayOffTimeout extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         float timeoutValue = commandInstance.getParam(PARAM_TIMEOUT_VALUE).floatValue();
         Unit timeoutUnit = commandInstance.getParam(PARAM_TIMEOUT_UNIT);
         int timeoutMilliseconds = (int) (timeoutValue * timeoutUnit.getFactor() * 1000f);

@@ -25,13 +25,14 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import tranquvis.simplesmsremote.Adapters.CommandSyntaxDescListAdapter;
 import tranquvis.simplesmsremote.Adapters.GrantedPhonesEditableListAdapter;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.Data.ModuleUserData;
 import tranquvis.simplesmsremote.Data.PhoneAllowlistModuleUserData;
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.Data.ModuleSettingsData;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.PermissionUtils;
@@ -52,11 +53,9 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
     private String[] lastPermissionRequests;
     private boolean processPermissionRequestOnResume = false;
 
-    private ListView grantedPhonesListView;
     private GrantedPhonesEditableListAdapter grantedPhonesListAdapter;
 
     private CoordinatorLayout coordinatorLayout;
-    private ViewStub settingsViewStub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,8 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar())
+                .setDisplayHomeAsUpEnabled(true);
 
         Resources res = getResources();
 
@@ -76,14 +76,18 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        if(DataManager.getUserData() == null)
+        AppDataManager dataManager = AppDataManager.getDefault();
+
+        if(dataManager.getUserData() == null)
         {
             // Return to main activity.
             startActivity(new Intent(this, MainActivity.class));
+            return;
         }
-        userData = module.getUserData();
 
-        isModuleEnabled = module.isEnabled();
+        userData = dataManager.getModuleUserData(module);
+
+        isModuleEnabled = dataManager.isModuleEnabled(module);
         toolbar.setTitle(R.string.title_activity_configure_control_action);
 
         if (module.getTitleRes() != -1) {
@@ -147,7 +151,7 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
                 if (grantedPhones.isEmpty())
                     grantedPhones.add("");
 
-                grantedPhonesListView = findViewById(R.id.listView_granted_phones);
+                ListView grantedPhonesListView = findViewById(R.id.listView_granted_phones);
                 grantedPhonesListAdapter = new GrantedPhonesEditableListAdapter(
                         this, grantedPhones, grantedPhonesListView
                 );
@@ -163,13 +167,11 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (isModuleEnabled && saveOnStop) {
-                    saveUserData();
-                    saveOnStop = false;
-                }
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            if (isModuleEnabled && saveOnStop) {
+                saveUserData();
+                saveOnStop = false;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -208,18 +210,18 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
                 .setNegativeButton(R.string.simple_no,
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                            }
+                            public void onClick(DialogInterface dialogInterface, int i) { }
                         })
                 .setPositiveButton(R.string.simple_yes,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                DataManager.getUserData().removeControlModule(
+                                AppDataManager dataManager = AppDataManager.getDefault();
+                                dataManager.getUserData().removeModule(
                                         module.getId());
                                 isModuleEnabled = false;
                                 try {
-                                    DataManager.SaveUserData(ModuleActivity.this);
+                                    dataManager.SaveUserData(ModuleActivity.this);
                                     Toast.makeText(ModuleActivity.this,
                                             R.string.control_module_disabled_successful,
                                             Toast.LENGTH_SHORT).show();
@@ -246,10 +248,8 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_PERM_MODULE_REQUIREMENTS:
-                onModuleRequiredPermissionRequestFinished();
-                break;
+        if (requestCode == REQUEST_CODE_PERM_MODULE_REQUIREMENTS) {
+            onModuleRequiredPermissionRequestFinished();
         }
     }
 
@@ -295,15 +295,16 @@ public class ModuleActivity extends AppCompatActivity implements View.OnClickLis
             updateModuleSettings();
             userData = userData.withSettings(moduleSettings);
 
-            DataManager.getUserData().setControlModule(userData);
+
+            AppDataManager.getDefault().getUserData().updateModule(userData);
         } else {
             setupModuleUserData();
             setupModuleSettings();
-            DataManager.getUserData().addControlModule(userData);
+            AppDataManager.getDefault().getUserData().addModule(userData);
         }
 
         try {
-            DataManager.SaveUserData(this);
+            AppDataManager.getDefault().SaveUserData(this);
             if (!isModuleEnabled)
                 Toast.makeText(this, R.string.control_module_enabled_successful, Toast.LENGTH_SHORT)
                         .show();

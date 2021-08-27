@@ -37,18 +37,18 @@ public class PhoneAllowlistModuleUserData extends ModuleUserData {
         } else {
             List<String> newGrantedPhones = new ArrayList<>(grantedPhones);
             newGrantedPhones.add(phone);
-            return new PhoneAllowlistModuleUserData(getControlModuleId(), newGrantedPhones, getSettings());
+            return new PhoneAllowlistModuleUserData(getModuleId(), newGrantedPhones, getSettings());
         }
     }
 
     public PhoneAllowlistModuleUserData withGrantedPhones(List<String> phones) {
         return new PhoneAllowlistModuleUserData(
-                getControlModuleId(), new ArrayList<>(phones), getSettings()
+                getModuleId(), new ArrayList<>(phones), getSettings()
         );
     }
 
     @Override
     public ModuleUserData withSettings(ModuleSettingsData settings) {
-        return new PhoneAllowlistModuleUserData(getControlModuleId(), getGrantedPhones(), settings);
+        return new PhoneAllowlistModuleUserData(getModuleId(), getGrantedPhones(), settings);
     }
 }

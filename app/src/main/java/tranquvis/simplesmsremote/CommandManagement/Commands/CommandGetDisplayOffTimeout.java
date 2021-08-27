@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
+import tranquvis.simplesmsremote.Data.DataManager;
 import tranquvis.simplesmsremote.R;
 import tranquvis.simplesmsremote.Utils.Device.DisplayUtils;
 import tranquvis.simplesmsremote.Utils.Regex.MatchType;
@@ -34,7 +35,7 @@ public class CommandGetDisplayOffTimeout extends Command {
 
     @Override
     public void execute(Context context, CommandInstance commandInstance,
-                        CommandExecResult result) throws Exception {
+                        CommandExecResult result, DataManager dataManager) throws Exception {
         float screenOffTimeout = DisplayUtils.GetScreenOffTimeout(context);
 
         // retrieve most comfortable reading unit

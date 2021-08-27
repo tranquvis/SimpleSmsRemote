@@ -4,8 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tranquvis.simplesmsremote.CommandManagement.Modules.Instances;
+import tranquvis.simplesmsremote.Data.CameraModuleSettingsData;
 import tranquvis.simplesmsremote.Data.CaptureSettings;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.ModuleUserData;
+import tranquvis.simplesmsremote.TestDataManager;
 import tranquvis.simplesmsremote.Utils.Device.CameraUtils;
 
 import static tranquvis.simplesmsremote.CommandManagement.Commands.CommandTakePicture.PARAM_OPTIONS_WRAPPER;
@@ -23,7 +27,6 @@ public class CommandTakePictureTest extends CommandTest {
     public void setUp() throws Exception {
         command = Instances.CAMERA.commandTakePicture;
         super.setUp();
-        DataManager.LoadUserData(appContext);
     }
 
     @Override
@@ -93,9 +96,10 @@ public class CommandTakePictureTest extends CommandTest {
     @Override
     @Test
     public void testExecution() throws Exception {
-        assertThat("take picture").matches().executes();
-        assertThat("take picture with camera 1, autofocus, flash").matches().executes();
-        assertThat("take picture with front, no autofocus, no flash").matches().executes();
+        DataManager dm = newDataManager();
+        assertThat("take picture").matches().executes(dm);
+        assertThat("take picture with camera 1, autofocus, flash").matches().executes(dm);
+        assertThat("take picture with front, no autofocus, no flash").matches().executes(dm);
     }
 
     public void testCustomExecutionWith(String options) throws Exception {
@@ -103,6 +107,15 @@ public class CommandTakePictureTest extends CommandTest {
         if (options != null)
             input += " with " + options;
 
-        assertThat(input).matches().executes();
+        DataManager dm = newDataManager();
+        assertThat(input).matches().executes(dm);
+    }
+
+    private TestDataManager newDataManager() throws Exception {
+        TestDataManager dataManager = new TestDataManager();
+        dataManager.enableModule(command.getModule(),
+                CameraModuleSettingsData.CreateDefaultSettings(
+                        CameraUtils.GetAllCameras(appContext)));
+        return dataManager;
     }
 }

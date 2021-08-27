@@ -9,19 +9,21 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.util.Locale;
-import java.util.Objects;
 
 import tranquvis.simplesmsremote.AppContextTest;
 import tranquvis.simplesmsremote.CommandManagement.CommandExecResult;
 import tranquvis.simplesmsremote.CommandManagement.CommandInstance;
 import tranquvis.simplesmsremote.CommandManagement.Modules.Module;
 import tranquvis.simplesmsremote.CommandManagement.Params.CommandParam;
+import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.TestDataManager;
 import tranquvis.simplesmsremote.Utils.Regex.MatcherTreeNode;
 import tranquvis.simplesmsremote.Utils.StringUtils;
 import tranquvis.simplesmsremote.Utils.UnitTestUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -82,13 +84,20 @@ public abstract class CommandTest extends AppContextTest {
         private String sendingPhone;
         private CommandInstance ci;
 
-        private CommandTester(String input, Command command, String sendingPhone, Context context)
-                throws Exception {
+        private CommandTester(String input, Command command, String sendingPhone, Context context) {
             this.input = input;
             ci = CommandInstance.CreateFromCommand(input);
             this.command = command;
             this.sendingPhone = sendingPhone;
             this.context = context;
+        }
+
+        /**
+         * Set the sendingPhone, which is passed to Command.execute .
+         */
+        public CommandTester fromPhone(String sendingPhone) {
+            this.sendingPhone = sendingPhone;
+            return this;
         }
 
         /**
@@ -161,8 +170,8 @@ public abstract class CommandTest extends AppContextTest {
          *
          * @param param the parameter to check
          */
-        public CommandTester has(CommandParam param) throws Exception {
-            assertTrue(ci.getParam(param) != null);
+        public <T> CommandTester has(CommandParam<T> param) throws Exception {
+            assertNotNull(ci.getParam(param));
             return this;
         }
 
@@ -172,7 +181,7 @@ public abstract class CommandTest extends AppContextTest {
          *
          * @param param the parameter to check
          */
-        public CommandTester hasNot(CommandParam param) throws Exception {
+        public <T> CommandTester hasNot(CommandParam<T> param) throws Exception {
             assertFalse(ci.isParamAssigned(param));
             return this;
         }
@@ -195,14 +204,13 @@ public abstract class CommandTest extends AppContextTest {
          * Assert that a command executes successful with the given input.
          * Assert before that the input matches the command.
          *
-         * @param command the command
          * @return the result of the execution
          * @throws Exception
          */
-        public CommandExecResult executes(Command command) throws Exception {
+        public CommandExecResult executes(Command command, DataManager dataManager) throws Exception {
             CommandExecResult result = new CommandExecResult(ci);
             result.setSuccess(true);
-            command.execute(context, ci, sendingPhone, result);
+            command.execute(context, ci, sendingPhone, result, dataManager);
             String assertionMsg = String.format(
                     "Expect that command execution result is success (customResultMessage=\"%s\")",
                     result.getCustomResultMessage()
@@ -219,8 +227,20 @@ public abstract class CommandTest extends AppContextTest {
          * @return the result of the execution
          * @throws Exception
          */
+        public CommandExecResult executes(DataManager dataManager) throws Exception {
+            return executes(command, dataManager);
+        }
+
+        /**
+         * Assert that the default command of the related unit test
+         * executes successful with the given input.
+         * Assert before that the input matches the default command.
+         *
+         * @return the result of the execution
+         * @throws Exception
+         */
         public CommandExecResult executes() throws Exception {
-            return executes(command);
+            return executes(command, getDataManager());
         }
 
         /**
@@ -229,13 +249,12 @@ public abstract class CommandTest extends AppContextTest {
          *
          * @param command the command
          * @return the result of the execution
-         * @throws Exception
          */
-        public CommandExecResult executesWithError(Command command) throws Exception {
+        public CommandExecResult executesWithError(Command command, DataManager dataManager) {
             CommandExecResult result = new CommandExecResult(ci);
             result.setSuccess(false);
             try {
-                command.execute(context, ci, result);
+                command.execute(context, ci, sendingPhone, result, dataManager);
             } catch (Exception ex) {
                 return result;
             }
@@ -251,8 +270,24 @@ public abstract class CommandTest extends AppContextTest {
          * @return the result of the execution
          * @throws Exception
          */
-        public CommandExecResult executesWithError() throws Exception {
-            return executesWithError(command);
+        public CommandExecResult executesWithError(DataManager dataManager) {
+            return executesWithError(command, dataManager);
+        }
+
+        /**
+         * Assert that the default command of the related unit test
+         * executes with error with the given input.
+         * Assert before that the input matches the default command.
+         *
+         * @return the result of the execution
+         * @throws Exception
+         */
+        public CommandExecResult executesWithError() {
+            return executesWithError(command, getDataManager());
+        }
+
+        public DataManager getDataManager() {
+            return new TestDataManager();
         }
     }
 }

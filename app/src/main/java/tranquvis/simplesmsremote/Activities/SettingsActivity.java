@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import tranquvis.simplesmsremote.Data.DataManager;
+import tranquvis.simplesmsremote.Data.AppDataManager;
 import tranquvis.simplesmsremote.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void saveUserData() {
         try {
-            DataManager.SaveUserData(this);
+            AppDataManager.getDefault().SaveUserData(this);
         } catch (IOException e) {
             Toast.makeText(this, R.string.alert_save_data_failed, Toast.LENGTH_SHORT).show();
         }
