@@ -479,19 +479,14 @@ public class CameraUtils {
 
             MyCameraInfo cameraInfo = new MyCameraInfo(cameraId, outputResolutions);
 
-            // supported functionality depends on the supported hardware level
-            switch (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL)) {
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
-
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
+            cameraInfo.setAutofocusSupport(false);
+            int[] availableAFModes =
+                    characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+            for (int availableAFMode : availableAFModes) {
+                if (availableAFMode == CameraCharacteristics.CONTROL_AF_MODE_AUTO) {
                     cameraInfo.setAutofocusSupport(true);
-                case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
-                    // only supports camera 1 api features
-                    break;
+                }
             }
-
-            int[] ints = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
 
             if (characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE))
                 cameraInfo.setFlashlightSupport(true);
