@@ -94,4 +94,13 @@
         <p>- front cam, back cam, cam [index]</p>
         <p>- flash on, flash off, flash auto</p>
     ]]></string>
+
+    <string name="control_module_title_play_sound">Play Sound</string>
+    <string name="control_module_desc_play_sound">
+        Play ringtone for a specific duration (10s by default).
+    </string>
+    <string name="control_module_param_desc_play_sound"><![CDATA[
+        <h6>duration:</h6>
+        <p>Time, for which the ringtone should be played (e.g. 30min, 10.5s, 500ms). The default duration is 10s.</p>
+    ]]></string>
 </resources>

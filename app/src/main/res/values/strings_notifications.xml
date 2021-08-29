@@ -5,4 +5,5 @@
     <string name="notification_content_start_receiver_after_boot_failed">No sms commands can be received at the moment.</string>
     <string name="notification_title_permanent_status">Sms Receiver is running</string>
     <string name="notification_content_permanent_status">Commands can be sent</string>
+    <string name="notification_title_play_sound">Playing sound</string>
 </resources>

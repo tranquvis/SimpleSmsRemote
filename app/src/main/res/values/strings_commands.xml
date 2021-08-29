@@ -30,4 +30,6 @@
     <string name="command_title_turn_display_off">turn display off</string>
 
     <string name="command_title_take_picture">take picture</string>
+
+    <string name="command_title_play_sound">play sound</string>
 </resources>

@@ -26,6 +26,7 @@ public class Instances {
     public static final ModuleLocation LOCATION = new ModuleLocation();
     public static final ModuleAudioRecording AUDIO_RECORDING = new ModuleAudioRecording();
     public static final ModuleGrantPhoneRemotely GRANT_PHONE_REMOTELY = new ModuleGrantPhoneRemotely();
+    public static final ModulePlaySound PLAY_SOUND = new ModulePlaySound();
 
     private static boolean commandsInitialized = false;
 

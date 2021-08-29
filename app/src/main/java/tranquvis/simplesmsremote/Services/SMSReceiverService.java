@@ -29,7 +29,7 @@ public class SMSReceiverService extends Service {
 
     private final String TAG = getClass().getName();
 
-    private SMSReceiver smsReceiver = new SMSReceiver(this);
+    private final SMSReceiver smsReceiver = new SMSReceiver(this);
 
     public SMSReceiverService() {
     }

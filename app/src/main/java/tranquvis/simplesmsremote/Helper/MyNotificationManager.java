@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
@@ -29,6 +30,7 @@ public class MyNotificationManager {
     private static final int CODE_NOTIFICATION_CLICK_SMS_COMMAND_RECEIVED = 1;
     private static final int CODE_NOTIFICATION_CLICK_RECEIVER_START_FAILED_AFTER_BOOT = 2;
     private static final int CODE_NOTIFICATION_CLICK_PERMANENT_STATUS = 3;
+    private static final int CODE_NOTIFICATION_PLAY_SOUND_STATUS = 4;
 
     private static final int NOTIFICATION_ID_START_RECEIVER_AFTER_BOOT_FAILED = 1;
 
@@ -180,6 +182,33 @@ public class MyNotificationManager {
                 .setOngoing(true)
                 .setContentIntent(PendingIntent.getActivity(context,
                         CODE_NOTIFICATION_CLICK_PERMANENT_STATUS,
+                        new Intent(context, MainActivity.class), 0));
+
+        return builder.build();
+    }
+
+    public Notification getPlaySoundStatusNotification(
+            Uri sound, int timeout, PendingIntent stopIntent) {
+        final Resources res = context.getResources();
+
+        final String title = res.getString(R.string.notification_title_play_sound);
+
+        DefaultNotificationChannel.Init(nm);
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                DefaultNotificationChannel.ID)
+                .setDefaults(0)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setColor(res.getColor(R.color.colorPrimary))
+                .setContentTitle(title)
+                .setContentText(sound.getLastPathSegment())
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)
+                .setTimeoutAfter(timeout)
+                .addAction(R.drawable.outline_cancel_black_36dp,
+                        context.getString(R.string.simple_cancel), stopIntent)
+                .setContentIntent(PendingIntent.getActivity(context,
+                        CODE_NOTIFICATION_PLAY_SOUND_STATUS,
                         new Intent(context, MainActivity.class), 0));
 
         return builder.build();
